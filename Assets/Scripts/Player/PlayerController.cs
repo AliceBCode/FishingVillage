@@ -9,6 +9,8 @@ using UnityEngine.InputSystem;
 [SelectionBase]
 public class PlayerController : MonoBehaviour
 {
+    public static PlayerController Instance;
+    
     [Header("Movement Settings")]
     [SerializeField] private float moveSpeed = 10f;
     [SerializeField] private float gravity = 1f;
@@ -20,15 +22,20 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float coyoteTime = 0.2f;
     
     [Header("Collision Settings")]
+    [SerializeField] private float ceilingCheckRadius = 0.29f;
+    [SerializeField] private Vector3 ceilingCheckOffset = Vector3.up;
     [SerializeField] private float groundCheckRadius = 0.29f;
     [SerializeField] private Vector3 groundCheckOffset = Vector3.down;
-    [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private LayerMask collisionLayer;
     
     [Header("Interaction Settings")]
     [SerializeField] private bool canInteractWhileAirborne = true;
     [SerializeField] private float interactCheckRange = 3f;
     [SerializeField] private Vector3 interactCheckOffset = Vector3.zero;
     [SerializeField] private LayerMask interactableLayer;
+    
+    [Header("Inventory")]
+    [SerializeField] private Inventory inventory = new Inventory();
     
     [Header("References")]
     [SerializeField] private CharacterController controller;
@@ -44,11 +51,25 @@ public class PlayerController : MonoBehaviour
     [SerializeField, ReadOnly] private float coyoteTimer;
     [SerializeField, ReadOnly] private InterfaceReference<IInteractable> closetInteractable;
     [SerializeField, ReadOnly] private MovingPlatform currentPlatform;
-    private Vector3 platformVelocity;
+
     
 
     private bool CanInteract => canInteractWhileAirborne || isGrounded;
+    private Vector3 platformVelocity;
     
+    
+    public Inventory Inventory => inventory;
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        
+        Instance = this;
+    }
 
     private void OnEnable()
     {
@@ -109,7 +130,7 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        CheckGround();
+        CheckCollisions();
         CheckForInteractable();
         CheckForPlatform();
         HandleGravity();
@@ -154,10 +175,19 @@ public class PlayerController : MonoBehaviour
             coyoteTimer = 0;
         }
     }
-    
-    private void CheckGround()
+
+    private void CheckCollisions()
     {
-        isGrounded = Physics.CheckSphere(transform.position + groundCheckOffset, groundCheckRadius, groundLayer, QueryTriggerInteraction.Ignore);
+        isGrounded = Physics.CheckSphere(transform.position + groundCheckOffset, groundCheckRadius, collisionLayer, QueryTriggerInteraction.Ignore);
+        
+        if (velocity.y > 0)
+        {
+            bool hitCeiling = Physics.CheckSphere(transform.position + ceilingCheckOffset, ceilingCheckRadius, collisionLayer, QueryTriggerInteraction.Ignore);
+            if (hitCeiling)
+            {
+                velocity.y = 0;
+            }
+        }
     }
 
     private void CheckForPlatform()
@@ -169,7 +199,7 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        var colliders = Physics.OverlapSphere(transform.position + groundCheckOffset, groundCheckRadius, groundLayer, QueryTriggerInteraction.Ignore);
+        var colliders = Physics.OverlapSphere(transform.position + groundCheckOffset, groundCheckRadius, collisionLayer, QueryTriggerInteraction.Ignore);
         
         foreach (var col in colliders)
         {
@@ -187,7 +217,7 @@ public class PlayerController : MonoBehaviour
 
     private void CheckForInteractable()
     {
-        var colliders = Physics.OverlapSphere(transform.position + interactCheckOffset, interactCheckRange, interactableLayer);
+        var colliders = Physics.OverlapSphere(transform.position + interactCheckOffset, interactCheckRange, interactableLayer, QueryTriggerInteraction.Ignore);
         var closestDistance = float.MaxValue;
         IInteractable closest = null;
 
@@ -220,6 +250,7 @@ public class PlayerController : MonoBehaviour
     {
         Gizmos.color = isGrounded ? Color.green : Color.red;
         Gizmos.DrawWireSphere(transform.position + groundCheckOffset, groundCheckRadius);
+        Gizmos.DrawWireSphere(transform.position + ceilingCheckOffset, ceilingCheckRadius);
         
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position + interactCheckOffset, interactCheckRange);

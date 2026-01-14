@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 217502320692298470}
   - component: {fileID: 7944151888540352048}
+  - component: {fileID: 6623151140188059200}
   - component: {fileID: 4684444579216439139}
-  - component: {fileID: 3195578822085667422}
   m_Layer: 0
   m_Name: NPC
   m_TagString: Untagged
@@ -57,6 +57,29 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 4
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!136 &6623151140188059200
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 72695734398173421}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &4684444579216439139
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -70,7 +93,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NPC
   name: Someone generic
-  lineCooldown: 2
+  lineCooldown: 1.5
   greetingDialogueLines:
     internalItems:
     - item: Hello
@@ -95,36 +118,6 @@ MonoBehaviour:
       isLocked: 0
   lineCooldownTimer: 0
   speechBubble: {fileID: 1630434763079787759}
---- !u!114 &3195578822085667422
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 72695734398173421}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 00e6f9986f6e41549a76953cbf046336, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::InteractableComponent
-  canInteract: 1
-  limitInteractionsToOnce: 0
-  onInteract:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 4684444579216439139}
-        m_TargetAssemblyTypeName: NPC, Assembly-CSharp
-        m_MethodName: Greet
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  hasInteracted: 0
 --- !u!1 &3175554852424676510
 GameObject:
   m_ObjectHideFlags: 0
@@ -135,7 +128,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6118432135469856453}
   - component: {fileID: 7134277831697153433}
-  - component: {fileID: 8727124958415982644}
   - component: {fileID: 3693518251530294520}
   m_Layer: 0
   m_Name: Capsule
@@ -218,29 +210,6 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!136 &8727124958415982644
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3175554852424676510}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &3693518251530294520
 MonoBehaviour:
   m_ObjectHideFlags: 0

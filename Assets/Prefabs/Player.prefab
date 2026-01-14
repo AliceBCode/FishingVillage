@@ -122,9 +122,11 @@ MonoBehaviour:
   jumpForce: 15
   jumpBufferTime: 0.2
   coyoteTime: 0.1
+  ceilingCheckRadius: 0.1
+  ceilingCheckOffset: {x: 0, y: 0.95, z: 0}
   groundCheckRadius: 0.29
   groundCheckOffset: {x: 0, y: -0.9, z: 0}
-  groundLayer:
+  collisionLayer:
     serializedVersion: 2
     m_Bits: 1
   canInteractWhileAirborne: 1
@@ -133,6 +135,9 @@ MonoBehaviour:
   interactableLayer:
     serializedVersion: 2
     m_Bits: 1
+  inventory:
+    maxSlots: 10
+    items: []
   controller: {fileID: 6146513924322876677}
   input: {fileID: 5618184148556093945}
   moveInput: {x: 0, y: 0}
