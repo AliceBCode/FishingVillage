@@ -115,6 +115,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ec4cf8de5554ccbb29d2dc1521ec295, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIManager
+  player: {fileID: 0}
   text: {fileID: 5896728515695601591}
 --- !u!1 &6656921055434532683
 GameObject:

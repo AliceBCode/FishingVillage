@@ -9,7 +9,7 @@ public class MovingPlatform : MonoBehaviour
 {
     [Header("Settings")]
     [SerializeField] private bool active;
-    [SerializeField] private PositionField positionTwo;
+    [SerializeField] private Vector3 positionOffset = Vector3.forward;
     [SerializeField] private float waitTimeAtPositions = 1f;
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private AnimationCurve moveSpeedCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
@@ -31,7 +31,7 @@ public class MovingPlatform : MonoBehaviour
         rb.isKinematic = true;
         startPosition = transform.position;
         pathStart = startPosition;
-        targetPosition = positionTwo.Position;
+        targetPosition = startPosition + positionOffset;
         pathLength = Vector3.Distance(pathStart, targetPosition);
     }
     
@@ -53,12 +53,10 @@ public class MovingPlatform : MonoBehaviour
         Vector3 direction = (targetPosition - transform.position).normalized;
         float distance = Vector3.Distance(transform.position, targetPosition);
         
-        // Calculate curve multiplier for this frame
         float distanceTraveled = pathLength - distance;
         float t = Mathf.Clamp01(distanceTraveled / pathLength);
         float speedMultiplier = moveSpeedCurve.Evaluate(t);
         
-        // Actual step distance with curve applied
         float actualStep = moveSpeed * speedMultiplier * Time.fixedDeltaTime;
         
         if (distance <= actualStep)
@@ -69,7 +67,7 @@ public class MovingPlatform : MonoBehaviour
             movingToPositionTwo = !movingToPositionTwo;
             
             pathStart = targetPosition;
-            targetPosition = movingToPositionTwo ? positionTwo.Position : startPosition;
+            targetPosition = movingToPositionTwo ? startPosition + positionOffset : startPosition;
             pathLength = Vector3.Distance(pathStart, targetPosition);
         }
         else
@@ -92,7 +90,7 @@ public class MovingPlatform : MonoBehaviour
     public void ResetPlatform()
     {
         transform.position = startPosition;
-        targetPosition = positionTwo.Position;
+        targetPosition = startPosition + positionOffset;
         movingToPositionTwo = true;
         waitTimer = 0f;
         velocity = Vector3.zero;
@@ -101,14 +99,22 @@ public class MovingPlatform : MonoBehaviour
     private void OnDrawGizmos()
     {
         Vector3 start = Application.isPlaying ? startPosition : transform.position;
-        
+        Vector3 end = start + positionOffset;
+    
+        // Get the platform's bounds
+        Renderer rend = GetComponentInChildren<Renderer>();
+        Vector3 size = rend != null ? rend.bounds.size : Vector3.one;
+    
+        // Draw platform at start position
         Gizmos.color = Color.green;
-        Gizmos.DrawSphere(start, 0.3f);
-        
+        Gizmos.DrawWireCube(start, size);
+    
+        // Draw platform at end position
         Gizmos.color = Color.red;
-        Gizmos.DrawSphere(positionTwo.Position, 0.3f);
-        
+        Gizmos.DrawWireCube(end, size);
+    
+        // Draw path line
         Gizmos.color = Color.yellow;
-        Gizmos.DrawLine(start, positionTwo.Position);
+        Gizmos.DrawLine(start, end);
     }
 }
