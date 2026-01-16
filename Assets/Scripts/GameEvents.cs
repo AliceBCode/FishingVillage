@@ -5,9 +5,11 @@ public static class GameEvents
 {
     public static event Action<SOItem> OnItemObtained;
     public static event Action<SOItem> OnItemRemoved;
-    public static event Action<SOItem, NPC> OnItemGivenToNPC;
-    public static event Action<NPC> OnNPCTalkedTo;
+    public static event Action<SOItem, NPC> OnItemGivenToNpc;
+    public static event Action<NPC> OnNpcTalkedTo;
     public static event Action<string> OnTriggerEntered;
+    
+    
     
     public static void ItemObtained(SOItem item)
     {
@@ -21,12 +23,12 @@ public static class GameEvents
     
     public static void ItemGivenToNpc(SOItem item, NPC npc)
     {
-        OnItemGivenToNPC?.Invoke(item, npc);
+        OnItemGivenToNpc?.Invoke(item, npc);
     }
     
     public static void NpcTalkedTo(NPC npc)
     {
-        OnNPCTalkedTo?.Invoke(npc);
+        OnNpcTalkedTo?.Invoke(npc);
     }
     
     public static void TriggerEntered(string triggerID)

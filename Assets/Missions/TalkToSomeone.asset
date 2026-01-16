@@ -19,6 +19,7 @@ MonoBehaviour:
   - rid: 8175019958093742347
   - rid: 8175019958093742351
   - rid: 8175019958093742352
+  - rid: 8175019963375157331
   references:
     version: 2
     RefIds:
@@ -33,4 +34,9 @@ MonoBehaviour:
     - rid: 8175019958093742352
       type: {class: ObtainItemCondition, ns: , asm: Assembly-CSharp}
       data:
-        requiredItem: {fileID: 0}
+        requiredItem: {fileID: 11400000, guid: 7672abaff8dfcd642ae5c4608f367d07, type: 2}
+    - rid: 8175019963375157331
+      type: {class: GiveItemToNPCCondition, ns: , asm: Assembly-CSharp}
+      data:
+        requiredItem: {fileID: 11400000, guid: 7672abaff8dfcd642ae5c4608f367d07, type: 2}
+        npcName: Someone generic

@@ -60,30 +60,30 @@ Material:
     m_Ints: []
     m_Floats:
     - _BadirBlendPower: 0.77
-    - _Badir_Blend_Power: 0.77
-    - _Clouds_Distance_Fade_Power: 4.1
+    - _Badir_Blend_Power: 0.62
+    - _Clouds_Distance_Fade_Power: 2.88
     - _Distance_Fade_Power: 2
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _Sun_Exponent: 5
-    - _Sun_Intensity: 716
-    - _Sun_Radius_A: 0.0272
-    - _Sun_Radius_B: 0.066
+    - _Sun_Exponent: 7.64
+    - _Sun_Intensity: 537
+    - _Sun_Radius_A: 0
+    - _Sun_Radius_B: 0.0792
     - _ZenithBlendPower: 0.5
-    - _Zenith_Blend_Power: 0.5
+    - _Zenith_Blend_Power: 0.79
     m_Colors:
     - _Clouds_Color: {r: 1, g: 1, b: 1, a: 1}
     - _Clouds_Scale: {r: 1, g: 1, b: 0, a: 0}
     - _Clouds_Speed: {r: 0.01, g: 0.01, b: 0, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _HorizonColor: {r: 0.75157225, g: 0.9044516, b: 1, a: 1}
-    - _Horizon_Color: {r: 0.7311321, g: 0.8552251, b: 1, a: 1}
+    - _Horizon_Color: {r: 0.5058824, g: 0.97973746, b: 1, a: 1}
     - _NadirColor: {r: 1, g: 0.8848348, b: 0, a: 1}
-    - _Nadir_Color: {r: 1, g: 0.8862745, b: 0, a: 1}
+    - _Nadir_Color: {r: 0, g: 0.24296117, b: 1, a: 1}
     - _Scale: {r: 1, g: 1, b: 0, a: 0}
     - _Speed: {r: 0.01, g: 0.01, b: 0, a: 0}
     - _Sun_Color: {r: 1, g: 0.94673777, b: 0, a: 1}
     - _ZennithColor: {r: 0, g: 0.7322017, b: 0.76862746, a: 1}
-    - _Zennith_Color: {r: 0, g: 0.54788554, b: 0.8349056, a: 1}
+    - _Zennith_Color: {r: 0.97734356, g: 1, b: 0.32549024, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
