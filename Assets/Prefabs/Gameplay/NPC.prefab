@@ -92,6 +92,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e417bdc0b8c0e748b9d41a79576643b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NPC
+  canInteract: 1
+  limitInteractionsToOnce: 0
+  onInteract:
+    m_PersistentCalls:
+      m_Calls: []
+  hasInteracted: 0
   name: Someone generic
   lineCooldown: 1.5
   greetingDialogueLines:
@@ -117,7 +123,6 @@ MonoBehaviour:
       chance: 33
       isLocked: 0
   lineCooldownTimer: 0
-  speechBubble: {fileID: 1630434763079787759}
 --- !u!1 &3175554852424676510
 GameObject:
   m_ObjectHideFlags: 0
@@ -381,17 +386,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6f14a8f01db7ff74d81ab0a47d067a04, type: 3}
---- !u!114 &1630434763079787759 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8183211884494734133, guid: 6f14a8f01db7ff74d81ab0a47d067a04, type: 3}
-  m_PrefabInstance: {fileID: 7435702595894765530}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 326a6d6291c27f64499c9bebed766cdb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SpeachBubble
 --- !u!224 &2449979676976851627 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4985765799875595633, guid: 6f14a8f01db7ff74d81ab0a47d067a04, type: 3}

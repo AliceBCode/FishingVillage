@@ -135,11 +135,6 @@ MonoBehaviour:
   interactableLayer:
     serializedVersion: 2
     m_Bits: 1
-  inventory:
-    maxSlots: 10
-    items: []
-  controller: {fileID: 6146513924322876677}
-  input: {fileID: 5618184148556093945}
   moveInput: {x: 0, y: 0}
   velocity: {x: 0, y: -2, z: 0}
   isGrounded: 1
@@ -149,6 +144,9 @@ MonoBehaviour:
   closetInteractable:
     underlyingValue: {fileID: 0}
   currentPlatform: {fileID: 0}
+  inventory:
+    maxSlots: 10
+    items: []
 --- !u!1 &3186387088022666804
 GameObject:
   m_ObjectHideFlags: 0

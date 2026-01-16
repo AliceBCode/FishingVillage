@@ -1,8 +1,9 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Item", menuName = "Inventory/Item")]
+[CreateAssetMenu(fileName = "New Item", menuName = "Scriptable Objects/Item")]
 public class SOItem : ScriptableObject
 {
+    [Header("Settings")]
     [SerializeField] private new string name;
     [SerializeField, TextArea] private string description;
     [SerializeField] private Sprite icon;
