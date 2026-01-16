@@ -34,14 +34,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Vector3 interactCheckOffset = Vector3.zero;
     [SerializeField] private LayerMask interactableLayer;
     
-    [Header("Inventory")]
-    [SerializeField] private Inventory inventory = new Inventory();
     
-    [Header("References")]
-    [SerializeField] private CharacterController controller;
-    [SerializeField] private PlayerControllerInput input;
-
-
     [Separator]
     [SerializeField, ReadOnly] private Vector2 moveInput;
     [SerializeField, ReadOnly] private Vector3 velocity;
@@ -51,9 +44,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField, ReadOnly] private float coyoteTimer;
     [SerializeField, ReadOnly] private InterfaceReference<IInteractable> closetInteractable;
     [SerializeField, ReadOnly] private MovingPlatform currentPlatform;
+    [SerializeField] private Inventory inventory = new Inventory(10);
 
     
-
+    private CharacterController _controller;
+    private PlayerControllerInput _input;
     private bool CanInteract => canInteractWhileAirborne || isGrounded;
     private Vector3 platformVelocity;
     
@@ -69,20 +64,26 @@ public class PlayerController : MonoBehaviour
         }
         
         Instance = this;
+        
+        _controller = GetComponent<CharacterController>();
+        _input = GetComponent<PlayerControllerInput>();
+        
+        inventory.OnItemAdded += item => GameEvents.ItemObtained(item);
+        inventory.OnItemRemoved += item => GameEvents.ItemRemoved(item);
     }
 
     private void OnEnable()
     {
-        input.OnMoveAction += OnMoveAction;
-        input.OnJumpAction += OnJumpAction;
-        input.OnInteractAction += OnInteractAction;
+        _input.OnMoveAction += OnMoveAction;
+        _input.OnJumpAction += OnJumpAction;
+        _input.OnInteractAction += OnInteractAction;
     }
     
     private void OnDisable()
     {
-        input.OnMoveAction -= OnMoveAction;
-        input.OnJumpAction -= OnJumpAction;
-        input.OnInteractAction -= OnInteractAction;
+        _input.OnMoveAction -= OnMoveAction;
+        _input.OnJumpAction -= OnJumpAction;
+        _input.OnInteractAction -= OnInteractAction;
     }
     
     private void OnInteractAction(InputAction.CallbackContext context)
@@ -140,13 +141,13 @@ public class PlayerController : MonoBehaviour
 
     private void HandleMovement()
     {
-        if (!controller || !controller.enabled) return;
+        if (!_controller || !_controller.enabled) return;
         
         velocity.x = moveInput.x * moveSpeed;
         velocity.z = moveInput.y * moveSpeed;
     
         Vector3 finalVelocity = velocity + platformVelocity;
-        controller.Move(finalVelocity * Time.fixedDeltaTime);
+        _controller.Move(finalVelocity * Time.fixedDeltaTime);
     }
 
     private void HandleGravity()
@@ -239,12 +240,11 @@ public class PlayerController : MonoBehaviour
     
     public void ForceJump(float force)
     {
-        if (!controller || !controller.enabled) return;
+        if (!_controller || !_controller.enabled) return;
         
         velocity.y = force;
         jumpInput = false;
     }
-
     
     private void OnDrawGizmos()
     {

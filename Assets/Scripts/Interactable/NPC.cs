@@ -3,24 +3,24 @@ using DNExtensions;
 using DNExtensions.Button;
 using UnityEngine;
 
-
-[SelectionBase]
-public class NPC : MonoBehaviour
+public class NPC : Interactable
 {
-    
-    [Header("Info")]
+    [Header("NPC Settings")]
     [SerializeField] private new string name = "NPC";
-    
-    [Header("Dialogue")]
     [SerializeField] private float lineCooldown = 2f;
     [SerializeField] private ChanceList<string> greetingDialogueLines;
     [SerializeField] private ChanceList<string> farewellDialogueLines;
     [SerializeField, ReadOnly] private float lineCooldownTimer;
 
-    
-    [Header("References")]
-    [SerializeField] private SpeechBubble speechBubble;
-    
+    public string Name => name;
+
+    private SpeechBubble _speechBubble;
+
+    private void Awake()
+    {
+        _speechBubble = GetComponentInChildren<SpeechBubble>();
+    }
+
     private void Update()
     {
         if (lineCooldownTimer > 0f)
@@ -35,7 +35,7 @@ public class NPC : MonoBehaviour
         
         if (other.TryGetComponent(out PlayerController player))
         {
-            Greet();
+            ShowGreetBubble();
         }
     }
 
@@ -45,31 +45,48 @@ public class NPC : MonoBehaviour
         
         if (other.TryGetComponent(out PlayerController player))
         {
-            Farewell();
+            ShowFarewellBubble();
         }
-        
+    }
+    
+    private void ReceiveItem(SOItem item)
+    {
+        if (PlayerController.Instance && PlayerController.Instance.Inventory.TryRemoveItem(item))
+        {
+            GameEvents.ItemGivenToNpc(item, this);
+        }
     }
 
     [Button]
-    public void Greet()
+    public void ShowGreetBubble()
     {
         var line = greetingDialogueLines.GetRandomItem();
         var lineIndex = greetingDialogueLines.IndexOf(line);
         greetingDialogueLines.SetChance(lineIndex, 0);
         lineCooldownTimer = lineCooldown;
         
-        speechBubble?.Show(line);
+        _speechBubble?.Show(line);
     }
     
-    
     [Button]
-    public void Farewell()
+    public void ShowFarewellBubble()
     {
         var line = farewellDialogueLines.GetRandomItem();
         var lineIndex = farewellDialogueLines.IndexOf(line);
         farewellDialogueLines.SetChance(lineIndex, 0);
         lineCooldownTimer = lineCooldown;
         
-        speechBubble?.Show(line);
+        _speechBubble?.Show(line);
     }
+    
+
+    
+    protected override void OnInteract()
+    {
+        GameEvents.NpcTalkedTo(this);
+        
+        // TODO: Check the held item of the player, if the npc needs it call receive item
+    }
+    
+
 }
