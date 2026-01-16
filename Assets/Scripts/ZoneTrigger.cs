@@ -50,6 +50,6 @@ public class ZoneTrigger : MonoBehaviour
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireCube(transform.position, new Vector3(col.bounds.size.x, col.bounds.size.y, col.bounds.size.z));
         
-        Handles.Label(transform.position + new Vector3(0,col.bounds.size.y + 0.05f,0), "Trigger");
+        Handles.Label(transform.position + new Vector3(0,col.bounds.size.y + 0.05f,0), $"Zone Trigger({triggerID})");
     }
 }

@@ -72,27 +72,34 @@ public class GiveItemToNPCCondition : MissionCondition
     [SerializeField] private SOItem requiredItem;
     [SerializeField] private string npcName;
     
+    public SOItem RequiredItem => requiredItem;
     public override string Name => "Give Item To NPC";
     public override string Description => $"Give {(requiredItem ? requiredItem.Name : "Unknown Item")} to {npcName}";
     
     public override void Initialize()
     {
-        GameEvents.OnItemGivenToNPC += OnItemGivenToNPC;
+        GameEvents.OnItemGivenToNpc += OnItemGivenToNPC;
     }
     
     public override void Cleanup()
     {
-        GameEvents.OnItemGivenToNPC -= OnItemGivenToNPC;
+        GameEvents.OnItemGivenToNpc -= OnItemGivenToNPC;
     }
     
     public override bool Evaluate()
     {
         return false;
     }
+
+    public bool IsNpc(NPC npc)
+    {
+        if (!npc) return false;
+        return  npc && npc.Name == npcName;
+    }
     
     private void OnItemGivenToNPC(SOItem item, NPC npc)
     {
-        if (item == requiredItem && npc != null && npc.Name == npcName)
+        if (item == requiredItem && IsNpc(npc))
         {
             SetMet();
         }
@@ -113,12 +120,12 @@ public class TalkToNPCCondition : MissionCondition
     
     public override void Initialize()
     {
-        GameEvents.OnNPCTalkedTo += OnNPCTalkedTo;
+        GameEvents.OnNpcTalkedTo += OnNPCTalkedTo;
     }
     
     public override void Cleanup()
     {
-        GameEvents.OnNPCTalkedTo -= OnNPCTalkedTo;
+        GameEvents.OnNpcTalkedTo -= OnNPCTalkedTo;
     }
     
     public override bool Evaluate()

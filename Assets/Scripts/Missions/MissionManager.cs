@@ -60,7 +60,7 @@ public class MissionManager : MonoBehaviour
 
     private void CompleteMission(SOMission mission)
     {
-        if (!mission || completedMissions.Contains(mission) || !activeMissions.Contains(mission)) return;
+        if (!mission || !activeMissions.Contains(mission)) return;
         
         if (!missionConditions.TryGetValue(mission, out var conditions)) return;
         
@@ -102,6 +102,27 @@ public class MissionManager : MonoBehaviour
     
     public MissionCondition[] GetMissionConditions(SOMission mission)
     {
-        return missionConditions.TryGetValue(mission, out var conditions) ? conditions : null;
+        return missionConditions.GetValueOrDefault(mission);
+    }
+
+    public bool HasMissionGiveItemFor(NPC npc, out SOItem item)
+    {
+        foreach (var missionConditionPair in missionConditions)
+        {
+            foreach (var condition in missionConditionPair.Value)
+            {
+                if (condition is GiveItemToNPCCondition giveItemCondition)
+                {
+                    if (giveItemCondition.IsNpc(npc) && !giveItemCondition.Met)
+                    {
+                        item = giveItemCondition.RequiredItem;
+                        return true;
+                    }
+                }
+            }
+        }
+
+        item = null;
+        return false;
     }
 }

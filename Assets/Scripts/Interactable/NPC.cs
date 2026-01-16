@@ -56,6 +56,16 @@ public class NPC : Interactable
             GameEvents.ItemGivenToNpc(item, this);
         }
     }
+    
+    protected override void OnInteract()
+    {
+        GameEvents.NpcTalkedTo(this);
+
+        if (MissionManager.Instance.HasMissionGiveItemFor(this, out SOItem item))
+        {
+            ReceiveItem(item);
+        }
+    }
 
     [Button]
     public void ShowGreetBubble()
@@ -81,12 +91,7 @@ public class NPC : Interactable
     
 
     
-    protected override void OnInteract()
-    {
-        GameEvents.NpcTalkedTo(this);
-        
-        // TODO: Check the held item of the player, if the npc needs it call receive item
-    }
+
     
 
 }
