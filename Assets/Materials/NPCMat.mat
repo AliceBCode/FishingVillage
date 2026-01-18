@@ -72,11 +72,12 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     - _Smoothness: 0.5
-    - _UseNormalForDirection: 1
+    - _UseNormalForDirection: 0
     m_Colors:
     - White: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 0, g: 0, b: 0, a: 1}
     - _Dissolve_Edge_Color: {r: 10.680627, g: 10.680627, b: 10.680627, a: 1}
+    - _Emission_Color: {r: 0, g: 0, b: 0, a: 1}
     - _Outline_Color: {r: 1, g: 1, b: 1, a: 1}
     - _SpriteColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []

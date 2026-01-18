@@ -57,6 +57,7 @@ public class PlayerController : MonoBehaviour
     
     public Inventory Inventory => inventory;
     public Vector2 MoveInput => moveInput;
+    public event Action OnJumped;
     
 
     private void Awake()
@@ -179,6 +180,7 @@ public class PlayerController : MonoBehaviour
             jumpInput = false;
             jumpBufferTimer = 0;
             coyoteTimer = 0;
+            OnJumped?.Invoke();
         }
     }
 
