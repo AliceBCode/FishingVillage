@@ -2,10 +2,13 @@ using System;
 using UnityEngine;
 
 [Serializable]
-public abstract class MissionCondition
+public abstract class MissionObjective
 {
-    public static event Action OnConditionMet;
+    public static event Action OnObjectiveMet;
     
+    [SerializeField] private bool isHidden;
+    
+    public bool IsHidden => isHidden;
     public bool Met { get; protected set; }
 
 
@@ -21,14 +24,14 @@ public abstract class MissionCondition
     {
         if (Met) return;
         Met = true;
-        OnConditionMet?.Invoke();
+        OnObjectiveMet?.Invoke();
     }
 }
 
 
 [Serializable]
 [AddTypeMenu("Obtain an Item")]
-public class ObtainItemCondition : MissionCondition
+public class ObtainItemObjective : MissionObjective
 {
     [SerializeField] private SOItem requiredItem;
     
@@ -67,32 +70,39 @@ public class ObtainItemCondition : MissionCondition
 
 [Serializable]
 [AddTypeMenu("Give Item to an NPC")]
-public class GiveItemToNPCCondition : MissionCondition
+public class GiveItemToNpcObjective : MissionObjective
 {
     [SerializeField] private SOItem requiredItem;
     [SerializeField] private string npcName;
     
+    public SOItem RequiredItem => requiredItem;
     public override string Name => "Give Item To NPC";
     public override string Description => $"Give {(requiredItem ? requiredItem.Name : "Unknown Item")} to {npcName}";
     
     public override void Initialize()
     {
-        GameEvents.OnItemGivenToNPC += OnItemGivenToNPC;
+        GameEvents.OnItemGivenToNpc += OnItemGivenToNPC;
     }
     
     public override void Cleanup()
     {
-        GameEvents.OnItemGivenToNPC -= OnItemGivenToNPC;
+        GameEvents.OnItemGivenToNpc -= OnItemGivenToNPC;
     }
     
     public override bool Evaluate()
     {
         return false;
     }
+
+    public bool IsNpc(NPC npc)
+    {
+        if (!npc) return false;
+        return  npc && npc.Name == npcName;
+    }
     
     private void OnItemGivenToNPC(SOItem item, NPC npc)
     {
-        if (item == requiredItem && npc != null && npc.Name == npcName)
+        if (item == requiredItem && IsNpc(npc))
         {
             SetMet();
         }
@@ -104,7 +114,7 @@ public class GiveItemToNPCCondition : MissionCondition
 
 [Serializable]
 [AddTypeMenu("Interact with an NPC")]
-public class TalkToNPCCondition : MissionCondition
+public class TalkToNpcObjective : MissionObjective
 {
     [SerializeField] private string npcName;
     
@@ -113,12 +123,12 @@ public class TalkToNPCCondition : MissionCondition
     
     public override void Initialize()
     {
-        GameEvents.OnNPCTalkedTo += OnNPCTalkedTo;
+        GameEvents.OnNpcTalkedTo += OnNPCTalkedTo;
     }
     
     public override void Cleanup()
     {
-        GameEvents.OnNPCTalkedTo -= OnNPCTalkedTo;
+        GameEvents.OnNpcTalkedTo -= OnNPCTalkedTo;
     }
     
     public override bool Evaluate()
@@ -138,7 +148,7 @@ public class TalkToNPCCondition : MissionCondition
 
 [Serializable]
 [AddTypeMenu("Enter a trigger area")]
-public class EnterTriggerCondition : MissionCondition
+public class EnterTriggerObjective : MissionObjective
 {
     [SerializeField] private string triggerID;
     

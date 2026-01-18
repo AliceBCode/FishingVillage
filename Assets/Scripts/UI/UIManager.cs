@@ -14,7 +14,7 @@ public class UIManager : MonoBehaviour
     
     private readonly List<SOMission> activeMissions = new List<SOMission>();
     private readonly List<SOMission> completedMissions = new List<SOMission>();
-    private readonly Dictionary<SOMission, MissionCondition[]> missionConditions = new Dictionary<SOMission, MissionCondition[]>();
+    private readonly Dictionary<SOMission, MissionObjective[]> missionConditions = new Dictionary<SOMission, MissionObjective[]>();
     
     private void Awake()
     {
@@ -34,9 +34,9 @@ public class UIManager : MonoBehaviour
             UpdateInventoryUI(player.Inventory);
         }
         
-        MissionManager.OnMissionStarted += OnMissionStarted;
-        MissionManager.OnMissionCompleted += OnMissionCompleted;
-        MissionCondition.OnConditionMet += UpdateActiveMissionsUI;
+        GameEvents.OnMissionStarted += OnMissionStarted;
+        GameEvents.OnMissionCompleted += OnMissionCompleted;
+        MissionObjective.OnObjectiveMet += UpdateActiveMissionsUI;
     }
 
     private void OnDestroy()
@@ -46,9 +46,9 @@ public class UIManager : MonoBehaviour
             player.Inventory.OnInventoryChanged -= UpdateInventoryUI;
         }
         
-        MissionManager.OnMissionStarted -= OnMissionStarted;
-        MissionManager.OnMissionCompleted -= OnMissionCompleted;
-        MissionCondition.OnConditionMet -= UpdateActiveMissionsUI;
+        GameEvents.OnMissionStarted -= OnMissionStarted;
+        GameEvents.OnMissionCompleted -= OnMissionCompleted;
+        MissionObjective.OnObjectiveMet -= UpdateActiveMissionsUI;
     }
 
     private void OnMissionStarted(SOMission mission)
@@ -57,7 +57,7 @@ public class UIManager : MonoBehaviour
         
         if (MissionManager.Instance)
         {
-            var conditions = MissionManager.Instance.GetMissionConditions(mission);
+            var conditions = MissionManager.Instance.GetMissionObjectives(mission, true);
             if (conditions != null)
             {
                 missionConditions[mission] = conditions;

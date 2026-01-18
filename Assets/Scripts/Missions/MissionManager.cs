@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using DNExtensions;
 using UnityEngine;
 
@@ -7,14 +8,12 @@ public class MissionManager : MonoBehaviour
 {
 
     public static MissionManager Instance;
-    public static event Action<SOMission> OnMissionStarted;
-    public static event Action<SOMission> OnMissionCompleted;
     
     
     [SerializeField, ReadOnly] private List<SOMission> activeMissions;
     [SerializeField, ReadOnly] private List<SOMission> completedMissions;
     
-    private Dictionary<SOMission, MissionCondition[]> missionConditions;
+    private Dictionary<SOMission, MissionObjective[]> missionObjectives;
 
     private void Awake()
     {
@@ -28,9 +27,9 @@ public class MissionManager : MonoBehaviour
         
         activeMissions = new List<SOMission>();
         completedMissions = new List<SOMission>();
-        missionConditions = new Dictionary<SOMission, MissionCondition[]>();
+        missionObjectives = new Dictionary<SOMission, MissionObjective[]>();
         
-        MissionCondition.OnConditionMet += CheckActiveMissionsForCompletion;
+        MissionObjective.OnObjectiveMet += CheckActiveMissionsForCompletion;
     }
 
     private void OnDestroy()
@@ -38,13 +37,13 @@ public class MissionManager : MonoBehaviour
         if (Instance != this) return;
         
         
-        MissionCondition.OnConditionMet -= CheckActiveMissionsForCompletion;
+        MissionObjective.OnObjectiveMet -= CheckActiveMissionsForCompletion;
             
-        foreach (var kvp in missionConditions)
+        foreach (var kvp in missionObjectives)
         {
-            foreach (var condition in kvp.Value)
+            foreach (var objective in kvp.Value)
             {
-                condition.Cleanup();
+                objective.Cleanup();
             }
         }
     }
@@ -60,48 +59,76 @@ public class MissionManager : MonoBehaviour
 
     private void CompleteMission(SOMission mission)
     {
-        if (!mission || completedMissions.Contains(mission) || !activeMissions.Contains(mission)) return;
+        if (!mission || !activeMissions.Contains(mission)) return;
         
-        if (!missionConditions.TryGetValue(mission, out var conditions)) return;
+        if (!missionObjectives.TryGetValue(mission, out var objectives)) return;
         
-        foreach (var condition in conditions)
+        foreach (var objective in objectives)
         {
-            if (!condition.Met && !condition.Evaluate())
+            if (!objective.Met && !objective.Evaluate())
             {
                 return;
             }
         }
         
-        foreach (var condition in conditions)
+        foreach (var objective in objectives)
         {
-            condition.Cleanup();
+            objective.Cleanup();
         }
         
         activeMissions.Remove(mission);
         completedMissions.Add(mission);
-        missionConditions.Remove(mission);
+        missionObjectives.Remove(mission);
         
-        OnMissionCompleted?.Invoke(mission);
+        GameEvents.MissionCompleted(mission);
     }
     
     public void AddMission(SOMission mission)
     {
         if (!mission || completedMissions.Contains(mission) || activeMissions.Contains(mission)) return;
         
-        var conditions = mission.CloneConditions();
-        missionConditions[mission] = conditions;
+        var objectives = mission.CloneObjectives();
+        missionObjectives[mission] = objectives;
         
-        foreach (var condition in conditions)
+        foreach (var objective in objectives)
         {
-            condition.Initialize();
+            objective.Initialize();
         }
         
         activeMissions.Add(mission);
-        OnMissionStarted?.Invoke(mission);
+        GameEvents.MissionStarted(mission);
     }
     
-    public MissionCondition[] GetMissionConditions(SOMission mission)
+    public MissionObjective[] GetMissionObjectives(SOMission mission, bool visibleOnly = false)
     {
-        return missionConditions.TryGetValue(mission, out var conditions) ? conditions : null;
+        var objectives = missionObjectives.GetValueOrDefault(mission);
+    
+        if (objectives == null)
+            return null;
+    
+        return visibleOnly 
+            ? objectives.Where(obj => !obj.IsHidden).ToArray()
+            : objectives;
+    }
+
+    public bool HasMissionGiveItemFor(NPC npc, out SOItem item)
+    {
+        foreach (var missionObjectivesPair in missionObjectives)
+        {
+            foreach (var objective in missionObjectivesPair.Value)
+            {
+                if (objective is GiveItemToNpcObjective giveItemToNpcObjective)
+                {
+                    if (giveItemToNpcObjective.IsNpc(npc) && !giveItemToNpcObjective.Met)
+                    {
+                        item = giveItemToNpcObjective.RequiredItem;
+                        return true;
+                    }
+                }
+            }
+        }
+
+        item = null;
+        return false;
     }
 }
