@@ -9,20 +9,20 @@ public class SOMission : ScriptableObject
     [SerializeField, TextArea] private string description;
     [SerializeField] private Sprite icon;
 
-    [SerializeReference, SubclassSelector] private MissionCondition[] conditions = Array.Empty<MissionCondition>();
+    [SerializeReference, SubclassSelector] private MissionObjective[] objectives = Array.Empty<MissionObjective>();
     
     public string Name => name;
     public string Description => description;
     public Sprite Icon => icon;
     
-    public MissionCondition[] CloneConditions()
+    public MissionObjective[] CloneObjectives()
     {
-        var clones = new MissionCondition[conditions.Length];
+        var clones = new MissionObjective[objectives.Length];
         
-        for (int i = 0; i < conditions.Length; i++)
+        for (int i = 0; i < objectives.Length; i++)
         {
-            clones[i] = (MissionCondition)Activator.CreateInstance(conditions[i].GetType());
-            JsonUtility.FromJsonOverwrite(JsonUtility.ToJson(conditions[i]), clones[i]);
+            clones[i] = (MissionObjective)Activator.CreateInstance(objectives[i].GetType());
+            JsonUtility.FromJsonOverwrite(JsonUtility.ToJson(objectives[i]), clones[i]);
         }
         
         return clones;
