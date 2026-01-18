@@ -8,6 +8,8 @@ public static class GameEvents
     public static event Action<SOItem, NPC> OnItemGivenToNpc;
     public static event Action<NPC> OnNpcTalkedTo;
     public static event Action<string> OnTriggerEntered;
+    public static event Action<SOMission> OnMissionStarted;
+    public static event Action<SOMission> OnMissionCompleted;
     
     
     
@@ -34,5 +36,15 @@ public static class GameEvents
     public static void TriggerEntered(string triggerID)
     {
         OnTriggerEntered?.Invoke(triggerID);
+    }
+    
+    public static void MissionStarted(SOMission mission)
+    {
+        OnMissionStarted?.Invoke(mission);
+    }
+    
+    public static void MissionCompleted(SOMission mission)
+    {
+        OnMissionCompleted?.Invoke(mission);
     }
 }

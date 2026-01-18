@@ -11,14 +11,14 @@ public class MissionEvents : MonoBehaviour
 
     private void OnEnable()
     {
-        MissionManager.OnMissionStarted += CheckMissionStarted;
-        MissionManager.OnMissionCompleted += CheckMissionCompleted;
+        GameEvents.OnMissionStarted += CheckMissionStarted;
+        GameEvents.OnMissionCompleted += CheckMissionCompleted;
     }
 
     private void OnDisable()
     {
-        MissionManager.OnMissionStarted -= CheckMissionStarted;
-        MissionManager.OnMissionCompleted -= CheckMissionCompleted;
+        GameEvents.OnMissionStarted -= CheckMissionStarted;
+        GameEvents.OnMissionCompleted -= CheckMissionCompleted;
     }
 
     private void CheckMissionStarted(SOMission startedMission)

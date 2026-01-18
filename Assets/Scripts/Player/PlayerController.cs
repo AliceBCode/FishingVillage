@@ -49,11 +49,15 @@ public class PlayerController : MonoBehaviour
     
     private CharacterController _controller;
     private PlayerControllerInput _input;
-    private bool CanInteract => canInteractWhileAirborne || isGrounded;
     private Vector3 platformVelocity;
+    
+    private bool CanInteract => canInteractWhileAirborne || isGrounded;
+
     
     
     public Inventory Inventory => inventory;
+    public Vector2 MoveInput => moveInput;
+    
 
     private void Awake()
     {
@@ -68,8 +72,8 @@ public class PlayerController : MonoBehaviour
         _controller = GetComponent<CharacterController>();
         _input = GetComponent<PlayerControllerInput>();
         
-        inventory.OnItemAdded += item => GameEvents.ItemObtained(item);
-        inventory.OnItemRemoved += item => GameEvents.ItemRemoved(item);
+        inventory.OnItemAdded += GameEvents.ItemObtained;
+        inventory.OnItemRemoved += GameEvents.ItemRemoved;
     }
 
     private void OnEnable()
@@ -110,6 +114,7 @@ public class PlayerController : MonoBehaviour
     private void OnMoveAction(InputAction.CallbackContext context)
     {
         moveInput = context.ReadValue<Vector2>();
+        
     }
 
     private void Update()

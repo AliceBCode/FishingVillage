@@ -2,10 +2,13 @@ using System;
 using UnityEngine;
 
 [Serializable]
-public abstract class MissionCondition
+public abstract class MissionObjective
 {
-    public static event Action OnConditionMet;
+    public static event Action OnObjectiveMet;
     
+    [SerializeField] private bool isHidden;
+    
+    public bool IsHidden => isHidden;
     public bool Met { get; protected set; }
 
 
@@ -21,14 +24,14 @@ public abstract class MissionCondition
     {
         if (Met) return;
         Met = true;
-        OnConditionMet?.Invoke();
+        OnObjectiveMet?.Invoke();
     }
 }
 
 
 [Serializable]
 [AddTypeMenu("Obtain an Item")]
-public class ObtainItemCondition : MissionCondition
+public class ObtainItemObjective : MissionObjective
 {
     [SerializeField] private SOItem requiredItem;
     
@@ -67,7 +70,7 @@ public class ObtainItemCondition : MissionCondition
 
 [Serializable]
 [AddTypeMenu("Give Item to an NPC")]
-public class GiveItemToNPCCondition : MissionCondition
+public class GiveItemToNpcObjective : MissionObjective
 {
     [SerializeField] private SOItem requiredItem;
     [SerializeField] private string npcName;
@@ -111,7 +114,7 @@ public class GiveItemToNPCCondition : MissionCondition
 
 [Serializable]
 [AddTypeMenu("Interact with an NPC")]
-public class TalkToNPCCondition : MissionCondition
+public class TalkToNpcObjective : MissionObjective
 {
     [SerializeField] private string npcName;
     
@@ -145,7 +148,7 @@ public class TalkToNPCCondition : MissionCondition
 
 [Serializable]
 [AddTypeMenu("Enter a trigger area")]
-public class EnterTriggerCondition : MissionCondition
+public class EnterTriggerObjective : MissionObjective
 {
     [SerializeField] private string triggerID;
     
