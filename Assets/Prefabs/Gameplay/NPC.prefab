@@ -100,28 +100,8 @@ MonoBehaviour:
   hasInteracted: 0
   name: Someone generic
   lineCooldown: 1.5
-  greetingDialogueLines:
-    internalItems:
-    - item: Hello
-      chance: 34
-      isLocked: 0
-    - item: Yes?
-      chance: 33
-      isLocked: 0
-    - item: What?
-      chance: 33
-      isLocked: 0
-  farewellDialogueLines:
-    internalItems:
-    - item: By!
-      chance: 34
-      isLocked: 0
-    - item: See you around
-      chance: 33
-      isLocked: 0
-    - item: Please never come back!
-      chance: 33
-      isLocked: 0
+  greetingDialogueLines: {fileID: 11400000, guid: d1069709181f39945a507b07a7027b38, type: 2}
+  farewellDialogueLines: {fileID: 11400000, guid: 91c44b8693f34bc438b116cab4dc640c, type: 2}
   lineCooldownTimer: 0
 --- !u!1 &3175554852424676510
 GameObject:

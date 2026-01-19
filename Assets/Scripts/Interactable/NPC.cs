@@ -8,8 +8,8 @@ public class NPC : Interactable
     [Header("NPC Settings")]
     [SerializeField] private new string name = "NPC";
     [SerializeField] private float lineCooldown = 2f;
-    [SerializeField] private ChanceList<string> greetingDialogueLines;
-    [SerializeField] private ChanceList<string> farewellDialogueLines;
+    [SerializeField] private SODialogueLines greetingDialogueLines;
+    [SerializeField] private SODialogueLines farewellDialogueLines;
     [SerializeField, ReadOnly] private float lineCooldownTimer;
 
     public string Name => name;
@@ -31,7 +31,7 @@ public class NPC : Interactable
 
     private void OnTriggerEnter(Collider other)
     {
-        if (greetingDialogueLines.Count <= 0 || lineCooldownTimer > 0) return;
+        if (!greetingDialogueLines || lineCooldownTimer > 0) return;
         
         if (other.TryGetComponent(out PlayerController player))
         {
@@ -41,7 +41,7 @@ public class NPC : Interactable
 
     private void OnTriggerExit(Collider other)
     {
-        if (farewellDialogueLines.Count <= 0 || lineCooldownTimer > 0) return;
+        if (!farewellDialogueLines || lineCooldownTimer > 0) return;
         
         if (other.TryGetComponent(out PlayerController player))
         {
@@ -70,26 +70,34 @@ public class NPC : Interactable
     [Button]
     public void ShowGreetBubble()
     {
-        var line = greetingDialogueLines.GetRandomItem();
-        var lineIndex = greetingDialogueLines.IndexOf(line);
-        greetingDialogueLines.SetChance(lineIndex, 0);
         lineCooldownTimer = lineCooldown;
         
-        _speechBubble?.Show(line);
+        _speechBubble?.Show(greetingDialogueLines?.GetRandomLine);
     }
     
     [Button]
     public void ShowFarewellBubble()
     {
-        var line = farewellDialogueLines.GetRandomItem();
-        var lineIndex = farewellDialogueLines.IndexOf(line);
-        farewellDialogueLines.SetChance(lineIndex, 0);
         lineCooldownTimer = lineCooldown;
         
-        _speechBubble?.Show(line);
+        _speechBubble?.Show(farewellDialogueLines?.GetRandomLine);
     }
-    
 
+
+
+    public void SetFarewellLines(SODialogueLines newLines)
+    {
+        if (!newLines) return;
+        
+        farewellDialogueLines = newLines;
+    }
+
+    public void SetGreetingDialogueLines(SODialogueLines newLines)
+    {
+        if (!newLines) return;
+        
+        greetingDialogueLines = newLines;
+    }
     
 
     

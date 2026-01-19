@@ -75,6 +75,8 @@ public class SpeechBubble : MonoBehaviour
     
     public void Show(string message, float duration = 3.5f)
     {
+        if (message == null) return;
+        
         if (_fadeSequence.isAlive)
         {
             _fadeSequence.Stop();
