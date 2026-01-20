@@ -1,35 +1,29 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [System.Serializable]
 public class Inventory
 {
     [SerializeField] private int maxSlots = 10;
-    [SerializeField] private List<SOItem> items;
+    [SerializeField] private List<SOItem> allItems;
     
     public event Action<SOItem> OnItemAdded;
     public event Action<SOItem> OnItemRemoved;
     public event Action<Inventory> OnInventoryChanged;
-    
-    public IReadOnlyList<SOItem> Items => items;
-    public int Count => items.Count;
+
+
+    public List<SOItem> NonUsableItems => AllItems.Where(item => !item.Usable).ToList();
+    public List<SOItem> UsableItems => AllItems.Where(item => item.Usable).ToList();
+    public List<SOItem> AllItems => allItems;
+    public int Count => allItems.Count;
     public int MaxSlots => maxSlots;
-    public bool IsFull => items.Count >= maxSlots;
-    public bool IsEmpty => items.Count == 0;
-
-    public Inventory()
-    {
-        items = new List<SOItem>();
-    }
-
-    public Inventory(int maxSlots)
-    {
-        this.maxSlots = maxSlots;
-        items = new List<SOItem>();
-    }
-
-
+    public bool IsFull => allItems.Count >= maxSlots;
+    public bool IsEmpty => allItems.Count == 0;
+    
+    
+    
     
     public bool TryAddItem(SOItem item)
     {
@@ -45,7 +39,7 @@ public class Inventory
             return false;
         }
         
-        items.Add(item);
+        allItems.Add(item);
         OnItemAdded?.Invoke(item);
         OnInventoryChanged?.Invoke(this);
         return true;
@@ -59,7 +53,7 @@ public class Inventory
             return false;
         }
         
-        if (!items.Remove(item))
+        if (!allItems.Remove(item))
         {
             Debug.LogWarning($"Item {item.name} not found in inventory.");
             return false;
@@ -72,30 +66,30 @@ public class Inventory
     
     public bool HasItem(SOItem item)
     {
-        return items.Contains(item);
+        return allItems.Contains(item);
     }
     
     public void Clear()
     {
-        items.Clear();
+        allItems.Clear();
         OnInventoryChanged?.Invoke(this);
     }
     
     public SOItem GetItemAtIndex(int index)
     {
-        if (index < 0 || index >= items.Count)
+        if (index < 0 || index >= allItems.Count)
         {
             Debug.LogWarning($"Index {index} out of range.");
             return null;
         }
         
-        return items[index];
+        return allItems[index];
     }
 
     public int GetItemIndex(SOItem item)
     {
         if (!item) return -1;
         
-        return items.IndexOf(item);
+        return allItems.IndexOf(item);
     }
 }

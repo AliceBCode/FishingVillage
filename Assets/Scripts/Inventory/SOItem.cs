@@ -8,7 +8,7 @@ public class SOItem : ScriptableObject
     [Header("Settings")]
     [SerializeField] private new string name;
     [SerializeField, TextArea] private string description;
-    [SerializeField] private Sprite icon;
+    [SerializeField, Preview] private Sprite icon;
     [SerializeField] private bool usable;
     [SerializeField, ShowIf("usable")] private Usage usage;
     

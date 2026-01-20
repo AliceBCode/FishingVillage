@@ -1,6 +1,7 @@
 using System;
 using DNExtensions;
 using DNExtensions.Button;
+using UI;
 using UnityEngine;
 
 public class NPC : Interactable

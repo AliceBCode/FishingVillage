@@ -91,20 +91,20 @@ public class UIManager : MonoBehaviour
         
         inventoryText.text = "";
         
-        var usableItems = inventory.Items.Where(item => item.Usable).ToList();
-        var nonUsableItems = inventory.Items.Where(item => !item.Usable).ToList();
+        var usableItems = inventory.UsableItems;
+        var nonUsableItems = inventory.NonUsableItems;
         
-        foreach (var item in usableItems)
-        {
-            bool isEquipped = player.EquippedItem == item;
-            string equippedTag = isEquipped ? " [Equipped]" : "";
-            inventoryText.text += item.Name + equippedTag + "\n";
-        }
-        
-        if (usableItems.Count > 0 && nonUsableItems.Count > 0)
-        {
-            inventoryText.text += "--------\n";
-        }
+        // foreach (var item in usableItems)
+        // {
+        //     bool isEquipped = player.EquippedItem == item;
+        //     string equippedTag = isEquipped ? " [Equipped]" : "";
+        //     inventoryText.text += item.Name + equippedTag + "\n";
+        // }
+        //
+        // if (usableItems.Count > 0 && nonUsableItems.Count > 0)
+        // {
+        //     inventoryText.text += "--------\n";
+        // }
         
         foreach (var item in nonUsableItems)
         {

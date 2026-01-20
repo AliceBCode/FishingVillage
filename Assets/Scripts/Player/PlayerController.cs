@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using DNExtensions;
 using DNExtensions.SerializedInterface;
+using PrimeTween;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -46,12 +47,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField, ReadOnly] private InterfaceReference<IInteractable> closetInteractable;
     [SerializeField, ReadOnly] private MovingPlatform currentPlatform;
     [SerializeField, ReadOnly] private SOItem equippedItem;
-    [SerializeField] private Inventory inventory = new Inventory(10);
+    [SerializeField] private Inventory inventory = new Inventory();
 
     
     private CharacterController _controller;
     private PlayerControllerInput _input;
     private Vector3 platformVelocity;
+    private bool _allowControl = true;
     
     private bool CanInteract => canInteractWhileAirborne || isGrounded;
 
@@ -64,7 +66,7 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance != null && Instance != this)
+        if (Instance && Instance != this)
         {
             Destroy(gameObject);
             return;
@@ -72,13 +74,20 @@ public class PlayerController : MonoBehaviour
         
         Instance = this;
         
+        PrimeTweenConfig.warnEndValueEqualsCurrent = false;
+        
         _controller = GetComponent<CharacterController>();
         _input = GetComponent<PlayerControllerInput>();
         
         inventory.OnItemAdded += OnItemAdded;
         inventory.OnItemRemoved += OnItemRemoved;
     }
-    
+
+    private void Start()
+    {
+        GameEvents.InventoryChanged(Inventory);
+    }
+
 
     private void OnEnable()
     {
@@ -107,22 +116,27 @@ public class PlayerController : MonoBehaviour
         }
 
         GameEvents.ItemRemoved(item);
+        GameEvents.InventoryChanged(Inventory);
     }
 
     private void OnItemAdded(SOItem item)
     {
         GameEvents.ItemObtained(item);
         
-        if (!equippedItem)
+        if (!equippedItem && item.Usable)
         {
             equippedItem = item;
             GameEvents.ItemEquipped(equippedItem);
         }
+        
+        GameEvents.InventoryChanged(Inventory);
     }
 
 
     private void OnInteractAction(InputAction.CallbackContext context)
     {
+        if (!_allowControl) return;
+        
         if (CanInteract && context.performed && closetInteractable.Value != null)
         {
             closetInteractable.Value.Interact();
@@ -131,6 +145,8 @@ public class PlayerController : MonoBehaviour
 
     private void OnJumpAction(InputAction.CallbackContext context)
     {
+        if (!_allowControl) return;
+        
         if (context.performed)
         {
             jumpInput = true;
@@ -144,6 +160,8 @@ public class PlayerController : MonoBehaviour
 
     private void OnMoveAction(InputAction.CallbackContext context)
     {
+        if (!_allowControl) return;
+        
         moveInput = context.ReadValue<Vector2>();
 
         if (context.started && isGrounded)
@@ -154,6 +172,8 @@ public class PlayerController : MonoBehaviour
     
     private void OnUseAction(InputAction.CallbackContext context)
     {
+        if (!_allowControl) return;
+        
         if (context.started)
         {
             equippedItem?.Use(this);
@@ -163,9 +183,11 @@ public class PlayerController : MonoBehaviour
 
     private void OnCycleItemsAction(InputAction.CallbackContext context)
     {
+        if (!_allowControl) return;
+        
         if (!context.performed || Inventory.IsEmpty) return;
 
-        var usableItems = inventory.Items.Where(item => item.Usable).ToList();
+        var usableItems = inventory.UsableItems;
         if (usableItems.Count == 0) return;
 
         int currentIndex = equippedItem ? usableItems.IndexOf(equippedItem) : -1;

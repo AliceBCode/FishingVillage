@@ -15,6 +15,7 @@ public class PlayerAnimator : MonoBehaviour
 
     [Header("References")] 
     [SerializeField] private Transform modelTransform;
+    [SerializeField] private Animator animator;
 
     [SerializeField, ReadOnly] private bool facingLeft;
     [SerializeField, ReadOnly] private bool facingUp;
