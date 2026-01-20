@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 
@@ -36,6 +37,7 @@ public class UIManager : MonoBehaviour
         
         GameEvents.OnMissionStarted += OnMissionStarted;
         GameEvents.OnMissionCompleted += OnMissionCompleted;
+        GameEvents.OnItemEquipped += OnItemEquipped;
         MissionObjective.OnObjectiveMet += UpdateActiveMissionsUI;
     }
 
@@ -48,6 +50,7 @@ public class UIManager : MonoBehaviour
         
         GameEvents.OnMissionStarted -= OnMissionStarted;
         GameEvents.OnMissionCompleted -= OnMissionCompleted;
+        GameEvents.OnItemEquipped -= OnItemEquipped;
         MissionObjective.OnObjectiveMet -= UpdateActiveMissionsUI;
     }
 
@@ -77,12 +80,33 @@ public class UIManager : MonoBehaviour
         UpdateCompletedMissionsUI();
     }
 
+    private void OnItemEquipped(SOItem item)
+    {
+        UpdateInventoryUI(player.Inventory);
+    }
+
     private void UpdateInventoryUI(Inventory inventory)
     {
-        if (!inventoryText) return;
+        if (!inventoryText || !player) return;
         
-        inventoryText.text = "Inventory:\n";
-        foreach (var item in inventory.Items)
+        inventoryText.text = "";
+        
+        var usableItems = inventory.Items.Where(item => item.Usable).ToList();
+        var nonUsableItems = inventory.Items.Where(item => !item.Usable).ToList();
+        
+        foreach (var item in usableItems)
+        {
+            bool isEquipped = player.EquippedItem == item;
+            string equippedTag = isEquipped ? " [Equipped]" : "";
+            inventoryText.text += item.Name + equippedTag + "\n";
+        }
+        
+        if (usableItems.Count > 0 && nonUsableItems.Count > 0)
+        {
+            inventoryText.text += "--------\n";
+        }
+        
+        foreach (var item in nonUsableItems)
         {
             inventoryText.text += item.Name + "\n";
         }

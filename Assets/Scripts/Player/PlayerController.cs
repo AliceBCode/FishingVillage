@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using DNExtensions;
 using DNExtensions.SerializedInterface;
 using UnityEngine;
@@ -19,12 +20,12 @@ public class PlayerController : MonoBehaviour
     [Tooltip("Time window after pressing jump to still perform a jump when landing.")]
     [SerializeField] private float jumpBufferTime = 0.2f;
     [Tooltip("Time window after leaving ground to still perform a jump.")]
-    [SerializeField] private float coyoteTime = 0.2f;
+    [SerializeField] private float coyoteTime = 0.1f;
     
     [Header("Collision Settings")]
-    [SerializeField] private float ceilingCheckRadius = 0.29f;
+    [SerializeField] private float ceilingCheckRadius = 0.1f;
     [SerializeField] private Vector3 ceilingCheckOffset = Vector3.up;
-    [SerializeField] private float groundCheckRadius = 0.29f;
+    [SerializeField] private float groundCheckRadius = 0.31f;
     [SerializeField] private Vector3 groundCheckOffset = Vector3.down;
     [SerializeField] private LayerMask collisionLayer;
     
@@ -44,6 +45,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField, ReadOnly] private float coyoteTimer;
     [SerializeField, ReadOnly] private InterfaceReference<IInteractable> closetInteractable;
     [SerializeField, ReadOnly] private MovingPlatform currentPlatform;
+    [SerializeField, ReadOnly] private SOItem equippedItem;
     [SerializeField] private Inventory inventory = new Inventory(10);
 
     
@@ -57,6 +59,7 @@ public class PlayerController : MonoBehaviour
     
     public Inventory Inventory => inventory;
     public Vector2 MoveInput => moveInput;
+    public SOItem EquippedItem => equippedItem;
     
 
     private void Awake()
@@ -72,15 +75,18 @@ public class PlayerController : MonoBehaviour
         _controller = GetComponent<CharacterController>();
         _input = GetComponent<PlayerControllerInput>();
         
-        inventory.OnItemAdded += GameEvents.ItemObtained;
-        inventory.OnItemRemoved += GameEvents.ItemRemoved;
+        inventory.OnItemAdded += OnItemAdded;
+        inventory.OnItemRemoved += OnItemRemoved;
     }
+    
 
     private void OnEnable()
     {
         _input.OnMoveAction += OnMoveAction;
         _input.OnJumpAction += OnJumpAction;
         _input.OnInteractAction += OnInteractAction;
+        _input.OnUseAction += OnUseAction;
+        _input.OnCycleItemsAction += OnCycleItemsAction;
     }
     
     private void OnDisable()
@@ -88,8 +94,33 @@ public class PlayerController : MonoBehaviour
         _input.OnMoveAction -= OnMoveAction;
         _input.OnJumpAction -= OnJumpAction;
         _input.OnInteractAction -= OnInteractAction;
+        _input.OnUseAction -= OnUseAction;
+        _input.OnCycleItemsAction -= OnCycleItemsAction;
     }
     
+    private void OnItemRemoved(SOItem item)
+    {
+        if (equippedItem == item)
+        {
+            equippedItem = null;
+            GameEvents.ItemEquipped(equippedItem);
+        }
+
+        GameEvents.ItemRemoved(item);
+    }
+
+    private void OnItemAdded(SOItem item)
+    {
+        GameEvents.ItemObtained(item);
+        
+        if (!equippedItem)
+        {
+            equippedItem = item;
+            GameEvents.ItemEquipped(equippedItem);
+        }
+    }
+
+
     private void OnInteractAction(InputAction.CallbackContext context)
     {
         if (CanInteract && context.performed && closetInteractable.Value != null)
@@ -115,11 +146,48 @@ public class PlayerController : MonoBehaviour
     {
         moveInput = context.ReadValue<Vector2>();
 
-        if (context.started || isGrounded)
+        if (context.started && isGrounded)
         {
             GameEvents.WalkedAction();
         }
     }
+    
+    private void OnUseAction(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            equippedItem?.Use(this);
+            GameEvents.ItemUsed(equippedItem);
+        }
+    }
+
+    private void OnCycleItemsAction(InputAction.CallbackContext context)
+    {
+        if (!context.performed || Inventory.IsEmpty) return;
+
+        var usableItems = inventory.Items.Where(item => item.Usable).ToList();
+        if (usableItems.Count == 0) return;
+
+        int currentIndex = equippedItem ? usableItems.IndexOf(equippedItem) : -1;
+        int cycleDir = Mathf.RoundToInt(context.ReadValue<float>());
+    
+        if (cycleDir == 0) return;
+    
+        int nextIndex = currentIndex + cycleDir;
+    
+        if (nextIndex < 0)
+        {
+            nextIndex = usableItems.Count - 1;
+        }
+        else if (nextIndex >= usableItems.Count)
+        {
+            nextIndex = 0;
+        }
+    
+        equippedItem = usableItems[nextIndex];
+        GameEvents.ItemEquipped(equippedItem);
+    }
+
 
     private void Update()
     {

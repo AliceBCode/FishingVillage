@@ -145,6 +145,7 @@ MonoBehaviour:
   closetInteractable:
     underlyingValue: {fileID: 0}
   currentPlatform: {fileID: 0}
+  equippedItem: {fileID: 0}
   inventory:
     maxSlots: 10
     items: []

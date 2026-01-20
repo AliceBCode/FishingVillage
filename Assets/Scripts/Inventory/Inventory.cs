@@ -16,6 +16,7 @@ public class Inventory
     public int Count => items.Count;
     public int MaxSlots => maxSlots;
     public bool IsFull => items.Count >= maxSlots;
+    public bool IsEmpty => items.Count == 0;
 
     public Inventory()
     {
@@ -89,5 +90,12 @@ public class Inventory
         }
         
         return items[index];
+    }
+
+    public int GetItemIndex(SOItem item)
+    {
+        if (!item) return -1;
+        
+        return items.IndexOf(item);
     }
 }

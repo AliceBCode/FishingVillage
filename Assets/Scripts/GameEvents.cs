@@ -5,6 +5,8 @@ public static class GameEvents
 {
     public static event Action<SOItem> OnItemObtained;
     public static event Action<SOItem> OnItemRemoved;
+    public static event Action<SOItem> OnItemUsed;
+    public static event Action<SOItem> OnItemEquipped;
     public static event Action<SOItem, NPC> OnItemGivenToNpc;
     public static event Action<NPC> OnNpcTalkedTo;
     public static event Action<Interactable> OnInteractedWith;
@@ -15,7 +17,6 @@ public static class GameEvents
     public static event Action OnJumpedAction;
     
     
-    
     public static void ItemObtained(SOItem item)
     {
         OnItemObtained?.Invoke(item);
@@ -24,6 +25,16 @@ public static class GameEvents
     public static void ItemRemoved(SOItem item)
     {
         OnItemRemoved?.Invoke(item);
+    }
+
+    public static void ItemUsed(SOItem item)
+    {
+        OnItemUsed?.Invoke(item);
+    }
+
+    public static void ItemEquipped(SOItem item)
+    {
+        OnItemEquipped?.Invoke(item);
     }
     
     public static void ItemGivenToNpc(SOItem item, NPC npc)
