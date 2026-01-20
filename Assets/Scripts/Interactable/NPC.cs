@@ -7,7 +7,7 @@ public class NPC : Interactable
 {
     [Header("NPC Settings")]
     [SerializeField] private new string name = "NPC";
-    [SerializeField] private float lineCooldown = 2f;
+    [SerializeField] private float lineCooldown = 1.5f;
     [SerializeField] private SODialogueLines greetingDialogueLines;
     [SerializeField] private SODialogueLines farewellDialogueLines;
     [SerializeField, ReadOnly] private float lineCooldownTimer;

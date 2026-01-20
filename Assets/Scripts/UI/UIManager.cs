@@ -91,22 +91,28 @@ public class UIManager : MonoBehaviour
     private void UpdateActiveMissionsUI()
     {
         if (!activeMissionsText) return;
-        
+    
         activeMissionsText.text = "Active Missions:\n\n";
-        
+    
         foreach (var mission in activeMissions)
         {
             activeMissionsText.text += $"{mission.Name}:"  + "\n";
             
-            if (missionConditions.TryGetValue(mission, out var conditions))
+            if (MissionManager.Instance)
             {
-                foreach (var condition in conditions)
+                var conditions = MissionManager.Instance.GetMissionObjectives(mission, true);
+                if (conditions != null)
                 {
-                    string checkmark = condition.Met ? "[X]" : "[ ]";
-                    activeMissionsText.text += $"  {checkmark} {condition.Description}\n";
+                    missionConditions[mission] = conditions;
+                
+                    foreach (var condition in conditions)
+                    {
+                        string checkmark = condition.Met ? "[X]" : "[ ]";
+                        activeMissionsText.text += $"  {checkmark} {condition.Description}\n";
+                    }
                 }
             }
-            
+        
             activeMissionsText.text += "\n";
         }
     }

@@ -75,6 +75,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   hasInteracted: 0
+  interactableID: 27e51fcc-a3b7-41a4-b670-2710dea6fb8c
 --- !u!1 &6782521676386023508
 GameObject:
   m_ObjectHideFlags: 0

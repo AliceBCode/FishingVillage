@@ -31,12 +31,12 @@ public class PlayerAnimator : MonoBehaviour
     
     private void OnEnable()
     {
-        _playerController.OnJumped += PlayJumpAnimation;
+        GameEvents.OnJumpedAction += PlayJumpedActionAnimation;
     }
 
     private void OnDisable()
     {
-        _playerController.OnJumped -= PlayJumpAnimation;
+        GameEvents.OnJumpedAction -= PlayJumpedActionAnimation;
     }
 
     private void Update()
@@ -124,7 +124,7 @@ public class PlayerAnimator : MonoBehaviour
         return new Vector3(0f, horizontalAngle + (verticalAngle * angleMultiplier), 0f);
     }
     
-    private void PlayJumpAnimation()
+    private void PlayJumpedActionAnimation()
     {
         Tween.PunchScale(modelTransform, Vector3.one * 1.1f, jumpDuration, 1);
     }

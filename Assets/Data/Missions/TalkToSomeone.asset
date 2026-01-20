@@ -16,18 +16,14 @@ MonoBehaviour:
   description: 
   icon: {fileID: 0}
   objectives:
-  - rid: 8175020008629338196
-  - rid: 8175020008629338197
+  - rid: 8175020049665359961
   references:
     version: 2
     RefIds:
-    - rid: 8175020008629338196
-      type: {class: TalkToNpcObjective, ns: , asm: Assembly-CSharp}
+    - rid: 8175020049665359961
+      type: {class: GiveItemToNpcObjective, ns: , asm: Assembly-CSharp}
       data:
         isHidden: 0
-        npcName: 
-    - rid: 8175020008629338197
-      type: {class: EnterTriggerObjective, ns: , asm: Assembly-CSharp}
-      data:
-        isHidden: 0
-        triggerID: 123
+        requiresPreviousObjective: 0
+        requiredItem: {fileID: 11400000, guid: 7672abaff8dfcd642ae5c4608f367d07, type: 2}
+        npcReference: {fileID: 0}

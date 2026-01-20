@@ -1,4 +1,5 @@
-﻿using DNExtensions;
+﻿using System;
+using DNExtensions;
 using DNExtensions.Button;
 using UnityEngine;
 using UnityEngine.Events;
@@ -16,9 +17,28 @@ public abstract class Interactable : MonoBehaviour, IInteractable
     [SerializeField] private UnityEvent onInteract;
     
     [SerializeField, ReadOnly] private bool hasInteracted;
+    [SerializeField, ReadOnly] private string interactableID = "";
+
+    public string InteractableID => interactableID;
 
     
-
+#if UNITY_EDITOR
+    private void OnValidate()
+    {
+        if (string.IsNullOrEmpty(interactableID))
+        {
+            interactableID = Guid.NewGuid().ToString();
+            UnityEditor.EditorUtility.SetDirty(this);
+        }
+    }
+    
+    [Button(ButtonPlayMode.OnlyWhenNotPlaying)]
+    private void RegenerateID()
+    {
+        interactableID = Guid.NewGuid().ToString();
+        UnityEditor.EditorUtility.SetDirty(this);
+    }
+#endif
 
     [Button]
     public void Interact()
@@ -26,6 +46,7 @@ public abstract class Interactable : MonoBehaviour, IInteractable
         if (limitInteractionsToOnce && hasInteracted)  return;
         hasInteracted = true;
         onInteract?.Invoke();
+        GameEvents.InteractedWith(this);
         OnInteract();
     }
     
