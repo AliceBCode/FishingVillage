@@ -100,21 +100,34 @@ public class MovingPlatform : MonoBehaviour
     {
         Vector3 start = Application.isPlaying ? startPosition : transform.position;
         Vector3 end = start + positionOffset;
-    
-        // Get the platform's bounds
+        
         Renderer rend = GetComponentInChildren<Renderer>();
-        Vector3 size = rend != null ? rend.bounds.size : Vector3.one;
+        MeshFilter mf = GetComponent<MeshFilter>();
+        var size = rend ? rend.bounds.size : Vector3.one;
     
-        // Draw platform at start position
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireCube(start, size);
-    
-        // Draw platform at end position
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(end, size);
-    
-        // Draw path line
+        
         Gizmos.color = Color.yellow;
         Gizmos.DrawLine(start, end);
+
+
+        if (mf)
+        {
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireMesh(mf.mesh, start, Quaternion.identity, size);
+            
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireMesh(mf.mesh, end, Quaternion.identity, size);
+        }
+        else
+        {
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireCube(start, size);
+            
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireCube(end, size);
+        }
+
+    
+
     }
 }
