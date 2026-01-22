@@ -6,15 +6,19 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerController))]
 public class PlayerAnimator : MonoBehaviour
 {
-    [Header("Jump Animation")]
-    [SerializeField] private float jumpDuration = 0.15f;
-    
-    [Header("Change Direction Animation")]
-    [SerializeField] private float directionDuration = 0.15f;
+    private static readonly int Cleaning = Animator.StringToHash("Cleaning");
+
+    [Header("Jump Animation")] [SerializeField]
+    private float jumpDuration = 0.15f;
+
+    [Header("Change Direction Animation")] [SerializeField]
+    private float directionDuration = 0.15f;
+
     [SerializeField] private Ease directionEase = Ease.InOutCubic;
 
-    [Header("References")] 
-    [SerializeField] private Transform modelTransform;
+    [Header("References")] [SerializeField]
+    private Transform modelTransform;
+
     [SerializeField] private Animator animator;
 
     [SerializeField, ReadOnly] private bool facingLeft;
@@ -29,21 +33,33 @@ public class PlayerAnimator : MonoBehaviour
         _playerController = GetComponent<PlayerController>();
         modelTransform.eulerAngles = new Vector3(0f, 180f, 0f);
     }
-    
+
     private void OnEnable()
     {
         GameEvents.OnJumpedAction += PlayJumpedActionAnimation;
+        GameEvents.OnCleaningUtensilsUsed += PlayCleaningAnimation;
     }
 
     private void OnDisable()
     {
         GameEvents.OnJumpedAction -= PlayJumpedActionAnimation;
+        GameEvents.OnCleaningUtensilsUsed -= PlayCleaningAnimation;
     }
 
     private void Update()
     {
         HandleHorizontalViewDirection();
         HandleVerticalViewDirection();
+    }
+
+    private void PlayCleaningAnimation()
+    {
+        animator.SetTrigger(Cleaning);
+    }
+    
+    private void PlayJumpedActionAnimation()
+    {
+        Tween.PunchScale(modelTransform, Vector3.one * 1.1f, jumpDuration, 1);
     }
 
     private void HandleVerticalViewDirection()
@@ -125,8 +141,4 @@ public class PlayerAnimator : MonoBehaviour
         return new Vector3(0f, horizontalAngle + (verticalAngle * angleMultiplier), 0f);
     }
     
-    private void PlayJumpedActionAnimation()
-    {
-        Tween.PunchScale(modelTransform, Vector3.one * 1.1f, jumpDuration, 1);
-    }
 }

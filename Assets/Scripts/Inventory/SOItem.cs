@@ -25,23 +25,22 @@ public class SOItem : ScriptableObject
     public bool Usable => usable;
 
 
-    public void Use(PlayerController playerController)
+    public void Use()
     {
         if (!usable) return;
         
         switch (usage)
         {
             case Usage.CleaningUtensils:
-                
-                Debug.Log("Cleaning Utensil");
-                
+                GameEvents.UsedCleaningUtensils();
                 break;
             case Usage.Horn:
-                
-                Debug.Log("Used Horn");
+                GameEvents.UsedHorn();
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
         }
+        
+        GameEvents.ItemUsed(this);
     }
 }

@@ -15,5 +15,5 @@ MonoBehaviour:
   name: Magzine
   description: A magzine
   icon: {fileID: 21300000, guid: 43332c597e47c5741aff22cc338822fc, type: 3}
-  usable: 1
+  usable: 0
   usage: 0

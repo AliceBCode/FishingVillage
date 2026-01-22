@@ -8,15 +8,15 @@ namespace UI
     public class ItemSelectionWheel : MonoBehaviour
     {
 
-        [Header("Layout Settings")] [SerializeField]
-        private SelectionWheelItem itemPrefab;
-
-        [SerializeField] private float radiusX = 200f;
+        [Header("Layout Settings")] 
+        [SerializeField] private SelectionWheelItem itemPrefab;
+        [SerializeField] private float radiusX = 100f;
         [SerializeField] private float radiusY = 50f;
         [SerializeField, MinMaxRange(0f, 1f)] private RangedFloat scaleRange = new RangedFloat(0.6f, 1f);
         [SerializeField, MinMaxRange(0f, 1f)] private RangedFloat alphaRange = new RangedFloat(0.3f, 1f);
 
-        [Header("Animation")] [SerializeField] private float transitionDuration = 0.3f;
+        [Header("Animation")] 
+        [SerializeField] private float transitionDuration = 0.3f;
         [SerializeField] private Ease transitionEase = Ease.OutCubic;
 
         private readonly List<SelectionWheelItem> wheelItems = new List<SelectionWheelItem>();
@@ -27,12 +27,15 @@ namespace UI
         {
             GameEvents.OnItemEquipped += OnItemEquipped;
             GameEvents.OnInventoryChanged += OnInventoryChanged;
+            GameEvents.OnItemUsed += OnItemUsed;
         }
+        
 
         private void OnDisable()
         {
             GameEvents.OnItemEquipped -= OnItemEquipped;
             GameEvents.OnInventoryChanged -= OnInventoryChanged;
+            GameEvents.OnItemUsed -= OnItemUsed;
         }
 
         private void OnItemEquipped(SOItem item)
@@ -50,6 +53,11 @@ namespace UI
         private void OnInventoryChanged(Inventory inventory)
         {
             RebuildWheel(inventory);
+        }
+        
+        private void OnItemUsed(SOItem item)
+        {
+            wheelItems[currentIndex]?.PlayUsedAnimation();
         }
 
         private void RebuildWheel(Inventory inventory)
@@ -118,11 +126,7 @@ namespace UI
             for (int i = 0; i < wheelItems.Count; i++)
             {
                 var pos = CalculatePosition(i);
-                var item = wheelItems[i];
-
-                Tween.UIAnchoredPosition(wheelItems[i].RectTransform, pos.position, transitionDuration, transitionEase);
-                Tween.Scale(wheelItems[i].RectTransform, pos.scale, transitionDuration, transitionEase);
-                Tween.Alpha(item.Image, pos.alpha, transitionDuration, transitionEase);
+                wheelItems[i].AnimateToPosition(pos.position, pos.scale, pos.alpha, transitionDuration, transitionEase);
             }
 
             var sorted = new List<(SelectionWheelItem item, int siblingIndex)>();

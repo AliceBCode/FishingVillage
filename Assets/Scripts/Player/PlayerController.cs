@@ -1,5 +1,3 @@
-using System;
-using System.Linq;
 using DNExtensions;
 using DNExtensions.SerializedInterface;
 using PrimeTween;
@@ -96,8 +94,11 @@ public class PlayerController : MonoBehaviour
         _input.OnInteractAction += OnInteractAction;
         _input.OnUseAction += OnUseAction;
         _input.OnCycleItemsAction += OnCycleItemsAction;
+        CleaningAnimationBehavior.OnStateEntered += CleaningAnimationBehaviorOnOnStateEntered;
+        CleaningAnimationBehavior.OnStateExited += CleaningAnimationBehaviorOnOnStateExited;
     }
     
+
     private void OnDisable()
     {
         _input.OnMoveAction -= OnMoveAction;
@@ -105,6 +106,19 @@ public class PlayerController : MonoBehaviour
         _input.OnInteractAction -= OnInteractAction;
         _input.OnUseAction -= OnUseAction;
         _input.OnCycleItemsAction -= OnCycleItemsAction;
+        CleaningAnimationBehavior.OnStateExited -= CleaningAnimationBehaviorOnOnStateExited;
+    }
+    
+    private void CleaningAnimationBehaviorOnOnStateEntered()
+    {
+        _allowControl = false;
+        moveInput = Vector2.zero;
+        velocity = Vector3.zero;
+    }
+    
+    private void CleaningAnimationBehaviorOnOnStateExited()
+    {
+        _allowControl = true;
     }
     
     private void OnItemRemoved(SOItem item)
@@ -176,8 +190,7 @@ public class PlayerController : MonoBehaviour
         
         if (context.started)
         {
-            equippedItem?.Use(this);
-            GameEvents.ItemUsed(equippedItem);
+            equippedItem?.Use();
         }
     }
 
@@ -345,6 +358,7 @@ public class PlayerController : MonoBehaviour
         velocity.y = force;
         jumpInput = false;
     }
+    
     
     private void OnDrawGizmos()
     {
