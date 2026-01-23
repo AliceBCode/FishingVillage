@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 5640077874891323419}
   - component: {fileID: 8533175176350573958}
   - component: {fileID: 6489208202020837376}
-  - component: {fileID: 4776421373999065485}
   m_Layer: 5
   m_Name: UIManager
   m_TagString: Untagged
@@ -104,22 +103,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &4776421373999065485
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 718210013503764477}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ec4cf8de5554ccbb29d2dc1521ec295, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::UIManager
-  player: {fileID: 0}
-  inventoryText: {fileID: 0}
-  activeMissionsText: {fileID: 6713429674482845344}
-  completedMissionsText: {fileID: 2687230345181438704}
 --- !u!1 &1163359537188945588
 GameObject:
   m_ObjectHideFlags: 0
@@ -476,6 +459,7 @@ GameObject:
   - component: {fileID: 8769585728083767264}
   - component: {fileID: 3066291243248248588}
   - component: {fileID: 3376769041706090292}
+  - component: {fileID: 2098383298436744386}
   m_Layer: 5
   m_Name: MissionPanel
   m_TagString: Untagged
@@ -544,6 +528,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.ContentSizeFitter
   m_HorizontalFit: 0
   m_VerticalFit: 2
+--- !u!114 &2098383298436744386
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6142873281466846706}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ec4cf8de5554ccbb29d2dc1521ec295, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIManager
+  activeMissionsText: {fileID: 6713429674482845344}
+  completedMissionsText: {fileID: 2687230345181438704}
 --- !u!1 &7956578424874194963
 GameObject:
   m_ObjectHideFlags: 0

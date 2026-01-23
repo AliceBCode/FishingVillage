@@ -4,12 +4,10 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 
-public class UIManager : MonoBehaviour
+public class MissionsUI : MonoBehaviour
 {
-    public static UIManager Instance;
-
-    [SerializeField] private PlayerController player;
-    [SerializeField] private TextMeshProUGUI inventoryText;
+    public static MissionsUI Instance;
+    
     [SerializeField] private TextMeshProUGUI activeMissionsText;
     [SerializeField] private TextMeshProUGUI completedMissionsText;
     
@@ -29,28 +27,16 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
-        if (player)
-        {
-            player.Inventory.OnInventoryChanged += UpdateInventoryUI;
-            UpdateInventoryUI(player.Inventory);
-        }
         
         GameEvents.OnMissionStarted += OnMissionStarted;
         GameEvents.OnMissionCompleted += OnMissionCompleted;
-        GameEvents.OnItemEquipped += OnItemEquipped;
         MissionObjective.OnObjectiveMet += UpdateActiveMissionsUI;
     }
 
     private void OnDestroy()
     {
-        if (player)
-        {
-            player.Inventory.OnInventoryChanged -= UpdateInventoryUI;
-        }
-        
         GameEvents.OnMissionStarted -= OnMissionStarted;
         GameEvents.OnMissionCompleted -= OnMissionCompleted;
-        GameEvents.OnItemEquipped -= OnItemEquipped;
         MissionObjective.OnObjectiveMet -= UpdateActiveMissionsUI;
     }
 
@@ -79,38 +65,8 @@ public class UIManager : MonoBehaviour
         UpdateActiveMissionsUI();
         UpdateCompletedMissionsUI();
     }
-
-    private void OnItemEquipped(SOItem item)
-    {
-        UpdateInventoryUI(player.Inventory);
-    }
-
-    private void UpdateInventoryUI(Inventory inventory)
-    {
-        if (!inventoryText || !player) return;
-        
-        inventoryText.text = "";
-        
-        var usableItems = inventory.UsableItems;
-        var nonUsableItems = inventory.NonUsableItems;
-        
-        // foreach (var item in usableItems)
-        // {
-        //     bool isEquipped = player.EquippedItem == item;
-        //     string equippedTag = isEquipped ? " [Equipped]" : "";
-        //     inventoryText.text += item.Name + equippedTag + "\n";
-        // }
-        //
-        // if (usableItems.Count > 0 && nonUsableItems.Count > 0)
-        // {
-        //     inventoryText.text += "--------\n";
-        // }
-        
-        foreach (var item in nonUsableItems)
-        {
-            inventoryText.text += item.Name + "\n";
-        }
-    }
+    
+    
 
     private void UpdateActiveMissionsUI()
     {

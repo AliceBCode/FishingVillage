@@ -66,7 +66,7 @@ public class ObtainItemObjective : MissionObjective
     public override bool Evaluate()
     {
         if (!requiredItem) return false;
-        return PlayerController.Instance && PlayerController.Instance.Inventory.HasItem(requiredItem);
+        return PlayerInventory.Instance && PlayerInventory.Instance.HasItem(requiredItem);
     }
     
     private void OnItemObtained(SOItem item)

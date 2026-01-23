@@ -3,7 +3,7 @@ using UnityEngine;
 
 public static class GameEvents
 {
-    public static event Action<Inventory> OnInventoryChanged;
+    public static event Action<PlayerInventory> OnInventoryChanged;
     public static event Action<SOItem> OnItemObtained;
     public static event Action<SOItem> OnItemRemoved;
     public static event Action<SOItem> OnItemUsed;
@@ -40,7 +40,7 @@ public static class GameEvents
         OnItemUsed?.Invoke(item);
     }
     
-    public static void InventoryChanged(Inventory inventory)
+    public static void InventoryChanged(PlayerInventory inventory)
     {
         OnInventoryChanged?.Invoke(inventory);
     }

@@ -50,7 +50,7 @@ namespace UI
             }
         }
 
-        private void OnInventoryChanged(Inventory inventory)
+        private void OnInventoryChanged(PlayerInventory inventory)
         {
             RebuildWheel(inventory);
         }
@@ -60,7 +60,7 @@ namespace UI
             wheelItems[currentIndex]?.PlayUsedAnimation();
         }
 
-        private void RebuildWheel(Inventory inventory)
+        private void RebuildWheel(PlayerInventory inventory)
         {
             foreach (var item in wheelItems)
             {
@@ -78,9 +78,9 @@ namespace UI
             gameObject.SetActive(true);
 
             currentIndex = 0;
-            if (PlayerController.Instance.EquippedItem)
+            if (inventory.EquippedItem)
             {
-                int equippedIndex = currentUsableItems.IndexOf(PlayerController.Instance.EquippedItem);
+                int equippedIndex = currentUsableItems.IndexOf(inventory.EquippedItem);
                 if (equippedIndex != -1) currentIndex = equippedIndex;
             }
 

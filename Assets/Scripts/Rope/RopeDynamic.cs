@@ -1,7 +1,7 @@
 using DNExtensions;
 using UnityEngine;
 
-public class Rope : MonoBehaviour
+public class RopeDynamic : MonoBehaviour
 {
     [Header("Target Settings")]
     [SerializeField] private Transform target;

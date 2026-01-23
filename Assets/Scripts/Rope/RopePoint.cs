@@ -8,6 +8,13 @@ public class RopePoint : MonoBehaviour
     
     public Vector3 StartPosition { get; private set; }
     
+    
+    // for physics rope
+    public float mass;
+    public Vector3 restPosition;
+    public Vector3 currentPosition;
+    public Vector3 velocity;
+    
 
     private void Awake()
     {

@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 8398350063837312167}
   - component: {fileID: 5618184148556093945}
   - component: {fileID: 7638830405764284899}
+  - component: {fileID: 899811438610226523}
+  - component: {fileID: 7073407473221254455}
   - component: {fileID: 3071058934891126152}
   m_Layer: 6
   m_Name: Player
@@ -128,6 +130,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerControllerInput
   playerInput: {fileID: 8398350063837312167}
+  moveInput: {x: 0, y: 0}
+  jumpPressed: 0
 --- !u!114 &7638830405764284899
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -152,26 +156,49 @@ MonoBehaviour:
   groundCheckOffset: {x: 0, y: -0.98, z: 0}
   collisionLayer:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 129
+  jumpBufferTimer: 0
+  velocity: {x: 0, y: -2, z: 0}
+  coyoteTimer: 0
+  isGrounded: 1
+  hitCeiling: 0
+  currentPlatform: {fileID: 0}
+  allowControl: 1
+--- !u!114 &899811438610226523
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1412151307554652317}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: caefd909dce44bc489c218004603eb19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerInteraction
   canInteractWhileAirborne: 1
-  interactCheckRange: 3
+  interactCheckRange: 2
   interactCheckOffset: {x: 0, y: 0, z: 0}
   interactableLayer:
     serializedVersion: 2
     m_Bits: 1
-  moveInput: {x: 0, y: 0}
-  velocity: {x: 0, y: -2, z: 0}
-  isGrounded: 1
-  jumpInput: 0
-  jumpBufferTimer: 0
-  coyoteTimer: 0
-  closetInteractable:
+  closestInteractable:
     underlyingValue: {fileID: 0}
-  currentPlatform: {fileID: 0}
+--- !u!114 &7073407473221254455
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1412151307554652317}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2cf9512fcc341a7b7c3680633ee7d05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerInventory
+  maxSlots: 10
+  allItems: []
   equippedItem: {fileID: 0}
-  inventory:
-    maxSlots: 10
-    allItems: []
 --- !u!114 &3071058934891126152
 MonoBehaviour:
   m_ObjectHideFlags: 0

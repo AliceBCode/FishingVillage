@@ -1,12 +1,10 @@
 using DNExtensions.Button;
 using UnityEngine;
 
-[RequireComponent(typeof(Rope), typeof(LineRenderer))]
-public class RopeVisualizer : MonoBehaviour
+[RequireComponent( typeof(LineRenderer))]
+public class RopeLineVisualizer : MonoBehaviour
 {
     [Header("References")]
-    [SerializeField, Tooltip("The Rope component to visualize")]
-    private Rope rope;
     [SerializeField, Tooltip("LineRenderer to draw the rope")]
     private LineRenderer lineRenderer;
     
@@ -22,7 +20,6 @@ public class RopeVisualizer : MonoBehaviour
 
     private void OnValidate()
     {
-        if (!rope) rope = GetComponent<Rope>();
         if (!lineRenderer) lineRenderer = GetComponent<LineRenderer>();
         
         if (lineRenderer != null)
@@ -39,7 +36,6 @@ public class RopeVisualizer : MonoBehaviour
 
     private void Awake()
     {
-        if (!rope) rope = GetComponent<Rope>();
         if (!lineRenderer) lineRenderer = GetComponent<LineRenderer>();
         
         _ropePoints = GetComponentsInChildren<RopePoint>();
@@ -49,7 +45,7 @@ public class RopeVisualizer : MonoBehaviour
 
     private void SetupLineRenderer()
     {
-        if (lineRenderer == null) return;
+        if (!lineRenderer) return;
         
         lineRenderer.positionCount = _ropePoints.Length;
         lineRenderer.startWidth = ropeWidth;
@@ -73,7 +69,7 @@ public class RopeVisualizer : MonoBehaviour
 
     public void UpdateLine()
     {
-        if (lineRenderer == null || _ropePoints == null || _ropePoints.Length == 0)
+        if (!lineRenderer || _ropePoints == null || _ropePoints.Length == 0)
             return;
         
         lineRenderer.positionCount = _ropePoints.Length;

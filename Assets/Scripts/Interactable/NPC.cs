@@ -12,10 +12,10 @@ public class NPC : Interactable
     [SerializeField] private SODialogueLines greetingDialogueLines;
     [SerializeField] private SODialogueLines farewellDialogueLines;
     [SerializeField, ReadOnly] private float lineCooldownTimer;
-
-    public string Name => name;
+    
 
     private SpeechBubble _speechBubble;
+    
 
     private void Awake()
     {
@@ -52,7 +52,7 @@ public class NPC : Interactable
     
     private void ReceiveItem(SOItem item)
     {
-        if (PlayerController.Instance && PlayerController.Instance.Inventory.TryRemoveItem(item))
+        if (PlayerInventory.Instance && PlayerInventory.Instance.TryRemoveItem(item))
         {
             GameEvents.ItemGivenToNpc(item, this);
         }

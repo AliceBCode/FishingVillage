@@ -1,14 +1,18 @@
 using System;
+using DNExtensions;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 
+[RequireComponent(typeof(PlayerController))]
 public class PlayerControllerInput : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private PlayerInput playerInput;
+    [SerializeField, ReadOnly] private Vector2 moveInput;
+    [SerializeField, ReadOnly] private bool jumpPressed;
 
-
+    private PlayerController _playerController;
     private InputActionMap _playerActionMap;
     private InputAction _moveAction;
     private InputAction _jumpAction;
@@ -16,18 +20,17 @@ public class PlayerControllerInput : MonoBehaviour
     private InputAction _useAction;
     private InputAction _cycleItemsAction;
     
+    public Vector2 MoveInput => moveInput;
+    public bool JumpPressed => jumpPressed;
     
-    public event Action<InputAction.CallbackContext> OnMoveAction;
     public event Action<InputAction.CallbackContext> OnJumpAction;
     public event Action<InputAction.CallbackContext> OnInteractAction;
     public event Action<InputAction.CallbackContext> OnUseAction;
     public event Action<InputAction.CallbackContext> OnCycleItemsAction;
-    
-
 
     private void Awake()
     {
-
+        _playerController = GetComponent<PlayerController>();
         _playerActionMap = playerInput.actions.FindActionMap("Player");
 
         if (_playerActionMap == null)
@@ -42,7 +45,6 @@ public class PlayerControllerInput : MonoBehaviour
         _useAction = _playerActionMap.FindAction("Use");
         _cycleItemsAction = _playerActionMap.FindAction("CycleItems");
         
-        
         if (_moveAction == null) Debug.LogError("Move action not found in Player Action Map.");
         if (_jumpAction == null) Debug.LogError("Jump action not found in Player Action Map.");
         if (_interactAction == null) Debug.LogError("Interact action not found in Player Action Map.");
@@ -52,7 +54,6 @@ public class PlayerControllerInput : MonoBehaviour
         _playerActionMap.Enable();
     }
 
-
     private void OnEnable()
     {
         SubscribeToAction(_moveAction, OnMove);
@@ -61,7 +62,6 @@ public class PlayerControllerInput : MonoBehaviour
         SubscribeToAction(_useAction, OnUse);
         SubscribeToAction(_cycleItemsAction, OnCycleItems);
     }
-    
 
     private void OnDisable()
     {
@@ -72,35 +72,54 @@ public class PlayerControllerInput : MonoBehaviour
         UnsubscribeFromAction(_cycleItemsAction, OnCycleItems);
     }
 
-
-
     private void OnMove(InputAction.CallbackContext context)
     {
-        OnMoveAction?.Invoke(context);
+        if (!_playerController.AllowControl)
+        {
+            moveInput = Vector2.zero;
+            return;
+        }
+        
+        moveInput = context.ReadValue<Vector2>();
     }
     
     private void OnInteract(InputAction.CallbackContext context)
     {
+        if (!_playerController.AllowControl) return;
+        
         OnInteractAction?.Invoke(context);
     }
 
     private void OnJump(InputAction.CallbackContext context)
     {
+        if (!_playerController.AllowControl) return;
+        
+        if (context.performed)
+        {
+            jumpPressed = true;
+        }
+        else if (context.canceled)
+        {
+            jumpPressed = false;
+        }
+        
         OnJumpAction?.Invoke(context);
     }
     
     private void OnUse(InputAction.CallbackContext context)
     {
+        if (!_playerController.AllowControl) return;
         OnUseAction?.Invoke(context);
     }
     
     private void OnCycleItems(InputAction.CallbackContext context)
     {
+        if (!_playerController.AllowControl) return;
+        
         OnCycleItemsAction?.Invoke(context);
     }
+    
 
-    
-    
     /// <summary>
     /// Subscribes a callback method to all phases of an InputAction (started, performed, canceled).
     /// </summary>
@@ -136,5 +155,4 @@ public class PlayerControllerInput : MonoBehaviour
         action.started -= callback;
         action.canceled -= callback;
     }
-    
 }

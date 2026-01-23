@@ -20,12 +20,12 @@ namespace UI
             GameEvents.OnInventoryChanged -= OnInventoryChanged;
         }
 
-        private void OnInventoryChanged(Inventory inventory)
+        private void OnInventoryChanged(PlayerInventory inventory)
         {
+            if (!inventory) return;
+            
             ClearItems();
-        
-            if (inventory == null) return;
-        
+            
             foreach (var item in inventory.NonUsableItems)
             {
                 var slot = Instantiate(itemPrefab, container);

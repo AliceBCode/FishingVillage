@@ -2,12 +2,12 @@ using DNExtensions;
 using DNExtensions.Button;
 using UnityEngine;
 
-[RequireComponent(typeof(Rope))]
+[RequireComponent(typeof(RopeDynamic))]
 public class RopeCreator : MonoBehaviour
 {
     [Header("Generation Settings")]
     [SerializeField, Tooltip("The Rope component to configure")]
-    private Rope rope;
+    private RopeDynamic ropeDynamic;
     [SerializeField, Tooltip("Number of rope segments to create")]
     [Min(3)] private int pointsAmount = 10;
     [SerializeField, Tooltip("Distance between each rope point")]
@@ -27,7 +27,7 @@ public class RopeCreator : MonoBehaviour
 
     private void OnValidate()
     {
-        if (!rope) rope = GetComponent<Rope>();
+        if (!ropeDynamic) ropeDynamic = GetComponent<RopeDynamic>();
         pointSpacing = Mathf.Max(0.01f, pointSpacing);
         pointRadius = Mathf.Max(0.01f, pointRadius);
     }
@@ -35,7 +35,7 @@ public class RopeCreator : MonoBehaviour
     [Button(ButtonPlayMode.OnlyWhenNotPlaying)]
     public void CreatePoints()
     {
-        if (rope == null)
+        if (ropeDynamic == null)
         {
             Debug.LogError("Rope reference is missing!");
             return;
