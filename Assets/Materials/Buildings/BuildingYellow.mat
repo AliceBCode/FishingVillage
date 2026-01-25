@@ -20,9 +20,9 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Metal
+  m_Name: BuildingYellow
   m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
-  m_Parent: {fileID: 2100000, guid: bc91127d111be4c489ff576b6a31e22f, type: 2}
+  m_Parent: {fileID: 2100000, guid: 57c6a7be1eded0b45bfee346486c6302, type: 2}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
   m_InvalidKeywords: []
@@ -39,10 +39,9 @@ Material:
     serializedVersion: 3
     m_TexEnvs: []
     m_Ints: []
-    m_Floats:
-    - _Smoothness: 0.29
+    m_Floats: []
     m_Colors:
-    - _BaseColor: {r: 0.2924528, g: 0.27331233, b: 0.24141152, a: 1}
-    - _Color: {r: 0.29245278, g: 0.2733123, b: 0.24141148, a: 1}
+    - _BaseColor: {r: 0.7783019, g: 0.5885539, b: 0.30838376, a: 1}
+    - _Color: {r: 0.7783019, g: 0.58855385, b: 0.3083837, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
