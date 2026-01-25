@@ -59,7 +59,7 @@ Material:
     m_Colors:
     - _Color: {r: 0.2704401, g: 0.2704401, b: 0.2704401, a: 1}
     - _Dither_World_Position: {r: 0, g: 0, b: 0, a: 0}
-    - _Object_Position: {r: -10.927864, g: 4.5119996, b: 9.659354, a: 0}
+    - _Object_Position: {r: -3.3683798, g: 5.4419994, b: 11.774825, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &7875659524633002595
