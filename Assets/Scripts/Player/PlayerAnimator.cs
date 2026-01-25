@@ -3,40 +3,44 @@ using DNExtensions;
 using PrimeTween;
 using UnityEngine;
 
-[RequireComponent(typeof(PlayerController))]
+[RequireComponent(typeof(PlayerControllerInput))]
 public class PlayerAnimator : MonoBehaviour
 {
-    [Header("Jump Animation")]
-    [SerializeField] private float jumpDuration = 0.15f;
-    
-    [Header("Change Direction Animation")]
+    private static readonly int Cleaning = Animator.StringToHash("Cleaning");
+
+    [Header("Jump Animation")] 
+    [SerializeField] private float jumpDuration = 0.1f;
+
+    [Header("Change Direction Animation")] 
     [SerializeField] private float directionDuration = 0.15f;
     [SerializeField] private Ease directionEase = Ease.InOutCubic;
 
     [Header("References")] 
     [SerializeField] private Transform modelTransform;
-
+    [SerializeField] private Animator animator;
     [SerializeField, ReadOnly] private bool facingLeft;
     [SerializeField, ReadOnly] private bool facingUp;
     [SerializeField, ReadOnly] private bool facingDown;
 
-    private PlayerController _playerController;
+    private PlayerControllerInput _input;
     private Sequence _rotationTween;
 
     private void Awake()
     {
-        _playerController = GetComponent<PlayerController>();
+        _input = GetComponent<PlayerControllerInput>();
         modelTransform.eulerAngles = new Vector3(0f, 180f, 0f);
     }
-    
+
     private void OnEnable()
     {
-        _playerController.OnJumped += PlayJumpAnimation;
+        GameEvents.OnJumpedAction += PlayJumpedActionAnimation;
+        GameEvents.OnCleaningUtensilsUsed += PlayCleaningAnimation;
     }
 
     private void OnDisable()
     {
-        _playerController.OnJumped -= PlayJumpAnimation;
+        GameEvents.OnJumpedAction -= PlayJumpedActionAnimation;
+        GameEvents.OnCleaningUtensilsUsed -= PlayCleaningAnimation;
     }
 
     private void Update()
@@ -45,9 +49,19 @@ public class PlayerAnimator : MonoBehaviour
         HandleVerticalViewDirection();
     }
 
+    private void PlayCleaningAnimation()
+    {
+        animator.SetTrigger(Cleaning);
+    }
+    
+    private void PlayJumpedActionAnimation()
+    {
+        Tween.PunchScale(modelTransform, Vector3.one * 1.1f, jumpDuration, 1);
+    }
+
     private void HandleVerticalViewDirection()
     {
-        float currentYInput = _playerController.MoveInput.y;
+        float currentYInput = _input.MoveInput.y;
         bool shouldUpdate = false;
 
         if (currentYInput == 0f && (facingUp || facingDown))
@@ -77,7 +91,7 @@ public class PlayerAnimator : MonoBehaviour
 
     private void HandleHorizontalViewDirection()
     {
-        float currentXInput = _playerController.MoveInput.x;
+        float currentXInput = _input.MoveInput.x;
 
         if (currentXInput < 0 && !facingLeft)
         {
@@ -112,8 +126,6 @@ public class PlayerAnimator : MonoBehaviour
             _rotationTween.Group(Tween.LocalRotation(modelTransform, Quaternion.Euler(targetRotation), directionDuration * 0.5f, directionEase));
         }
     }
-    
-
 
     private Vector3 GetTargetRotation()
     {
@@ -122,10 +134,5 @@ public class PlayerAnimator : MonoBehaviour
         float angleMultiplier = facingLeft ? -1f : 1f;
         
         return new Vector3(0f, horizontalAngle + (verticalAngle * angleMultiplier), 0f);
-    }
-    
-    private void PlayJumpAnimation()
-    {
-        Tween.PunchScale(modelTransform, Vector3.one * 1.1f, jumpDuration, 1);
     }
 }

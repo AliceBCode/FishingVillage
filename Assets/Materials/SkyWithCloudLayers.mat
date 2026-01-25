@@ -1,0 +1,120 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-979766509912491273
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Editor::UnityEditor.Rendering.Universal.AssetVersion
+  version: 10
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: SkyWithCloudLayers
+  m_Shader: {fileID: -6465566751694194690, guid: 2b5b366affd98d142b2385dc777b555e, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses:
+  - MOTIONVECTORS
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _CloudLayer_a7a63193bdc54c7dbce6b305b7c63456_CloudsTexture_14378365_Texture2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _CloudLayer_c5d68ae218414070ae3a02c2cd0421a5_CloudsTexture_14378365_Texture2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Clouds_Texture:
+        m_Texture: {fileID: 2800000, guid: b8636b7ab46af374c908b5b8a4f0ccbb, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Clouds_Texture_1:
+        m_Texture: {fileID: 2800000, guid: b8636b7ab46af374c908b5b8a4f0ccbb, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Clouds_Texture_2:
+        m_Texture: {fileID: 2800000, guid: fee740b1a5d7f5a48ac2c36ce1158966, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Clouds_Texture_3:
+        m_Texture: {fileID: 2800000, guid: 99c44a1decfac3147bf4090ed76246fe, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _Badir_Blend_Power: 1.9
+    - _Clouds_Alpha_Power: 1
+    - _Clouds_Alpha_Smoothing: 5
+    - _Clouds_Distance_Fade_Power: 2
+    - _Clouds_Edge_Smoothing: 3
+    - _Clouds_Edge_Smoothing_1: 3
+    - _Clouds_Edge_Smoothing_2: 3
+    - _Clouds_Edge_Smoothing_3: 3
+    - _QueueControl: 0
+    - _QueueOffset: 0
+    - _Sun_Exponent: 2
+    - _Sun_Intensity: 100
+    - _Sun_Radius_A: 0.03
+    - _Sun_Radius_B: 0.05
+    - _Use_Layer: 1
+    - _Zenith_Blend_Power: 0.29
+    m_Colors:
+    - _Clouds_Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Clouds_Color_1: {r: 1, g: 1, b: 1, a: 1}
+    - _Clouds_Color_2: {r: 0.98742133, g: 0.97810596, b: 0.97810596, a: 0.9019608}
+    - _Clouds_Color_3: {r: 0.8666667, g: 0.8666667, b: 0.8666667, a: 0.4627451}
+    - _Clouds_Offset: {r: 0.47, g: 0.39, b: 0, a: 0}
+    - _Clouds_Offset_1: {r: 0, g: 0.47, b: 0, a: 0}
+    - _Clouds_Offset_2: {r: 0.65, g: 0.41, b: 0, a: 0}
+    - _Clouds_Offset_3: {r: 0.63, g: 0.41, b: 0, a: 0}
+    - _Clouds_Scale: {r: 0.6, g: 0.3, b: 0, a: 0}
+    - _Clouds_Scale_1: {r: 0.4, g: 0.4, b: 0, a: 0}
+    - _Clouds_Scale_2: {r: 0.2, g: 0.2, b: 0, a: 0}
+    - _Clouds_Scale_3: {r: 0.4, g: 0.4, b: 0, a: 0}
+    - _Clouds_Speed: {r: 1, g: 0, b: 0, a: 0}
+    - _Clouds_Speed_1: {r: 2, g: 0, b: 0, a: 0}
+    - _Clouds_Speed_2: {r: 0.5, g: 0, b: 0, a: 0}
+    - _Clouds_Speed_3: {r: 0.3, g: 0, b: 0, a: 0}
+    - _Clouds_Tiling: {r: 6, g: 2, b: 0, a: 0}
+    - _Clouds_Tiling_1: {r: 3, g: 2, b: 0, a: 0}
+    - _Clouds_Tiling_2: {r: 3, g: 2, b: 0, a: 0}
+    - _Clouds_Tiling_3: {r: 3, g: 2, b: 0, a: 0}
+    - _Horizon_Color: {r: 0.62578607, g: 0.8268343, b: 1, a: 1}
+    - _Nadir_Color: {r: 0, g: 0, b: 0, a: 1}
+    - _Sun_Color: {r: 0.9803162, g: 1, b: 0, a: 1}
+    - _Zennith_Color: {r: 1, g: 0.95571864, b: 0, a: 1}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1

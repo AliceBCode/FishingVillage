@@ -1,20 +1,21 @@
 using System;
 using DNExtensions;
 using DNExtensions.Button;
+using UI;
 using UnityEngine;
 
 public class NPC : Interactable
 {
     [Header("NPC Settings")]
     [SerializeField] private new string name = "NPC";
-    [SerializeField] private float lineCooldown = 2f;
+    [SerializeField] private float lineCooldown = 1.5f;
     [SerializeField] private SODialogueLines greetingDialogueLines;
     [SerializeField] private SODialogueLines farewellDialogueLines;
     [SerializeField, ReadOnly] private float lineCooldownTimer;
-
-    public string Name => name;
+    
 
     private SpeechBubble _speechBubble;
+    
 
     private void Awake()
     {
@@ -51,7 +52,7 @@ public class NPC : Interactable
     
     private void ReceiveItem(SOItem item)
     {
-        if (PlayerController.Instance && PlayerController.Instance.Inventory.TryRemoveItem(item))
+        if (PlayerInventory.Instance && PlayerInventory.Instance.TryRemoveItem(item))
         {
             GameEvents.ItemGivenToNpc(item, this);
         }

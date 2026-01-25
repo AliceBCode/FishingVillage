@@ -50,9 +50,22 @@ public class MissionManager : MonoBehaviour
     
     private void CheckActiveMissionsForCompletion()
     {
-        for (int i = activeMissions.Count - 1; i >= 0; i--)
+        foreach (var mission in activeMissions.ToList())
         {
-            CompleteMission(activeMissions[i]);
+            if (!missionObjectives.TryGetValue(mission, out var objectives)) continue;
+            
+            for (int i = 0; i < objectives.Length - 1; i++)
+            {
+                var currentObjective = objectives[i];
+                var nextObjective = objectives[i + 1];
+            
+                if (currentObjective.Met && nextObjective.RequiresPreviousObjective && !nextObjective.IsActive)
+                {
+                    nextObjective.SetActive(true);
+                }
+            }
+        
+            CompleteMission(mission);
         }
     }
     
@@ -86,15 +99,22 @@ public class MissionManager : MonoBehaviour
     public void AddMission(SOMission mission)
     {
         if (!mission || completedMissions.Contains(mission) || activeMissions.Contains(mission)) return;
-        
+    
         var objectives = mission.CloneObjectives();
         missionObjectives[mission] = objectives;
         
-        foreach (var objective in objectives)
+        for (int i = 0; i < objectives.Length; i++)
         {
+            var objective = objectives[i];
             objective.Initialize();
+            
+            if (objective.RequiresPreviousObjective && i > 0)
+            {
+                var previousObjective = objectives[i - 1];
+                objective.SetActive(previousObjective.Met);
+            }
         }
-        
+    
         activeMissions.Add(mission);
         GameEvents.MissionStarted(mission);
     }
@@ -102,13 +122,16 @@ public class MissionManager : MonoBehaviour
     public MissionObjective[] GetMissionObjectives(SOMission mission, bool visibleOnly = false)
     {
         var objectives = missionObjectives.GetValueOrDefault(mission);
-    
+
         if (objectives == null)
             return null;
+
+        if (visibleOnly)
+        {
+            return objectives.Where(obj => !obj.IsHidden && obj.IsActive).ToArray();
+        }
     
-        return visibleOnly 
-            ? objectives.Where(obj => !obj.IsHidden).ToArray()
-            : objectives;
+        return objectives;
     }
 
     public bool HasMissionGiveItemFor(NPC npc, out SOItem item)

@@ -1,11 +1,11 @@
-using System;
 using DNExtensions;
-using DNExtensions.SerializedInterface;
+using PrimeTween;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(CharacterController))]
 [RequireComponent(typeof(PlayerControllerInput))]
+[RequireComponent(typeof(PlayerInventory))]
 [SelectionBase]
 public class PlayerController : MonoBehaviour
 {
@@ -19,50 +19,34 @@ public class PlayerController : MonoBehaviour
     [Tooltip("Time window after pressing jump to still perform a jump when landing.")]
     [SerializeField] private float jumpBufferTime = 0.2f;
     [Tooltip("Time window after leaving ground to still perform a jump.")]
-    [SerializeField] private float coyoteTime = 0.2f;
+    [SerializeField] private float coyoteTime = 0.1f;
     
     [Header("Collision Settings")]
-    [SerializeField] private float ceilingCheckRadius = 0.29f;
+    [SerializeField] private float ceilingCheckRadius = 0.1f;
     [SerializeField] private Vector3 ceilingCheckOffset = Vector3.up;
-    [SerializeField] private float groundCheckRadius = 0.29f;
+    [SerializeField] private float groundCheckRadius = 0.31f;
     [SerializeField] private Vector3 groundCheckOffset = Vector3.down;
     [SerializeField] private LayerMask collisionLayer;
     
-    [Header("Interaction Settings")]
-    [SerializeField] private bool canInteractWhileAirborne = true;
-    [SerializeField] private float interactCheckRange = 3f;
-    [SerializeField] private Vector3 interactCheckOffset = Vector3.zero;
-    [SerializeField] private LayerMask interactableLayer;
-    
-    
     [Separator]
-    [SerializeField, ReadOnly] private Vector2 moveInput;
-    [SerializeField, ReadOnly] private Vector3 velocity;
-    [SerializeField, ReadOnly] private bool isGrounded;
-    [SerializeField, ReadOnly] private bool jumpInput;
     [SerializeField, ReadOnly] private float jumpBufferTimer;
+    [SerializeField, ReadOnly] private Vector3 velocity;
     [SerializeField, ReadOnly] private float coyoteTimer;
-    [SerializeField, ReadOnly] private InterfaceReference<IInteractable> closetInteractable;
+    [SerializeField, ReadOnly] private bool isGrounded;
+    [SerializeField, ReadOnly] private bool hitCeiling;
     [SerializeField, ReadOnly] private MovingPlatform currentPlatform;
-    [SerializeField] private Inventory inventory = new Inventory(10);
+    [SerializeField, ReadOnly] private bool allowControl = true;
 
-    
     private CharacterController _controller;
     private PlayerControllerInput _input;
     private Vector3 platformVelocity;
     
-    private bool CanInteract => canInteractWhileAirborne || isGrounded;
-
-    
-    
-    public Inventory Inventory => inventory;
-    public Vector2 MoveInput => moveInput;
-    public event Action OnJumped;
-    
+    public bool IsGrounded => isGrounded;
+    public bool AllowControl => allowControl;
 
     private void Awake()
     {
-        if (Instance != null && Instance != this)
+        if (Instance && Instance != this)
         {
             Destroy(gameObject);
             return;
@@ -70,52 +54,43 @@ public class PlayerController : MonoBehaviour
         
         Instance = this;
         
+        PrimeTweenConfig.warnEndValueEqualsCurrent = false;
+        
         _controller = GetComponent<CharacterController>();
         _input = GetComponent<PlayerControllerInput>();
-        
-        inventory.OnItemAdded += GameEvents.ItemObtained;
-        inventory.OnItemRemoved += GameEvents.ItemRemoved;
     }
 
     private void OnEnable()
     {
-        _input.OnMoveAction += OnMoveAction;
         _input.OnJumpAction += OnJumpAction;
-        _input.OnInteractAction += OnInteractAction;
+        CleaningAnimationBehavior.OnStateEntered += CleaningAnimationBehaviorOnOnStateEntered;
+        CleaningAnimationBehavior.OnStateExited += CleaningAnimationBehaviorOnOnStateExited;
     }
-    
+
     private void OnDisable()
     {
-        _input.OnMoveAction -= OnMoveAction;
         _input.OnJumpAction -= OnJumpAction;
-        _input.OnInteractAction -= OnInteractAction;
+        CleaningAnimationBehavior.OnStateEntered -= CleaningAnimationBehaviorOnOnStateEntered;
+        CleaningAnimationBehavior.OnStateExited -= CleaningAnimationBehaviorOnOnStateExited;
     }
     
-    private void OnInteractAction(InputAction.CallbackContext context)
+    private void CleaningAnimationBehaviorOnOnStateEntered()
     {
-        if (CanInteract && context.performed && closetInteractable.Value != null)
-        {
-            closetInteractable.Value.Interact();
-        }
+        allowControl = false;
+        velocity = Vector3.zero;
+    }
+    
+    private void CleaningAnimationBehaviorOnOnStateExited()
+    {
+        allowControl = true;
     }
 
     private void OnJumpAction(InputAction.CallbackContext context)
     {
         if (context.performed)
         {
-            jumpInput = true;
             jumpBufferTimer = jumpBufferTime;
         }
-        else if (context.canceled)
-        {
-            jumpInput = false;
-        }
-    }
-
-    private void OnMoveAction(InputAction.CallbackContext context)
-    {
-        moveInput = context.ReadValue<Vector2>();
-        
     }
 
     private void Update()
@@ -133,12 +108,16 @@ public class PlayerController : MonoBehaviour
         {
             coyoteTimer -= Time.deltaTime;
         }
+        
+        if (_input.MoveInput != Vector2.zero && isGrounded)
+        {
+            GameEvents.WalkedAction();
+        }
     }
 
     private void FixedUpdate()
     {
         CheckCollisions();
-        CheckForInteractable();
         CheckForPlatform();
         HandleGravity();
         HandleJump();
@@ -149,8 +128,8 @@ public class PlayerController : MonoBehaviour
     {
         if (!_controller || !_controller.enabled) return;
         
-        velocity.x = moveInput.x * moveSpeed;
-        velocity.z = moveInput.y * moveSpeed;
+        velocity.x = _input.MoveInput.x * moveSpeed;
+        velocity.z = _input.MoveInput.y * moveSpeed;
     
         Vector3 finalVelocity = velocity + platformVelocity;
         _controller.Move(finalVelocity * Time.fixedDeltaTime);
@@ -174,13 +153,12 @@ public class PlayerController : MonoBehaviour
 
     private void HandleJump()
     {
-        if ((jumpInput || jumpBufferTimer > 0) && (isGrounded || coyoteTimer > 0))
+        if ((_input.JumpPressed || jumpBufferTimer > 0) && (isGrounded || coyoteTimer > 0))
         {
             velocity.y = jumpForce;
-            jumpInput = false;
             jumpBufferTimer = 0;
             coyoteTimer = 0;
-            OnJumped?.Invoke();
+            GameEvents.JumpedAction();
         }
     }
 
@@ -190,7 +168,7 @@ public class PlayerController : MonoBehaviour
         
         if (velocity.y > 0)
         {
-            bool hitCeiling = Physics.CheckSphere(transform.position + ceilingCheckOffset, ceilingCheckRadius, collisionLayer, QueryTriggerInteraction.Ignore);
+            hitCeiling = Physics.CheckSphere(transform.position + ceilingCheckOffset, ceilingCheckRadius, collisionLayer, QueryTriggerInteraction.Ignore);
             if (hitCeiling)
             {
                 velocity.y = 0;
@@ -222,44 +200,23 @@ public class PlayerController : MonoBehaviour
         currentPlatform = null;
         platformVelocity = Vector3.zero;
     }
-
-    private void CheckForInteractable()
-    {
-        var colliders = Physics.OverlapSphere(transform.position + interactCheckOffset, interactCheckRange, interactableLayer, QueryTriggerInteraction.Ignore);
-        var closestDistance = float.MaxValue;
-        IInteractable closest = null;
-
-        foreach (var col in colliders)
-        {
-            if (col.TryGetComponent(out IInteractable interactable) && interactable.CanInteract())
-            {
-                float distance = Vector3.Distance(transform.position, col.transform.position);
-                if (distance < closestDistance)
-                {
-                    closestDistance = distance;
-                    closest = interactable;
-                }
-            }
-        }
-        
-        closetInteractable.Value = closest;
-    }
     
     public void ForceJump(float force)
     {
         if (!_controller || !_controller.enabled) return;
         
         velocity.y = force;
-        jumpInput = false;
     }
     
     private void OnDrawGizmos()
     {
         Gizmos.color = isGrounded ? Color.green : Color.red;
         Gizmos.DrawWireSphere(transform.position + groundCheckOffset, groundCheckRadius);
-        Gizmos.DrawWireSphere(transform.position + ceilingCheckOffset, ceilingCheckRadius);
-        
-        Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(transform.position + interactCheckOffset, interactCheckRange);
+
+        if (velocity.y > 0)
+        {
+            Gizmos.color = hitCeiling ? Color.red : Color.green;
+            Gizmos.DrawWireSphere(transform.position + ceilingCheckOffset, ceilingCheckRadius);
+        }
     }
 }

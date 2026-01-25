@@ -18,7 +18,7 @@ public class ItemHolder : Interactable
     {
         if (amount != 0 && itemsWhereTaken >= amount) return;
 
-        if (PlayerController.Instance.Inventory.TryAddItem(item))
+        if (PlayerInventory.Instance && PlayerInventory.Instance.TryAddItem(item))
         {
             itemsWhereTaken++;
         }

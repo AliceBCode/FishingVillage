@@ -98,6 +98,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   hasInteracted: 0
+  interactableID: d6f638df-b5a3-43fc-8afd-33ab79d53a34
   name: Someone generic
   lineCooldown: 1.5
   greetingDialogueLines: {fileID: 11400000, guid: d1069709181f39945a507b07a7027b38, type: 2}

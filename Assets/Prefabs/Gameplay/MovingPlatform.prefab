@@ -186,9 +186,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MovingPlatform
   active: 1
-  positionTwo:
-    positionTransform: {fileID: 0}
-    positionVector: {x: 0, y: 0, z: 0}
+  positionOffset: {x: 0, y: 0, z: 4}
   waitTimeAtPositions: 1
   moveSpeed: 5
   moveSpeedCurve:
