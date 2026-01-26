@@ -5,7 +5,7 @@ namespace UI
     using UnityEngine;
     using PrimeTween;
 
-    public class ItemSelectionWheel : MonoBehaviour
+    public class SelectionWheel : MonoBehaviour
     {
 
         [Header("Layout Settings")] 

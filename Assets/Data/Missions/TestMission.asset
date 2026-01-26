@@ -12,18 +12,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78efe0c056f2413ab5f94b61bf33bb1c, type: 3}
   m_Name: TestMission
   m_EditorClassIdentifier: Assembly-CSharp::SOMission
-  name: Learn How to Talk
+  name: A Vary Tasting Mission
   description: 
   icon: {fileID: 0}
   objectives:
-  - rid: 8175020049665359961
+  - rid: 8175020186713456724
+  - rid: 8175020186713456725
+  - rid: 8175020186713456726
+  - rid: 8175020186713456727
   references:
     version: 2
     RefIds:
-    - rid: 8175020049665359961
-      type: {class: GiveItemToNpcObjective, ns: , asm: Assembly-CSharp}
+    - rid: 8175020186713456724
+      type: {class: CompleteDialogueObjective, ns: , asm: Assembly-CSharp}
       data:
         isHidden: 0
         requiresPreviousObjective: 0
-        requiredItem: {fileID: 11400000, guid: 7672abaff8dfcd642ae5c4608f367d07, type: 2}
-        npcReference: {fileID: 0}
+        npcReference: {fileID: 4684444579216439139, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
+    - rid: 8175020186713456725
+      type: {class: ObtainItemObjective, ns: , asm: Assembly-CSharp}
+      data:
+        isHidden: 0
+        requiresPreviousObjective: 1
+        requiredItem: {fileID: 11400000, guid: 9db520021735ba9428c293b40d5975ac, type: 2}
+    - rid: 8175020186713456726
+      type: {class: GiveItemToNpcObjective, ns: , asm: Assembly-CSharp}
+      data:
+        isHidden: 0
+        requiresPreviousObjective: 1
+        requiredItem: {fileID: 11400000, guid: 9db520021735ba9428c293b40d5975ac, type: 2}
+        npcReference: {fileID: 4684444579216439139, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
+    - rid: 8175020186713456727
+      type: {class: CompleteDialogueObjective, ns: , asm: Assembly-CSharp}
+      data:
+        isHidden: 0
+        requiresPreviousObjective: 1
+        npcReference: {fileID: 4684444579216439139, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}

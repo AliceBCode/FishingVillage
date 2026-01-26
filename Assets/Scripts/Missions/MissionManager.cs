@@ -29,7 +29,7 @@ public class MissionManager : MonoBehaviour
         completedMissions = new List<SOMission>();
         missionObjectives = new Dictionary<SOMission, MissionObjective[]>();
         
-        MissionObjective.OnObjectiveMet += CheckActiveMissionsForCompletion;
+        MissionObjective.OnObjectiveMet += OnObjectiveCompleted;
     }
 
     private void OnDestroy()
@@ -37,7 +37,7 @@ public class MissionManager : MonoBehaviour
         if (Instance != this) return;
         
         
-        MissionObjective.OnObjectiveMet -= CheckActiveMissionsForCompletion;
+        MissionObjective.OnObjectiveMet -= OnObjectiveCompleted;
             
         foreach (var kvp in missionObjectives)
         {
@@ -46,6 +46,11 @@ public class MissionManager : MonoBehaviour
                 objective.Cleanup();
             }
         }
+    }
+
+    private void OnObjectiveCompleted(MissionObjective objective)
+    {
+        CheckActiveMissionsForCompletion();
     }
     
     private void CheckActiveMissionsForCompletion()

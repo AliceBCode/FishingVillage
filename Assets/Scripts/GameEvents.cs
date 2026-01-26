@@ -16,6 +16,7 @@ public static class GameEvents
     
     public static event Action<SOItem, NPC> OnItemGivenToNpc;
     public static event Action<NPC> OnNpcTalkedTo;
+    public static event Action<NPC> OnDialogueSequenceCompleted;
     public static event Action<Interactable> OnInteractedWith;
     public static event Action<string> OnTriggerEntered;
     
@@ -58,6 +59,11 @@ public static class GameEvents
     public static void NpcTalkedTo(NPC npc)
     {
         OnNpcTalkedTo?.Invoke(npc);
+    }
+    
+    public static void DialogueSequenceCompleted(NPC npc)
+    {
+        OnDialogueSequenceCompleted?.Invoke(npc);
     }
 
     public static void InteractedWith(Interactable interactable)

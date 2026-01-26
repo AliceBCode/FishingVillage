@@ -9,16 +9,17 @@ public class NPC : Interactable
     [Header("NPC Settings")]
     [SerializeField] private new string name = "NPC";
     
+    [Header("Speech Bubble")]
+    [SerializeField] private float speechCooldown = 1.5f;
+    [SerializeField, ReadOnly] private float speechCooldownTimer;
+    
     [Header("Proximity Dialogue")]
-    [SerializeField] private bool proximityDialogue = true;
+    [SerializeField] private bool playProximityDialogue = true;
     [SerializeField] private SODialogueLines greetingDialogueLines;
     [SerializeField] private SODialogueLines farewellDialogueLines;
-    [SerializeField] private float lineCooldown = 1.5f;
-    [SerializeField, ReadOnly] private float lineCooldownTimer;
-    
 
     private SpeechBubble _speechBubble;
-    
+    private DialogueSequence activeDialogue;
 
     private void Awake()
     {
@@ -27,16 +28,18 @@ public class NPC : Interactable
 
     private void Update()
     {
-        if (lineCooldownTimer > 0f)
+        if (speechCooldownTimer > 0f)
         {
-            lineCooldownTimer -= Time.deltaTime;
+            speechCooldownTimer -= Time.deltaTime;
         }
     }
+    
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!proximityDialogue || !greetingDialogueLines || lineCooldownTimer > 0) return;
-    
+        if (!playProximityDialogue || !greetingDialogueLines || speechCooldownTimer > 0) 
+            return;
+        
         if (other.TryGetComponent(out PlayerController player))
         {
             ShowGreetBubble();
@@ -45,8 +48,9 @@ public class NPC : Interactable
 
     private void OnTriggerExit(Collider other)
     {
-        if (!proximityDialogue || !farewellDialogueLines || lineCooldownTimer > 0) return;
-    
+        if (!playProximityDialogue || !farewellDialogueLines || speechCooldownTimer > 0) 
+            return;
+        
         if (other.TryGetComponent(out PlayerController player))
         {
             ShowFarewellBubble();
@@ -63,6 +67,15 @@ public class NPC : Interactable
     
     protected override void OnInteract()
     {
+        if (activeDialogue != null)
+        {
+            if (activeDialogue.AdvanceMode == DialogueAdvanceMode.Manual)
+            {
+                ShowNextLine();
+            }
+            return;
+        }
+        
         GameEvents.NpcTalkedTo(this);
 
         if (MissionManager.Instance.HasMissionGiveItemFor(this, out SOItem item))
@@ -70,57 +83,83 @@ public class NPC : Interactable
             ReceiveItem(item);
         }
     }
-
-    
-    
     
 
-    #region Proximity dialogue 
 
-    public void ToggleProximityDialogue(bool toggle)
+    #region Sequence Dialogue
+
+    private void ShowNextLine()
     {
-        proximityDialogue = toggle;
+        
+        if (activeDialogue.IsComplete)
+        {
+            GameEvents.DialogueSequenceCompleted(this);
+            activeDialogue = null;
+            _speechBubble.Hide(true);
+            return;
+        }
+        
+        string line = activeDialogue.GetNextLine();
+        _speechBubble?.Show(line);
+        speechCooldownTimer = speechCooldown;
+        
+        if (activeDialogue.AdvanceMode == DialogueAdvanceMode.Automatic)
+        {
+            Invoke(nameof(ShowNextLine), activeDialogue.AutoAdvanceDelay);
+        }
+    }
+    
+    public void StartDialogueSequence(SODialogueSequence sequence)
+    {
+        if (!sequence) return;
+        
+        playProximityDialogue = false;
+        activeDialogue = new DialogueSequence(sequence);
+        _speechBubble.Hide(false);
+        ShowNextLine();
+    }
+
+    #endregion
+
+    
+    #region Proximity Dialogue
+
+    [Button]
+    private void ShowGreetBubble()
+    {
+        if (!greetingDialogueLines) return;
+        
+        speechCooldownTimer = speechCooldown;
+        _speechBubble?.Show(greetingDialogueLines.GetRandomLine, 3.5f);
+    }
+    
+    [Button]
+    private void ShowFarewellBubble()
+    {
+        if (!farewellDialogueLines) return;
+        
+        speechCooldownTimer = speechCooldown;
+        _speechBubble?.Show(farewellDialogueLines.GetRandomLine, 3.5f);
+    }
+    
+    public void EnableProximityDialogue(bool enable)
+    {
+        playProximityDialogue = enable;
     }
 
     public void SetFarewellLines(SODialogueLines newLines)
     {
         if (!newLines) return;
-        
         farewellDialogueLines = newLines;
     }
 
     public void SetGreetingDialogueLines(SODialogueLines newLines)
     {
         if (!newLines) return;
-        
         greetingDialogueLines = newLines;
     }
-    
-    
-    [Button]
-    private void ShowGreetBubble()
-    {
-        lineCooldownTimer = lineCooldown;
-        
-        _speechBubble?.Show(greetingDialogueLines?.GetRandomLine);
-    }
-    
-    [Button]
-    private void ShowFarewellBubble()
-    {
-        lineCooldownTimer = lineCooldown;
-        
-        _speechBubble?.Show(farewellDialogueLines?.GetRandomLine);
-    }
 
-    #endregion  Proximity Dialouge
+    #endregion
 
-
-
-
-
-    
-
-    
 
 }

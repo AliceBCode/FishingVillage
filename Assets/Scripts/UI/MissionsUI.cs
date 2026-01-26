@@ -13,7 +13,6 @@ public class MissionsUI : MonoBehaviour
     
     private readonly List<SOMission> activeMissions = new List<SOMission>();
     private readonly List<SOMission> completedMissions = new List<SOMission>();
-    private readonly Dictionary<SOMission, MissionObjective[]> missionConditions = new Dictionary<SOMission, MissionObjective[]>();
     
     private void Awake()
     {
@@ -27,32 +26,26 @@ public class MissionsUI : MonoBehaviour
 
     private void Start()
     {
-        
         GameEvents.OnMissionStarted += OnMissionStarted;
         GameEvents.OnMissionCompleted += OnMissionCompleted;
-        MissionObjective.OnObjectiveMet += UpdateActiveMissionsUI;
+        MissionObjective.OnObjectiveMet += OnObjectiveCompleted;
     }
 
     private void OnDestroy()
     {
         GameEvents.OnMissionStarted -= OnMissionStarted;
         GameEvents.OnMissionCompleted -= OnMissionCompleted;
-        MissionObjective.OnObjectiveMet -= UpdateActiveMissionsUI;
+        MissionObjective.OnObjectiveMet -= OnObjectiveCompleted;
     }
 
     private void OnMissionStarted(SOMission mission)
     {
         activeMissions.Add(mission);
-        
-        if (MissionManager.Instance)
-        {
-            var conditions = MissionManager.Instance.GetMissionObjectives(mission, true);
-            if (conditions != null)
-            {
-                missionConditions[mission] = conditions;
-            }
-        }
-        
+        UpdateActiveMissionsUI();
+    }
+
+    private void OnObjectiveCompleted(MissionObjective objective)
+    {
         UpdateActiveMissionsUI();
     }
 
@@ -60,13 +53,10 @@ public class MissionsUI : MonoBehaviour
     {
         activeMissions.Remove(mission);
         completedMissions.Add(mission);
-        missionConditions.Remove(mission);
         
         UpdateActiveMissionsUI();
         UpdateCompletedMissionsUI();
     }
-    
-    
 
     private void UpdateActiveMissionsUI()
     {
@@ -80,16 +70,19 @@ public class MissionsUI : MonoBehaviour
             
             if (MissionManager.Instance)
             {
-                var conditions = MissionManager.Instance.GetMissionObjectives(mission, true);
-                if (conditions != null)
-                {
-                    missionConditions[mission] = conditions;
+                var objectives = MissionManager.Instance.GetMissionObjectives(mission, true);
                 
-                    foreach (var condition in conditions)
+                if (objectives != null && objectives.Length > 0)
+                {
+                    foreach (var objective in objectives)
                     {
-                        string checkmark = condition.Met ? "[X]" : "[ ]";
-                        activeMissionsText.text += $"  {checkmark} {condition.Description}\n";
+                        string checkmark = objective.Met ? "[X]" : "[ ]";
+                        activeMissionsText.text += $"  {checkmark} {objective.Description}\n";
                     }
+                }
+                else
+                {
+                    activeMissionsText.text += "  (No visible objectives)\n";
                 }
             }
         
