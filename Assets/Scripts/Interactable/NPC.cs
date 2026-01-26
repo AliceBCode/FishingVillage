@@ -20,6 +20,8 @@ public class NPC : Interactable
 
     private SpeechBubble _speechBubble;
     private DialogueSequence activeDialogue;
+    
+    public string Name => name;
 
     private void Awake()
     {

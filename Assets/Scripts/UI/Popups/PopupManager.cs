@@ -67,29 +67,29 @@ public class PopupManager : MonoBehaviour
 
     private void OnMissionStarted(SOMission mission)
     {
-        ShowPopup($"New Mission: {mission.Name}", missionStartSettings);
+        ShowPopup($"New Mission:\n{mission.Name}", missionStartSettings);
     }
 
     private void OnMissionCompleted(SOMission mission)
     {
-        ShowPopup($"Mission Complete: {mission.Name}", missionCompleteSettings);
+        ShowPopup($"Mission Complete:\n{mission.Name}", missionCompleteSettings);
     }
 
     private void OnObjectiveMet(MissionObjective objective)
     {
         if (objective.IsHidden) return;
         
-        ShowPopup($"Objective Complete: {objective.Description}", objectiveCompleteSettings);
+        ShowPopup($"Objective Complete:\n{objective.Description}", objectiveCompleteSettings);
     }
 
     private void OnItemObtained(SOItem item)
     {
-        ShowPopup($"Obtained: {item.Name}", itemObtainedSettings, item.Icon);
+        ShowPopup($"Obtained:\n{item.Name}", itemObtainedSettings, item.Icon);
     }
 
     private void OnItemRemoved(SOItem item)
     {
-        ShowPopup($"Removed: {item.Name}", itemRemovedSettings, item.Icon);
+        ShowPopup($"Removed:\n{item.Name}", itemRemovedSettings, item.Icon);
     }
     
 

@@ -11,7 +11,7 @@ public class GiveItemToNpcObjective : MissionObjective
     
     public SOItem RequiredItem => requiredItem;
     public override string Name => "Give Item To NPC";
-    public override string Description => $"Give {(requiredItem ? requiredItem.Name : "Unknown Item")} to {npcReference}";
+    public override string Description => $"Give {(requiredItem ? requiredItem.Name : "Unknown Item")} to {(npcReference ? npcReference.Name : "Unknown NPC")}";
     
     private string targetID;
     
@@ -28,7 +28,7 @@ public class GiveItemToNpcObjective : MissionObjective
         
         if (string.IsNullOrEmpty(targetID))
         {
-            Debug.LogError($"NPC prefab {npcReference.name} has no ID set!");
+            Debug.LogError($"NPC prefab {npcReference.Name} has no ID set!");
             return;
         }
 

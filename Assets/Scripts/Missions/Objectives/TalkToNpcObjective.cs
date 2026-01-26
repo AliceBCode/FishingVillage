@@ -11,7 +11,7 @@ public class TalkToNpcObjective : MissionObjective
     private string targetID;
     
     public override string Name => "Talk To NPC";
-    public override string Description => $"Talk to {(npcReference ? npcReference.name : "Unknown")}";
+    public override string Description => $"Talk to {(npcReference ? npcReference.Name : "Unknown")}";
     
     public override void Initialize()
     {
@@ -25,7 +25,7 @@ public class TalkToNpcObjective : MissionObjective
         
         if (string.IsNullOrEmpty(targetID))
         {
-            Debug.LogError($"NPC prefab {npcReference.name} has no ID set!");
+            Debug.LogError($"NPC prefab {npcReference.Name} has no ID set!");
             return;
         }
         
