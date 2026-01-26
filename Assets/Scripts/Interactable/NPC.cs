@@ -8,9 +8,12 @@ public class NPC : Interactable
 {
     [Header("NPC Settings")]
     [SerializeField] private new string name = "NPC";
-    [SerializeField] private float lineCooldown = 1.5f;
+    
+    [Header("Proximity Dialogue")]
+    [SerializeField] private bool proximityDialogue = true;
     [SerializeField] private SODialogueLines greetingDialogueLines;
     [SerializeField] private SODialogueLines farewellDialogueLines;
+    [SerializeField] private float lineCooldown = 1.5f;
     [SerializeField, ReadOnly] private float lineCooldownTimer;
     
 
@@ -32,8 +35,8 @@ public class NPC : Interactable
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!greetingDialogueLines || lineCooldownTimer > 0) return;
-        
+        if (!proximityDialogue || !greetingDialogueLines || lineCooldownTimer > 0) return;
+    
         if (other.TryGetComponent(out PlayerController player))
         {
             ShowGreetBubble();
@@ -42,8 +45,8 @@ public class NPC : Interactable
 
     private void OnTriggerExit(Collider other)
     {
-        if (!farewellDialogueLines || lineCooldownTimer > 0) return;
-        
+        if (!proximityDialogue || !farewellDialogueLines || lineCooldownTimer > 0) return;
+    
         if (other.TryGetComponent(out PlayerController player))
         {
             ShowFarewellBubble();
@@ -68,23 +71,16 @@ public class NPC : Interactable
         }
     }
 
-    [Button]
-    public void ShowGreetBubble()
-    {
-        lineCooldownTimer = lineCooldown;
-        
-        _speechBubble?.Show(greetingDialogueLines?.GetRandomLine);
-    }
     
-    [Button]
-    public void ShowFarewellBubble()
+    
+    
+
+    #region Proximity dialogue 
+
+    public void ToggleProximityDialogue(bool toggle)
     {
-        lineCooldownTimer = lineCooldown;
-        
-        _speechBubble?.Show(farewellDialogueLines?.GetRandomLine);
+        proximityDialogue = toggle;
     }
-
-
 
     public void SetFarewellLines(SODialogueLines newLines)
     {
@@ -99,6 +95,30 @@ public class NPC : Interactable
         
         greetingDialogueLines = newLines;
     }
+    
+    
+    [Button]
+    private void ShowGreetBubble()
+    {
+        lineCooldownTimer = lineCooldown;
+        
+        _speechBubble?.Show(greetingDialogueLines?.GetRandomLine);
+    }
+    
+    [Button]
+    private void ShowFarewellBubble()
+    {
+        lineCooldownTimer = lineCooldown;
+        
+        _speechBubble?.Show(farewellDialogueLines?.GetRandomLine);
+    }
+
+    #endregion  Proximity Dialouge
+
+
+
+
+
     
 
     
