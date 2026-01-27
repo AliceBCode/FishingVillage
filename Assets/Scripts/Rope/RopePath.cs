@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class RopePath : MonoBehaviour
 {
-    [SerializeField] private float naturalSag = 0.5f;
     [SerializeField] private float targetWeight = 2f;
     [SerializeField] private Transform target;
     [SerializeField, Range(0f, 1f)] private float currentT = 0.5f;

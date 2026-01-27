@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78efe0c056f2413ab5f94b61bf33bb1c, type: 3}
   m_Name: TestMission
   m_EditorClassIdentifier: Assembly-CSharp::SOMission
-  name: A Vary Tasting Mission
+  name: A Vary Testing Mission
   description: 
   icon: {fileID: 0}
   objectives:
