@@ -2,12 +2,19 @@ using System;
 using DNExtensions;
 using UnityEngine;
 
+
+public enum DialogueLinesType
+{
+    Random = 0,
+    Sequential = 1,
+    
+}
+
 [CreateAssetMenu(fileName = "New Dialogue Lines", menuName = "Scriptable Objects/Dialogue Lines")]
 public class SODialogueLines : ScriptableObject
 {
 
     [SerializeField] private ChanceList<string> dialogueLines;
-    
     
     
     public int Count => dialogueLines.Count;

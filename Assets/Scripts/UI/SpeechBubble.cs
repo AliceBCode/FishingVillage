@@ -18,7 +18,7 @@ namespace UI
         private bool rotateToCamera = true;
 
         [SerializeField, EnableIf("rotateToCamera")]
-        private float rotationSpeed = 5f;
+        private float rotationSpeed = 25f;
 
         [Tooltip("Whether the speech bubble's scale should change based on its distance to the camera")]
         [SerializeField]
@@ -85,7 +85,7 @@ namespace UI
         }
 
 
-        public void Show(string message, float duration = 3.5f)
+        public void Show(string message, float duration = 0)
         {
             if (message == null) return;
 
@@ -104,12 +104,17 @@ namespace UI
             _fadeSequence = Sequence.Create();
             _fadeSequence.Group(Tween.Alpha(canvasGroup, 1f, fadeDuration));
 
-            _hideCoroutine = StartCoroutine(HideAfterDelay(duration));
+            if (duration > 0 ) _hideCoroutine = StartCoroutine(HideAfterDelay(duration));
         }
+        
+        
 
-        private void Hide(bool animate)
+        public void Hide(bool animate)
         {
-            if (_fadeSequence.isAlive) return;
+            if (_fadeSequence.isAlive)
+            {
+                _fadeSequence.Stop();
+            }
 
             if (animate)
             {

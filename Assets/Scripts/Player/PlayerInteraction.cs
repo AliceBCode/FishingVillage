@@ -51,7 +51,7 @@ public class PlayerInteraction : MonoBehaviour
 
     private void CheckForInteractable()
     {
-        var colliders = Physics.OverlapSphere(transform.position + interactCheckOffset, interactCheckRange, interactableLayer, QueryTriggerInteraction.Ignore);
+        var colliders = Physics.OverlapSphere(transform.position + interactCheckOffset, interactCheckRange, interactableLayer);
         var closestDistance = float.MaxValue;
         IInteractable closest = null;
 
