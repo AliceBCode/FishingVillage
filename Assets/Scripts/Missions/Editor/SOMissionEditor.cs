@@ -1,0 +1,73 @@
+#if UNITY_EDITOR
+using UnityEditor;
+using UnityEngine;
+
+[CustomEditor(typeof(SOMission))]
+public class SOMissionEditor : Editor
+{
+    private SerializedProperty nameProp;
+    private SerializedProperty descriptionProp;
+    private SerializedProperty iconProp;
+    private SerializedProperty objectivesProp;
+    private SerializedProperty actionsOnMissionStartedProp;
+    private SerializedProperty actionsOnMissionCompletedProp;
+    private SerializedProperty objectiveEventsProp;
+
+    private void OnEnable()
+    {
+        nameProp = serializedObject.FindProperty("name");
+        descriptionProp = serializedObject.FindProperty("description");
+        iconProp = serializedObject.FindProperty("icon");
+        objectivesProp = serializedObject.FindProperty("objectives");
+        actionsOnMissionStartedProp = serializedObject.FindProperty("onStarted");
+        actionsOnMissionCompletedProp = serializedObject.FindProperty("onCompleted");
+        objectiveEventsProp = serializedObject.FindProperty("onObjectiveCompleted");
+    }
+
+    public override void OnInspectorGUI()
+    {
+        serializedObject.Update();
+        
+        EditorGUILayout.PropertyField(nameProp, new GUIContent("Name"));
+        EditorGUILayout.PropertyField(descriptionProp, new GUIContent("Description"));
+        EditorGUILayout.PropertyField(iconProp, new GUIContent("Icon"));
+        EditorGUILayout.PropertyField(objectivesProp, new GUIContent("Objectives"));
+        
+        EditorGUILayout.PropertyField(actionsOnMissionStartedProp, new GUIContent("On Mission Started"));
+        var mission = target as SOMission;
+        if (mission)
+        {
+            var objectives = mission.CloneObjectives();
+            
+            if (objectiveEventsProp.arraySize != objectives.Length)
+            {
+                objectiveEventsProp.arraySize = objectives.Length;
+            }
+        
+            if (objectives.Length > 0)
+            {
+                for (int i = 0; i < objectives.Length; i++)
+                {
+                    var objective = objectives[i];
+                    var entryProp = objectiveEventsProp.GetArrayElementAtIndex(i);
+                    var objectiveNameProp = entryProp.FindPropertyRelative("objectiveName");
+                    var actionsOnCompletedProp = entryProp.FindPropertyRelative("onObjectiveCompleted");
+                    
+                    objectiveNameProp.stringValue = $"{i}: {objective.Name}";
+                    EditorGUILayout.Space(5);
+                    EditorGUILayout.PropertyField(actionsOnCompletedProp, new GUIContent($"On Objective {i}: {objective.Description}"));
+                    EditorGUILayout.Space(5);
+                }
+            }
+            else
+            {
+                EditorGUILayout.HelpBox("Add objectives above to configure their completion actions", MessageType.Info);
+            }
+        }
+        
+        EditorGUILayout.PropertyField(actionsOnMissionCompletedProp, new GUIContent("On Mission Completed"));
+
+        serializedObject.ApplyModifiedProperties();
+    }
+}
+#endif
