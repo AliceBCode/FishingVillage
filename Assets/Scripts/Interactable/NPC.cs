@@ -85,6 +85,14 @@ public class NPC : Interactable
             ReceiveItem(item);
         }
     }
+
+    public void GiveItemToPlayer(SOItem item)
+    {
+        if (PlayerInventory.Instance)
+        {
+            PlayerInventory.Instance.TryAddItem(item);
+        }
+    }
     
 
 

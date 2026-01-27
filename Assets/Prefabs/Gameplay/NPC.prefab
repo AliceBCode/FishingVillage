@@ -95,9 +95,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::NPC
   canInteract: 1
   limitInteractionsToOnce: 0
-  onInteract:
-    m_PersistentCalls:
-      m_Calls: []
+  actionsOnInteract: []
   hasInteracted: 0
   interactableID: d6f638df-b5a3-43fc-8afd-33ab79d53a34
   name: Someone generic
@@ -106,6 +104,9 @@ MonoBehaviour:
   playProximityDialogue: 1
   greetingDialogueLines: {fileID: 11400000, guid: d1069709181f39945a507b07a7027b38, type: 2}
   farewellDialogueLines: {fileID: 11400000, guid: 91c44b8693f34bc438b116cab4dc640c, type: 2}
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &5139030240122779998
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -119,35 +120,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MissionEvents
   mission: {fileID: 0}
-  onMissionStarted:
-    m_PersistentCalls:
-      m_Calls: []
-  onMissionCompleted:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 11400000, guid: 5f622638ab24a1e4c841b4addac68c44, type: 2}
-        m_TargetAssemblyTypeName: SOMission, Assembly-CSharp
-        m_MethodName: StartMission
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+  actionsOnMissionStarted: []
+  actionsOnMissionCompleted: []
   objectiveEvents:
   - objectiveName: '0: Complete Dialogue'
-    onObjectiveCompleted:
-      m_PersistentCalls:
-        m_Calls: []
+    actionsOnCompleted: []
     hasTriggered: 0
   - objectiveName: '1: Give Item To NPC'
-    onObjectiveCompleted:
-      m_PersistentCalls:
-        m_Calls: []
+    actionsOnCompleted: []
     hasTriggered: 0
+  references:
+    version: 2
+    RefIds: []
 --- !u!1 &3175554852424676510
 GameObject:
   m_ObjectHideFlags: 0

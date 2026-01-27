@@ -1,21 +1,25 @@
 using System;
 using UnityEngine;
-using UnityEngine.Events;
+
+[Serializable]
+public class ObjectiveEventEntry
+{
+    [HideInInspector] public string objectiveName;
+    [SerializeReference, SubclassSelector] 
+    public GameAction[] actionsOnCompleted = Array.Empty<GameAction>();
+    [HideInInspector] public bool hasTriggered;
+}
+
 
 public class MissionEvents : MonoBehaviour
 {
-    [Serializable]
-    public class ObjectiveEventEntry
-    {
-        [HideInInspector] public string objectiveName;
-        public UnityEvent onObjectiveCompleted;
-        [HideInInspector] public bool hasTriggered;
-    }
-    
-    
     [SerializeField] private SOMission mission;
-    [SerializeField] private UnityEvent onMissionStarted;
-    [SerializeField] private UnityEvent onMissionCompleted;
+    
+    [Header("Mission Events")]
+    [SerializeReference, SubclassSelector] 
+    private GameAction[] actionsOnMissionStarted = Array.Empty<GameAction>();
+    [SerializeReference, SubclassSelector] 
+    private GameAction[] actionsOnMissionCompleted = Array.Empty<GameAction>();
     [SerializeField] private ObjectiveEventEntry[] objectiveEvents;
 
     private void OnEnable()
@@ -36,7 +40,10 @@ public class MissionEvents : MonoBehaviour
     {
         if (startedMission == mission)
         {
-            onMissionStarted?.Invoke();
+            foreach (var action in actionsOnMissionStarted)
+            {
+                action?.Execute();
+            }
         }
     }
 
@@ -44,7 +51,10 @@ public class MissionEvents : MonoBehaviour
     {
         if (completedMission == mission)
         {
-            onMissionCompleted?.Invoke();
+            foreach (var action in actionsOnMissionCompleted)
+            {
+                action?.Execute();
+            }
         }
     }
 
@@ -63,11 +73,14 @@ public class MissionEvents : MonoBehaviour
                 if (!entry.hasTriggered)
                 {
                     entry.hasTriggered = true;
-                    entry.onObjectiveCompleted?.Invoke();
+                    
+                    foreach (var action in entry.actionsOnCompleted)
+                    {
+                        action?.Execute();
+                    }
                 }
                 break;
             }
         }
     }
-    
 }
