@@ -131,7 +131,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerControllerInput
   playerInput: {fileID: 8398350063837312167}
   moveInput: {x: 0, y: 0}
-  jumpPressed: 0
 --- !u!114 &7638830405764284899
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -6,17 +6,16 @@ using UnityEngine;
 
 
 [Serializable]
-[SerializableSelectorName("Complete Dialogue Sequence")]
+[SerializableSelectorName("Complete Dialogue Sequence", "NPC")]
 public class CompleteDialogueObjective : MissionObjective
 {
     [SerializeField, PrefabSelector("Assets/Prefabs/Npcs")]  private NPC npc;
     
     private string _targetID;
     
-    public override string Name => "Complete Dialogue";
     public override string Description => npc 
-        ? $"Talk with {npc.name}" 
-        : "Talk with (no NPC was set!)";
+        ? $"Talk With {npc.Name}" 
+        : "Talk With (No NPC Was Set)";
     
     public override void Initialize()
     {

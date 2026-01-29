@@ -67,6 +67,8 @@ public class PlayerController : MonoBehaviour
         _input.OnJumpAction += OnJumpAction;
         CleaningAnimationBehavior.OnStateEntered += BlockedMovementBehaviorEntered;
         CleaningAnimationBehavior.OnStateExited += BlockedMovementBehaviorExited;
+        OpeningPackageAnimationBehavior.OnStateEntered += BlockedMovementBehaviorEntered;
+        OpeningPackageAnimationBehavior.OnStateExited += BlockedMovementBehaviorExited;
     }
 
     private void OnDisable()
@@ -74,6 +76,8 @@ public class PlayerController : MonoBehaviour
         _input.OnJumpAction -= OnJumpAction;
         CleaningAnimationBehavior.OnStateEntered -= BlockedMovementBehaviorEntered;
         CleaningAnimationBehavior.OnStateExited -= BlockedMovementBehaviorExited;
+        OpeningPackageAnimationBehavior.OnStateExited -= BlockedMovementBehaviorExited;
+        OpeningPackageAnimationBehavior.OnStateEntered -= BlockedMovementBehaviorEntered;
     }
 
     public void SetState(PlayerState newState)
@@ -122,6 +126,7 @@ public class PlayerController : MonoBehaviour
         {
             GameEvents.WalkedAction();
         }
+        
     }
 
     private void FixedUpdate()
@@ -162,7 +167,7 @@ public class PlayerController : MonoBehaviour
 
     private void HandleJump()
     {
-        if ((_input.JumpPressed || jumpBufferTimer > 0) && (isGrounded || coyoteTimer > 0))
+        if (jumpBufferTimer > 0 && (isGrounded || coyoteTimer > 0))
         {
             velocity.y = jumpForce;
             jumpBufferTimer = 0;

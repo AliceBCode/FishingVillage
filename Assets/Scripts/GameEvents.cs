@@ -18,6 +18,7 @@ public static class GameEvents
     public static event Action<NPC> OnDialogueSequenceCompleted;
     public static event Action<Interactable> OnInteractedWith;
     public static event Action<string> OnTriggerEntered;
+    public static event Action<string> OnTriggerExited;
     
     public static event Action<SOMission> OnMissionStarted;
     public static event Action<SOMission> OnMissionCompleted;
@@ -78,6 +79,11 @@ public static class GameEvents
     public static void TriggerEntered(string triggerID)
     {
         OnTriggerEntered?.Invoke(triggerID);
+    }
+    
+    public static void TriggerExited(string triggerID)
+    {
+        OnTriggerExited?.Invoke(triggerID);
     }
     
     public static void MissionStarted(SOMission mission)

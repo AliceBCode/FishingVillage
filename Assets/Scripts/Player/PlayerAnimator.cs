@@ -9,6 +9,7 @@ public class PlayerAnimator : MonoBehaviour
 {
     private static readonly int Cleaning = Animator.StringToHash("Cleaning");
     private static readonly int BlowingHorn = Animator.StringToHash("BlowHorn");
+    private static readonly int OpenPackage = Animator.StringToHash("OpeningPackage");
 
     [Header("Jump Animation")] 
     [SerializeField] private float jumpDuration = 0.1f;
@@ -63,9 +64,9 @@ public class PlayerAnimator : MonoBehaviour
             case PlayerState.UsingHorn:
                 animator.SetTrigger(BlowingHorn);
                 break;
-            case PlayerState.Normal:
-            default:
-                throw new ArgumentOutOfRangeException();
+            case PlayerState.OpeningPackage:
+                animator.SetTrigger(OpenPackage);
+                break;
         }
     }
     

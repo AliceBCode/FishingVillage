@@ -43,9 +43,6 @@ public class AudioManager : MonoBehaviour
             case PlayerState.UsingHorn:
                 PlayHornSfx();
                 break;
-            case PlayerState.Normal:
-            default:
-                throw new ArgumentOutOfRangeException();
         }
     }
     

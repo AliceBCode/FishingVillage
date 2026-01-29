@@ -5,15 +5,14 @@ using UnityEngine;
 
 
 [Serializable]
-[SerializableSelectorName("Give Item to an NPC")]
+[SerializableSelectorName("Give Item", "NPC")]
 public class GiveItemToNpcObjective : MissionObjective
 {
     [SerializeField] private SOItem requiredItem;
     [SerializeField, PrefabSelector("Assets/Prefabs/Npcs")] private NPC npc;
     
     public SOItem RequiredItem => requiredItem;
-    public override string Name => "Give Item To NPC";
-    public override string Description => $"Give {(requiredItem ? requiredItem.Name : "Unknown Item")} to {(npc ? npc.Name : "Unknown NPC")}";
+    public override string Description => $"Give {(requiredItem ? requiredItem.Name : "(No Item Set)")} To {(npc ? npc.Name : "(No NPC Set)")}";
     
     private string _targetID;
     

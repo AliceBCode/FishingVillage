@@ -4,13 +4,13 @@ using UnityEngine;
 
 
 [Serializable]
-[SerializableSelectorName("Enter a trigger area")]
+[SerializableSelectorName("Enter Area", "Player")]
 public class EnterTriggerObjective : MissionObjective
 {
     [SerializeField] private string triggerID;
+    [SerializeField] private string areaDescription = "Area";
     
-    public override string Name => "Enter Trigger";
-    public override string Description => $"Enter trigger: {triggerID}";
+    public override string Description => $"Go To :{areaDescription}";
     
     public override void Initialize()
     {

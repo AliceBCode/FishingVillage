@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 
 [Serializable]
-[SerializableSelectorName("Give Item", "Player")]
+[SerializableSelectorName("Give Item", "Item")]
 public class GiveItemAction : GameAction
 {
     [SerializeField] private SOItem item;

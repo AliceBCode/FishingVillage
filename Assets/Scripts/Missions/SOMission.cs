@@ -5,7 +5,6 @@ using UnityEngine;
 [Serializable]
 public class MissionObjectiveEvents
 {
-    [HideInInspector] public string objectiveName;
     [SerializeReference, SerializableSelector] 
     public GameAction[] onObjectiveCompleted = Array.Empty<GameAction>();
     [HideInInspector] public bool hasTriggered;

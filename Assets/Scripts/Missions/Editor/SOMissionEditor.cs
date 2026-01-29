@@ -67,10 +67,8 @@ public override void OnInspectorGUI()
                 int originalIndex = validIndices[i];
                 
                 var entryProp = objectiveEventsProp.GetArrayElementAtIndex(i);
-                var objectiveNameProp = entryProp.FindPropertyRelative("objectiveName");
                 var actionsOnCompletedProp = entryProp.FindPropertyRelative("onObjectiveCompleted");
                 
-                objectiveNameProp.stringValue = $"{originalIndex}: {objective.Name}";
                 EditorGUILayout.Space(5);
                 EditorGUILayout.PropertyField(actionsOnCompletedProp, new GUIContent($"On Objective {originalIndex}: {objective.Description}"));
                 EditorGUILayout.Space(5);

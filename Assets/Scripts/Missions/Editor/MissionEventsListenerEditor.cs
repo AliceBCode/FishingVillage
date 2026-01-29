@@ -44,11 +44,9 @@ public class MissionEventsListenerEditor : Editor
             {
                 var objective = objectives[i];
                 var entryProp = objectiveEventsProp.GetArrayElementAtIndex(i);
-                var objectiveNameProp = entryProp.FindPropertyRelative("objectiveName");
                 var onCompletedProp = entryProp.FindPropertyRelative("onCompleted");
                 
-                objectiveNameProp.stringValue = $"{i}: {objective.Name}";
-                EditorGUILayout.PropertyField(onCompletedProp, new GUIContent($"Objective {i}: {objective.Description}"));
+                EditorGUILayout.PropertyField(onCompletedProp, new GUIContent($"On Objective {i}: {objective.Description}"));
             }
             
             EditorGUILayout.PropertyField(onMissionCompletedProp, new GUIContent("On Mission Completed"));

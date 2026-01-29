@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 
 [Serializable]
-[SerializableSelectorName("Remove Item", "Player")]
+[SerializableSelectorName("Remove Item", "Item")]
 public class RemoveItemAction : GameAction
 {
     [SerializeField] private SOItem item;
