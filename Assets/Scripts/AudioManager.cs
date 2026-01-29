@@ -20,18 +20,33 @@ public class AudioManager : MonoBehaviour
 
     private void OnEnable()
     {
-        GameEvents.OnHornUsed += PlayHornSfx;
-        GameEvents.OnCleaningUtensilsUsed += PlayCleaningSfx;
+        GameEvents.OnPlayerStateChanged += OnPlayerStateChanged;
         GameEvents.OnJumpedAction += PlayJumpSfx;
         GameEvents.OnWalkAction += PlayWalkSfx;
     }
     
     private void OnDisable()
     {
-        GameEvents.OnHornUsed -= PlayHornSfx;
-        GameEvents.OnCleaningUtensilsUsed -= PlayCleaningSfx;
+        GameEvents.OnPlayerStateChanged -= OnPlayerStateChanged;
         GameEvents.OnJumpedAction -= PlayJumpSfx;
         GameEvents.OnWalkAction -= PlayWalkSfx;
+    }
+    
+    
+    private void OnPlayerStateChanged(PlayerState newState)
+    {
+        switch (newState)
+        {
+            case PlayerState.UsingCleaningUtensils:
+                PlayCleaningSfx();
+                break;
+            case PlayerState.UsingHorn:
+                PlayHornSfx();
+                break;
+            case PlayerState.Normal:
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
     }
     
     private void PlayHornSfx()

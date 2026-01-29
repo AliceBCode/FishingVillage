@@ -4,8 +4,8 @@ using UnityEngine;
 using UnityEngine.Events;
 
 [Serializable]
-[SerializableSelectorName("Give Item", "Player")]
-public class GiveItemAction : GameAction
+[SerializableSelectorName("Remove Item", "Player")]
+public class RemoveItemAction : GameAction
 {
     [SerializeField] private SOItem item;
     
@@ -15,7 +15,7 @@ public class GiveItemAction : GameAction
     {
         if (item && PlayerInventory.Instance)
         {
-            PlayerInventory.Instance.TryAddItem(item);
+            PlayerInventory.Instance.TryRemoveItem(item);
         }
     }
 }

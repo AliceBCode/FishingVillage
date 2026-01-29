@@ -5,22 +5,22 @@ using UnityEngine;
 using UnityEngine.Events;
 
 [Serializable]
-[SerializableSelectorName("Start Dialogue", "NPC")]
-public class StartDialogueAction : GameAction
+[SerializableSelectorName("Toggle Proximity Dialogue", "NPC")]
+public class ToggleProximityDialogueAction : GameAction
 {
     [SerializeField, PrefabSelector("Assets/Prefabs/Npcs")]  private NPC npc;
-    [SerializeField] private SODialogueSequence dialogue;
+    [SerializeField] private bool allowProximityDialogue;
     
-    public override string ActionName => npc ? $"Start Dialogue with {npc.Name}" : "Start Dialogue (No NPC was set)";
+    public override string ActionName => npc ? $"Toggle {npc.Name} proximity dialogue" : $"Toggle NPC proximity dialogue (No NPC was set)";
     
     public override void Execute()
     {
-        if (npc && dialogue)
+        if (npc)
         {
             var sceneNpc = FindNpcInScene(npc.InteractableID);
             if (sceneNpc)
             {
-                sceneNpc.StartDialogueSequence(dialogue);
+                sceneNpc.EnableProximityDialogue(allowProximityDialogue);
             }
             else
             {

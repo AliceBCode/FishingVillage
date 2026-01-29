@@ -1,4 +1,5 @@
 using System;
+using DNExtensions.Utilities.PrefabSelector;
 using DNExtensions.Utilities.SerializableSelector;
 using UnityEngine;
 
@@ -8,28 +9,28 @@ using UnityEngine;
 [SerializableSelectorName("Complete Dialogue Sequence")]
 public class CompleteDialogueObjective : MissionObjective
 {
-    [SerializeField] private NPC npcReference;
+    [SerializeField, PrefabSelector("Assets/Prefabs/Npcs")]  private NPC npc;
     
     private string _targetID;
     
     public override string Name => "Complete Dialogue";
-    public override string Description => npcReference 
-        ? $"Talk with {npcReference.name}" 
+    public override string Description => npc 
+        ? $"Talk with {npc.name}" 
         : "Talk with (no NPC was set!)";
     
     public override void Initialize()
     {
-        if (!npcReference)
+        if (!npc)
         {
             Debug.LogError("No NPC reference set in dialogue objective!");
             return;
         }
         
-        _targetID = npcReference.InteractableID;
+        _targetID = npc.InteractableID;
         
         if (string.IsNullOrEmpty(_targetID))
         {
-            Debug.LogError($"NPC prefab {npcReference.name} has no ID set!");
+            Debug.LogError($"NPC prefab {npc.name} has no ID set!");
             return;
         }
         

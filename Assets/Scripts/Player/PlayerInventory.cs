@@ -12,7 +12,6 @@ public class PlayerInventory : MonoBehaviour
     public static PlayerInventory Instance;
     
     [Header("Inventory Settings")]
-    [SerializeField] private int maxSlots = 10;
     [SerializeField, ReadOnly] private List<SOItem> allItems = new List<SOItem>();
     [SerializeField, ReadOnly] private SOItem equippedItem;
     
@@ -24,8 +23,6 @@ public class PlayerInventory : MonoBehaviour
     public List<SOItem> AllItems => allItems;
     public SOItem EquippedItem => equippedItem;
     public int Count => allItems.Count;
-    public int MaxSlots => maxSlots;
-    public bool IsFull => allItems.Count >= maxSlots;
     public bool IsEmpty => allItems.Count == 0;
 
     private void Awake()
@@ -106,11 +103,6 @@ public class PlayerInventory : MonoBehaviour
             return false;
         }
         
-        if (IsFull)
-        {
-            Debug.LogWarning($"Inventory is full. Cannot add {item.name}.");
-            return false;
-        }
         
         allItems.Add(item);
         OnItemAdded(item);

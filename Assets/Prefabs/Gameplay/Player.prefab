@@ -164,6 +164,7 @@ MonoBehaviour:
   hitCeiling: 0
   currentPlatform: {fileID: 0}
   allowControl: 1
+  currentState: 0
 --- !u!114 &899811438610226523
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -196,7 +197,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2cf9512fcc341a7b7c3680633ee7d05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerInventory
-  maxSlots: 10
   allItems: []
   equippedItem: {fileID: 0}
 --- !u!114 &3071058934891126152

@@ -1,4 +1,5 @@
 using System;
+using DNExtensions.Utilities.PrefabSelector;
 using DNExtensions.Utilities.SerializableSelector;
 using UnityEngine;
 
@@ -8,28 +9,28 @@ using UnityEngine;
 public class GiveItemToNpcObjective : MissionObjective
 {
     [SerializeField] private SOItem requiredItem;
-    [SerializeField] private NPC npcReference;
+    [SerializeField, PrefabSelector("Assets/Prefabs/Npcs")] private NPC npc;
     
     public SOItem RequiredItem => requiredItem;
     public override string Name => "Give Item To NPC";
-    public override string Description => $"Give {(requiredItem ? requiredItem.Name : "Unknown Item")} to {(npcReference ? npcReference.Name : "Unknown NPC")}";
+    public override string Description => $"Give {(requiredItem ? requiredItem.Name : "Unknown Item")} to {(npc ? npc.Name : "Unknown NPC")}";
     
-    private string targetID;
+    private string _targetID;
     
     
     public override void Initialize()
     {
-        if (!npcReference)
+        if (!npc)
         {
             Debug.LogError("No NPC prefab reference set in objective!");
             return;
         }
         
-        targetID = npcReference.InteractableID;
+        _targetID = npc.InteractableID;
         
-        if (string.IsNullOrEmpty(targetID))
+        if (string.IsNullOrEmpty(_targetID))
         {
-            Debug.LogError($"NPC prefab {npcReference.Name} has no ID set!");
+            Debug.LogError($"NPC prefab {npc.Name} has no ID set!");
             return;
         }
 
@@ -49,7 +50,7 @@ public class GiveItemToNpcObjective : MissionObjective
 
     public bool IsNpc(NPC npc)
     {
-        return npc && npc.InteractableID == targetID;
+        return npc && npc.InteractableID == _targetID;
     }
     
     private void OnItemGivenToNPC(SOItem item, NPC npc)

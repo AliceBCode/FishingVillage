@@ -8,6 +8,7 @@ using UnityEngine;
 public class PlayerAnimator : MonoBehaviour
 {
     private static readonly int Cleaning = Animator.StringToHash("Cleaning");
+    private static readonly int BlowingHorn = Animator.StringToHash("BlowHorn");
 
     [Header("Jump Animation")] 
     [SerializeField] private float jumpDuration = 0.1f;
@@ -35,13 +36,15 @@ public class PlayerAnimator : MonoBehaviour
     private void OnEnable()
     {
         GameEvents.OnJumpedAction += PlayJumpedActionAnimation;
-        GameEvents.OnCleaningUtensilsUsed += PlayCleaningAnimation;
+        GameEvents.OnPlayerStateChanged += OnPlayerStateChanged;
     }
+
+
 
     private void OnDisable()
     {
         GameEvents.OnJumpedAction -= PlayJumpedActionAnimation;
-        GameEvents.OnCleaningUtensilsUsed -= PlayCleaningAnimation;
+        GameEvents.OnPlayerStateChanged -= OnPlayerStateChanged;
     }
 
     private void Update()
@@ -49,11 +52,23 @@ public class PlayerAnimator : MonoBehaviour
         HandleHorizontalViewDirection();
         HandleVerticalViewDirection();
     }
-
-    private void PlayCleaningAnimation()
+    
+    private void OnPlayerStateChanged(PlayerState newState)
     {
-        animator.SetTrigger(Cleaning);
+        switch (newState)
+        {
+            case PlayerState.UsingCleaningUtensils:
+                animator.SetTrigger(Cleaning);
+                break;
+            case PlayerState.UsingHorn:
+                animator.SetTrigger(BlowingHorn);
+                break;
+            case PlayerState.Normal:
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
     }
+    
     
     private void PlayJumpedActionAnimation()
     {

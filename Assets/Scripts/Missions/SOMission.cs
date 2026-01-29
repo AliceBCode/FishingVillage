@@ -41,13 +41,19 @@ public class SOMission : ScriptableObject
     public MissionObjective[] CloneObjectives()
     {
         var clones = new MissionObjective[objectives.Length];
-        
+    
         for (int i = 0; i < objectives.Length; i++)
         {
+            if (objectives[i] == null)
+            {
+                clones[i] = null;
+                continue;
+            }
+        
             clones[i] = (MissionObjective)Activator.CreateInstance(objectives[i].GetType());
             JsonUtility.FromJsonOverwrite(JsonUtility.ToJson(objectives[i]), clones[i]);
         }
-        
+    
         return clones;
     }
     

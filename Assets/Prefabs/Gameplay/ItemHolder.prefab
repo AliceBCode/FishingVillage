@@ -68,7 +68,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ItemHolder
   canInteract: 1
-  limitInteractionsToOnce: 0
+  limitInteractionsToOnce: 1
   actionsOnInteract:
   - rid: 8175020209025843294
   hasInteracted: 0

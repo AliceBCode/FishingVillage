@@ -4,14 +4,13 @@ using UnityEngine;
 public static class GameEvents
 {
     public static event Action<PlayerInventory> OnInventoryChanged;
+    public static event Action<PlayerState> OnPlayerStateChanged; 
     public static event Action<SOItem> OnItemObtained;
     public static event Action<SOItem> OnItemRemoved;
     public static event Action<SOItem> OnItemUsed;
     public static event Action<SOItem> OnItemEquipped;
     public static event Action OnWalkAction;
     public static event Action OnJumpedAction;
-    public static event Action OnCleaningUtensilsUsed;
-    public static event Action OnHornUsed;
     
     
     public static event Action<SOItem, NPC> OnItemGivenToNpc;
@@ -44,6 +43,11 @@ public static class GameEvents
     public static void InventoryChanged(PlayerInventory inventory)
     {
         OnInventoryChanged?.Invoke(inventory);
+    }
+
+    public static void PlayerStateChanged(PlayerState state)
+    {
+        OnPlayerStateChanged?.Invoke(state);
     }
 
     public static void ItemEquipped(SOItem item)
@@ -95,15 +99,6 @@ public static class GameEvents
     {
         OnJumpedAction?.Invoke();
     }
-
-    public static void UsedCleaningUtensils()
-    {
-        OnCleaningUtensilsUsed?.Invoke();
-    }
-
-    public static void UsedHorn()
-    {
-        OnHornUsed?.Invoke();
-    }
+    
 
 }
