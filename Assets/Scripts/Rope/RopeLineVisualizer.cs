@@ -1,4 +1,5 @@
-using DNExtensions.Button;
+
+using DNExtensions.Utilities.Button;
 using UnityEngine;
 
 [RequireComponent( typeof(LineRenderer))]

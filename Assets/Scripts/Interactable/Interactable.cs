@@ -1,6 +1,6 @@
 ﻿using System;
-using DNExtensions;
-using DNExtensions.Button;
+using DNExtensions.Utilities;
+using DNExtensions.Utilities.Button;
 using UnityEngine;
 
 [SelectionBase]

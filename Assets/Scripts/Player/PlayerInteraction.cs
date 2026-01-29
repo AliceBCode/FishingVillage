@@ -1,5 +1,6 @@
-using DNExtensions;
-using DNExtensions.SerializedInterface;
+
+using DNExtensions.Utilities;
+using DNExtensions.Utilities.SerializedInterface;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
