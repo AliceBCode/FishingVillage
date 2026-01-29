@@ -1,9 +1,10 @@
 using System;
+using DNExtensions.Utilities.SerializableSelector;
 using UnityEngine;
 
 
 [Serializable]
-[AddTypeMenu("Give Item to an NPC")]
+[SerializableSelectorName("Give Item to an NPC")]
 public class GiveItemToNpcObjective : MissionObjective
 {
     [SerializeField] private SOItem requiredItem;

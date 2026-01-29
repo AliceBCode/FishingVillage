@@ -1,9 +1,10 @@
 using System;
+using DNExtensions.Utilities.SerializableSelector;
 using UnityEngine;
 using UnityEngine.Events;
 
 [Serializable]
-[AddTypeMenu("Start Mission")]
+[SerializableSelectorName("Start Mission")]
 public class StartMissionAction : GameAction
 {
     [SerializeField] private SOMission mission;

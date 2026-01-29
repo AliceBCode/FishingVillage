@@ -1,15 +1,16 @@
 using System;
+using DNExtensions.Utilities.SerializableSelector;
 using UnityEngine;
 
 
 
 [Serializable]
-[AddTypeMenu("Complete Dialogue Sequence")]
+[SerializableSelectorName("Complete Dialogue Sequence")]
 public class CompleteDialogueObjective : MissionObjective
 {
     [SerializeField] private NPC npcReference;
     
-    private string targetID;
+    private string _targetID;
     
     public override string Name => "Complete Dialogue";
     public override string Description => npcReference 
@@ -24,9 +25,9 @@ public class CompleteDialogueObjective : MissionObjective
             return;
         }
         
-        targetID = npcReference.InteractableID;
+        _targetID = npcReference.InteractableID;
         
-        if (string.IsNullOrEmpty(targetID))
+        if (string.IsNullOrEmpty(_targetID))
         {
             Debug.LogError($"NPC prefab {npcReference.name} has no ID set!");
             return;
@@ -48,7 +49,7 @@ public class CompleteDialogueObjective : MissionObjective
     private void OnDialogueCompleted(NPC npc)
     {
         
-        if (npc && npc.InteractableID == targetID)
+        if (npc && npc.InteractableID == _targetID)
         {
             SetMet();
         }

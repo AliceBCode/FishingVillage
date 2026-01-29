@@ -1,9 +1,10 @@
 using System;
+using DNExtensions.Utilities.SerializableSelector;
 using UnityEngine;
 
 
 [Serializable]
-[AddTypeMenu("Interact sequence")]
+[SerializableSelectorName("Interact sequence")]
 public class InteractSequenceObjective : MissionObjective
 {
     [SerializeField] private Interactable[] requiredSequence;

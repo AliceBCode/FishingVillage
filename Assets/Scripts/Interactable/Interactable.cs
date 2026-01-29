@@ -1,6 +1,7 @@
 ﻿using System;
 using DNExtensions.Utilities;
 using DNExtensions.Utilities.Button;
+using DNExtensions.Utilities.SerializableSelector;
 using UnityEngine;
 
 [SelectionBase]
@@ -10,7 +11,7 @@ public abstract class Interactable : MonoBehaviour, IInteractable
     [Header("Interactable Settings")]
     [SerializeField] private bool canInteract = true;
     [SerializeField] private bool limitInteractionsToOnce;
-    [SerializeReference, SubclassSelector] 
+    [SerializeReference, SerializableSelector] 
     private GameAction[] actionsOnInteract = Array.Empty<GameAction>();
     
     [SerializeField, ReadOnly] private bool hasInteracted;

@@ -1,9 +1,10 @@
 using System;
+using DNExtensions.Utilities.SerializableSelector;
 using UnityEngine;
 using UnityEngine.Events;
 
 [Serializable]
-[AddTypeMenu("Start NPC Dialogue")]
+[SerializableSelectorName("Start NPC Dialogue")]
 public class StartDialogueAction : GameAction
 {
     [SerializeField] private NPC npc;

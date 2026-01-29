@@ -1,11 +1,12 @@
 using System;
+using DNExtensions.Utilities.SerializableSelector;
 using UnityEngine;
 
 [Serializable]
 public class MissionObjectiveEvents
 {
     [HideInInspector] public string objectiveName;
-    [SerializeReference, SubclassSelector] 
+    [SerializeReference, SerializableSelector] 
     public GameAction[] onObjectiveCompleted = Array.Empty<GameAction>();
     [HideInInspector] public bool hasTriggered;
 }
@@ -17,15 +18,15 @@ public class SOMission : ScriptableObject
     [SerializeField] private new string name;
     [SerializeField, TextArea] private string description;
     [SerializeField] private Sprite icon;
-    [SerializeReference, SubclassSelector] 
+    [SerializeReference, SerializableSelector] 
     private MissionObjective[] objectives = Array.Empty<MissionObjective>();
     
     [Header("Events")]
-    [SerializeReference, SubclassSelector] 
+    [SerializeReference, SerializableSelector] 
     private GameAction[] onStarted = Array.Empty<GameAction>();
     [SerializeField] 
     private MissionObjectiveEvents[] onObjectiveCompleted = Array.Empty<MissionObjectiveEvents>();
-    [SerializeReference, SubclassSelector] 
+    [SerializeReference, SerializableSelector] 
     private GameAction[] onCompleted = Array.Empty<GameAction>();
     
 

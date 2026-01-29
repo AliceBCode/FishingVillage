@@ -1,9 +1,10 @@
 using System;
+using DNExtensions.Utilities.SerializableSelector;
 using UnityEngine;
 
 
 [Serializable]
-[AddTypeMenu("Talk to NPC")]
+[SerializableSelectorName("Talk to NPC")]
 public class TalkToNpcObjective : MissionObjective
 {
     [SerializeField] private NPC npcReference;

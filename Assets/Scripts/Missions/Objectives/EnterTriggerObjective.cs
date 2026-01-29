@@ -1,9 +1,10 @@
 using System;
+using DNExtensions.Utilities.SerializableSelector;
 using UnityEngine;
 
 
 [Serializable]
-[AddTypeMenu("Enter a trigger area")]
+[SerializableSelectorName("Enter a trigger area")]
 public class EnterTriggerObjective : MissionObjective
 {
     [SerializeField] private string triggerID;

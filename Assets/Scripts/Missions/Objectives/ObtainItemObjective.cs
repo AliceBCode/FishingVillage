@@ -1,9 +1,10 @@
 using System;
+using DNExtensions.Utilities.SerializableSelector;
 using UnityEngine;
 
 
 [Serializable]
-[AddTypeMenu("Obtain an Item")]
+[SerializableSelectorName("Obtain an Item")]
 public class ObtainItemObjective : MissionObjective
 {
     [SerializeField] private SOItem requiredItem;

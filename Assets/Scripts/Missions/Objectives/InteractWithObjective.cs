@@ -1,9 +1,10 @@
 using System;
+using DNExtensions.Utilities.SerializableSelector;
 using UnityEngine;
 
 
 [Serializable]
-[AddTypeMenu("Interact with")]
+[SerializableSelectorName("Interact with")]
 public class InteractWithObjective : MissionObjective
 {
     [SerializeField] private Interactable interactableReference;
