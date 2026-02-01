@@ -1,12 +1,14 @@
 using System;
+using DNExtensions.Utilities.PrefabSelector;
+using DNExtensions.Utilities.SerializableSelector;
 using UnityEngine;
 using UnityEngine.Events;
 
 [Serializable]
-[AddTypeMenu("Start NPC Dialogue")]
+[SerializableSelectorName("Start Dialogue", "NPC")]
 public class StartDialogueAction : GameAction
 {
-    [SerializeField] private NPC npc;
+    [SerializeField, PrefabSelector("Assets/Prefabs/Npcs")]  private NPC npc;
     [SerializeField] private SODialogueSequence dialogue;
     
     public override string ActionName => npc ? $"Start Dialogue with {npc.Name}" : "Start Dialogue (No NPC was set)";

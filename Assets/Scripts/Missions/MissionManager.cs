@@ -2,18 +2,18 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using DNExtensions;
+using DNExtensions.Utilities;
 using UnityEngine;
 
 public class MissionManager : MonoBehaviour
 {
-
     public static MissionManager Instance;
-    
     
     [SerializeField, ReadOnly] private List<SOMission> activeMissions;
     [SerializeField, ReadOnly] private List<SOMission> completedMissions;
     
     private Dictionary<SOMission, MissionObjective[]> missionObjectives;
+    private Dictionary<SOMission, MissionObjectiveEvents[]> missionObjectiveEvents;
 
     private void Awake()
     {
@@ -28,6 +28,7 @@ public class MissionManager : MonoBehaviour
         activeMissions = new List<SOMission>();
         completedMissions = new List<SOMission>();
         missionObjectives = new Dictionary<SOMission, MissionObjective[]>();
+        missionObjectiveEvents = new Dictionary<SOMission, MissionObjectiveEvents[]>();
         
         MissionObjective.OnObjectiveMet += OnObjectiveCompleted;
     }
@@ -35,7 +36,6 @@ public class MissionManager : MonoBehaviour
     private void OnDestroy()
     {
         if (Instance != this) return;
-        
         
         MissionObjective.OnObjectiveMet -= OnObjectiveCompleted;
             
@@ -48,8 +48,35 @@ public class MissionManager : MonoBehaviour
         }
     }
 
-    private void OnObjectiveCompleted(MissionObjective objective)
+    private void OnObjectiveCompleted(MissionObjective completedObjective)
     {
+        foreach (var kvp in missionObjectives)
+        {
+            var mission = kvp.Key;
+            var objectives = kvp.Value;
+        
+            for (int i = 0; i < objectives.Length; i++)
+            {
+                if (objectives[i] == completedObjective)
+                {
+                    if (missionObjectiveEvents.TryGetValue(mission, out var events) && i < events.Length)
+                    {
+                        var eventEntry = events[i];
+                        if (!eventEntry.hasTriggered)
+                        {
+                            eventEntry.hasTriggered = true;
+                        
+                            foreach (var action in eventEntry.onObjectiveCompleted)
+                            {
+                                action?.Execute();
+                            }
+                        }
+                    }
+                    break;
+                }
+            }
+        }
+    
         CheckActiveMissionsForCompletion();
     }
     
@@ -73,7 +100,6 @@ public class MissionManager : MonoBehaviour
             CompleteMission(mission);
         }
     }
-    
 
     private void CompleteMission(SOMission mission)
     {
@@ -97,6 +123,13 @@ public class MissionManager : MonoBehaviour
         activeMissions.Remove(mission);
         completedMissions.Add(mission);
         missionObjectives.Remove(mission);
+        missionObjectiveEvents.Remove(mission);
+        
+        // Execute completion actions from SO
+        foreach (var action in mission.OnCompleted)
+        {
+            action?.Execute();
+        }
         
         GameEvents.MissionCompleted(mission);
     }
@@ -106,7 +139,10 @@ public class MissionManager : MonoBehaviour
         if (!mission || completedMissions.Contains(mission) || activeMissions.Contains(mission)) return;
     
         var objectives = mission.CloneObjectives();
+        var objectiveEvents = mission.CloneObjectiveEvents();
+        
         missionObjectives[mission] = objectives;
+        missionObjectiveEvents[mission] = objectiveEvents;
         
         for (int i = 0; i < objectives.Length; i++)
         {
@@ -121,6 +157,13 @@ public class MissionManager : MonoBehaviour
         }
     
         activeMissions.Add(mission);
+        
+        // Execute start actions from SO
+        foreach (var action in mission.OnStarted)
+        {
+            action?.Execute();
+        }
+        
         GameEvents.MissionStarted(mission);
     }
     

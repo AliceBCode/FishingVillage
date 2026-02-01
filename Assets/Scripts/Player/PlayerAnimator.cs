@@ -1,5 +1,6 @@
 using System;
 using DNExtensions;
+using DNExtensions.Utilities;
 using PrimeTween;
 using UnityEngine;
 
@@ -7,6 +8,8 @@ using UnityEngine;
 public class PlayerAnimator : MonoBehaviour
 {
     private static readonly int Cleaning = Animator.StringToHash("Cleaning");
+    private static readonly int BlowingHorn = Animator.StringToHash("BlowHorn");
+    private static readonly int OpenPackage = Animator.StringToHash("OpeningPackage");
 
     [Header("Jump Animation")] 
     [SerializeField] private float jumpDuration = 0.1f;
@@ -34,13 +37,15 @@ public class PlayerAnimator : MonoBehaviour
     private void OnEnable()
     {
         GameEvents.OnJumpedAction += PlayJumpedActionAnimation;
-        GameEvents.OnCleaningUtensilsUsed += PlayCleaningAnimation;
+        GameEvents.OnPlayerStateChanged += OnPlayerStateChanged;
     }
+
+
 
     private void OnDisable()
     {
         GameEvents.OnJumpedAction -= PlayJumpedActionAnimation;
-        GameEvents.OnCleaningUtensilsUsed -= PlayCleaningAnimation;
+        GameEvents.OnPlayerStateChanged -= OnPlayerStateChanged;
     }
 
     private void Update()
@@ -48,11 +53,23 @@ public class PlayerAnimator : MonoBehaviour
         HandleHorizontalViewDirection();
         HandleVerticalViewDirection();
     }
-
-    private void PlayCleaningAnimation()
+    
+    private void OnPlayerStateChanged(PlayerState newState)
     {
-        animator.SetTrigger(Cleaning);
+        switch (newState)
+        {
+            case PlayerState.UsingCleaningUtensils:
+                animator.SetTrigger(Cleaning);
+                break;
+            case PlayerState.UsingHorn:
+                animator.SetTrigger(BlowingHorn);
+                break;
+            case PlayerState.OpeningPackage:
+                animator.SetTrigger(OpenPackage);
+                break;
+        }
     }
+    
     
     private void PlayJumpedActionAnimation()
     {

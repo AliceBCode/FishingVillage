@@ -1,4 +1,5 @@
-using DNExtensions;
+using System;
+using DNExtensions.Utilities;
 using PrimeTween;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -36,10 +37,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField, ReadOnly] private bool hitCeiling;
     [SerializeField, ReadOnly] private MovingPlatform currentPlatform;
     [SerializeField, ReadOnly] private bool allowControl = true;
+    [SerializeField] private PlayerState currentState = PlayerState.Normal;
 
     private CharacterController _controller;
     private PlayerControllerInput _input;
-    private Vector3 platformVelocity;
+    private Vector3 _platformVelocity;
     
     public bool IsGrounded => isGrounded;
     public bool AllowControl => allowControl;
@@ -63,25 +65,36 @@ public class PlayerController : MonoBehaviour
     private void OnEnable()
     {
         _input.OnJumpAction += OnJumpAction;
-        CleaningAnimationBehavior.OnStateEntered += CleaningAnimationBehaviorOnOnStateEntered;
-        CleaningAnimationBehavior.OnStateExited += CleaningAnimationBehaviorOnOnStateExited;
+        CleaningAnimationBehavior.OnStateEntered += BlockedMovementBehaviorEntered;
+        CleaningAnimationBehavior.OnStateExited += BlockedMovementBehaviorExited;
+        OpeningPackageAnimationBehavior.OnStateEntered += BlockedMovementBehaviorEntered;
+        OpeningPackageAnimationBehavior.OnStateExited += BlockedMovementBehaviorExited;
     }
 
     private void OnDisable()
     {
         _input.OnJumpAction -= OnJumpAction;
-        CleaningAnimationBehavior.OnStateEntered -= CleaningAnimationBehaviorOnOnStateEntered;
-        CleaningAnimationBehavior.OnStateExited -= CleaningAnimationBehaviorOnOnStateExited;
+        CleaningAnimationBehavior.OnStateEntered -= BlockedMovementBehaviorEntered;
+        CleaningAnimationBehavior.OnStateExited -= BlockedMovementBehaviorExited;
+        OpeningPackageAnimationBehavior.OnStateExited -= BlockedMovementBehaviorExited;
+        OpeningPackageAnimationBehavior.OnStateEntered -= BlockedMovementBehaviorEntered;
+    }
+
+    public void SetState(PlayerState newState)
+    {
+        currentState = newState;
+        GameEvents.PlayerStateChanged(currentState);
     }
     
-    private void CleaningAnimationBehaviorOnOnStateEntered()
+    private void BlockedMovementBehaviorEntered()
     {
         allowControl = false;
         velocity = Vector3.zero;
     }
     
-    private void CleaningAnimationBehaviorOnOnStateExited()
+    private void BlockedMovementBehaviorExited()
     {
+        SetState(PlayerState.Normal);
         allowControl = true;
     }
 
@@ -113,6 +126,7 @@ public class PlayerController : MonoBehaviour
         {
             GameEvents.WalkedAction();
         }
+        
     }
 
     private void FixedUpdate()
@@ -131,7 +145,7 @@ public class PlayerController : MonoBehaviour
         velocity.x = _input.MoveInput.x * moveSpeed;
         velocity.z = _input.MoveInput.y * moveSpeed;
     
-        Vector3 finalVelocity = velocity + platformVelocity;
+        Vector3 finalVelocity = velocity + _platformVelocity;
         _controller.Move(finalVelocity * Time.fixedDeltaTime);
     }
 
@@ -153,7 +167,7 @@ public class PlayerController : MonoBehaviour
 
     private void HandleJump()
     {
-        if ((_input.JumpPressed || jumpBufferTimer > 0) && (isGrounded || coyoteTimer > 0))
+        if (jumpBufferTimer > 0 && (isGrounded || coyoteTimer > 0))
         {
             velocity.y = jumpForce;
             jumpBufferTimer = 0;
@@ -181,7 +195,7 @@ public class PlayerController : MonoBehaviour
         if (!isGrounded)
         {
             currentPlatform = null;
-            platformVelocity = Vector3.zero;
+            _platformVelocity = Vector3.zero;
             return;
         }
 
@@ -192,13 +206,13 @@ public class PlayerController : MonoBehaviour
             if (col.TryGetComponent(out MovingPlatform platform))
             {
                 currentPlatform = platform;
-                platformVelocity = platform.Velocity;
+                _platformVelocity = platform.Velocity;
                 return;
             }
         }
 
         currentPlatform = null;
-        platformVelocity = Vector3.zero;
+        _platformVelocity = Vector3.zero;
     }
     
     public void ForceJump(float force)

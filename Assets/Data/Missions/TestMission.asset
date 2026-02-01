@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78efe0c056f2413ab5f94b61bf33bb1c, type: 3}
   m_Name: TestMission
   m_EditorClassIdentifier: Assembly-CSharp::SOMission
-  name: A Vary Tasting Mission
+  name: A Vary Testing Mission
   description: 
   icon: {fileID: 0}
   objectives:
@@ -20,15 +20,44 @@ MonoBehaviour:
   - rid: 8175020186713456725
   - rid: 8175020186713456726
   - rid: 8175020186713456727
+  onStarted:
+  - rid: 8175020209025843303
+  - rid: 4802877461282947378
+  onObjectiveCompleted:
+  - objectiveName: '0: Complete Dialogue'
+    onObjectiveCompleted: []
+    hasTriggered: 0
+  - objectiveName: '1: Obtain Item'
+    onObjectiveCompleted: []
+    hasTriggered: 0
+  - objectiveName: '2: Give Item To NPC'
+    onObjectiveCompleted:
+    - rid: 8175020209025843308
+    hasTriggered: 0
+  - objectiveName: '3: Complete Dialogue'
+    onObjectiveCompleted: []
+    hasTriggered: 0
+  onCompleted:
+  - rid: 4802877461282947379
   references:
     version: 2
     RefIds:
+    - rid: 4802877461282947378
+      type: {class: ToggleProximityDialogueAction, ns: , asm: Assembly-CSharp}
+      data:
+        npc: {fileID: 237702557246814423, guid: e157842bb6e6be04bbbfc995a1b0a8f9, type: 3}
+        allowProximityDialogue: 0
+    - rid: 4802877461282947379
+      type: {class: ToggleProximityDialogueAction, ns: , asm: Assembly-CSharp}
+      data:
+        npc: {fileID: 237702557246814423, guid: e157842bb6e6be04bbbfc995a1b0a8f9, type: 3}
+        allowProximityDialogue: 1
     - rid: 8175020186713456724
       type: {class: CompleteDialogueObjective, ns: , asm: Assembly-CSharp}
       data:
         isHidden: 0
         requiresPreviousObjective: 0
-        npcReference: {fileID: 4684444579216439139, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
+        npc: {fileID: 237702557246814423, guid: e157842bb6e6be04bbbfc995a1b0a8f9, type: 3}
     - rid: 8175020186713456725
       type: {class: ObtainItemObjective, ns: , asm: Assembly-CSharp}
       data:
@@ -41,10 +70,20 @@ MonoBehaviour:
         isHidden: 0
         requiresPreviousObjective: 1
         requiredItem: {fileID: 11400000, guid: 9db520021735ba9428c293b40d5975ac, type: 2}
-        npcReference: {fileID: 4684444579216439139, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
+        npc: {fileID: 237702557246814423, guid: e157842bb6e6be04bbbfc995a1b0a8f9, type: 3}
     - rid: 8175020186713456727
       type: {class: CompleteDialogueObjective, ns: , asm: Assembly-CSharp}
       data:
         isHidden: 0
         requiresPreviousObjective: 1
-        npcReference: {fileID: 4684444579216439139, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
+        npc: {fileID: 237702557246814423, guid: e157842bb6e6be04bbbfc995a1b0a8f9, type: 3}
+    - rid: 8175020209025843303
+      type: {class: StartDialogueAction, ns: , asm: Assembly-CSharp}
+      data:
+        npc: {fileID: 237702557246814423, guid: e157842bb6e6be04bbbfc995a1b0a8f9, type: 3}
+        dialogue: {fileID: 11400000, guid: 826c2b5f6e31c2744999dcdc20465bbb, type: 2}
+    - rid: 8175020209025843308
+      type: {class: StartDialogueAction, ns: , asm: Assembly-CSharp}
+      data:
+        npc: {fileID: 237702557246814423, guid: e157842bb6e6be04bbbfc995a1b0a8f9, type: 3}
+        dialogue: {fileID: 11400000, guid: dc64cfbb0ff898c45b2aef12eff3cdc6, type: 2}

@@ -1,17 +1,17 @@
 using System;
+using DNExtensions.Utilities.SerializableSelector;
 using UnityEngine;
 
 
 [Serializable]
-[AddTypeMenu("Interact with")]
+[SerializableSelectorName("Interact With", "Interactable")]
 public class InteractWithObjective : MissionObjective
 {
     [SerializeField] private Interactable interactableReference;
     
     private string targetID;
     
-    public override string Name => "Interact with";
-    public override string Description => $"Interact with {(interactableReference ? interactableReference.name : "Unknown")}";
+    public override string Description => $"Interact With {(interactableReference ? interactableReference.name : "(No Interactable Set)")}";
     
     public override void Initialize()
     {

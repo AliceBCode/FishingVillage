@@ -1,5 +1,6 @@
 using System;
-using DNExtensions;
+using DNExtensions.Utilities;
+using DNExtensions.Utilities.SerializableSelector;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Item", menuName = "Scriptable Objects/Item")]
@@ -10,13 +11,9 @@ public class SOItem : ScriptableObject
     [SerializeField, TextArea] private string description;
     [SerializeField, Preview] private Sprite icon;
     [SerializeField] private bool usable;
-    [SerializeField, ShowIf("usable")] private Usage usage;
+    [SerializeReference, SerializableSelector, ShowIf("usable")] private GameAction[] actionsOnUse;
     
-    private enum Usage
-    {
-        CleaningUtensils = 0,
-        Horn = 1,
-    }
+
     
     
     public string Name => name;
@@ -28,17 +25,10 @@ public class SOItem : ScriptableObject
     public void Use()
     {
         if (!usable) return;
-        
-        switch (usage)
+
+        foreach (var action in actionsOnUse)
         {
-            case Usage.CleaningUtensils:
-                GameEvents.UsedCleaningUtensils();
-                break;
-            case Usage.Horn:
-                GameEvents.UsedHorn();
-                break;
-            default:
-                throw new ArgumentOutOfRangeException();
+            action.Execute();
         }
         
         GameEvents.ItemUsed(this);

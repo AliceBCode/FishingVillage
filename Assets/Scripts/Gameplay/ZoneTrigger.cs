@@ -1,5 +1,6 @@
 using System;
 using DNExtensions;
+using DNExtensions.Utilities;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
@@ -22,7 +23,7 @@ public class ZoneTrigger : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (hasTriggered && triggerOnce) return;
+
         
         if (((1 << other.gameObject.layer) & triggerLayer) == 0) return;
         
@@ -34,8 +35,24 @@ public class ZoneTrigger : MonoBehaviour
             {
                 GameEvents.TriggerEntered(triggerID);
             }
-            
-            onTriggered?.Invoke();
+
+            if (!hasTriggered || !triggerOnce)
+            {
+                onTriggered?.Invoke();
+            }
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (((1 << other.gameObject.layer) & triggerLayer) == 0) return;
+        
+        if (other.TryGetComponent(out PlayerController player))
+        {
+            if (!string.IsNullOrEmpty(triggerID))
+            {
+                GameEvents.TriggerExited(triggerID);
+            }
         }
     }
 

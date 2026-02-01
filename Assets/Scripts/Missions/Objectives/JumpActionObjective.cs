@@ -1,11 +1,11 @@
 using System;
+using DNExtensions.Utilities.SerializableSelector;
 using UnityEngine;
 
 [Serializable]
-[AddTypeMenu("Jump action")]
+[SerializableSelectorName("Jump Action", "Player")]
 public class JumpActionObjective : MissionObjective
 {
-    public override string Name => "Jump Action";
     public override string Description => $"Jump";
     
     public override void Initialize()

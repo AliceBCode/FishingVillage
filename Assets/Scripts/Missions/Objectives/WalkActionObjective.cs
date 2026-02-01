@@ -1,12 +1,11 @@
 using System;
-using UnityEngine;
+using DNExtensions.Utilities.SerializableSelector;
 
 
 [Serializable]
-[AddTypeMenu("Walk action")]
+[SerializableSelectorName("Walk Action", "Player")]
 public class WalkActionObjective : MissionObjective
 {
-    public override string Name => "Walk Action";
     public override string Description => $"Walk";
     
     public override void Initialize()

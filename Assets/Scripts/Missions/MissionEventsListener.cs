@@ -1,26 +1,22 @@
 using System;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.Events;
 
 [Serializable]
-public class ObjectiveEventEntry
+public class ObjectiveSceneEvent
 {
     [HideInInspector] public string objectiveName;
-    [SerializeReference, SubclassSelector] 
-    public GameAction[] actionsOnCompleted = Array.Empty<GameAction>();
+    public UnityEvent onCompleted;
     [HideInInspector] public bool hasTriggered;
 }
 
-
-public class MissionEvents : MonoBehaviour
+public class MissionEventsListener : MonoBehaviour
 {
     [SerializeField] private SOMission mission;
-    
-    [Header("Mission Events")]
-    [SerializeReference, SubclassSelector] 
-    private GameAction[] actionsOnMissionStarted = Array.Empty<GameAction>();
-    [SerializeReference, SubclassSelector] 
-    private GameAction[] actionsOnMissionCompleted = Array.Empty<GameAction>();
-    [SerializeField] private ObjectiveEventEntry[] objectiveEvents;
+    [SerializeField] private UnityEvent onMissionStarted;
+    [SerializeField] private ObjectiveSceneEvent[] objectiveEvents;
+    [SerializeField] private UnityEvent onMissionCompleted;
 
     private void OnEnable()
     {
@@ -40,10 +36,7 @@ public class MissionEvents : MonoBehaviour
     {
         if (startedMission == mission)
         {
-            foreach (var action in actionsOnMissionStarted)
-            {
-                action?.Execute();
-            }
+            onMissionStarted?.Invoke();
         }
     }
 
@@ -51,10 +44,7 @@ public class MissionEvents : MonoBehaviour
     {
         if (completedMission == mission)
         {
-            foreach (var action in actionsOnMissionCompleted)
-            {
-                action?.Execute();
-            }
+            onMissionCompleted?.Invoke();
         }
     }
 
@@ -73,14 +63,27 @@ public class MissionEvents : MonoBehaviour
                 if (!entry.hasTriggered)
                 {
                     entry.hasTriggered = true;
-                    
-                    foreach (var action in entry.actionsOnCompleted)
-                    {
-                        action?.Execute();
-                    }
+                    entry.onCompleted?.Invoke();
                 }
                 break;
             }
         }
+    }
+
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = new Color(256, 256, 256, 0.5f);
+        Gizmos.DrawSphere(transform.position, 0.2f);
+
+        var style = new GUIStyle()
+        {
+            fontSize = 8,
+            normal = { textColor = Color.white },
+            fontStyle = FontStyle.Bold,
+            alignment = TextAnchor.MiddleCenter,
+        };
+        var state = mission ? mission.name : "No mission was set";
+        Handles.Label(transform.position + new Vector3(0,0.5f), $"Mission Event Listener:\n{state}", style);
     }
 }

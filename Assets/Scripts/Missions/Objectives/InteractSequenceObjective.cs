@@ -1,9 +1,10 @@
 using System;
+using DNExtensions.Utilities.SerializableSelector;
 using UnityEngine;
 
 
 [Serializable]
-[AddTypeMenu("Interact sequence")]
+[SerializableSelectorName("Interact Sequence", "Interactable")]
 public class InteractSequenceObjective : MissionObjective
 {
     [SerializeField] private Interactable[] requiredSequence;
@@ -11,8 +12,7 @@ public class InteractSequenceObjective : MissionObjective
     private string[] targetIDs;
     private int currentIndex;
     
-    public override string Name => "Interact Sequence";
-    public override string Description => $"Interact in order ({currentIndex}/{requiredSequence.Length})";
+    public override string Description => $"Interact In Order ({currentIndex}/{requiredSequence.Length})";
     
     public override void Initialize()
     {

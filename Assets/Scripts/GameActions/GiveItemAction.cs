@@ -1,9 +1,10 @@
 using System;
+using DNExtensions.Utilities.SerializableSelector;
 using UnityEngine;
 using UnityEngine.Events;
 
 [Serializable]
-[AddTypeMenu("Give Item")]
+[SerializableSelectorName("Give Item", "Item")]
 public class GiveItemAction : GameAction
 {
     [SerializeField] private SOItem item;

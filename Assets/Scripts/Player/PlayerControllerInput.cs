@@ -1,5 +1,6 @@
 using System;
 using DNExtensions;
+using DNExtensions.Utilities;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -10,7 +11,6 @@ public class PlayerControllerInput : MonoBehaviour
     [Header("References")]
     [SerializeField] private PlayerInput playerInput;
     [SerializeField, ReadOnly] private Vector2 moveInput;
-    [SerializeField, ReadOnly] private bool jumpPressed;
 
     private PlayerController _playerController;
     private InputActionMap _playerActionMap;
@@ -21,7 +21,6 @@ public class PlayerControllerInput : MonoBehaviour
     private InputAction _cycleItemsAction;
     
     public Vector2 MoveInput => moveInput;
-    public bool JumpPressed => jumpPressed;
     
     public event Action<InputAction.CallbackContext> OnJumpAction;
     public event Action<InputAction.CallbackContext> OnInteractAction;
@@ -93,15 +92,6 @@ public class PlayerControllerInput : MonoBehaviour
     private void OnJump(InputAction.CallbackContext context)
     {
         if (!_playerController.AllowControl) return;
-        
-        if (context.performed)
-        {
-            jumpPressed = true;
-        }
-        else if (context.canceled)
-        {
-            jumpPressed = false;
-        }
         
         OnJumpAction?.Invoke(context);
     }

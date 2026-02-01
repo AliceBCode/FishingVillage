@@ -1,6 +1,6 @@
-using System;
-using DNExtensions;
-using DNExtensions.Button;
+
+using DNExtensions.Utilities;
+using DNExtensions.Utilities.Button;
 using UI;
 using UnityEngine;
 
@@ -19,7 +19,7 @@ public class NPC : Interactable
     [SerializeField] private SODialogueLines farewellDialogueLines;
 
     private SpeechBubble _speechBubble;
-    private DialogueSequence activeDialogue;
+    private DialogueSequence _activeDialogue;
     
     public string Name => name;
 
@@ -69,9 +69,9 @@ public class NPC : Interactable
     
     protected override void OnInteract()
     {
-        if (activeDialogue != null)
+        if (_activeDialogue != null)
         {
-            if (activeDialogue.AdvanceMode == DialogueAdvanceMode.Manual)
+            if (_activeDialogue.AdvanceMode == DialogueAdvanceMode.Manual)
             {
                 ShowNextLine();
             }
@@ -101,21 +101,21 @@ public class NPC : Interactable
     private void ShowNextLine()
     {
         
-        if (activeDialogue.IsComplete)
+        if (_activeDialogue.IsComplete)
         {
             GameEvents.DialogueSequenceCompleted(this);
-            activeDialogue = null;
+            _activeDialogue = null;
             _speechBubble.Hide(true);
             return;
         }
         
-        string line = activeDialogue.GetNextLine();
+        string line = _activeDialogue.GetNextLine();
         _speechBubble?.Show(line);
         speechCooldownTimer = speechCooldown;
         
-        if (activeDialogue.AdvanceMode == DialogueAdvanceMode.Automatic)
+        if (_activeDialogue.AdvanceMode == DialogueAdvanceMode.Automatic)
         {
-            Invoke(nameof(ShowNextLine), activeDialogue.AutoAdvanceDelay);
+            Invoke(nameof(ShowNextLine), _activeDialogue.AutoAdvanceDelay);
         }
     }
     
@@ -124,7 +124,7 @@ public class NPC : Interactable
         if (!sequence) return;
         
         playProximityDialogue = false;
-        activeDialogue = new DialogueSequence(sequence);
+        _activeDialogue = new DialogueSequence(sequence);
         _speechBubble.Hide(false);
         ShowNextLine();
     }

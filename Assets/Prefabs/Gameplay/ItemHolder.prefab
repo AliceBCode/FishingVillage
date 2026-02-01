@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3362304812049476494}
   - component: {fileID: 154667941001911079}
-  - component: {fileID: 2716109802097334170}
+  - component: {fileID: 5345375496596337598}
   m_Layer: 0
   m_Name: ItemHolder
   m_TagString: Untagged
@@ -55,7 +55,7 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &2716109802097334170
+--- !u!114 &5345375496596337598
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -66,18 +66,20 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f9483ebed5d0b30488eb8b3e990e014c, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Box
+  m_EditorClassIdentifier: Assembly-CSharp::ItemHolder
   canInteract: 1
-  limitInteractionsToOnce: 0
-  onInteract:
-    m_PersistentCalls:
-      m_Calls: []
+  limitInteractionsToOnce: 1
+  actionsOnInteract:
+  - rid: 8175020209025843294
   hasInteracted: 0
-  interactableID: 1403c44f-a35d-42bf-88cd-f1d5cb0eaa0d
-  item: {fileID: 0}
-  disableAfterPickup: 0
-  amount: 1
-  itemsWhereTaken: 0
+  interactableID: 85d86b5b-9f9b-4300-9ef4-a08587e61449
+  references:
+    version: 2
+    RefIds:
+    - rid: 8175020209025843294
+      type: {class: GiveItemAction, ns: , asm: Assembly-CSharp}
+      data:
+        item: {fileID: 0}
 --- !u!1 &6707562668262896211
 GameObject:
   m_ObjectHideFlags: 0

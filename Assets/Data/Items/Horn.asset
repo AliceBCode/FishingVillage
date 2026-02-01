@@ -16,4 +16,12 @@ MonoBehaviour:
   description: A horn
   icon: {fileID: 21300000, guid: 1ae1b3a0f9ead674f870d0c8239b40fb, type: 3}
   usable: 1
-  usage: 1
+  actionsOnUse:
+  - rid: 4802877461282947365
+  references:
+    version: 2
+    RefIds:
+    - rid: 4802877461282947365
+      type: {class: SetPlayerStateAction, ns: , asm: Assembly-CSharp}
+      data:
+        state: 2

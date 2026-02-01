@@ -1,6 +1,5 @@
-﻿using System;
-using DNExtensions;
-using DNExtensions.Button;
+﻿
+using DNExtensions.Utilities.Button;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
@@ -14,67 +13,67 @@ public class MovingPlatform : MonoBehaviour
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private AnimationCurve moveSpeedCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
 
-    private Vector3 startPosition;
-    private Vector3 targetPosition;
-    private Vector3 pathStart;
-    private float pathLength;
-    private float waitTimer;
-    private bool movingToPositionTwo = true;
-    private Rigidbody rb;
-    private Vector3 velocity;
+    private Vector3 _startPosition;
+    private Vector3 _targetPosition;
+    private Vector3 _pathStart;
+    private float _pathLength;
+    private float _waitTimer;
+    private bool _movingToPositionTwo = true;
+    private Rigidbody _rb;
+    private Vector3 _velocity;
 
-    public Vector3 Velocity => velocity;
+    public Vector3 Velocity => _velocity;
     
     private void Awake()
     {
-        rb = GetComponent<Rigidbody>();
-        rb.isKinematic = true;
-        startPosition = transform.position;
-        pathStart = startPosition;
-        targetPosition = startPosition + positionOffset;
-        pathLength = Vector3.Distance(pathStart, targetPosition);
+        _rb = GetComponent<Rigidbody>();
+        _rb.isKinematic = true;
+        _startPosition = transform.position;
+        _pathStart = _startPosition;
+        _targetPosition = _startPosition + positionOffset;
+        _pathLength = Vector3.Distance(_pathStart, _targetPosition);
     }
     
     private void FixedUpdate()
     {
         if (!active)
         {
-            velocity = Vector3.zero;
+            _velocity = Vector3.zero;
             return;
         }
 
-        if (waitTimer > 0f)
+        if (_waitTimer > 0f)
         {
-            waitTimer -= Time.fixedDeltaTime;
-            velocity = Vector3.zero;
+            _waitTimer -= Time.fixedDeltaTime;
+            _velocity = Vector3.zero;
             return;
         }
 
-        Vector3 direction = (targetPosition - transform.position).normalized;
-        float distance = Vector3.Distance(transform.position, targetPosition);
+        Vector3 direction = (_targetPosition - transform.position).normalized;
+        float distance = Vector3.Distance(transform.position, _targetPosition);
         
-        float distanceTraveled = pathLength - distance;
-        float t = Mathf.Clamp01(distanceTraveled / pathLength);
+        float distanceTraveled = _pathLength - distance;
+        float t = Mathf.Clamp01(distanceTraveled / _pathLength);
         float speedMultiplier = moveSpeedCurve.Evaluate(t);
         
         float actualStep = moveSpeed * speedMultiplier * Time.fixedDeltaTime;
         
         if (distance <= actualStep)
         {
-            rb.MovePosition(targetPosition);
-            velocity = Vector3.zero;
-            waitTimer = waitTimeAtPositions;
-            movingToPositionTwo = !movingToPositionTwo;
+            _rb.MovePosition(_targetPosition);
+            _velocity = Vector3.zero;
+            _waitTimer = waitTimeAtPositions;
+            _movingToPositionTwo = !_movingToPositionTwo;
             
-            pathStart = targetPosition;
-            targetPosition = movingToPositionTwo ? startPosition + positionOffset : startPosition;
-            pathLength = Vector3.Distance(pathStart, targetPosition);
+            _pathStart = _targetPosition;
+            _targetPosition = _movingToPositionTwo ? _startPosition + positionOffset : _startPosition;
+            _pathLength = Vector3.Distance(_pathStart, _targetPosition);
         }
         else
         {
-            velocity = direction * (moveSpeed * speedMultiplier);
-            Vector3 newPosition = transform.position + velocity * Time.fixedDeltaTime;
-            rb.MovePosition(newPosition);
+            _velocity = direction * (moveSpeed * speedMultiplier);
+            Vector3 newPosition = transform.position + _velocity * Time.fixedDeltaTime;
+            _rb.MovePosition(newPosition);
         }
     }
 
@@ -89,16 +88,16 @@ public class MovingPlatform : MonoBehaviour
     [Button]
     public void ResetPlatform()
     {
-        transform.position = startPosition;
-        targetPosition = startPosition + positionOffset;
-        movingToPositionTwo = true;
-        waitTimer = 0f;
-        velocity = Vector3.zero;
+        transform.position = _startPosition;
+        _targetPosition = _startPosition + positionOffset;
+        _movingToPositionTwo = true;
+        _waitTimer = 0f;
+        _velocity = Vector3.zero;
     }
 
     private void OnDrawGizmos()
     {
-        Vector3 start = Application.isPlaying ? startPosition : transform.position;
+        Vector3 start = Application.isPlaying ? _startPosition : transform.position;
         Vector3 end = start + positionOffset;
         
         Renderer rend = GetComponentInChildren<Renderer>();

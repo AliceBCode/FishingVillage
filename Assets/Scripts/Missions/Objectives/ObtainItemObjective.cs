@@ -1,14 +1,14 @@
 using System;
+using DNExtensions.Utilities.SerializableSelector;
 using UnityEngine;
 
 
 [Serializable]
-[AddTypeMenu("Obtain an Item")]
+[SerializableSelectorName("Obtain Item", "Item")]
 public class ObtainItemObjective : MissionObjective
 {
     [SerializeField] private SOItem requiredItem;
     
-    public override string Name => "Obtain Item";
     public override string Description => $"Obtain {(requiredItem ? requiredItem.Name : "Unknown Item")}";
     
     public override void Initialize()
