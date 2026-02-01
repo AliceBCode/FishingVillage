@@ -94,35 +94,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::NPC
   canInteract: 1
   limitInteractionsToOnce: 0
-  onInteract:
-    m_PersistentCalls:
-      m_Calls: []
+  actionsOnInteract: []
   hasInteracted: 0
+  interactableID: d6f638df-b5a3-43fc-8afd-33ab79d53a34
   name: Someone generic
-  lineCooldown: 1.5
-  greetingDialogueLines:
-    internalItems:
-    - item: Hello
-      chance: 34
-      isLocked: 0
-    - item: Yes?
-      chance: 33
-      isLocked: 0
-    - item: What?
-      chance: 33
-      isLocked: 0
-  farewellDialogueLines:
-    internalItems:
-    - item: By!
-      chance: 34
-      isLocked: 0
-    - item: See you around
-      chance: 33
-      isLocked: 0
-    - item: Please never come back!
-      chance: 33
-      isLocked: 0
-  lineCooldownTimer: 0
+  speechCooldown: 1.5
+  speechCooldownTimer: 0
+  playProximityDialogue: 1
+  greetingDialogueLines: {fileID: 11400000, guid: d1069709181f39945a507b07a7027b38, type: 2}
+  farewellDialogueLines: {fileID: 11400000, guid: 91c44b8693f34bc438b116cab4dc640c, type: 2}
+  references:
+    version: 2
+    RefIds: []
 --- !u!1 &3175554852424676510
 GameObject:
   m_ObjectHideFlags: 0

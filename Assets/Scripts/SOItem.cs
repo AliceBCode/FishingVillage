@@ -1,0 +1,36 @@
+using System;
+using DNExtensions.Utilities;
+using DNExtensions.Utilities.SerializableSelector;
+using UnityEngine;
+
+[CreateAssetMenu(fileName = "New Item", menuName = "Scriptable Objects/Item")]
+public class SOItem : ScriptableObject
+{
+    [Header("Settings")]
+    [SerializeField] private new string name;
+    [SerializeField, TextArea] private string description;
+    [SerializeField, Preview] private Sprite icon;
+    [SerializeField] private bool usable;
+    [SerializeReference, SerializableSelector, ShowIf("usable")] private GameAction[] actionsOnUse;
+    
+
+    
+    
+    public string Name => name;
+    public string Description => description;
+    public Sprite Icon => icon;
+    public bool Usable => usable;
+
+
+    public void Use()
+    {
+        if (!usable) return;
+
+        foreach (var action in actionsOnUse)
+        {
+            action.Execute();
+        }
+        
+        GameEvents.ItemUsed(this);
+    }
+}
