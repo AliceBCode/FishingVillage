@@ -1,0 +1,72 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78efe0c056f2413ab5f94b61bf33bb1c, type: 3}
+  m_Name: PierNpcMission
+  m_EditorClassIdentifier: Assembly-CSharp::SOMission
+  name: Seagull Attack
+  description: Help scare the seagulls away
+  icon: {fileID: 0}
+  objectives:
+  - rid: 7519837165224984581
+  - rid: 7519837165224984582
+  - rid: 7519837165224984583
+  - rid: 7519837165224984584
+  onStarted:
+  - rid: 7519837165224984585
+  - rid: 7519837165224984586
+  onObjectiveCompleted:
+  - onObjectiveCompleted: []
+    hasTriggered: 0
+  - onObjectiveCompleted: []
+    hasTriggered: 0
+  - onObjectiveCompleted: []
+    hasTriggered: 0
+  - onObjectiveCompleted: []
+    hasTriggered: 0
+  onCompleted: []
+  references:
+    version: 2
+    RefIds:
+    - rid: 7519837165224984581
+      type: {class: CompleteDialogueObjective, ns: , asm: Assembly-CSharp}
+      data:
+        isHidden: 0
+        requiresPreviousObjective: 0
+        npc: {fileID: 2644204170290119050, guid: cff0958f2dc24f24486ab1308a1a442f, type: 3}
+    - rid: 7519837165224984582
+      type: {class: ObtainItemObjective, ns: , asm: Assembly-CSharp}
+      data:
+        isHidden: 0
+        requiresPreviousObjective: 1
+        requiredItem: {fileID: 11400000, guid: 6e9f9aeff9e9853488c5084a5a39a0bf, type: 2}
+    - rid: 7519837165224984583
+      type: {class: UseItemObjective, ns: , asm: Assembly-CSharp}
+      data:
+        isHidden: 0
+        requiresPreviousObjective: 1
+        item: {fileID: 11400000, guid: 6e9f9aeff9e9853488c5084a5a39a0bf, type: 2}
+    - rid: 7519837165224984584
+      type: {class: CompleteDialogueObjective, ns: , asm: Assembly-CSharp}
+      data:
+        isHidden: 0
+        requiresPreviousObjective: 1
+        npc: {fileID: 2644204170290119050, guid: cff0958f2dc24f24486ab1308a1a442f, type: 3}
+    - rid: 7519837165224984585
+      type: {class: StartDialogueAction, ns: , asm: Assembly-CSharp}
+      data:
+        npc: {fileID: 2644204170290119050, guid: cff0958f2dc24f24486ab1308a1a442f, type: 3}
+        dialogue: {fileID: 11400000, guid: 90e7ae3614ee2144ba119c7dc727e4e2, type: 2}
+    - rid: 7519837165224984586
+      type: {class: ToggleProximityDialogueAction, ns: , asm: Assembly-CSharp}
+      data:
+        npc: {fileID: 2644204170290119050, guid: cff0958f2dc24f24486ab1308a1a442f, type: 3}
+        allowProximityDialogue: 0
