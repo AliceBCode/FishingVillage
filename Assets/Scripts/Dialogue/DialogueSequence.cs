@@ -1,26 +1,28 @@
+
+
 public class DialogueSequence
 {
-    private readonly SODialogueSequence dialogueSequence;
-    private int currentIndex;
+    private readonly SODialogueSequence _dialogueSequence;
+    private int _currentIndex;
     
-    public bool IsComplete => currentIndex >= dialogueSequence.Count;
-    public DialogueAdvanceMode AdvanceMode => dialogueSequence.AdvanceMode;
-    public float AutoAdvanceDelay => dialogueSequence.AutoAdvanceDelay;
+    public bool IsComplete => _currentIndex >= _dialogueSequence.Count;
+    public DialogueAdvanceMode AdvanceMode => _dialogueSequence.AdvanceMode;
+    public float AutoAdvanceDelay => _dialogueSequence.AutoAdvanceDelay;
     
     public DialogueSequence(SODialogueSequence sequence)
     {
-        dialogueSequence = sequence;
-        currentIndex = 0;
+        _dialogueSequence = sequence;
+        _currentIndex = 0;
     }
     
     public string GetNextLine()
     {
         if (IsComplete) return string.Empty;
         
-        string line = dialogueSequence.GetLine(currentIndex);
-        currentIndex++;
+        string line = _dialogueSequence.GetLine(_currentIndex);
+        _currentIndex++;
         return line;
     }
     
-    public void Reset() => currentIndex = 0;
+    public void Reset() => _currentIndex = 0;
 }

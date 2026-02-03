@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class BlowingHornAnimationBehavior : StateMachineBehaviour
+public class BlockedMovementAnimationBehavior : StateMachineBehaviour
 {
     public static event Action OnStateEntered;
     public static event Action OnStateExited;

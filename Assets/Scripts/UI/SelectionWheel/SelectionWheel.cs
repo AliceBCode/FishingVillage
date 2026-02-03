@@ -3,7 +3,6 @@ using DNExtensions.Utilities.RangedValues;
 namespace UI
 {
     using System.Collections.Generic;
-    using DNExtensions;
     using UnityEngine;
     using PrimeTween;
 
@@ -21,9 +20,11 @@ namespace UI
         [SerializeField] private float transitionDuration = 0.3f;
         [SerializeField] private Ease transitionEase = Ease.OutCubic;
 
-        private readonly List<SelectionWheelItem> wheelItems = new List<SelectionWheelItem>();
-        private List<SOItem> currentUsableItems = new List<SOItem>();
-        private int currentIndex = 0;
+        private readonly List<SelectionWheelItem> _wheelItems = new List<SelectionWheelItem>();
+        private List<SOItem> _currentUsableItems = new List<SOItem>();
+        private int _currentIndex;
+        
+        
 
         private void OnEnable()
         {
@@ -42,12 +43,12 @@ namespace UI
 
         private void OnItemEquipped(SOItem item)
         {
-            if (!item || currentUsableItems.Count == 0) return;
+            if (!item || _currentUsableItems.Count == 0) return;
 
-            int newIndex = currentUsableItems.IndexOf(item);
+            int newIndex = _currentUsableItems.IndexOf(item);
             if (newIndex != -1)
             {
-                currentIndex = newIndex;
+                _currentIndex = newIndex;
                 AnimateToPositions();
             }
         }
@@ -59,38 +60,38 @@ namespace UI
         
         private void OnItemUsed(SOItem item)
         {
-            wheelItems[currentIndex]?.PlayUsedAnimation();
+            _wheelItems[_currentIndex]?.PlayUsedAnimation();
         }
 
         private void RebuildWheel(PlayerInventory inventory)
         {
-            foreach (var item in wheelItems)
+            foreach (var item in _wheelItems)
             {
                 if (item) Destroy(item.gameObject);
             }
 
-            wheelItems.Clear();
+            _wheelItems.Clear();
 
             if (inventory == null || inventory.UsableItems.Count == 0)
             {
                 return;
             }
 
-            currentUsableItems = inventory.UsableItems;
+            _currentUsableItems = inventory.UsableItems;
             gameObject.SetActive(true);
 
-            currentIndex = 0;
+            _currentIndex = 0;
             if (inventory.EquippedItem)
             {
-                int equippedIndex = currentUsableItems.IndexOf(inventory.EquippedItem);
-                if (equippedIndex != -1) currentIndex = equippedIndex;
+                int equippedIndex = _currentUsableItems.IndexOf(inventory.EquippedItem);
+                if (equippedIndex != -1) _currentIndex = equippedIndex;
             }
 
-            for (int i = 0; i < currentUsableItems.Count; i++)
+            for (int i = 0; i < _currentUsableItems.Count; i++)
             {
                 var wheelItem = Instantiate(itemPrefab, transform);
-                wheelItem.Image.sprite = currentUsableItems[i].Icon;
-                wheelItems.Add(wheelItem);
+                wheelItem.Image.sprite = _currentUsableItems[i].Icon;
+                _wheelItems.Add(wheelItem);
             }
 
             SetPositionsImmediate();
@@ -98,19 +99,19 @@ namespace UI
 
         private void SetPositionsImmediate()
         {
-            for (int i = 0; i < wheelItems.Count; i++)
+            for (int i = 0; i < _wheelItems.Count; i++)
             {
                 var pos = CalculatePosition(i);
-                wheelItems[i].RectTransform.anchoredPosition = pos.position;
-                wheelItems[i].RectTransform.localScale = Vector3.one * pos.scale;
-                wheelItems[i].SetAlpha(pos.alpha);
+                _wheelItems[i].RectTransform.anchoredPosition = pos.position;
+                _wheelItems[i].RectTransform.localScale = Vector3.one * pos.scale;
+                _wheelItems[i].SetAlpha(pos.alpha);
             }
 
             var sorted = new List<(SelectionWheelItem item, int siblingIndex)>();
-            for (int i = 0; i < wheelItems.Count; i++)
+            for (int i = 0; i < _wheelItems.Count; i++)
             {
                 var pos = CalculatePosition(i);
-                sorted.Add((wheelItems[i], pos.siblingIndex));
+                sorted.Add((_wheelItems[i], pos.siblingIndex));
             }
 
             sorted.Sort((a, b) => a.siblingIndex.CompareTo(b.siblingIndex));
@@ -125,17 +126,17 @@ namespace UI
 
         private void AnimateToPositions()
         {
-            for (int i = 0; i < wheelItems.Count; i++)
+            for (int i = 0; i < _wheelItems.Count; i++)
             {
                 var pos = CalculatePosition(i);
-                wheelItems[i].AnimateToPosition(pos.position, pos.scale, pos.alpha, transitionDuration, transitionEase);
+                _wheelItems[i].AnimateToPosition(pos.position, pos.scale, pos.alpha, transitionDuration, transitionEase);
             }
 
             var sorted = new List<(SelectionWheelItem item, int siblingIndex)>();
-            for (int i = 0; i < wheelItems.Count; i++)
+            for (int i = 0; i < _wheelItems.Count; i++)
             {
                 var pos = CalculatePosition(i);
-                sorted.Add((wheelItems[i], pos.siblingIndex));
+                sorted.Add((_wheelItems[i], pos.siblingIndex));
             }
 
             sorted.Sort((a, b) => a.siblingIndex.CompareTo(b.siblingIndex));
@@ -150,9 +151,9 @@ namespace UI
 
         private (Vector2 position, float scale, int siblingIndex, float alpha) CalculatePosition(int itemIndex)
         {
-            int count = wheelItems.Count;
+            int count = _wheelItems.Count;
 
-            int offsetFromCenter = itemIndex - currentIndex;
+            int offsetFromCenter = itemIndex - _currentIndex;
 
             if (offsetFromCenter > count / 2)
                 offsetFromCenter -= count;

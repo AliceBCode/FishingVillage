@@ -19,7 +19,7 @@ public class PlayerInteraction : MonoBehaviour
     
     private bool CanInteract => canInteractWhileAirborne || _playerController.IsGrounded;
     
-    public IInteractable ClosestInteractable => closestInteractable.Value;
+
 
     private void Awake()
     {
@@ -36,19 +36,21 @@ public class PlayerInteraction : MonoBehaviour
     {
         _input.OnInteractAction -= OnInteractAction;
     }
+    
+    private void OnInteractAction(InputAction.CallbackContext context)
+    {
+        if (CanInteract && context.performed)
+        {
+            closestInteractable?.Value?.Interact();
+        }
+    }
 
     private void FixedUpdate()
     {
         CheckForInteractable();
     }
 
-    private void OnInteractAction(InputAction.CallbackContext context)
-    {
-        if (CanInteract && context.performed && closestInteractable.Value != null)
-        {
-            closestInteractable.Value.Interact();
-        }
-    }
+
 
     private void CheckForInteractable()
     {

@@ -8,7 +8,7 @@ namespace UI
         [SerializeField] private InventoryItem itemPrefab;
         [SerializeField] private Transform container;
     
-        private readonly List<InventoryItem> itemSlots = new List<InventoryItem>();
+        private readonly List<InventoryItem> _itemSlots = new List<InventoryItem>();
 
         private void OnEnable()
         {
@@ -31,17 +31,17 @@ namespace UI
                 var slot = Instantiate(itemPrefab, container);
                 slot.Image.sprite = item.Icon;
                 slot.Text.text = item.Name;
-                itemSlots.Add(slot);
+                _itemSlots.Add(slot);
             }
         }
 
         private void ClearItems()
         {
-            foreach (var slot in itemSlots)
+            foreach (var slot in _itemSlots)
             {
                 if (slot) Destroy(slot.gameObject);
             }
-            itemSlots.Clear();
+            _itemSlots.Clear();
         }
     }
 }
