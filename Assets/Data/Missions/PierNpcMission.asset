@@ -18,7 +18,7 @@ MonoBehaviour:
   objectives:
   - rid: 7519837165224984581
   - rid: 7519837165224984582
-  - rid: 7519837165224984583
+  - rid: 7519837178136887296
   - rid: 7519837165224984584
   onStarted:
   - rid: 7519837165224984585
@@ -48,12 +48,6 @@ MonoBehaviour:
         isHidden: 0
         requiresPreviousObjective: 1
         requiredItem: {fileID: 11400000, guid: 6e9f9aeff9e9853488c5084a5a39a0bf, type: 2}
-    - rid: 7519837165224984583
-      type: {class: UseItemObjective, ns: , asm: Assembly-CSharp}
-      data:
-        isHidden: 0
-        requiresPreviousObjective: 1
-        item: {fileID: 11400000, guid: 6e9f9aeff9e9853488c5084a5a39a0bf, type: 2}
     - rid: 7519837165224984584
       type: {class: CompleteDialogueObjective, ns: , asm: Assembly-CSharp}
       data:
@@ -70,3 +64,11 @@ MonoBehaviour:
       data:
         npc: {fileID: 2644204170290119050, guid: cff0958f2dc24f24486ab1308a1a442f, type: 3}
         allowProximityDialogue: 0
+    - rid: 7519837178136887296
+      type: {class: UseItemInTriggerObjective, ns: , asm: Assembly-CSharp}
+      data:
+        isHidden: 0
+        requiresPreviousObjective: 0
+        item: {fileID: 11400000, guid: 6e9f9aeff9e9853488c5084a5a39a0bf, type: 2}
+        triggerID: 222
+        areaDescription: Area

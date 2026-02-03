@@ -18,14 +18,11 @@ MonoBehaviour:
   objectives:
   - rid: 7519837165224984578
   - rid: 7519837159531741186
-  - rid: 7519837159531741188
-  - rid: 7519837159531741189
+  - rid: 7519837178136887297
   onStarted:
   - rid: 7519837159531741191
   - rid: 7519837165224984580
   onObjectiveCompleted:
-  - onObjectiveCompleted: []
-    hasTriggered: 0
   - onObjectiveCompleted: []
     hasTriggered: 0
   - onObjectiveCompleted: []
@@ -42,19 +39,6 @@ MonoBehaviour:
         isHidden: 0
         requiresPreviousObjective: 1
         requiredItem: {fileID: 11400000, guid: 7672abaff8dfcd642ae5c4608f367d07, type: 2}
-    - rid: 7519837159531741188
-      type: {class: EnterTriggerObjective, ns: , asm: Assembly-CSharp}
-      data:
-        isHidden: 0
-        requiresPreviousObjective: 1
-        triggerID: 111
-        areaDescription: Area
-    - rid: 7519837159531741189
-      type: {class: UseItemObjective, ns: , asm: Assembly-CSharp}
-      data:
-        isHidden: 0
-        requiresPreviousObjective: 1
-        item: {fileID: 11400000, guid: 7672abaff8dfcd642ae5c4608f367d07, type: 2}
     - rid: 7519837159531741191
       type: {class: StartDialogueAction, ns: , asm: Assembly-CSharp}
       data:
@@ -71,3 +55,11 @@ MonoBehaviour:
       data:
         npc: {fileID: 7220958929954931721, guid: ce74c71548228434e9a77177b7eaa5c8, type: 3}
         allowProximityDialogue: 0
+    - rid: 7519837178136887297
+      type: {class: UseItemInTriggerObjective, ns: , asm: Assembly-CSharp}
+      data:
+        isHidden: 0
+        requiresPreviousObjective: 1
+        item: {fileID: 11400000, guid: 7672abaff8dfcd642ae5c4608f367d07, type: 2}
+        triggerID: 111
+        areaDescription: ShopFront
