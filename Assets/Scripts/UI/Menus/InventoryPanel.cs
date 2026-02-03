@@ -3,12 +3,12 @@ namespace UI
     using System.Collections.Generic;
     using UnityEngine;
 
-    public class NonUsableItemsUI : MonoBehaviour
+    public class InventoryPanel : MonoBehaviour
     {
-        [SerializeField] private InventoryItem itemPrefab;
+        [SerializeField] private InventoryPanelItem panelItemPrefab;
         [SerializeField] private Transform container;
     
-        private readonly List<InventoryItem> _itemSlots = new List<InventoryItem>();
+        private readonly List<InventoryPanelItem> _itemSlots = new List<InventoryPanelItem>();
 
         private void OnEnable()
         {
@@ -28,9 +28,8 @@ namespace UI
             
             foreach (var item in inventory.NonUsableItems)
             {
-                var slot = Instantiate(itemPrefab, container);
+                var slot = Instantiate(panelItemPrefab, container);
                 slot.Image.sprite = item.Icon;
-                slot.Text.text = item.Name;
                 _itemSlots.Add(slot);
             }
         }

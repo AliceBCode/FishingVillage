@@ -4,15 +4,15 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 
-public class MissionsUI : MonoBehaviour
+public class MissionsPanel : MonoBehaviour
 {
-    public static MissionsUI Instance;
+    public static MissionsPanel Instance;
     
     [SerializeField] private TextMeshProUGUI activeMissionsText;
     [SerializeField] private TextMeshProUGUI completedMissionsText;
     
-    private readonly List<SOMission> activeMissions = new List<SOMission>();
-    private readonly List<SOMission> completedMissions = new List<SOMission>();
+    private readonly List<SOMission> _activeMissions = new List<SOMission>();
+    private readonly List<SOMission> _completedMissions = new List<SOMission>();
     
     private void Awake()
     {
@@ -40,7 +40,7 @@ public class MissionsUI : MonoBehaviour
 
     private void OnMissionStarted(SOMission mission)
     {
-        activeMissions.Add(mission);
+        _activeMissions.Add(mission);
         UpdateActiveMissionsUI();
     }
 
@@ -51,8 +51,8 @@ public class MissionsUI : MonoBehaviour
 
     private void OnMissionCompleted(SOMission mission)
     {
-        activeMissions.Remove(mission);
-        completedMissions.Add(mission);
+        _activeMissions.Remove(mission);
+        _completedMissions.Add(mission);
         
         UpdateActiveMissionsUI();
         UpdateCompletedMissionsUI();
@@ -64,7 +64,7 @@ public class MissionsUI : MonoBehaviour
     
         activeMissionsText.text = "Active Missions:\n\n";
     
-        foreach (var mission in activeMissions)
+        foreach (var mission in _activeMissions)
         {
             activeMissionsText.text += $"{mission.Name}:"  + "\n";
             
@@ -96,7 +96,7 @@ public class MissionsUI : MonoBehaviour
         
         completedMissionsText.text = "Completed Missions:\n\n";
         
-        foreach (var mission in completedMissions)
+        foreach (var mission in _completedMissions)
         {
             completedMissionsText.text += mission.Name + "\n";
         }
