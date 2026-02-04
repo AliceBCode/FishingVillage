@@ -1,15 +1,12 @@
 using System;
-using DNExtensions;
-using DNExtensions.Utilities;
+using DNExtensions.InputSystem;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 
 
-public class GameMenusInput : MonoBehaviour
+public class GameMenusInput : InputReaderBase
 {
-    [Header("References")]
-    [SerializeField] private PlayerInput playerInput;
     
     private InputActionMap _uiActionMap;
     private InputAction _toggleInventoryAction;
@@ -24,7 +21,7 @@ public class GameMenusInput : MonoBehaviour
 
     private void Awake()
     {
-        _uiActionMap = playerInput.actions.FindActionMap("UI");
+        _uiActionMap = PlayerInput.actions.FindActionMap("UI");
 
         if (_uiActionMap == null)
         {
@@ -74,43 +71,4 @@ public class GameMenusInput : MonoBehaviour
         OnPauseAction?.Invoke(context);
     }
     
-    
-    
-
-
-    /// <summary>
-    /// Subscribes a callback method to all phases of an InputAction (started, performed, canceled).
-    /// </summary>
-    /// <param name="action">The InputAction to subscribe to. If null, no subscription occurs.</param>
-    /// <param name="callback">The callback method to invoke for all action phases.</param>
-    private void SubscribeToAction(InputAction action, Action<InputAction.CallbackContext> callback)
-    {
-        if (action == null)
-        {
-            Debug.LogError($"No action was found!");
-            return;
-        }
-
-        action.performed += callback;
-        action.started += callback;
-        action.canceled += callback;
-    }
-
-    /// <summary>
-    /// Unsubscribes a callback method from all phases of an InputAction (started, performed, canceled).
-    /// </summary>
-    /// <param name="action">The InputAction to unsubscribe from. If null, no unsubscription occurs.</param>
-    /// <param name="callback">The callback method to remove from all action phases.</param>
-    private void UnsubscribeFromAction(InputAction action, Action<InputAction.CallbackContext> callback)
-    {
-        if (action == null)
-        {
-            Debug.LogError($"No action was found!");
-            return;
-        }
-
-        action.performed -= callback;
-        action.started -= callback;
-        action.canceled -= callback;
-    }
 }

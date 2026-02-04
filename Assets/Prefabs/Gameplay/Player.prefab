@@ -98,7 +98,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c46fa97326eb9f439b4d66de37c5d23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerControllerInput
-  playerInput: {fileID: 0}
+  inputManager: {fileID: 0}
   moveInput: {x: 0, y: 0}
 --- !u!114 &7638830405764284899
 MonoBehaviour:

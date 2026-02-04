@@ -3,7 +3,7 @@ using System;
 using UnityEditor;
 using UnityEngine;
 
-namespace DNExtensions.Utilities.ObjectPooling
+namespace DNExtensions.ObjectPooling
 {
     public class ObjectPoolingSettingsWindow : EditorWindow
     {
@@ -90,10 +90,7 @@ namespace DNExtensions.Utilities.ObjectPooling
 
         private void DrawSettingsGUI()
         {
-            if (_serializedSettings == null)
-            {
-                _serializedSettings = new SerializedObject(_settings);
-            }
+            _serializedSettings ??= new SerializedObject(_settings);
 
             _serializedSettings.Update();
 

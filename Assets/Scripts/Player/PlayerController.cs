@@ -6,7 +6,6 @@ using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(CharacterController))]
 [RequireComponent(typeof(PlayerControllerInput))]
-[RequireComponent(typeof(PlayerInventory))]
 [SelectionBase]
 public class PlayerController : MonoBehaviour
 {

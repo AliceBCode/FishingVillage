@@ -1,6 +1,6 @@
 using System;
+using DNExtensions.Shapes;
 using DNExtensions.Utilities;
-using DNExtensions.Utilities.Shapes;
 using TMPro;
 using UnityEngine;
 
@@ -10,10 +10,6 @@ public class GameMenuPrompt : MonoBehaviour
 {
     
     [Header("Settings")]
-    [SerializeField] private string hudText = "Prompt";
-    [SerializeField] private Color hudColor = Color.clear;
-    [SerializeField] private Color hudTextColor = Color.white;
-    [Separator]
     [SerializeField] private string menuText = "Menu";
     [SerializeField] private Color menuColor = Color.dodgerBlue;
     [SerializeField] private Color menuTextColor = Color.black;
@@ -22,23 +18,29 @@ public class GameMenuPrompt : MonoBehaviour
     [SerializeField] private TextMeshProUGUI textMesh;
     [SerializeField] private SDFCircle circle;
 
+    
+    private string _hudText = "";
+    private Color _hudColor = Color.clear;
+    private Color _hudTextColor = Color.white;
 
-    private void Awake()
+    private void Start()
     {
-        ShowHud();
+        _hudText = textMesh.text;
+        _hudColor = circle.baseColor;
+        _hudTextColor = textMesh.color;
     }
 
-    public void ShowMenu()
+    public void ShowMenuVisuals()
     {
         textMesh.text = menuText;
         circle.baseColor = menuColor;
         textMesh.color = menuTextColor;
     }
 
-    public void ShowHud()
+    public void ShowDefaultVisuals()
     {
-        textMesh.text = hudText;
-        circle.baseColor = hudColor;
-        textMesh.color = hudTextColor;
+        textMesh.text = _hudText;
+        circle.baseColor = _hudColor;
+        textMesh.color = _hudTextColor;
     }
 }

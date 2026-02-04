@@ -1,6 +1,5 @@
-using DNExtensions.Utilities.Shapes;
+
 using DNExtenstions.MenuSystem;
-using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Screen = DNExtenstions.MenuSystem.Screen;
@@ -50,13 +49,13 @@ public class GameMenusController : MonoBehaviour
         if (mapScreen.isActiveAndEnabled)
         {
             _menuManager.HideCurrentScreen();
-            mapPrompt.ShowHud();
+            mapPrompt.ShowDefaultVisuals();
         }
         else
         {
             _menuManager.ShowScreen(mapScreen);
-            mapPrompt.ShowMenu();
-            inventoryPrompt.ShowHud();
+            mapPrompt.ShowMenuVisuals();
+            inventoryPrompt.ShowDefaultVisuals();
         }
     }
 
@@ -67,13 +66,13 @@ public class GameMenusController : MonoBehaviour
         if (inventoryScreen.isActiveAndEnabled)
         {
             _menuManager.HideCurrentScreen();
-            inventoryPrompt.ShowHud();
+            inventoryPrompt.ShowDefaultVisuals();
         }
         else
         {
             _menuManager.ShowScreen(inventoryScreen);
-            inventoryPrompt.ShowMenu();
-            mapPrompt.ShowHud();
+            inventoryPrompt.ShowMenuVisuals();
+            mapPrompt.ShowDefaultVisuals();
         }
     }
 }
