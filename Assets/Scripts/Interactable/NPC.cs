@@ -86,14 +86,6 @@ public class NPC : Interactable
         }
     }
 
-    public void GiveItemToPlayer(SOItem item)
-    {
-        if (PlayerInventory.Instance)
-        {
-            PlayerInventory.Instance.TryAddItem(item);
-        }
-    }
-    
 
 
     #region Sequence Dialogue
@@ -163,7 +155,7 @@ public class NPC : Interactable
         farewellDialogueLines = newLines;
     }
 
-    public void SetGreetingDialogueLines(SODialogueLines newLines)
+    public void SetGreetingLines(SODialogueLines newLines)
     {
         if (!newLines) return;
         greetingDialogueLines = newLines;

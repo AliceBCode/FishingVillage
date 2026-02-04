@@ -16,4 +16,7 @@ MonoBehaviour:
   description: A letter
   icon: {fileID: 21300000, guid: 51a91e5569f63544ca390165bb86c7b1, type: 3}
   usable: 0
-  usage: 1
+  actionsOnUse: []
+  references:
+    version: 2
+    RefIds: []

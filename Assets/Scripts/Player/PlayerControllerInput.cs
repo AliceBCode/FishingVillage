@@ -1,15 +1,13 @@
 using System;
-using DNExtensions;
+using DNExtensions.InputSystem;
 using DNExtensions.Utilities;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 
 [RequireComponent(typeof(PlayerController))]
-public class PlayerControllerInput : MonoBehaviour
+public class PlayerControllerInput : InputReaderBase
 {
-    [Header("References")]
-    [SerializeField] private PlayerInput playerInput;
     [SerializeField, ReadOnly] private Vector2 moveInput;
 
     private PlayerController _playerController;
@@ -30,7 +28,7 @@ public class PlayerControllerInput : MonoBehaviour
     private void Awake()
     {
         _playerController = GetComponent<PlayerController>();
-        _playerActionMap = playerInput.actions.FindActionMap("Player");
+        _playerActionMap = PlayerInput.actions.FindActionMap("Player");
 
         if (_playerActionMap == null)
         {
@@ -107,42 +105,5 @@ public class PlayerControllerInput : MonoBehaviour
         if (!_playerController.AllowControl) return;
         
         OnCycleItemsAction?.Invoke(context);
-    }
-    
-
-    /// <summary>
-    /// Subscribes a callback method to all phases of an InputAction (started, performed, canceled).
-    /// </summary>
-    /// <param name="action">The InputAction to subscribe to. If null, no subscription occurs.</param>
-    /// <param name="callback">The callback method to invoke for all action phases.</param>
-    private void SubscribeToAction(InputAction action, Action<InputAction.CallbackContext> callback)
-    {
-        if (action == null)
-        {
-            Debug.LogError($"No action was found!");
-            return;
-        }
-
-        action.performed += callback;
-        action.started += callback;
-        action.canceled += callback;
-    }
-
-    /// <summary>
-    /// Unsubscribes a callback method from all phases of an InputAction (started, performed, canceled).
-    /// </summary>
-    /// <param name="action">The InputAction to unsubscribe from. If null, no unsubscription occurs.</param>
-    /// <param name="callback">The callback method to remove from all action phases.</param>
-    private void UnsubscribeFromAction(InputAction action, Action<InputAction.CallbackContext> callback)
-    {
-        if (action == null)
-        {
-            Debug.LogError($"No action was found!");
-            return;
-        }
-
-        action.performed -= callback;
-        action.started -= callback;
-        action.canceled -= callback;
     }
 }

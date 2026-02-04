@@ -28,13 +28,13 @@ public abstract class Interactable : MonoBehaviour, IInteractable
         
         hasInteracted = true;
         
-        GameEvents.InteractedWith(this);
-        OnInteract();
-        
         foreach (var action in actionsOnInteract)
         {
             action?.Execute();
         }
+        
+        GameEvents.InteractedWith(this);
+        OnInteract();
     }
     
     public virtual bool CanInteract()

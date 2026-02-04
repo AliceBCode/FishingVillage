@@ -16,4 +16,7 @@ MonoBehaviour:
   description: Bag of mail
   icon: {fileID: -361406988, guid: 2dba4d2246ded1f4697ed97d72460b03, type: 3}
   usable: 0
-  usage: 0
+  actionsOnUse: []
+  references:
+    version: 2
+    RefIds: []

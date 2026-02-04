@@ -47,6 +47,18 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
+--- !u!114 &-4499026069030291969
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2d3a59930d693f44a397e28615966ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BlockedMovementAnimationBehavior
 --- !u!1101 &-2170984945213610181
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -176,7 +188,7 @@ AnimatorState:
   m_Transitions:
   - {fileID: -9068035714080647004}
   m_StateMachineBehaviours:
-  - {fileID: 4141978815213481339}
+  - {fileID: -4499026069030291969}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -268,8 +280,7 @@ AnimatorState:
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 8756366261152715398}
-  m_StateMachineBehaviours:
-  - {fileID: 6604729309139306479}
+  m_StateMachineBehaviours: []
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1

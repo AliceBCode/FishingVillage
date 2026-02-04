@@ -29,16 +29,4 @@ public class StartDialogueAction : GameAction
         }
     }
     
-    private NPC FindNpcInScene(string id)
-    {
-        var allNpCs = UnityEngine.Object.FindObjectsByType<NPC>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
-        foreach (var npc in allNpCs)
-        {
-            if (npc.InteractableID == id)
-            {
-                return npc;
-            }
-        }
-        return null;
-    }
 }

@@ -1,8 +1,7 @@
-﻿using System;
+﻿
 using System.Collections.Generic;
 using DNExtensions.Utilities;
 using DNExtensions.Utilities.Button;
-using UnityEditor;
 using UnityEngine;
 
 namespace DNExtensions.ControllerRumbleSystem
