@@ -31,8 +31,7 @@ MonoBehaviour:
   - onObjectiveCompleted:
     - rid: 7519837201401643008
     hasTriggered: 0
-  - onObjectiveCompleted:
-    - rid: 7519837201401643008
+  - onObjectiveCompleted: []
     hasTriggered: 0
   onCompleted: []
   references:

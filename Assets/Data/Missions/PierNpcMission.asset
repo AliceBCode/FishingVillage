@@ -24,7 +24,10 @@ MonoBehaviour:
   - rid: 7519837165224984585
   - rid: 7519837165224984586
   onObjectiveCompleted:
-  - onObjectiveCompleted: []
+  - onObjectiveCompleted:
+    - rid: 7519837201401643100
+    - rid: 7519837201401643101
+    - rid: 7519837201401643102
     hasTriggered: 0
   - onObjectiveCompleted: []
     hasTriggered: 0
@@ -72,3 +75,15 @@ MonoBehaviour:
         item: {fileID: 11400000, guid: 6e9f9aeff9e9853488c5084a5a39a0bf, type: 2}
         triggerID: 222
         areaDescription: Area
+    - rid: 7519837201401643100
+      type: {class: RemoveItemAction, ns: , asm: Assembly-CSharp}
+      data:
+        item: {fileID: 11400000, guid: d82e34bdd06ecd74ba019757a369e2b0, type: 2}
+    - rid: 7519837201401643101
+      type: {class: GiveItemAction, ns: , asm: Assembly-CSharp}
+      data:
+        item: {fileID: 11400000, guid: 6e9f9aeff9e9853488c5084a5a39a0bf, type: 2}
+    - rid: 7519837201401643102
+      type: {class: SetPlayerStateAction, ns: , asm: Assembly-CSharp}
+      data:
+        state: 3

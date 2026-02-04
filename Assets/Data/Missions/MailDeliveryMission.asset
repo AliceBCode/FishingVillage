@@ -1,0 +1,59 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78efe0c056f2413ab5f94b61bf33bb1c, type: 3}
+  m_Name: MailDeliveryMission
+  m_EditorClassIdentifier: Assembly-CSharp::SOMission
+  name: 
+  description: 
+  icon: {fileID: 0}
+  objectives:
+  - rid: 7519837201401643104
+  - rid: 7519837201401643106
+  onStarted:
+  - rid: 7519837201401643107
+  - rid: 7519837201401643108
+  - rid: 7519837201401643109
+  onObjectiveCompleted:
+  - onObjectiveCompleted: []
+    hasTriggered: 0
+  - onObjectiveCompleted: []
+    hasTriggered: 0
+  onCompleted: []
+  references:
+    version: 2
+    RefIds:
+    - rid: 7519837201401643104
+      type: {class: GiveItemToNpcObjective, ns: , asm: Assembly-CSharp}
+      data:
+        isHidden: 0
+        requiresPreviousObjective: 0
+        requiredItem: {fileID: 11400000, guid: 2699829c538f7214d81679747aac225f, type: 2}
+        npc: {fileID: 4761095320140479624, guid: 7d863097f55a714449c0153dc3d35757, type: 3}
+    - rid: 7519837201401643106
+      type: {class: GiveItemToNpcObjective, ns: , asm: Assembly-CSharp}
+      data:
+        isHidden: 0
+        requiresPreviousObjective: 0
+        requiredItem: {fileID: 11400000, guid: 36b79cdd8d8cd12448d9b6f481dbe96a, type: 2}
+        npc: {fileID: 6247453604042879243, guid: 93409a23ac56e0e4d8e1a8f0824d0dc7, type: 3}
+    - rid: 7519837201401643107
+      type: {class: GiveItemAction, ns: , asm: Assembly-CSharp}
+      data:
+        item: {fileID: 11400000, guid: d82e34bdd06ecd74ba019757a369e2b0, type: 2}
+    - rid: 7519837201401643108
+      type: {class: GiveItemAction, ns: , asm: Assembly-CSharp}
+      data:
+        item: {fileID: 11400000, guid: 36b79cdd8d8cd12448d9b6f481dbe96a, type: 2}
+    - rid: 7519837201401643109
+      type: {class: GiveItemAction, ns: , asm: Assembly-CSharp}
+      data:
+        item: {fileID: 11400000, guid: 2699829c538f7214d81679747aac225f, type: 2}

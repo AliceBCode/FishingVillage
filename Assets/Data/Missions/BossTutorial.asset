@@ -35,6 +35,7 @@ MonoBehaviour:
     hasTriggered: 0
   onCompleted:
   - rid: 4802877461282947379
+  - rid: 7519837201401643103
   references:
     version: 2
     RefIds:
@@ -48,6 +49,10 @@ MonoBehaviour:
       data:
         npc: {fileID: 237702557246814423, guid: e157842bb6e6be04bbbfc995a1b0a8f9, type: 3}
         allowProximityDialogue: 1
+    - rid: 7519837201401643103
+      type: {class: StartMissionAction, ns: , asm: Assembly-CSharp}
+      data:
+        mission: {fileID: 11400000, guid: 30be1bcc0705c78458ad6ae635cfc40d, type: 2}
     - rid: 8175020186713456724
       type: {class: CompleteDialogueObjective, ns: , asm: Assembly-CSharp}
       data:
