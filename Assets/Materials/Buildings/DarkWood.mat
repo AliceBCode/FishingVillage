@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: WoodBuilding
+  m_Name: DarkWood
   m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
   m_Parent: {fileID: 2100000, guid: 57c6a7be1eded0b45bfee346486c6302, type: 2}
   m_ModifiedSerializedProperties: 0
@@ -41,7 +41,7 @@ Material:
     m_Ints: []
     m_Floats: []
     m_Colors:
-    - _BaseColor: {r: 0.8443396, g: 0.68647856, b: 0.41022164, a: 1}
-    - _Color: {r: 0.8443396, g: 0.68647856, b: 0.4102216, a: 1}
+    - _BaseColor: {r: 0.3537736, g: 0.27527115, b: 0.20525543, a: 1}
+    - _Color: {r: 0.35377356, g: 0.27527112, b: 0.20525539, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

@@ -19,6 +19,7 @@ MonoBehaviour:
   - rid: 7519837165224984578
   - rid: 7519837159531741186
   - rid: 7519837178136887297
+  - rid: 7519837201401643010
   onStarted:
   - rid: 7519837159531741191
   - rid: 7519837165224984580
@@ -27,7 +28,11 @@ MonoBehaviour:
     hasTriggered: 0
   - onObjectiveCompleted: []
     hasTriggered: 0
-  - onObjectiveCompleted: []
+  - onObjectiveCompleted:
+    - rid: 7519837201401643008
+    hasTriggered: 0
+  - onObjectiveCompleted:
+    - rid: 7519837201401643008
     hasTriggered: 0
   onCompleted: []
   references:
@@ -63,3 +68,14 @@ MonoBehaviour:
         item: {fileID: 11400000, guid: 7672abaff8dfcd642ae5c4608f367d07, type: 2}
         triggerID: 111
         areaDescription: ShopFront
+    - rid: 7519837201401643008
+      type: {class: StartDialogueAction, ns: , asm: Assembly-CSharp}
+      data:
+        npc: {fileID: 7220958929954931721, guid: ce74c71548228434e9a77177b7eaa5c8, type: 3}
+        dialogue: {fileID: 11400000, guid: 9cde3b4720ac9e3418bff1341f6acffb, type: 2}
+    - rid: 7519837201401643010
+      type: {class: CompleteDialogueObjective, ns: , asm: Assembly-CSharp}
+      data:
+        isHidden: 0
+        requiresPreviousObjective: 1
+        npc: {fileID: 7220958929954931721, guid: ce74c71548228434e9a77177b7eaa5c8, type: 3}
