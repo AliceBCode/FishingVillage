@@ -1,23 +1,39 @@
-namespace UI
+
+using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
+
+namespace FishingVillage.UI.Menus
 {
-    using System.Collections.Generic;
-    using UnityEngine;
+
 
     public class InventoryPanel : MonoBehaviour
     {
         [SerializeField] private InventoryPanelItem panelItemPrefab;
         [SerializeField] private Transform container;
+        [SerializeField] private TextMeshProUGUI selectedItemTextName;
+        [SerializeField] private TextMeshProUGUI selectedItemTextDescription;
     
         private readonly List<InventoryPanelItem> _itemSlots = new List<InventoryPanelItem>();
 
-        private void OnEnable()
+        private void Awake()
         {
             GameEvents.OnInventoryChanged += OnInventoryChanged;
+            GameEvents.OnInventoryItemSelected += OnInventoryItemSelected;
         }
 
-        private void OnDisable()
+        private void OnDestroy()
         {
             GameEvents.OnInventoryChanged -= OnInventoryChanged;
+            GameEvents.OnInventoryItemSelected -= OnInventoryItemSelected;
+        }
+
+        private void OnInventoryItemSelected(SOItem item)
+        {
+            if (!item) return;
+
+            selectedItemTextDescription.text = item.Description;
+            selectedItemTextName.text = item.Name;
         }
 
         private void OnInventoryChanged(PlayerInventory inventory)
@@ -26,12 +42,13 @@ namespace UI
             
             ClearItems();
             
-            foreach (var item in inventory.NonUsableItems)
+            foreach (var item in inventory.AllItems)
             {
                 var slot = Instantiate(panelItemPrefab, container);
-                slot.Image.sprite = item.Icon;
+                slot.Setup(item);
                 _itemSlots.Add(slot);
             }
+            
         }
 
         private void ClearItems()
@@ -41,6 +58,9 @@ namespace UI
                 if (slot) Destroy(slot.gameObject);
             }
             _itemSlots.Clear();
+            
+            selectedItemTextDescription.text = string.Empty;
+            selectedItemTextName.text = string.Empty;
         }
     }
 }

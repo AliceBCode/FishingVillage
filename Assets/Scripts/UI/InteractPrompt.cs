@@ -3,40 +3,32 @@ using DNExtensions.Utilities.RangedValues;
 
 namespace FishingVillage.UI
 {
-    using System;
-    using System.Collections;
-    using DNExtensions;
     using PrimeTween;
     using TMPro;
     using UnityEngine;
 
     [SelectionBase]
-    public class SpeechBubble : MonoBehaviour
+    public class InteractPrompt : MonoBehaviour
     {
-
+        public static InteractPrompt Instance;
+        
         [Header("Settings")] 
         [Tooltip("Duration of the fade in/out animation")] 
         [SerializeField] private float fadeDuration = 0.5f;
-
         [Tooltip("Whether the speech bubble should rotate to face the camera")] 
         [SerializeField] private bool rotateToCamera = true;
-
         [SerializeField, EnableIf("rotateToCamera")]
         private float rotationSpeed = 25f;
-
         [Tooltip("Whether the speech bubble's scale should change based on its distance to the camera")]
         [SerializeField] private bool distanceToCameraAffectsScale = true;
-
         [SerializeField, MinMaxRange(1, 2), EnableIf("distanceToCameraAffectsScale")]
-        private RangedFloat minMaxScale = new RangedFloat(1, 1.5f);
-
+        private RangedFloat minMaxScaleMultiplier = new RangedFloat(1, 1.5f);
         [SerializeField, MinMaxRange(0, 50), EnableIf("distanceToCameraAffectsScale")]
         private RangedFloat minMaxDistance = new RangedFloat(5, 15);
 
         [Header("References")] 
         [SerializeField] private CanvasGroup canvasGroup;
-        [SerializeField] private TextMeshProUGUI text;
-        [SerializeField] private GameObject interactPrompt;
+        [SerializeField] private TextMeshProUGUI textPrompt;
 
         private Camera _cam;
         private Vector3 _baseScale;
@@ -46,6 +38,14 @@ namespace FishingVillage.UI
 
         private void Awake()
         {
+            if (Instance && Instance != this)
+            {
+                Destroy(gameObject);
+                return;
+            }
+        
+            Instance = this;
+            
             Hide(false);
             _cam = Camera.main;
             _rectTransform = canvasGroup.transform as RectTransform;
@@ -83,33 +83,23 @@ namespace FishingVillage.UI
 
             float distance = Vector3.Distance(_rectTransform.position, _cam.transform.position);
             float t = Mathf.InverseLerp(minMaxDistance.minValue, minMaxDistance.maxValue, distance);
-            float scaleMultiplier = Mathf.Lerp(minMaxScale.minValue, minMaxScale.maxValue, t);
+            float scaleMultiplier = Mathf.Lerp(minMaxScaleMultiplier.minValue, minMaxScaleMultiplier.maxValue, t);
             _rectTransform.localScale = _baseScale * scaleMultiplier;
         }
 
 
-        public void Show(string message, bool showPrompt = false, float duration = 0)
+        public void Show(Vector3 position)
         {
-            if (message == null) return;
-
             if (_fadeSequence.isAlive)
             {
                 _fadeSequence.Stop();
             }
-
-            if (_hideCoroutine != null)
-            {
-                StopCoroutine(_hideCoroutine);
-            }
             
-            interactPrompt?.SetActive(showPrompt);
-
-            text.text = message;
+            transform.position = position;
+            
 
             _fadeSequence = Sequence.Create();
             _fadeSequence.Group(Tween.Alpha(canvasGroup, 1f, fadeDuration));
-
-            if (duration > 0 ) _hideCoroutine = StartCoroutine(HideAfterDelay(duration));
         }
         
         
@@ -125,21 +115,12 @@ namespace FishingVillage.UI
             {
                 _fadeSequence = Sequence.Create();
                 _fadeSequence.Group(Tween.Alpha(canvasGroup, 0f, fadeDuration));
-                _fadeSequence.OnComplete(() => { text.text = ""; });
             }
             else
             {
-
-                text.text = "";
+                
                 canvasGroup.alpha = 0f;
             }
-        }
-
-
-        private IEnumerator HideAfterDelay(float delay)
-        {
-            yield return new WaitForSeconds(delay);
-            Hide(true);
         }
 
     }

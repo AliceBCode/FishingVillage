@@ -773,7 +773,7 @@
                 {
                     "name": "",
                     "id": "cf18f02e-57db-4c8b-aa87-ef7a9cbba86f",
-                    "path": "<Gamepad>/dpad/up",
+                    "path": "<Gamepad>/rightTrigger",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Gamepad",
@@ -795,7 +795,7 @@
                 {
                     "name": "",
                     "id": "8af9e325-f485-4550-8011-a66142ab228d",
-                    "path": "<Gamepad>/dpad/down",
+                    "path": "<Gamepad>/leftTrigger",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",

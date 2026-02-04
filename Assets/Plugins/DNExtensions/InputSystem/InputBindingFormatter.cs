@@ -8,12 +8,16 @@ namespace DNExtensions.InputSystem
 {
     public static class InputBindingFormatter
     {
-        // Small override dict for custom display names (Unity's ToDisplayString handles the rest)
         private static readonly Dictionary<string, string> TextOverrides = new()
         {
             { "Left Button", "Left Click" },
             { "Right Button", "Right Click" },
             { "Middle Button", "Middle Click" },
+            { "D-Pad/Up", "Up"},
+            { "D-Pad/Down", "Down"},
+            { "D-Pad/Left", "Left"},
+            { "D-Pad/Right", "Right"},
+            
         };
 
         #region Public API

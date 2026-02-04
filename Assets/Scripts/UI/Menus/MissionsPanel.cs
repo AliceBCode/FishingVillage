@@ -1,104 +1,106 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using TMPro;
 using UnityEngine;
 
-public class MissionsPanel : MonoBehaviour
+namespace FishingVillage.UI.Menus
 {
-    public static MissionsPanel Instance;
     
-    [SerializeField] private TextMeshProUGUI activeMissionsText;
-    [SerializeField] private TextMeshProUGUI completedMissionsText;
-    
-    private readonly List<SOMission> _activeMissions = new List<SOMission>();
-    private readonly List<SOMission> _completedMissions = new List<SOMission>();
-    
-    private void Awake()
+
+    public class MissionsPanel : MonoBehaviour
     {
-        if (Instance != null && Instance != this)
+        public static MissionsPanel Instance;
+
+        [SerializeField] private TextMeshProUGUI activeMissionsText;
+        [SerializeField] private TextMeshProUGUI completedMissionsText;
+
+        private readonly List<SOMission> _activeMissions = new List<SOMission>();
+        private readonly List<SOMission> _completedMissions = new List<SOMission>();
+
+        private void Awake()
         {
-            Destroy(gameObject);
-            return;
-        }
-        Instance = this;
-    }
-
-    private void Start()
-    {
-        GameEvents.OnMissionStarted += OnMissionStarted;
-        GameEvents.OnMissionCompleted += OnMissionCompleted;
-        MissionObjective.OnObjectiveMet += OnObjectiveCompleted;
-    }
-
-    private void OnDestroy()
-    {
-        GameEvents.OnMissionStarted -= OnMissionStarted;
-        GameEvents.OnMissionCompleted -= OnMissionCompleted;
-        MissionObjective.OnObjectiveMet -= OnObjectiveCompleted;
-    }
-
-    private void OnMissionStarted(SOMission mission)
-    {
-        _activeMissions.Add(mission);
-        UpdateActiveMissionsUI();
-    }
-
-    private void OnObjectiveCompleted(MissionObjective objective)
-    {
-        UpdateActiveMissionsUI();
-    }
-
-    private void OnMissionCompleted(SOMission mission)
-    {
-        _activeMissions.Remove(mission);
-        _completedMissions.Add(mission);
-        
-        UpdateActiveMissionsUI();
-        UpdateCompletedMissionsUI();
-    }
-
-    private void UpdateActiveMissionsUI()
-    {
-        if (!activeMissionsText) return;
-    
-        activeMissionsText.text = "Active Missions:\n\n";
-    
-        foreach (var mission in _activeMissions)
-        {
-            activeMissionsText.text += $"{mission.Name}:"  + "\n";
-            
-            if (MissionManager.Instance)
+            if (Instance != null && Instance != this)
             {
-                var objectives = MissionManager.Instance.GetMissionObjectives(mission, true);
-                
-                if (objectives != null && objectives.Length > 0)
+                Destroy(gameObject);
+                return;
+            }
+
+            Instance = this;
+
+            GameEvents.OnMissionStarted += OnMissionStarted;
+            GameEvents.OnMissionCompleted += OnMissionCompleted;
+            MissionObjective.OnObjectiveMet += OnObjectiveCompleted;
+        }
+
+
+        private void OnDestroy()
+        {
+            GameEvents.OnMissionStarted -= OnMissionStarted;
+            GameEvents.OnMissionCompleted -= OnMissionCompleted;
+            MissionObjective.OnObjectiveMet -= OnObjectiveCompleted;
+        }
+
+        private void OnMissionStarted(SOMission mission)
+        {
+            _activeMissions.Add(mission);
+            UpdateActiveMissionsUI();
+        }
+
+        private void OnObjectiveCompleted(MissionObjective objective)
+        {
+            UpdateActiveMissionsUI();
+        }
+
+        private void OnMissionCompleted(SOMission mission)
+        {
+            _activeMissions.Remove(mission);
+            _completedMissions.Add(mission);
+
+            UpdateActiveMissionsUI();
+            UpdateCompletedMissionsUI();
+        }
+
+        private void UpdateActiveMissionsUI()
+        {
+            if (!activeMissionsText) return;
+
+            activeMissionsText.text = "Active Missions:\n\n";
+
+            foreach (var mission in _activeMissions)
+            {
+                activeMissionsText.text += $"{mission.Name}:" + "\n";
+
+                if (MissionManager.Instance)
                 {
-                    foreach (var objective in objectives)
+                    var objectives = MissionManager.Instance.GetMissionObjectives(mission, true);
+
+                    if (objectives != null && objectives.Length > 0)
                     {
-                        string checkmark = objective.Met ? "[X]" : "[ ]";
-                        activeMissionsText.text += $"  {checkmark} {objective.Description}\n";
+                        foreach (var objective in objectives)
+                        {
+                            string checkmark = objective.Met ? "[X]" : "[ ]";
+                            activeMissionsText.text += $"  {checkmark} {objective.Description}\n";
+                        }
+                    }
+                    else
+                    {
+                        activeMissionsText.text += "  (No visible objectives)\n";
                     }
                 }
-                else
-                {
-                    activeMissionsText.text += "  (No visible objectives)\n";
-                }
-            }
-        
-            activeMissionsText.text += "\n";
-        }
-    }
 
-    private void UpdateCompletedMissionsUI()
-    {
-        if (!completedMissionsText) return;
-        
-        completedMissionsText.text = "Completed Missions:\n\n";
-        
-        foreach (var mission in _completedMissions)
+                activeMissionsText.text += "\n";
+            }
+        }
+
+        private void UpdateCompletedMissionsUI()
         {
-            completedMissionsText.text += mission.Name + "\n";
+            if (!completedMissionsText) return;
+
+            completedMissionsText.text = "Completed Missions:\n\n";
+
+            foreach (var mission in _completedMissions)
+            {
+                completedMissionsText.text += mission.Name + "\n";
+            }
         }
     }
 }

@@ -11,25 +11,39 @@ namespace DNExtensions.InputSystem
     /// </summary>
     public class ActionBindingDisplay : InputBindingDisplay
     {
-        [SerializeField] private InputActionReference[] actions = Array.Empty<InputActionReference>();
+        [SerializeField] private string[] actionNames;
         [SerializeField] private string separator = " | ";
         [Tooltip("Filter to show only specific composite parts (e.g., 'positive', 'negative', 'up', 'down', 'left', 'right'). Leave empty to show all bindings.")]
         [SerializeField] private string compositePartFilter = "";
 
         protected override string GetDisplayText()
         {
-            if (actions == null || actions.Length == 0)
+            if (actionNames == null || actionNames.Length == 0)
             {
+                return null;
+            }
+
+            var playerInput = InputManager.Instance?.PlayerInput;
+            if (playerInput == null)
+            {
+                Debug.LogWarning("[ActionBindingDisplay] PlayerInput not found!", this);
                 return null;
             }
             
             List<InputAction> validActions = new List<InputAction>();
 
-            foreach (var actionRef in actions)
+            foreach (var actionName in actionNames)
             {
-                if (actionRef?.action != null)
+                if (string.IsNullOrEmpty(actionName)) continue;
+                
+                var action = playerInput.actions.FindAction(actionName);
+                if (action != null)
                 {
-                    validActions.Add(actionRef.action);
+                    validActions.Add(action);
+                }
+                else
+                {
+                    Debug.LogWarning($"[ActionBindingDisplay] Action '{actionName}' not found!", this);
                 }
             }
             
@@ -42,22 +56,29 @@ namespace DNExtensions.InputSystem
             return InputManager.GetActionBindings(validActions.ToArray(), separator, useSprites, compositePartFilter);
         }
 
-        /// <summary>
-        /// Gets all actions for ActionPromptVisual.
-        /// </summary>
+
         public InputAction[] GetAllActions()
         {
-            if (actions == null || actions.Length == 0)
+            if (actionNames == null || actionNames.Length == 0)
+            {
+                return Array.Empty<InputAction>();
+            }
+
+            var playerInput = InputManager.Instance?.PlayerInput;
+            if (playerInput == null)
             {
                 return Array.Empty<InputAction>();
             }
 
             List<InputAction> validActions = new List<InputAction>();
-            foreach (var actionRef in actions)
+            foreach (var actionName in actionNames)
             {
-                if (actionRef?.action != null)
+                if (string.IsNullOrEmpty(actionName)) continue;
+                
+                var action = playerInput.actions.FindAction(actionName);
+                if (action != null)
                 {
-                    validActions.Add(actionRef.action);
+                    validActions.Add(action);
                 }
             }
 

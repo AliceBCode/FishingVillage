@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.InputSystem;
 using TMPro;
 
@@ -16,7 +17,7 @@ namespace DNExtensions.InputSystem
         [SerializeField] private Color pressedColor = Color.gray;
         [SerializeField] private Vector3 pressedScale = Vector3.one * 0.9f;
         [Tooltip("Override which action to watch for pressed state. Leave empty to use all actions from binding display.")]
-        [SerializeField] private InputActionReference actionOverride;
+        [SerializeField] private string actionOverride;
 
         private ActionBindingDisplay _bindingDisplay;
         private TextMeshProUGUI _textComponent;
@@ -62,9 +63,22 @@ namespace DNExtensions.InputSystem
 
         private InputAction[] GetWatchedActions()
         {
-            if (actionOverride?.action != null)
+            var playerInput = InputManager.Instance?.PlayerInput;
+            if (!playerInput)
             {
-                return new [] { actionOverride.action };
+                return Array.Empty<InputAction>();
+            }
+
+            if (!string.IsNullOrEmpty(actionOverride))
+            {
+                var action = playerInput.actions.FindAction(actionOverride);
+                if (action != null)
+                {
+                    return new [] { action };
+                }
+                
+                Debug.LogWarning($"Override action '{actionOverride}' not found!", this);
+                return Array.Empty<InputAction>();
             }
             
             return _bindingDisplay.GetAllActions();
