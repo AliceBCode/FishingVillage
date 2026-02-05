@@ -1,5 +1,6 @@
 
 using System.Collections.Generic;
+using DNExtensions.ObjectPooling;
 using TMPro;
 using UnityEngine;
 
@@ -44,7 +45,10 @@ namespace FishingVillage.UI.Menus
             
             foreach (var item in inventory.AllItems)
             {
-                var slot = Instantiate(panelItemPrefab, container);
+                GameObject slotGo = ObjectPooler.GetObjectFromPool(panelItemPrefab.gameObject);
+                slotGo.transform.SetParent(container, false);
+                InventoryPanelItem slot = slotGo.GetComponent<InventoryPanelItem>();
+                
                 slot.Setup(item);
                 _itemSlots.Add(slot);
             }
@@ -55,8 +59,9 @@ namespace FishingVillage.UI.Menus
         {
             foreach (var slot in _itemSlots)
             {
-                if (slot) Destroy(slot.gameObject);
+                if (slot) ObjectPooler.ReturnObjectToPool(slot.gameObject);
             }
+            
             _itemSlots.Clear();
             
             selectedItemTextDescription.text = string.Empty;

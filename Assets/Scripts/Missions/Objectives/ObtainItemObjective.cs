@@ -9,7 +9,7 @@ public class ObtainItemObjective : MissionObjective
 {
     [SerializeField] private SOItem requiredItem;
     
-    public override string Description => $"Obtain {(requiredItem ? requiredItem.Name : "Unknown Item")}";
+    protected override string Description => $"Obtain {(requiredItem ? requiredItem.Name : "Unknown Item")}";
     
     public override void Initialize()
     {

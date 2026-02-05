@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3336175559533425646}
   - component: {fileID: 6238787670442147888}
-  - component: {fileID: 6279639745025812341}
+  - component: {fileID: 5778550895567350283}
   - component: {fileID: 8966094687935605882}
   m_Layer: 5
   m_Name: Background
@@ -35,7 +35,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.000061035156, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6238787670442147888
@@ -46,7 +46,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2903408472029622150}
   m_CullTransparentMesh: 1
---- !u!114 &6279639745025812341
+--- !u!114 &5778550895567350283
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -55,27 +55,31 @@ MonoBehaviour:
   m_GameObject: {fileID: 2903408472029622150}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Script: {fileID: 11500000, guid: bde3e84598ae01c4db2f58f008e9ebd9, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_EditorClassIdentifier: Assembly-CSharp-firstpass::DNExtensions.Shapes.SDFRectangle
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.5294118}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
+  m_BaseColor: {r: 1, g: 1, b: 1, a: 1}
+  m_Rotation: 0
+  m_FillType: 0
   m_FillAmount: 1
-  m_FillClockwise: 1
   m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_Offset: {x: 0, y: 0}
+  m_OutlineThickness: 0.013
+  m_OutlineColor: {r: 0, g: 0.57741046, b: 1, a: 1}
+  m_InlineThickness: 0
+  m_InlineColor: {r: 0, g: 0, b: 1, a: 1}
+  m_Width: 0.46
+  m_Height: 0.46
+  m_Rounding: 0.043
+  m_Corners: {x: 0, y: 0, z: 0, w: 0}
 --- !u!114 &8966094687935605882
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -176,7 +180,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PopupNotification
   messageText: {fileID: 446807308987210534}
   iconImage: {fileID: 2627231205119103976}
-  backgroundImage: {fileID: 6279639745025812341}
+  backgroundImage: {fileID: 0}
   showDuration: 0.3
   hideDuration: 0.2
 --- !u!1 &6253349318371585342

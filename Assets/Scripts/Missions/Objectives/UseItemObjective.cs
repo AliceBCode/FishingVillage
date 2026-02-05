@@ -9,7 +9,23 @@ public class UseItemObjective : MissionObjective
 {
     [SerializeField] private SOItem item;
 
-    public override string Description => GetDescription();
+    protected override string Description
+    {
+        get
+        {
+            if (!item)
+            {
+                return $"Use: (No Item Selected)";
+            }
+
+            if (!item.Usable)
+            {
+                return $"Use: {item.Name} (Item Is Not Usable)";
+            }
+        
+            return $"Use: {item.Name}";
+        }
+    }
     
     
     public override void Initialize()
@@ -38,20 +54,5 @@ public class UseItemObjective : MissionObjective
         {
             SetMet();
         }
-    }
-
-    private string GetDescription()
-    {
-        if (!item)
-        {
-            return $"Use: (No Item Selected)";
-        }
-
-        if (!item.Usable)
-        {
-            return $"Use: {item.Name} (Item Is Not Usable)";
-        }
-        
-        return $"Use: {item.Name}";
     }
 }

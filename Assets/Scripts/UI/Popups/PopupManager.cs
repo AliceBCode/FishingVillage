@@ -72,7 +72,7 @@ namespace FishingVillage.UI.Popup
         {
             if (objective.IsHidden) return;
 
-            ShowPopup($"Objective Complete:\n{objective.Description}", objectiveCompleteSettings);
+            ShowPopup($"Objective Complete:\n{objective.GetDescription()}", objectiveCompleteSettings);
         }
 
         private void OnItemObtained(SOItem item)

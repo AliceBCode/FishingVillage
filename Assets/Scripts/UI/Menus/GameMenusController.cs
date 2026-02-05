@@ -25,6 +25,8 @@ namespace FishingVillage.UI.Menus
         private MenuManager _menuManager;
         private InputActionMap _playerActionMap;
 
+        private bool _menuActive;
+
 
         private void Awake()
         {
@@ -37,12 +39,31 @@ namespace FishingVillage.UI.Menus
         {
             _input.OnToggleInventoryAction += OnToggleInventory;
             _input.OnToggleMapAction += OnToggleMap;
+            _input.OnPauseAction += OnPause;
         }
 
         private void OnDisable()
         {
             _input.OnToggleInventoryAction -= OnToggleInventory;
             _input.OnToggleMapAction -= OnToggleMap;
+            _input.OnPauseAction -= OnPause;
+        }
+
+        private void OnPause(InputAction.CallbackContext context)
+        {
+            if (!context.performed || !_menuActive) return;
+            
+            CloseMenus();
+        }
+
+        private void CloseMenus()
+        {
+            _menuActive = false;
+            _menuManager.HideCurrentScreen();
+            mapPrompt.ShowDefaultVisuals();
+            inventoryPrompt.ShowDefaultVisuals();
+            _playerActionMap.Enable();
+
         }
 
         private void OnToggleMap(InputAction.CallbackContext context)
@@ -51,12 +72,15 @@ namespace FishingVillage.UI.Menus
 
             if (mapScreen.isActiveAndEnabled)
             {
+                _menuActive = false;
                 _menuManager.HideCurrentScreen();
                 mapPrompt.ShowDefaultVisuals();
                 _playerActionMap.Enable();
             }
             else
             {
+
+                _menuActive = true;
                 _menuManager.ShowScreen(mapScreen);
                 mapPrompt.ShowMenuVisuals();
                 inventoryPrompt.ShowDefaultVisuals();
@@ -70,12 +94,16 @@ namespace FishingVillage.UI.Menus
 
             if (inventoryScreen.isActiveAndEnabled)
             {
+
+                _menuActive = false;
                 _menuManager.HideCurrentScreen();
                 inventoryPrompt.ShowDefaultVisuals();
                 _playerActionMap.Enable();
             }
             else
             {
+
+                _menuActive = true;
                 _menuManager.ShowScreen(inventoryScreen);
                 inventoryPrompt.ShowMenuVisuals();
                 mapPrompt.ShowDefaultVisuals();

@@ -63,7 +63,7 @@ namespace FishingVillage.UI.Menus
         {
             if (!activeMissionsText) return;
 
-            activeMissionsText.text = "Active Missions:\n\n";
+            activeMissionsText.text = "Active:\n\n";
 
             foreach (var mission in _activeMissions)
             {
@@ -73,12 +73,12 @@ namespace FishingVillage.UI.Menus
                 {
                     var objectives = MissionManager.Instance.GetMissionObjectives(mission, true);
 
-                    if (objectives != null && objectives.Length > 0)
+                    if (objectives is { Length: > 0 })
                     {
                         foreach (var objective in objectives)
                         {
                             string checkmark = objective.Met ? "[X]" : "[ ]";
-                            activeMissionsText.text += $"  {checkmark} {objective.Description}\n";
+                            activeMissionsText.text += $"  {checkmark} {objective.GetDescription()}\n";
                         }
                     }
                     else
@@ -95,7 +95,7 @@ namespace FishingVillage.UI.Menus
         {
             if (!completedMissionsText) return;
 
-            completedMissionsText.text = "Completed Missions:\n\n";
+            completedMissionsText.text = "Completed:\n\n";
 
             foreach (var mission in _completedMissions)
             {

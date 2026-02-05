@@ -13,7 +13,7 @@ public class CompleteDialogueObjective : MissionObjective
     
     private string _targetID;
     
-    public override string Description => npc 
+    protected override string Description => npc 
         ? $"Talk With {npc.Name}" 
         : "Talk With (No NPC Was Set)";
     

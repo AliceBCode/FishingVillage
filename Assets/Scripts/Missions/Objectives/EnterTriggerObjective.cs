@@ -10,7 +10,7 @@ public class EnterTriggerObjective : MissionObjective
     [SerializeField] private string triggerID;
     [SerializeField] private string areaDescription = "Area";
     
-    public override string Description => $"Go To :{areaDescription}";
+    protected override string Description => $"Go To :{areaDescription}";
     
     public override void Initialize()
     {

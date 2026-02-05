@@ -167,6 +167,7 @@ namespace DNExtensions.Shapes
 
             vh.AddTriangle(0, 1, 2);
             vh.AddTriangle(2, 3, 0);
+            
         }
         
         public Color baseColor

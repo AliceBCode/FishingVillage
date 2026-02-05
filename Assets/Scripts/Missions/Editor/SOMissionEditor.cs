@@ -3,37 +3,37 @@ using UnityEditor;
 using UnityEngine;
 
 [CustomEditor(typeof(SOMission))]
-public class SOMissionEditor : Editor
+public class SoMissionEditor : Editor
 {
-    private SerializedProperty nameProp;
-    private SerializedProperty descriptionProp;
-    private SerializedProperty iconProp;
-    private SerializedProperty objectivesProp;
-    private SerializedProperty actionsOnMissionStartedProp;
-    private SerializedProperty actionsOnMissionCompletedProp;
-    private SerializedProperty objectiveEventsProp;
+    private SerializedProperty _nameProp;
+    private SerializedProperty _descriptionProp;
+    private SerializedProperty _iconProp;
+    private SerializedProperty _objectivesProp;
+    private SerializedProperty _actionsOnMissionStartedProp;
+    private SerializedProperty _actionsOnMissionCompletedProp;
+    private SerializedProperty _objectiveEventsProp;
 
     private void OnEnable()
     {
-        nameProp = serializedObject.FindProperty("name");
-        descriptionProp = serializedObject.FindProperty("description");
-        iconProp = serializedObject.FindProperty("icon");
-        objectivesProp = serializedObject.FindProperty("objectives");
-        actionsOnMissionStartedProp = serializedObject.FindProperty("onStarted");
-        actionsOnMissionCompletedProp = serializedObject.FindProperty("onCompleted");
-        objectiveEventsProp = serializedObject.FindProperty("onObjectiveCompleted");
+        _nameProp = serializedObject.FindProperty("name");
+        _descriptionProp = serializedObject.FindProperty("description");
+        _iconProp = serializedObject.FindProperty("icon");
+        _objectivesProp = serializedObject.FindProperty("objectives");
+        _actionsOnMissionStartedProp = serializedObject.FindProperty("onStarted");
+        _actionsOnMissionCompletedProp = serializedObject.FindProperty("onCompleted");
+        _objectiveEventsProp = serializedObject.FindProperty("onObjectiveCompleted");
     }
 
 public override void OnInspectorGUI()
 {
     serializedObject.Update();
     
-    EditorGUILayout.PropertyField(nameProp, new GUIContent("Name"));
-    EditorGUILayout.PropertyField(descriptionProp, new GUIContent("Description"));
-    EditorGUILayout.PropertyField(iconProp, new GUIContent("Icon"));
-    EditorGUILayout.PropertyField(objectivesProp, new GUIContent("Objectives"));
+    EditorGUILayout.PropertyField(_nameProp, new GUIContent("Name"));
+    EditorGUILayout.PropertyField(_descriptionProp, new GUIContent("Description"));
+    EditorGUILayout.PropertyField(_iconProp, new GUIContent("Icon"));
+    EditorGUILayout.PropertyField(_objectivesProp, new GUIContent("Objectives"));
     
-    EditorGUILayout.PropertyField(actionsOnMissionStartedProp, new GUIContent("On Mission Started"));
+    EditorGUILayout.PropertyField(_actionsOnMissionStartedProp, new GUIContent("On Mission Started"));
     
     var mission = target as SOMission;
     if (mission)
@@ -54,9 +54,9 @@ public override void OnInspectorGUI()
         }
         
         // Resize array to match valid objectives count
-        if (objectiveEventsProp.arraySize != validObjectives.Count)
+        if (_objectiveEventsProp.arraySize != validObjectives.Count)
         {
-            objectiveEventsProp.arraySize = validObjectives.Count;
+            _objectiveEventsProp.arraySize = validObjectives.Count;
         }
     
         if (validObjectives.Count > 0)
@@ -66,11 +66,11 @@ public override void OnInspectorGUI()
                 var objective = validObjectives[i];
                 int originalIndex = validIndices[i];
                 
-                var entryProp = objectiveEventsProp.GetArrayElementAtIndex(i);
+                var entryProp = _objectiveEventsProp.GetArrayElementAtIndex(i);
                 var actionsOnCompletedProp = entryProp.FindPropertyRelative("onObjectiveCompleted");
                 
                 EditorGUILayout.Space(5);
-                EditorGUILayout.PropertyField(actionsOnCompletedProp, new GUIContent($"On Objective {originalIndex}: {objective.Description}"));
+                EditorGUILayout.PropertyField(actionsOnCompletedProp, new GUIContent($"On Objective {originalIndex}: {objective.GetDescription()}"));
                 EditorGUILayout.Space(5);
             }
         }
@@ -80,7 +80,7 @@ public override void OnInspectorGUI()
         }
     }
     
-    EditorGUILayout.PropertyField(actionsOnMissionCompletedProp, new GUIContent("On Mission Completed"));
+    EditorGUILayout.PropertyField(_actionsOnMissionCompletedProp, new GUIContent("On Mission Completed"));
 
     serializedObject.ApplyModifiedProperties();
 }

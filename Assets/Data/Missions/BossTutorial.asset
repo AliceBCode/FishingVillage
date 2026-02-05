@@ -58,18 +58,27 @@ MonoBehaviour:
       data:
         isHidden: 0
         requiresPreviousObjective: 0
+        overrideDescription:
+          isSet: 0
+          value: Description
         npc: {fileID: 6247453604042879243, guid: 93409a23ac56e0e4d8e1a8f0824d0dc7, type: 3}
     - rid: 8175020186713456725
       type: {class: ObtainItemObjective, ns: , asm: Assembly-CSharp}
       data:
         isHidden: 0
         requiresPreviousObjective: 1
+        overrideDescription:
+          isSet: 0
+          value: Description
         requiredItem: {fileID: 11400000, guid: 9db520021735ba9428c293b40d5975ac, type: 2}
     - rid: 8175020186713456726
       type: {class: GiveItemToNpcObjective, ns: , asm: Assembly-CSharp}
       data:
         isHidden: 0
         requiresPreviousObjective: 1
+        overrideDescription:
+          isSet: 0
+          value: Description
         requiredItem: {fileID: 11400000, guid: 9db520021735ba9428c293b40d5975ac, type: 2}
         npc: {fileID: 6247453604042879243, guid: 93409a23ac56e0e4d8e1a8f0824d0dc7, type: 3}
     - rid: 8175020186713456727
@@ -77,6 +86,9 @@ MonoBehaviour:
       data:
         isHidden: 0
         requiresPreviousObjective: 1
+        overrideDescription:
+          isSet: 0
+          value: Description
         npc: {fileID: 6247453604042879243, guid: 93409a23ac56e0e4d8e1a8f0824d0dc7, type: 3}
     - rid: 8175020209025843303
       type: {class: StartDialogueAction, ns: , asm: Assembly-CSharp}

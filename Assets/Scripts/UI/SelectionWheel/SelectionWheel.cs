@@ -1,8 +1,11 @@
 
+using DNExtensions.ObjectPooling;
+using System.Collections.Generic;
+using UnityEngine;
+
 namespace FishingVillage.UI.SelectionWheel
 {
-    using System.Collections.Generic;
-    using UnityEngine;
+
     
     
     public class SelectionWheel : MonoBehaviour
@@ -66,8 +69,9 @@ namespace FishingVillage.UI.SelectionWheel
         {
             foreach (var item in _wheelItems)
             {
-                if (item) Destroy(item.gameObject);
+                ObjectPooler.ReturnObjectToPool(item.gameObject);
             }
+            
             _wheelItems.Clear();
             
 
@@ -82,7 +86,10 @@ namespace FishingVillage.UI.SelectionWheel
             
             for (int i = 0; i < _currentUsableItems.Count; i++)
             {
-                var wheelItem = Instantiate(itemPrefab, itemsHolder);
+                var wheelItemGo = ObjectPooler.GetObjectFromPool(itemPrefab.gameObject);
+                wheelItemGo.transform.SetParent(itemsHolder, false);
+                var wheelItem = wheelItemGo.GetComponent<SelectionWheelItem>();
+                
                 wheelItem.Image.sprite = _currentUsableItems[i].Icon;
                 _wheelItems.Add(wheelItem);
             }

@@ -6,7 +6,7 @@ using DNExtensions.Utilities.SerializableSelector;
 [SerializableSelectorName("Walk Action", "Player")]
 public class WalkActionObjective : MissionObjective
 {
-    public override string Description => $"Walk";
+    protected override string Description => $"Walk";
     
     public override void Initialize()
     {

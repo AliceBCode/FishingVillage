@@ -5,17 +5,17 @@ using UnityEngine;
 [CustomEditor(typeof(MissionEventsListener))]
 public class MissionEventsListenerEditor : Editor
 {
-    private SerializedProperty missionProp;
-    private SerializedProperty onMissionStartedProp;
-    private SerializedProperty onMissionCompletedProp;
-    private SerializedProperty objectiveEventsProp;
+    private SerializedProperty _missionProp;
+    private SerializedProperty _onMissionStartedProp;
+    private SerializedProperty _onMissionCompletedProp;
+    private SerializedProperty _objectiveEventsProp;
 
     private void OnEnable()
     {
-        missionProp = serializedObject.FindProperty("mission");
-        onMissionStartedProp = serializedObject.FindProperty("onMissionStarted");
-        objectiveEventsProp = serializedObject.FindProperty("objectiveEvents");
-        onMissionCompletedProp = serializedObject.FindProperty("onMissionCompleted");
+        _missionProp = serializedObject.FindProperty("mission");
+        _onMissionStartedProp = serializedObject.FindProperty("onMissionStarted");
+        _objectiveEventsProp = serializedObject.FindProperty("objectiveEvents");
+        _onMissionCompletedProp = serializedObject.FindProperty("onMissionCompleted");
     }
 
     public override void OnInspectorGUI()
@@ -23,33 +23,33 @@ public class MissionEventsListenerEditor : Editor
         serializedObject.Update();
 
         EditorGUILayout.Space(15);
-        EditorGUILayout.PropertyField(missionProp, new GUIContent("Mission"));
+        EditorGUILayout.PropertyField(_missionProp, new GUIContent("Mission"));
         EditorGUILayout.Space(15);
         
-        var mission = missionProp.objectReferenceValue as SOMission;
+        var mission = _missionProp.objectReferenceValue as SOMission;
         
         
         if (mission)
         {
-            EditorGUILayout.PropertyField(onMissionStartedProp, new GUIContent("On Mission Started"));
+            EditorGUILayout.PropertyField(_onMissionStartedProp, new GUIContent("On Mission Started"));
             
             var objectives = mission.CloneObjectives();
             
-            if (objectiveEventsProp.arraySize != objectives.Length)
+            if (_objectiveEventsProp.arraySize != objectives.Length)
             {
-                objectiveEventsProp.arraySize = objectives.Length;
+                _objectiveEventsProp.arraySize = objectives.Length;
             }
             
             for (int i = 0; i < objectives.Length; i++)
             {
                 var objective = objectives[i];
-                var entryProp = objectiveEventsProp.GetArrayElementAtIndex(i);
+                var entryProp = _objectiveEventsProp.GetArrayElementAtIndex(i);
                 var onCompletedProp = entryProp.FindPropertyRelative("onCompleted");
                 
-                EditorGUILayout.PropertyField(onCompletedProp, new GUIContent($"On Objective {i}: {objective.Description}"));
+                EditorGUILayout.PropertyField(onCompletedProp, new GUIContent($"On Objective {i}: {objective.GetDescription()}"));
             }
             
-            EditorGUILayout.PropertyField(onMissionCompletedProp, new GUIContent("On Mission Completed"));
+            EditorGUILayout.PropertyField(_onMissionCompletedProp, new GUIContent("On Mission Completed"));
         }
         else
         {

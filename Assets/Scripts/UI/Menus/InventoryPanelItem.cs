@@ -1,3 +1,4 @@
+using DNExtensions.ObjectPooling;
 using DNExtensions.Shapes;
 using DNExtensions.Utilities;
 using PrimeTween;
@@ -7,7 +8,7 @@ using UnityEngine.EventSystems;
 
 namespace FishingVillage.UI.Menus
 {
-    public class InventoryPanelItem : Selectable
+    public class InventoryPanelItem : Selectable, IPoolable
     {
         
         [Header("Animation")]
@@ -95,6 +96,27 @@ namespace FishingVillage.UI.Menus
             _selectionSequence = Sequence.Create()
                     .Group(Tween.LocalRotation(backgroundImage.transform, startRotation,_startBackgroundRotation, animationDuration,animationEase))
                     .Group(Tween.Scale(iconImage.transform,  _startIconScale, animationDuration,animationEase));
+        }
+
+        public void OnPoolGet()
+        {
+
+        }
+
+        public void OnPoolReturn()
+        {
+            if (_selectionSequence.isAlive)
+            {
+                _selectionSequence.Stop();
+            }
+            backgroundImage.baseColor = normalColor;
+            backgroundImage.transform.localRotation = _startBackgroundRotation;
+            
+        }
+
+        public void OnPoolRecycle()
+        {
+            
         }
     }
 }
