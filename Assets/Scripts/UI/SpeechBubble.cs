@@ -35,12 +35,12 @@ namespace FishingVillage.UI
 
         [Header("References")] 
         [SerializeField] private CanvasGroup canvasGroup;
+        [SerializeField] private RectTransform rectTransform;
         [SerializeField] private TextMeshProUGUI text;
         [SerializeField] private GameObject interactPrompt;
 
         private Camera _cam;
         private Vector3 _baseScale;
-        private RectTransform _rectTransform;
         private Coroutine _hideCoroutine;
         private Sequence _fadeSequence;
 
@@ -48,8 +48,7 @@ namespace FishingVillage.UI
         {
             Hide(false);
             _cam = Camera.main;
-            _rectTransform = canvasGroup.transform as RectTransform;
-            if (_rectTransform) _baseScale = _rectTransform.localScale;
+            if (rectTransform) _baseScale = rectTransform.localScale;
         }
 
         private void OnDestroy()
@@ -70,21 +69,20 @@ namespace FishingVillage.UI
         {
             if (!_cam || !rotateToCamera) return;
 
-            Vector3 directionToCamera = _rectTransform.position - _cam.transform.position;
+            Vector3 directionToCamera = rectTransform.position - _cam.transform.position;
             directionToCamera.y = 0;
             Quaternion targetRotation = Quaternion.LookRotation(directionToCamera);
-            _rectTransform.rotation =
-                Quaternion.Slerp(_rectTransform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+            rectTransform.rotation = Quaternion.Slerp(rectTransform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
         }
 
         private void ChangeSizeBasedOnDistance()
         {
             if (!_cam || !distanceToCameraAffectsScale) return;
 
-            float distance = Vector3.Distance(_rectTransform.position, _cam.transform.position);
+            float distance = Vector3.Distance(rectTransform.position, _cam.transform.position);
             float t = Mathf.InverseLerp(minMaxDistance.minValue, minMaxDistance.maxValue, distance);
             float scaleMultiplier = Mathf.Lerp(minMaxScale.minValue, minMaxScale.maxValue, t);
-            _rectTransform.localScale = _baseScale * scaleMultiplier;
+            rectTransform.localScale = _baseScale * scaleMultiplier;
         }
 
 

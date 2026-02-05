@@ -5,11 +5,6 @@ using TMPro;
 
 namespace DNExtensions.InputSystem
 {
-    /// <summary>
-    /// Visual styling component for action prompts.
-    /// Handles color and scale changes based on input action pressed state.
-    /// Requires ActionBindingDisplay on the same GameObject.
-    /// </summary>
     [RequireComponent(typeof(ActionBindingDisplay))]
     public class ActionPromptVisual : MonoBehaviour
     {

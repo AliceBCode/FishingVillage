@@ -4,10 +4,6 @@ using UnityEngine.InputSystem;
 
 namespace DNExtensions.InputSystem
 {
-    /// <summary>
-    /// Maps custom tokens in text to input actions and displays their bindings.
-    /// Captures the original text as a template on Start and replaces specified tokens on each update.
-    /// </summary>
     [Serializable]
     public struct TokenActionPair
     {

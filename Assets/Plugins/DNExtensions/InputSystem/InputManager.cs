@@ -6,13 +6,6 @@ using UnityEngine.InputSystem;
 
 namespace DNExtensions.InputSystem
 {
-    public enum InputDeviceType
-    {
-        KeyboardMouse,
-        Gamepad,
-        Touch
-    }
-
     public class InputManager : MonoBehaviour
     {
         public static InputManager Instance { get; private set; }

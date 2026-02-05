@@ -5,10 +5,6 @@ using UnityEngine.InputSystem;
 
 namespace DNExtensions.InputSystem
 {
-    /// <summary>
-    /// Displays input bindings for an array of InputActions.
-    /// Always generates display from the actions array, ignoring any existing text.
-    /// </summary>
     public class ActionBindingDisplay : InputBindingDisplay
     {
         [SerializeField] private string[] actionNames;
