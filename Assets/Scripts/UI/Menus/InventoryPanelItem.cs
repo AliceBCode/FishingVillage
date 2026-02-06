@@ -48,7 +48,7 @@ namespace FishingVillage.UI.Menus
             backgroundImage.baseColor = normalColor;
             _startBackgroundRotation = backgroundImage.transform.localRotation;
             
-            this.EnableMouseHoverSelection();
+            this.EnableOnPointerEnterSelection();
         }
 
 

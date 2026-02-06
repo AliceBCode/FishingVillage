@@ -11,11 +11,11 @@ namespace FishingVillage.UI.Menus
     public class GameMenuPrompt : MonoBehaviour
     {
 
-        [Header("Settings")] [SerializeField] private Color menuColor = Color.dodgerBlue;
+        [Header("Settings")] 
+        [SerializeField] private Color menuColor = Color.dodgerBlue;
 
-        [Header("References")] [SerializeField]
-        private TextMeshProUGUI menuTextMesh;
-
+        [Header("References")] 
+        [SerializeField] private TextMeshProUGUI menuTextMesh;
         [SerializeField] private TextMeshProUGUI hudTextMesh;
         [SerializeField] private SDFCircle circle;
 

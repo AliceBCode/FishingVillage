@@ -1,5 +1,6 @@
 
 using System.Collections.Generic;
+using DNExtensions.MenuSystem;
 using DNExtensions.ObjectPooling;
 using TMPro;
 using UnityEngine;
@@ -14,6 +15,7 @@ namespace FishingVillage.UI.Menus
         [SerializeField] private Transform container;
         [SerializeField] private TextMeshProUGUI selectedItemTextName;
         [SerializeField] private TextMeshProUGUI selectedItemTextDescription;
+        [SerializeField] private ScreenNavigation screenNavigation;
     
         private readonly List<InventoryPanelItem> _itemSlots = new List<InventoryPanelItem>();
 
@@ -52,6 +54,8 @@ namespace FishingVillage.UI.Menus
                 slot.Setup(item);
                 _itemSlots.Add(slot);
             }
+            
+            screenNavigation?.SetUpSelectables();
             
         }
 

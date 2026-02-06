@@ -1,8 +1,9 @@
 
-using DNExtenstions.MenuSystem;
+
+using DNExtensions.MenuSystem;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using Screen = DNExtenstions.MenuSystem.Screen;
+using Screen = DNExtensions.MenuSystem.Screen;
 
 
 namespace FishingVillage.UI.Menus
