@@ -45,9 +45,9 @@ namespace FishingVillage.UI.Menus
             
             foreach (var item in inventory.AllItems)
             {
-                GameObject slotGo = ObjectPooler.GetObjectFromPool(panelItemPrefab.gameObject);
+                var slotGo = ObjectPooler.GetObjectFromPool(panelItemPrefab);
                 slotGo.transform.SetParent(container, false);
-                InventoryPanelItem slot = slotGo.GetComponent<InventoryPanelItem>();
+                var slot = slotGo.GetComponent<InventoryPanelItem>();
                 
                 slot.Setup(item);
                 _itemSlots.Add(slot);
@@ -59,7 +59,7 @@ namespace FishingVillage.UI.Menus
         {
             foreach (var slot in _itemSlots)
             {
-                if (slot) ObjectPooler.ReturnObjectToPool(slot.gameObject);
+                if (slot) ObjectPooler.ReturnObjectToPool(slot);
             }
             
             _itemSlots.Clear();

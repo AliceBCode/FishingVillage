@@ -1,4 +1,6 @@
 using System;
+using DNExtensions.ObjectPooling;
+using DNExtensions.Shapes;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -8,12 +10,13 @@ namespace FishingVillage.UI.Popup
 {
     
 
-    public class PopupNotification : MonoBehaviour
+    public class PopupNotification : MonoBehaviour, IPoolable
     {
         [Header("References")] 
         [SerializeField] private TextMeshProUGUI messageText;
+        [SerializeField] private SDFCircle iconBackground;
         [SerializeField] private Image iconImage;
-        [SerializeField] private Image backgroundImage;
+        [SerializeField] private SDFRectangle backgroundImage;
 
         [Header("Animation")] 
         [SerializeField] private float showDuration = 0.3f;
@@ -38,6 +41,11 @@ namespace FishingVillage.UI.Popup
         {
             messageText.text = message;
 
+            if (iconBackground)
+            {
+                iconBackground.gameObject.SetActive(icon);
+            }
+            
             if (iconImage)
             {
                 iconImage.gameObject.SetActive(icon);
@@ -46,7 +54,7 @@ namespace FishingVillage.UI.Popup
 
             if (backgroundImage)
             {
-                backgroundImage.color = backgroundColor;
+                backgroundImage.baseColor = backgroundColor;
             }
 
             Show();
@@ -65,6 +73,23 @@ namespace FishingVillage.UI.Popup
         {
             Tween.Alpha(_canvasGroup, 0f, hideDuration, Ease.InCubic)
                 .OnComplete(() => onComplete?.Invoke());
+        }
+
+        public void OnPoolGet()
+        {
+            
+        }
+
+        public void OnPoolReturn()
+        {
+            _canvasGroup.alpha = 0f;
+            transform.localScale = Vector3.one;
+   
+        }
+
+        public void OnPoolRecycle()
+        {
+
         }
     }
 }

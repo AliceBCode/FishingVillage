@@ -69,7 +69,7 @@ namespace FishingVillage.UI.SelectionWheel
         {
             foreach (var item in _wheelItems)
             {
-                ObjectPooler.ReturnObjectToPool(item.gameObject);
+                ObjectPooler.ReturnObjectToPool(item);
             }
             
             _wheelItems.Clear();
@@ -86,7 +86,7 @@ namespace FishingVillage.UI.SelectionWheel
             
             for (int i = 0; i < _currentUsableItems.Count; i++)
             {
-                var wheelItemGo = ObjectPooler.GetObjectFromPool(itemPrefab.gameObject);
+                var wheelItemGo = ObjectPooler.GetObjectFromPool(itemPrefab);
                 wheelItemGo.transform.SetParent(itemsHolder, false);
                 var wheelItem = wheelItemGo.GetComponent<SelectionWheelItem>();
                 

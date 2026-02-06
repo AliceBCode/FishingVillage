@@ -1,4 +1,4 @@
-using System;
+using DNExtensions.ObjectPooling;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -22,10 +22,8 @@ namespace FishingVillage.UI.Popup
         [SerializeField] private PopupSettings missionCompleteSettings;
         [SerializeField] private PopupSettings objectiveCompleteSettings;
         [SerializeField] private PopupSettings itemObtainedSettings;
-        [SerializeField] private PopupSettings itemRemovedSettings;
 
         private readonly Queue<PopupNotification> _activePopups = new Queue<PopupNotification>();
-        private readonly Queue<PopupNotification> _popupPool = new Queue<PopupNotification>();
 
         private void Awake()
         {
@@ -43,9 +41,7 @@ namespace FishingVillage.UI.Popup
             GameEvents.OnMissionStarted += OnMissionStarted;
             GameEvents.OnMissionCompleted += OnMissionCompleted;
             MissionObjective.OnObjectiveMet += OnObjectiveMet;
-
             GameEvents.OnItemObtained += OnItemObtained;
-            GameEvents.OnItemRemoved += OnItemRemoved;
         }
 
         private void OnDisable()
@@ -53,9 +49,7 @@ namespace FishingVillage.UI.Popup
             GameEvents.OnMissionStarted -= OnMissionStarted;
             GameEvents.OnMissionCompleted -= OnMissionCompleted;
             MissionObjective.OnObjectiveMet -= OnObjectiveMet;
-
             GameEvents.OnItemObtained -= OnItemObtained;
-            GameEvents.OnItemRemoved -= OnItemRemoved;
         }
 
         private void OnMissionStarted(SOMission mission)
@@ -79,16 +73,15 @@ namespace FishingVillage.UI.Popup
         {
             ShowPopup($"{item.Name}", itemObtainedSettings, item.Icon);
         }
-
-        private void OnItemRemoved(SOItem item)
-        {
-            ShowPopup($"{item.Name}", itemRemovedSettings, item.Icon);
-        }
-
+        
 
         public void ShowPopup(string message, PopupSettings settings, Sprite overrideIcon = null)
         {
-            var popup = GetOrCreatePopup();
+            var popupGo = ObjectPooler.GetObjectFromPool(popupPrefab);
+            popupGo.transform.SetParent(popupContainer, false);
+            var popup = popupGo.GetComponent<PopupNotification>();
+
+            popup.RectTransform.anchoredPosition = Vector2.zero;
 
             Sprite icon = overrideIcon ? overrideIcon : settings?.Icon;
             Color color = settings?.BackgroundColor ?? Color.white;
@@ -100,31 +93,12 @@ namespace FishingVillage.UI.Popup
             if (_activePopups.Count > maxVisiblePopups)
             {
                 var oldest = _activePopups.Dequeue();
-                ReturnToPool(oldest);
+                ObjectPooler.ReturnObjectToPool(oldest);
             }
 
             RepositionPopups();
             StartCoroutine(HidePopupAfterDelay(popup, popupDuration));
         }
-
-        private PopupNotification GetOrCreatePopup()
-        {
-            if (_popupPool.Count > 0)
-            {
-                var popup = _popupPool.Dequeue();
-                popup.gameObject.SetActive(true);
-                return popup;
-            }
-
-            return Instantiate(popupPrefab, popupContainer);
-        }
-
-        private void ReturnToPool(PopupNotification popup)
-        {
-            popup.gameObject.SetActive(false);
-            _popupPool.Enqueue(popup);
-        }
-
         private void RepositionPopups()
         {
             int index = 0;
@@ -150,7 +124,7 @@ namespace FishingVillage.UI.Popup
                     _activePopups.Enqueue(p);
                 }
 
-                popup.Hide(() => ReturnToPool(popup));
+                popup.Hide(() => ObjectPooler.ReturnObjectToPool(popup));
                 RepositionPopups();
             }
         }

@@ -1772,12 +1772,12 @@ MonoBehaviour:
       isSet: 0
       value: {fileID: 0}
   itemObtainedSettings:
-    backgroundColor: {r: 1, g: 1, b: 1, a: 0.5294118}
+    backgroundColor: {r: 0.8238993, g: 0.8238993, b: 0.8238993, a: 0.5294118}
     icon:
       isSet: 0
       value: {fileID: 0}
   itemRemovedSettings:
-    backgroundColor: {r: 1, g: 1, b: 1, a: 0.5294118}
+    backgroundColor: {r: 0.8235294, g: 0.8235294, b: 0.8235294, a: 0.5294118}
     icon:
       isSet: 0
       value: {fileID: 0}

@@ -35,3 +35,12 @@ MonoBehaviour:
     preWarmPool: 0
     preWarmPoolSize: 0
     scenesToPreWarm: []
+  - poolName: PopupNotification
+    maxPoolSize: 10000
+    prefab: {fileID: 2911899442751937946, guid: e5261d1cef910ee4d8887e05f09d222c, type: 3}
+    dontDestroyOnLoad: 0
+    usePoolHolder: 0
+    recycleActiveObjects: 0
+    preWarmPool: 0
+    preWarmPoolSize: 0
+    scenesToPreWarm: []
