@@ -72,7 +72,7 @@ Material:
     - _SrcBlendAlpha: 1
     - _Surface: 1
     - _Swell_Displacement: 1
-    - _Swell_Speed: 25
+    - _Swell_Speed: 31.8
     - _Wave_Amplitude: 0.3
     - _Wave_Hight_Frequency: 15
     - _Wave_Speed: 2

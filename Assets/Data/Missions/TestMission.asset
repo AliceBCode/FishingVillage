@@ -24,18 +24,14 @@ MonoBehaviour:
   - rid: 8175020209025843303
   - rid: 4802877461282947378
   onObjectiveCompleted:
-  - objectiveName: '0: Complete Dialogue'
-    onObjectiveCompleted: []
+  - onObjectiveCompleted: []
     hasTriggered: 0
-  - objectiveName: '1: Obtain Item'
-    onObjectiveCompleted: []
+  - onObjectiveCompleted: []
     hasTriggered: 0
-  - objectiveName: '2: Give Item To NPC'
-    onObjectiveCompleted:
+  - onObjectiveCompleted:
     - rid: 8175020209025843308
     hasTriggered: 0
-  - objectiveName: '3: Complete Dialogue'
-    onObjectiveCompleted: []
+  - onObjectiveCompleted: []
     hasTriggered: 0
   onCompleted:
   - rid: 4802877461282947379
@@ -57,18 +53,27 @@ MonoBehaviour:
       data:
         isHidden: 0
         requiresPreviousObjective: 0
+        overrideDescription:
+          isSet: 0
+          value: Description
         npc: {fileID: 237702557246814423, guid: e157842bb6e6be04bbbfc995a1b0a8f9, type: 3}
     - rid: 8175020186713456725
       type: {class: ObtainItemObjective, ns: , asm: Assembly-CSharp}
       data:
         isHidden: 0
         requiresPreviousObjective: 1
+        overrideDescription:
+          isSet: 0
+          value: Get the bag
         requiredItem: {fileID: 11400000, guid: 9db520021735ba9428c293b40d5975ac, type: 2}
     - rid: 8175020186713456726
       type: {class: GiveItemToNpcObjective, ns: , asm: Assembly-CSharp}
       data:
         isHidden: 0
         requiresPreviousObjective: 1
+        overrideDescription:
+          isSet: 0
+          value: Description
         requiredItem: {fileID: 11400000, guid: 9db520021735ba9428c293b40d5975ac, type: 2}
         npc: {fileID: 237702557246814423, guid: e157842bb6e6be04bbbfc995a1b0a8f9, type: 3}
     - rid: 8175020186713456727
@@ -76,6 +81,9 @@ MonoBehaviour:
       data:
         isHidden: 0
         requiresPreviousObjective: 1
+        overrideDescription:
+          isSet: 0
+          value: Description
         npc: {fileID: 237702557246814423, guid: e157842bb6e6be04bbbfc995a1b0a8f9, type: 3}
     - rid: 8175020209025843303
       type: {class: StartDialogueAction, ns: , asm: Assembly-CSharp}

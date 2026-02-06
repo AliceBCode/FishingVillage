@@ -72,12 +72,10 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillOrigin: 0
   m_Offset: {x: 0, y: 0}
-  m_OutlineThickness: 0.013
+  m_OutlineThickness: 0.047
   m_OutlineColor: {r: 0, g: 0.57741046, b: 1, a: 1}
-  m_InlineThickness: 0
-  m_InlineColor: {r: 0, g: 0, b: 1, a: 1}
-  m_Width: 0.46
-  m_Height: 0.46
+  m_Width: 0.45
+  m_Height: 0.45
   m_Rounding: 0.043
   m_Corners: {x: 0, y: 0, z: 0, w: 0}
 --- !u!114 &8966094687935605882
@@ -153,10 +151,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.HorizontalLayoutGroup
   m_Padding:
-    m_Left: 15
-    m_Right: 15
-    m_Top: 0
-    m_Bottom: 0
+    m_Left: 25
+    m_Right: 25
+    m_Top: 15
+    m_Bottom: 15
   m_ChildAlignment: 4
   m_Spacing: 15
   m_ChildForceExpandWidth: 1
@@ -249,7 +247,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 27d1b3170bdf4cd48827d371d2e45d20, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -347,8 +345,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Notification
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: bea1fd93efb73c040bcd8014a2e93847, type: 2}
+  m_sharedMaterial: {fileID: -3672587909963510496, guid: bea1fd93efb73c040bcd8014a2e93847, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

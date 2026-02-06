@@ -77,12 +77,12 @@ namespace FishingVillage.UI.Popup
 
         private void OnItemObtained(SOItem item)
         {
-            ShowPopup($"Obtained:\n{item.Name}", itemObtainedSettings, item.Icon);
+            ShowPopup($"{item.Name}", itemObtainedSettings, item.Icon);
         }
 
         private void OnItemRemoved(SOItem item)
         {
-            ShowPopup($"Removed:\n{item.Name}", itemRemovedSettings, item.Icon);
+            ShowPopup($"{item.Name}", itemRemovedSettings, item.Icon);
         }
 
 
