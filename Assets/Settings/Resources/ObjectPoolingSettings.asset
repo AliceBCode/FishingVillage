@@ -21,21 +21,17 @@ MonoBehaviour:
     maxPoolSize: 10000
     prefab: {fileID: 7137661458973270199, guid: 7d6f634b472e49a4eaa5c895d5bc3b46, type: 3}
     dontDestroyOnLoad: 0
+    usePoolHolder: 0
     recycleActiveObjects: 0
-    preWarmPool: 1
-    preWarmPoolSize: 5
+    preWarmPool: 0
+    preWarmPoolSize: 0
     scenesToPreWarm: []
-    poolSize: 0
-    activePoolCount: 0
-    inactivePoolCount: 0
   - poolName: SelectionWheelItem
     maxPoolSize: 10000
     prefab: {fileID: 4889311960857118149, guid: 29d34b543cfe627468856313289a9f9b, type: 3}
     dontDestroyOnLoad: 0
+    usePoolHolder: 0
     recycleActiveObjects: 0
-    preWarmPool: 1
-    preWarmPoolSize: 5
+    preWarmPool: 0
+    preWarmPoolSize: 0
     scenesToPreWarm: []
-    poolSize: 0
-    activePoolCount: 0
-    inactivePoolCount: 0
