@@ -4,6 +4,7 @@ using UnityEngine;
 public static class GameEvents
 {
     public static event Action<PlayerInventory> OnInventoryChanged;
+    public static event Action<SOItem> OnInventoryItemSelected; 
     public static event Action<PlayerState> OnPlayerStateChanged; 
     public static event Action<SOItem> OnItemObtained;
     public static event Action<SOItem> OnItemRemoved;
@@ -54,6 +55,11 @@ public static class GameEvents
     public static void ItemEquipped(SOItem item)
     {
         OnItemEquipped?.Invoke(item);
+    }
+
+    public static void InventoryItemSelected(SOItem item)
+    {
+        OnInventoryItemSelected?.Invoke(item);
     }
     
     public static void ItemGivenToNpc(SOItem item, NPC npc)

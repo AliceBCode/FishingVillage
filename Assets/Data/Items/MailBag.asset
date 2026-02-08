@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df9a775ef5ec4fa2b66ef577391e2626, type: 3}
   m_Name: MailBag
   m_EditorClassIdentifier: Assembly-CSharp::SOItem
-  name: MailBag
-  description: Bag of mail
+  name: Mail Bag
+  description: A bag full of mail, who knew paper can weigh so much?
   icon: {fileID: -361406988, guid: 2dba4d2246ded1f4697ed97d72460b03, type: 3}
   usable: 0
   actionsOnUse: []

@@ -113,9 +113,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   moveSpeed: 10
-  gravity: 1
+  gravity: 1.5
   maxFallSpeed: 25
-  jumpForce: 15
+  jumpForce: 20
   jumpBufferTime: 0.2
   coyoteTime: 0.1
   ceilingCheckRadius: 0.1

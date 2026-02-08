@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ClownPackage
   m_EditorClassIdentifier: Assembly-CSharp::SOItem
   name: Clown Package
-  description: Clown Package
+  description: A package for the clown fish. Probably shouldn't peek.
   icon: {fileID: 21300000, guid: 5099f93d4ac48094b918825b4628439f, type: 3}
   usable: 1
   actionsOnUse: []

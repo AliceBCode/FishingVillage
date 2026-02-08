@@ -2,14 +2,14 @@ trackSelection = true
 refreshSearchWindowsInPlayMode = false
 pickerAdvancedUI = false
 fetchPreview = true
-defaultFlags = 0
+defaultFlags = 264
 keepOpen = true
 queryFolder = "Assets"
 onBoardingDoNotAskAgain = true
 showPackageIndexes = false
 showStatusBar = false
 scopes = {
-	"picker_window_position_offset.00000000" = "-604.5;137;320;550"
+	"picker_window_position_offset.00000000" = "-749.3333;137.3333;464.6667;580"
 	"picker_visibility_flags.00000000" = "0"
 	"picker_item_size.00000000" = "32"
 	"picker_inspector.00000000" = "0"
@@ -72,20 +72,22 @@ providers = {
 objectSelectors = {
 }
 recentSearches = [
+	""
+	"8175020209025843287"
 ]
 searchItemFavorites = [
 ]
 savedSearchesSortOrder = 0
-showSavedSearchPanel = false
+showSavedSearchPanel = true
 hideTabs = false
 indexOnEditorStartup = true
 logIndexingPerformanceReport = false
 expandedQueries = [
 ]
-queryBuilder = true
+queryBuilder = false
 ignoredProperties = "id;name;classname;imagecontentshash"
 helperWidgetCurrentArea = "all"
 disabledIndexers = ""
 minIndexVariations = 2
 findProviderIndexHelper = true
-itemIconSize = 32
+itemIconSize = 129

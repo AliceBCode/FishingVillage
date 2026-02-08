@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Horn
   m_EditorClassIdentifier: Assembly-CSharp::SOItem
   name: Horn
-  description: A horn
+  description: Makes a loud noise. Probably too loud.
   icon: {fileID: 21300000, guid: 1ae1b3a0f9ead674f870d0c8239b40fb, type: 3}
   usable: 1
   actionsOnUse:

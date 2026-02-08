@@ -11,7 +11,23 @@ public class UseItemInTriggerObjective : MissionObjective
     [SerializeField] private string triggerID;
     [SerializeField] private string areaDescription = "Area";
 
-    public override string Description => GetDescription();
+    protected override string Description
+    {
+        get
+        {
+            if (!item)
+            {
+                return $"Use: (No Item Selected) In: {areaDescription}";
+            }
+
+            if (!item.Usable)
+            {
+                return $"Use: {item.Name} (Item Is Not Usable) In: {areaDescription}";
+            }
+        
+            return $"Use: {item.Name} In: {areaDescription}";
+        }
+    }
 
     private bool _inTriggerArea;
     
@@ -61,18 +77,4 @@ public class UseItemInTriggerObjective : MissionObjective
         }
     }
     
-    private string GetDescription()
-    {
-        if (!item)
-        {
-            return $"Use: (No Item Selected) In: {areaDescription}";
-        }
-
-        if (!item.Usable)
-        {
-            return $"Use: {item.Name} (Item Is Not Usable) In: {areaDescription}";
-        }
-        
-        return $"Use: {item.Name} In: {areaDescription}";
-    }
 }

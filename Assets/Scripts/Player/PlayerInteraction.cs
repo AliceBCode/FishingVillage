@@ -71,6 +71,14 @@ public class PlayerInteraction : MonoBehaviour
             }
         }
         
+        closestInteractable.TryGetValue(out IInteractable current);
+
+        if (closest != current)
+        {
+            current?.HideInteract();
+            closest?.ShowInteract();
+        }
+    
         closestInteractable.Value = closest;
     }
 

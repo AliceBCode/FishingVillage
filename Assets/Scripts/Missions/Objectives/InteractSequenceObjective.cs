@@ -9,21 +9,21 @@ public class InteractSequenceObjective : MissionObjective
 {
     [SerializeField] private Interactable[] requiredSequence;
     
-    private string[] targetIDs;
-    private int currentIndex;
+    private string[] _targetIDs;
+    private int _currentIndex;
     
-    public override string Description => $"Interact In Order ({currentIndex}/{requiredSequence.Length})";
+    protected override string Description => $"Interact In Order ({_currentIndex}/{requiredSequence.Length})";
     
     public override void Initialize()
     {
-        currentIndex = 0;
+        _currentIndex = 0;
     
-        targetIDs = new string[requiredSequence.Length];
+        _targetIDs = new string[requiredSequence.Length];
         for (int i = 0; i < requiredSequence.Length; i++)
         {
             if (requiredSequence[i])
             {
-                targetIDs[i] = requiredSequence[i].InteractableID;
+                _targetIDs[i] = requiredSequence[i].InteractableID;
             }
             else
             {
@@ -41,20 +41,20 @@ public class InteractSequenceObjective : MissionObjective
     
     public override bool Evaluate()
     {
-        return currentIndex >= requiredSequence.Length;
+        return _currentIndex >= requiredSequence.Length;
     }
     
     private void OnInteraction(Interactable interactable)
     {
-        if (currentIndex >= targetIDs.Length) return;
+        if (_currentIndex >= _targetIDs.Length) return;
         
-        bool isPartOfSequence = Array.Exists(targetIDs, id => id == interactable.InteractableID);
+        bool isPartOfSequence = Array.Exists(_targetIDs, id => id == interactable.InteractableID);
         if (!isPartOfSequence) return; 
         
         
-        if (interactable.InteractableID == targetIDs[currentIndex])
+        if (interactable.InteractableID == _targetIDs[_currentIndex])
         {
-            currentIndex++;
+            _currentIndex++;
             
             if (Evaluate())
             {
@@ -63,7 +63,7 @@ public class InteractSequenceObjective : MissionObjective
         }
         else 
         {
-            currentIndex = 0;
+            _currentIndex = 0;
         }
     }
 }

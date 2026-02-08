@@ -1,46 +1,45 @@
-using System;
+
 using DNExtensions.Shapes;
-using DNExtensions.Utilities;
 using TMPro;
 using UnityEngine;
 
 
-
-public class GameMenuPrompt : MonoBehaviour
+namespace FishingVillage.UI.Menus
 {
     
-    [Header("Settings")]
-    [SerializeField] private string menuText = "Menu";
-    [SerializeField] private Color menuColor = Color.dodgerBlue;
-    [SerializeField] private Color menuTextColor = Color.black;
-    
-    [Header("References")]
-    [SerializeField] private TextMeshProUGUI textMesh;
-    [SerializeField] private SDFCircle circle;
 
-    
-    private string _hudText = "";
-    private Color _hudColor = Color.clear;
-    private Color _hudTextColor = Color.white;
-
-    private void Start()
+    public class GameMenuPrompt : MonoBehaviour
     {
-        _hudText = textMesh.text;
-        _hudColor = circle.baseColor;
-        _hudTextColor = textMesh.color;
-    }
 
-    public void ShowMenuVisuals()
-    {
-        textMesh.text = menuText;
-        circle.baseColor = menuColor;
-        textMesh.color = menuTextColor;
-    }
+        [Header("Settings")] 
+        [SerializeField] private Color menuColor = Color.dodgerBlue;
 
-    public void ShowDefaultVisuals()
-    {
-        textMesh.text = _hudText;
-        circle.baseColor = _hudColor;
-        textMesh.color = _hudTextColor;
+        [Header("References")] 
+        [SerializeField] private TextMeshProUGUI menuTextMesh;
+        [SerializeField] private TextMeshProUGUI hudTextMesh;
+        [SerializeField] private SDFCircle circle;
+
+
+        private Color _hudColor = Color.clear;
+
+        private void Awake()
+        {
+            _hudColor = circle.baseColor;
+        }
+
+        public void ShowMenuVisuals()
+        {
+            circle.baseColor = menuColor;
+            menuTextMesh.gameObject.SetActive(true);
+            hudTextMesh.gameObject.SetActive(false);
+        }
+
+        public void ShowDefaultVisuals()
+        {
+            circle.baseColor = _hudColor;
+            menuTextMesh.gameObject.SetActive(false);
+            hudTextMesh.gameObject.SetActive(true);
+
+        }
     }
 }

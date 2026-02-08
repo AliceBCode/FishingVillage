@@ -1,4 +1,5 @@
 using System;
+using DNExtensions.Utilities.CustomFields;
 using UnityEngine;
 
 [Serializable]
@@ -8,6 +9,7 @@ public abstract class MissionObjective
     
     [SerializeField] private bool isHidden;
     [SerializeField] private bool requiresPreviousObjective;
+    [SerializeField] private OptionalField<string> overrideDescription;
     
     public bool IsHidden => isHidden;
     public bool RequiresPreviousObjective => requiresPreviousObjective;
@@ -17,7 +19,7 @@ public abstract class MissionObjective
 
 
     
-    public abstract string Description { get; }
+    protected abstract string Description { get; }
     
     public abstract void Initialize();
     public abstract void Cleanup();
@@ -34,5 +36,15 @@ public abstract class MissionObjective
     public void SetActive(bool active)
     {
         IsActive = active;
+    }
+    
+    public string GetDescription()
+    {
+        if (overrideDescription.isSet)
+        {
+            return overrideDescription.Value;
+        }
+
+        return Description;
     }
 }

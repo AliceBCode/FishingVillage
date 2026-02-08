@@ -6,7 +6,7 @@ using UnityEngine;
 [SerializableSelectorName("Jump Action", "Player")]
 public class JumpActionObjective : MissionObjective
 {
-    public override string Description => $"Jump";
+    protected override string Description => $"Jump";
     
     public override void Initialize()
     {

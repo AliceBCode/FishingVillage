@@ -9,9 +9,9 @@ public class InteractWithObjective : MissionObjective
 {
     [SerializeField] private Interactable interactableReference;
     
-    private string targetID;
+    private string _targetID;
     
-    public override string Description => $"Interact With {(interactableReference ? interactableReference.name : "(No Interactable Set)")}";
+    protected override string Description => $"Interact With {(interactableReference ? interactableReference.name : "(No Interactable Set)")}";
     
     public override void Initialize()
     {
@@ -21,9 +21,9 @@ public class InteractWithObjective : MissionObjective
             return;
         }
         
-        targetID = interactableReference.InteractableID;
+        _targetID = interactableReference.InteractableID;
         
-        if (string.IsNullOrEmpty(targetID))
+        if (string.IsNullOrEmpty(_targetID))
         {
             Debug.LogError($"Interactable prefab {interactableReference.name} has no ID set!");
             return;
@@ -44,7 +44,7 @@ public class InteractWithObjective : MissionObjective
     
     private void OnInteractedWith(Interactable interactable)
     {
-        if (interactable && interactable.InteractableID == targetID)
+        if (interactable && interactable.InteractableID == _targetID)
         {
             SetMet();
         }
