@@ -1,11 +1,11 @@
-using System;
-using DNExtensions;
 using DNExtensions.Utilities;
 using PrimeTween;
 using UnityEngine;
 
-[RequireComponent(typeof(PlayerControllerInput))]
-public class PlayerAnimator : MonoBehaviour
+namespace FishingVillage.Player
+{
+    [RequireComponent(typeof(PlayerControllerInput))]
+    public class PlayerAnimator : MonoBehaviour
 {
     private static readonly int Cleaning = Animator.StringToHash("Cleaning");
     private static readonly int BlowingHorn = Animator.StringToHash("BlowHorn");
@@ -151,5 +151,6 @@ public class PlayerAnimator : MonoBehaviour
         float angleMultiplier = facingLeft ? -1f : 1f;
         
         return new Vector3(0f, horizontalAngle + (verticalAngle * angleMultiplier), 0f);
+    }
     }
 }

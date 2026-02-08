@@ -3,8 +3,10 @@ using DNExtensions.Utilities;
 using DNExtensions.Utilities.Button;
 using UnityEngine;
 
-[RequireComponent(typeof(RopeDynamic))]
-public class RopeCreator : MonoBehaviour
+namespace FishingVillage.Rope
+{
+    [RequireComponent(typeof(RopeDynamic))]
+    public class RopeCreator : MonoBehaviour
 {
     [Header("Generation Settings")]
     [SerializeField, Tooltip("The Rope component to configure")]
@@ -103,5 +105,6 @@ public class RopeCreator : MonoBehaviour
         }
         
         Debug.Log("Cleared all rope points");
+    }
     }
 }

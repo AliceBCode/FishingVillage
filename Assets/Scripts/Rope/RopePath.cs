@@ -1,6 +1,8 @@
 using UnityEngine;
 
-public class RopePath : MonoBehaviour
+namespace FishingVillage.Rope
+{
+    public class RopePath : MonoBehaviour
 {
     [SerializeField] private float targetWeight = 2f;
     [SerializeField] private Transform target;
@@ -62,5 +64,6 @@ public class RopePath : MonoBehaviour
         
         float t = Vector3.Dot(startToTarget, startToEnd) / startToEnd.sqrMagnitude;
         return Mathf.Clamp01(t);
+    }
     }
 }

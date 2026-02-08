@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using DNExtensions;
 using DNExtensions.Utilities;
+using FishingVillage.Missions.Objectives;
 using UnityEngine;
 
-public class MissionManager : MonoBehaviour
+namespace FishingVillage.Missions
+{
+    public class MissionManager : MonoBehaviour
 {
     public static MissionManager Instance;
     
@@ -182,7 +185,7 @@ public class MissionManager : MonoBehaviour
         return objectives;
     }
 
-    public bool HasMissionGiveItemFor(NPC npc, out SOItem item)
+    public bool HasMissionGiveItemFor(Interactable.NPC npc, out SOItem item)
     {
         foreach (var missionObjectivesPair in missionObjectives)
         {
@@ -201,5 +204,6 @@ public class MissionManager : MonoBehaviour
 
         item = null;
         return false;
+    }
     }
 }

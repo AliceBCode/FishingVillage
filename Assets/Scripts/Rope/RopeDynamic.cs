@@ -2,7 +2,9 @@ using DNExtensions;
 using DNExtensions.Utilities;
 using UnityEngine;
 
-public class RopeDynamic : MonoBehaviour
+namespace FishingVillage.Rope
+{
+    public class RopeDynamic : MonoBehaviour
 {
     [Header("Target Settings")]
     [SerializeField] private Transform target;
@@ -172,5 +174,6 @@ public class RopeDynamic : MonoBehaviour
         }
         
         return minDistance;
+    }
     }
 }

@@ -1,9 +1,13 @@
 using System;
 using DNExtensions.Utilities.CustomFields;
 using UnityEngine;
+using UnityEngine.Scripting.APIUpdating;
 
-[Serializable]
-public abstract class MissionObjective
+namespace FishingVillage.Missions.Objectives
+{
+    [Serializable]
+    [MovedFrom("")]
+    public abstract class MissionObjective
 {
     public static event Action<MissionObjective> OnObjectiveMet;
     
@@ -46,5 +50,6 @@ public abstract class MissionObjective
         }
 
         return Description;
+    }
     }
 }

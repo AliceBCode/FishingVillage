@@ -4,11 +4,13 @@
 using DNExtensions;
 using UnityEngine;
 
-
-public class ItemHolder : Interactable
+namespace FishingVillage.Interactable
 {
-    protected override void OnInteract()
+    public class ItemHolder : Interactable
     {
+        protected override void OnInteract()
+        {
 
+        }
     }
 }

@@ -1,11 +1,14 @@
 using System;
 using DNExtensions.Utilities.SerializableSelector;
 using UnityEngine;
+using UnityEngine.Scripting.APIUpdating;
 
-
-[Serializable]
-[SerializableSelectorName("Use Item", "Item")]
-public class UseItemObjective : MissionObjective
+namespace FishingVillage.Missions.Objectives
+{
+    [Serializable]
+    [MovedFrom("")]
+    [SerializableSelectorName("Use Item", "Item")]
+    public class UseItemObjective : MissionObjective
 {
     [SerializeField] private SOItem item;
 
@@ -54,5 +57,6 @@ public class UseItemObjective : MissionObjective
         {
             SetMet();
         }
+    }
     }
 }

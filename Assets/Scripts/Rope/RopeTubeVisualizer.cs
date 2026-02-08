@@ -1,11 +1,12 @@
-
 using DNExtensions.TubeRenderer;
 using UnityEngine;
 using DNExtensions.Utilities.Button;
 
-[ExecuteInEditMode]
-[RequireComponent(typeof(TubeRenderer))]
-public class RopeTubeVisualizer : MonoBehaviour
+namespace FishingVillage.Rope
+{
+    [ExecuteInEditMode]
+    [RequireComponent(typeof(TubeRenderer))]
+    public class RopeTubeVisualizer : MonoBehaviour
 {
     [SerializeField] private bool autoUpdate = true;
     
@@ -40,5 +41,6 @@ public class RopeTubeVisualizer : MonoBehaviour
         }
 
         tubeRenderer.SetPositions(positions);
+    }
     }
 }

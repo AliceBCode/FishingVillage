@@ -21,8 +21,7 @@ MonoBehaviour:
   - rid: 7519837178136887296
   - rid: 7519837165224984584
   onStarted:
-  - rid: 7519837165224984585
-  - rid: 7519837165224984586
+  - rid: 5778561625679724630
   onObjectiveCompleted:
   - onObjectiveCompleted: []
     hasTriggered: 0
@@ -36,39 +35,50 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 7519837165224984581
-      type: {class: CompleteDialogueObjective, ns: , asm: Assembly-CSharp}
-      data:
-        isHidden: 0
-        requiresPreviousObjective: 0
-        npc: {fileID: 4761095320140479624, guid: 7d863097f55a714449c0153dc3d35757, type: 3}
-    - rid: 7519837165224984582
-      type: {class: ObtainItemObjective, ns: , asm: Assembly-CSharp}
-      data:
-        isHidden: 0
-        requiresPreviousObjective: 1
-        requiredItem: {fileID: 11400000, guid: 2699829c538f7214d81679747aac225f, type: 2}
-    - rid: 7519837165224984584
-      type: {class: CompleteDialogueObjective, ns: , asm: Assembly-CSharp}
-      data:
-        isHidden: 0
-        requiresPreviousObjective: 1
-        npc: {fileID: 2644204170290119050, guid: cff0958f2dc24f24486ab1308a1a442f, type: 3}
-    - rid: 7519837165224984585
-      type: {class: StartDialogueAction, ns: , asm: Assembly-CSharp}
-      data:
-        npc: {fileID: 2644204170290119050, guid: cff0958f2dc24f24486ab1308a1a442f, type: 3}
-        dialogue: {fileID: 11400000, guid: 90e7ae3614ee2144ba119c7dc727e4e2, type: 2}
-    - rid: 7519837165224984586
-      type: {class: ToggleProximityDialogueAction, ns: , asm: Assembly-CSharp}
+    - rid: 5778561625679724630
+      type: {class: ToggleProximityDialogueAction, ns: FishingVillage.GameActions, asm: Assembly-CSharp}
       data:
         npc: {fileID: 2644204170290119050, guid: cff0958f2dc24f24486ab1308a1a442f, type: 3}
         allowProximityDialogue: 0
-    - rid: 7519837178136887296
-      type: {class: UseItemInTriggerObjective, ns: , asm: Assembly-CSharp}
+    - rid: 7519837165224984581
+      type: {class: CompleteDialogueObjective, ns: FishingVillage.Missions.Objectives, asm: Assembly-CSharp}
       data:
         isHidden: 0
         requiresPreviousObjective: 0
+        overrideDescription:
+          isSet: 0
+          hideValueIfSet: 0
+          value: 
+        npc: {fileID: 4761095320140479624, guid: 7d863097f55a714449c0153dc3d35757, type: 3}
+    - rid: 7519837165224984582
+      type: {class: ObtainItemObjective, ns: FishingVillage.Missions.Objectives, asm: Assembly-CSharp}
+      data:
+        isHidden: 0
+        requiresPreviousObjective: 1
+        overrideDescription:
+          isSet: 0
+          hideValueIfSet: 0
+          value: 
+        requiredItem: {fileID: 11400000, guid: 2699829c538f7214d81679747aac225f, type: 2}
+    - rid: 7519837165224984584
+      type: {class: CompleteDialogueObjective, ns: FishingVillage.Missions.Objectives, asm: Assembly-CSharp}
+      data:
+        isHidden: 0
+        requiresPreviousObjective: 1
+        overrideDescription:
+          isSet: 0
+          hideValueIfSet: 0
+          value: 
+        npc: {fileID: 2644204170290119050, guid: cff0958f2dc24f24486ab1308a1a442f, type: 3}
+    - rid: 7519837178136887296
+      type: {class: UseItemInTriggerObjective, ns: FishingVillage.Missions.Objectives, asm: Assembly-CSharp}
+      data:
+        isHidden: 0
+        requiresPreviousObjective: 0
+        overrideDescription:
+          isSet: 0
+          hideValueIfSet: 0
+          value: 
         item: {fileID: 11400000, guid: 2699829c538f7214d81679747aac225f, type: 2}
         triggerID: 
         areaDescription: Area

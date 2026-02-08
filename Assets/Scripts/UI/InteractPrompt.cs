@@ -1,12 +1,12 @@
 using DNExtensions.Utilities;
 using DNExtensions.Utilities.RangedValues;
+using PrimeTween;
+using TMPro;
+using UnityEngine;
 
 namespace FishingVillage.UI
 {
-    using PrimeTween;
-    using TMPro;
-    using UnityEngine;
-
+    
     [SelectionBase]
     public class InteractPrompt : MonoBehaviour
     {

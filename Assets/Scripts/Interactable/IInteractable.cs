@@ -1,9 +1,10 @@
-
-
-public interface IInteractable
+namespace FishingVillage.Interactable
 {
-    bool CanInteract();
-    void Interact();
-    void ShowInteract();
-    void HideInteract();
+    public interface IInteractable
+    {
+        bool CanInteract();
+        void Interact();
+        void ShowInteract();
+        void HideInteract();
+    }
 }

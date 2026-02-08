@@ -1,6 +1,7 @@
 
 using DNExtensions.ObjectPooling;
 using System.Collections.Generic;
+using FishingVillage.Player;
 using UnityEngine;
 
 namespace FishingVillage.UI.SelectionWheel

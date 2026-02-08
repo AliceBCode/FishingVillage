@@ -1,32 +1,35 @@
 using System;
 using DNExtensions.Utilities.PrefabSelector;
 using DNExtensions.Utilities.SerializableSelector;
+using FishingVillage.Interactable;
 using UnityEngine;
-using UnityEngine.Events;
 
-[Serializable]
-[SerializableSelectorName("Toggle Proximity Dialogue", "NPC")]
-public class ToggleProximityDialogueAction : GameAction
+namespace FishingVillage.GameActions
 {
-    [SerializeField, PrefabSelector("Assets/Prefabs/Npcs")]  private NPC npc;
-    [SerializeField] private bool allowProximityDialogue;
-    
-    public override string ActionName => npc ? $"Toggle {npc.Name} proximity dialogue" : $"Toggle NPC proximity dialogue (No NPC was set)";
-    
-    public override void Execute()
+    [Serializable]
+    [SerializableSelectorName("Toggle Proximity Dialogue", "NPC")]
+    public class ToggleProximityDialogueAction : GameAction
     {
-        if (npc)
+        [SerializeField, PrefabSelector("Assets/Prefabs/Npcs")] private NPC npc;
+        [SerializeField] private bool allowProximityDialogue;
+
+        public override string ActionName => npc ? $"Toggle {npc.Name} proximity dialogue" : $"Toggle NPC proximity dialogue (No NPC was set)";
+
+        public override void Execute()
         {
-            var sceneNpc = FindNpcInScene(npc.InteractableID);
-            if (sceneNpc)
+            if (npc)
             {
-                sceneNpc.EnableProximityDialogue(allowProximityDialogue);
-            }
-            else
-            {
-                Debug.LogWarning($"Could not find NPC with ID {npc.InteractableID} in scene!");
+                var sceneNpc = FindNpcInScene(npc.InteractableID);
+                if (sceneNpc)
+                {
+                    sceneNpc.EnableProximityDialogue(allowProximityDialogue);
+                }
+                else
+                {
+                    Debug.LogWarning($"Could not find NPC with ID {npc.InteractableID} in scene!");
+                }
             }
         }
+
     }
-    
 }

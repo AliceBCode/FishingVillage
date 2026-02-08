@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using FishingVillage.Missions;
+using FishingVillage.Missions.Objectives;
 using TMPro;
 using UnityEngine;
 

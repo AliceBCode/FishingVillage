@@ -4,9 +4,10 @@ using DNExtensions.Utilities;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-
-[RequireComponent(typeof(PlayerController))]
-public class PlayerControllerInput : InputReaderBase
+namespace FishingVillage.Player
+{
+    [RequireComponent(typeof(PlayerController))]
+    public class PlayerControllerInput : InputReaderBase
 {
     [SerializeField, ReadOnly] private Vector2 moveInput;
 
@@ -105,5 +106,6 @@ public class PlayerControllerInput : InputReaderBase
         if (!_playerController.AllowControl) return;
         
         OnCycleItemsAction?.Invoke(context);
+    }
     }
 }

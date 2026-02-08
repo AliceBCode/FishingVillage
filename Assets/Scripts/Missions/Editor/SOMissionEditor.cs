@@ -1,9 +1,12 @@
 #if UNITY_EDITOR
+using FishingVillage.Missions.Objectives;
 using UnityEditor;
 using UnityEngine;
 
-[CustomEditor(typeof(SOMission))]
-public class SoMissionEditor : Editor
+namespace FishingVillage.Missions.Editor
+{
+    [CustomEditor(typeof(SOMission))]
+    public class SoMissionEditor : UnityEditor.Editor
 {
     private SerializedProperty _nameProp;
     private SerializedProperty _descriptionProp;
@@ -52,23 +55,23 @@ public override void OnInspectorGUI()
                 validIndices.Add(i);
             }
         }
-        
+
         // Resize array to match valid objectives count
         if (_objectiveEventsProp.arraySize != validObjectives.Count)
         {
             _objectiveEventsProp.arraySize = validObjectives.Count;
         }
-    
+
         if (validObjectives.Count > 0)
         {
             for (int i = 0; i < validObjectives.Count; i++)
             {
                 var objective = validObjectives[i];
                 int originalIndex = validIndices[i];
-                
+
                 var entryProp = _objectiveEventsProp.GetArrayElementAtIndex(i);
                 var actionsOnCompletedProp = entryProp.FindPropertyRelative("onObjectiveCompleted");
-                
+
                 EditorGUILayout.Space(5);
                 EditorGUILayout.PropertyField(actionsOnCompletedProp, new GUIContent($"On Objective {originalIndex}: {objective.GetDescription()}"));
                 EditorGUILayout.Space(5);
@@ -79,10 +82,11 @@ public override void OnInspectorGUI()
             EditorGUILayout.HelpBox("Add objectives above to configure their completion actions", MessageType.Info);
         }
     }
-    
+
     EditorGUILayout.PropertyField(_actionsOnMissionCompletedProp, new GUIContent("On Mission Completed"));
 
     serializedObject.ApplyModifiedProperties();
 }
+    }
 }
 #endif

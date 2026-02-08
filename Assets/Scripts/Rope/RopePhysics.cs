@@ -1,6 +1,8 @@
 using UnityEngine;
 
-public class RopePhysics : MonoBehaviour
+namespace FishingVillage.Rope
+{
+    public class RopePhysics : MonoBehaviour
 {
     [Header("Target")]
     [SerializeField] private Transform target;
@@ -137,5 +139,6 @@ public class RopePhysics : MonoBehaviour
         }
         
         return minDistance;
+    }
     }
 }

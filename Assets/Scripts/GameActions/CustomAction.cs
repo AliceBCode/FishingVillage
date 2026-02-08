@@ -1,11 +1,16 @@
 using System;
 using UnityEngine;
+using UnityEngine.Scripting.APIUpdating;
 
-public class CustomAction: GameAction
+namespace FishingVillage.GameActions
 {
-    public override string ActionName { get; }
-    public override void Execute()
+    [MovedFrom("")]
+    public class CustomAction : GameAction
     {
-        throw new NotImplementedException();
+        public override string ActionName { get; }
+        public override void Execute()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

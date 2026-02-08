@@ -2,20 +2,25 @@ using System;
 using DNExtensions.Utilities.SerializableSelector;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Scripting.APIUpdating;
 
-[Serializable]
-[SerializableSelectorName("Start Mission", "Mission")]
-public class StartMissionAction : GameAction
+namespace FishingVillage.GameActions
 {
-    [SerializeField] private SOMission mission;
-    
-    public override string ActionName => mission ? $"Start Mission: {mission.Name}" : "Start Mission (No Mission Was Set)";
-    
-    public override void Execute()
+    [Serializable]
+    [MovedFrom("")]
+    [SerializableSelectorName("Start Mission", "Mission")]
+    public class StartMissionAction : GameAction
     {
-        if (mission)
+        [SerializeField] private Missions.SOMission mission;
+
+        public override string ActionName => mission ? $"Start Mission: {mission.Name}" : "Start Mission (No Mission Was Set)";
+
+        public override void Execute()
         {
-            mission.StartMission();
+            if (mission)
+            {
+                mission.StartMission();
+            }
         }
     }
 }

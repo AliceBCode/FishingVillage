@@ -1,23 +1,28 @@
 using System;
 using UnityEngine;
+using UnityEngine.Scripting.APIUpdating;
 
-[Serializable]
-public abstract class GameAction
+namespace FishingVillage.GameActions
 {
-    public abstract string ActionName { get; }
-    public abstract void Execute();
-    
-    
-    protected NPC FindNpcInScene(string id)
+    [Serializable]
+    [MovedFrom("")]
+    public abstract class GameAction
     {
-        var allNpCs = UnityEngine.Object.FindObjectsByType<NPC>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
-        foreach (var npc in allNpCs)
+        public abstract string ActionName { get; }
+        public abstract void Execute();
+
+
+        protected Interactable.NPC FindNpcInScene(string id)
         {
-            if (npc.InteractableID == id)
+            var allNpCs = UnityEngine.Object.FindObjectsByType<Interactable.NPC>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
+            foreach (var npc in allNpCs)
             {
-                return npc;
+                if (npc.InteractableID == id)
+                {
+                    return npc;
+                }
             }
+            return null;
         }
-        return null;
     }
 }

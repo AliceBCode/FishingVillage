@@ -1,10 +1,13 @@
 using System;
 using DNExtensions.Utilities.SerializableSelector;
-using UnityEngine;
+using UnityEngine.Scripting.APIUpdating;
 
-[Serializable]
-[SerializableSelectorName("Jump Action", "Player")]
-public class JumpActionObjective : MissionObjective
+namespace FishingVillage.Missions.Objectives
+{
+    [Serializable]
+    [MovedFrom("")]
+    [SerializableSelectorName("Jump Action", "Player")]
+    public class JumpActionObjective : MissionObjective
 {
     protected override string Description => $"Jump";
     
@@ -26,5 +29,6 @@ public class JumpActionObjective : MissionObjective
     private void OnJumpAction()
     {
         SetMet();
+    }
     }
 }

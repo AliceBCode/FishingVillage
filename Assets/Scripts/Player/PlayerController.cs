@@ -1,13 +1,16 @@
 using System;
 using DNExtensions.Utilities;
+using FishingVillage.Gameplay;
 using PrimeTween;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-[RequireComponent(typeof(CharacterController))]
-[RequireComponent(typeof(PlayerControllerInput))]
-[SelectionBase]
-public class PlayerController : MonoBehaviour
+namespace FishingVillage.Player
+{
+    [RequireComponent(typeof(CharacterController))]
+    [RequireComponent(typeof(PlayerControllerInput))]
+    [SelectionBase]
+    public class PlayerController : MonoBehaviour
 {
     public static PlayerController Instance;
     
@@ -198,7 +201,7 @@ public class PlayerController : MonoBehaviour
         
         foreach (var col in colliders)
         {
-            if (col.TryGetComponent(out MovingPlatform platform))
+            if (col.TryGetComponent(out Gameplay.MovingPlatform platform))
             {
                 currentPlatform = platform;
                 _platformVelocity = platform.Velocity;
@@ -227,5 +230,6 @@ public class PlayerController : MonoBehaviour
             Gizmos.color = hitCeiling ? Color.red : Color.green;
             Gizmos.DrawWireSphere(transform.position + ceilingCheckOffset, ceilingCheckRadius);
         }
+    }
     }
 }

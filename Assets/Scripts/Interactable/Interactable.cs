@@ -2,13 +2,15 @@
 using DNExtensions.Utilities;
 using DNExtensions.Utilities.Button;
 using DNExtensions.Utilities.SerializableSelector;
+using FishingVillage.GameActions;
 using FishingVillage.UI;
-using TMPro;
 using UnityEngine;
 
-[SelectionBase]
-[DisallowMultipleComponent]
-public abstract class Interactable : MonoBehaviour, IInteractable
+namespace FishingVillage.Interactable
+{
+    [SelectionBase]
+    [DisallowMultipleComponent]
+    public abstract class Interactable : MonoBehaviour, IInteractable
 {
     [Header("Interactable Settings")]
     [SerializeField] protected bool canInteract = true;
@@ -19,9 +21,23 @@ public abstract class Interactable : MonoBehaviour, IInteractable
     [SerializeField, ReadOnly] protected bool hasInteracted;
     [SerializeField, ReadOnly] protected string interactableID = "";
 
+    
+    private Outline _outline;
+    
     public string InteractableID => interactableID;
 
 
+
+    private void Awake()
+    {
+        if (TryGetComponent(out _outline))
+        {
+            _outline.enabled = false;
+            _outline.OutlineMode = Outline.Mode.OutlineVisible;
+            _outline.OutlineColor = Color.dodgerBlue;
+            _outline.OutlineWidth = 3f;
+        }
+    }
 
     [Button]
     public void Interact()
@@ -44,11 +60,13 @@ public abstract class Interactable : MonoBehaviour, IInteractable
         if (!CanInteract()) return;
         
         InteractPrompt.Instance?.Show(transform.position + promptOffset);
+        if (_outline) _outline.enabled = true;
     }
 
     public void HideInteract()
     {
         InteractPrompt.Instance?.Hide(true);
+        if (_outline) _outline.enabled = false;
     }
 
     public virtual bool CanInteract()
@@ -76,4 +94,5 @@ public abstract class Interactable : MonoBehaviour, IInteractable
         UnityEditor.EditorUtility.SetDirty(this);
     }
 #endif
+    }
 }

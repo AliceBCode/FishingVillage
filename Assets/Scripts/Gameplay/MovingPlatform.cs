@@ -1,10 +1,11 @@
-﻿
-using DNExtensions.Utilities.Button;
+﻿using DNExtensions.Utilities.Button;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody))]
-[SelectionBase]
-public class MovingPlatform : MonoBehaviour
+namespace FishingVillage.Gameplay
+{
+    [RequireComponent(typeof(Rigidbody))]
+    [SelectionBase]
+    public class MovingPlatform : MonoBehaviour
 {
     [Header("Settings")]
     [SerializeField] private bool active;
@@ -126,7 +127,8 @@ public class MovingPlatform : MonoBehaviour
             Gizmos.DrawWireCube(end, size);
         }
 
-    
 
+
+    }
     }
 }

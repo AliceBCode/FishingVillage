@@ -1,20 +1,25 @@
 using System;
 using DNExtensions.Utilities.SerializableSelector;
 using UnityEngine;
+using UnityEngine.Scripting.APIUpdating;
 
-[Serializable]
-[SerializableSelectorName("Set State", "Player")]
-public class SetPlayerStateAction : GameAction
+namespace FishingVillage.GameActions
 {
-    [SerializeField] private PlayerState state = PlayerState.Normal;
-    
-    public override string ActionName => $"Sets player state to: {state}";
-    
-    public override void Execute()
+    [Serializable]
+    [MovedFrom("")]
+    [SerializableSelectorName("Set State", "Player")]
+    public class SetPlayerStateAction : GameAction
     {
-        if (PlayerController.Instance)
+        [SerializeField] private Player.PlayerState state = Player.PlayerState.Normal;
+
+        public override string ActionName => $"Sets player state to: {state}";
+
+        public override void Execute()
         {
-            PlayerController.Instance.SetState(state);
+            if (Player.PlayerController.Instance)
+            {
+                Player.PlayerController.Instance.SetState(state);
+            }
         }
     }
 }
