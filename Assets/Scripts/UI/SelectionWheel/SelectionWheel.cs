@@ -1,29 +1,29 @@
-using DNExtensions.Utilities.RangedValues;
 
-namespace UI
+using DNExtensions.ObjectPooling;
+using System.Collections.Generic;
+using UnityEngine;
+
+namespace FishingVillage.UI.SelectionWheel
 {
-    using System.Collections.Generic;
-    using DNExtensions;
-    using UnityEngine;
-    using PrimeTween;
 
+    
+    
     public class SelectionWheel : MonoBehaviour
     {
+        [Header("Fixed Slots Settings")]
+        [SerializeField] private float secondarySlotScale = 0.8f;
+        [SerializeField] private float currentSlotScale = 1f;
 
-        [Header("Layout Settings")] 
+        [Header("References")] 
+        [SerializeField] private RectTransform previousSlot;
+        [SerializeField] private RectTransform currentSlot;
+        [SerializeField] private RectTransform nextSlot;
         [SerializeField] private SelectionWheelItem itemPrefab;
-        [SerializeField] private float radiusX = 100f;
-        [SerializeField] private float radiusY = 50f;
-        [SerializeField, MinMaxRange(0f, 1f)] private RangedFloat scaleRange = new RangedFloat(0.6f, 1f);
-        [SerializeField, MinMaxRange(0f, 1f)] private RangedFloat alphaRange = new RangedFloat(0.3f, 1f);
+        [SerializeField] private RectTransform itemsHolder;
 
-        [Header("Animation")] 
-        [SerializeField] private float transitionDuration = 0.3f;
-        [SerializeField] private Ease transitionEase = Ease.OutCubic;
-
-        private readonly List<SelectionWheelItem> wheelItems = new List<SelectionWheelItem>();
-        private List<SOItem> currentUsableItems = new List<SOItem>();
-        private int currentIndex = 0;
+        private readonly List<SelectionWheelItem> _wheelItems = new List<SelectionWheelItem>();
+        private List<SOItem> _currentUsableItems = new List<SOItem>();
+        private int _currentIndex;
 
         private void OnEnable()
         {
@@ -31,7 +31,6 @@ namespace UI
             GameEvents.OnInventoryChanged += OnInventoryChanged;
             GameEvents.OnItemUsed += OnItemUsed;
         }
-        
 
         private void OnDisable()
         {
@@ -42,12 +41,12 @@ namespace UI
 
         private void OnItemEquipped(SOItem item)
         {
-            if (!item || currentUsableItems.Count == 0) return;
+            if (!item || _currentUsableItems.Count == 0) return;
 
-            int newIndex = currentUsableItems.IndexOf(item);
+            int newIndex = _currentUsableItems.IndexOf(item);
             if (newIndex != -1)
             {
-                currentIndex = newIndex;
+                _currentIndex = newIndex;
                 AnimateToPositions();
             }
         }
@@ -59,38 +58,40 @@ namespace UI
         
         private void OnItemUsed(SOItem item)
         {
-            wheelItems[currentIndex]?.PlayUsedAnimation();
+            int currentItemIndex = GetItemIndexInSlot(SlotType.Current);
+            if (currentItemIndex != -1)
+            {
+                _wheelItems[currentItemIndex]?.PlayUsedAnimation();
+            }
         }
 
         private void RebuildWheel(PlayerInventory inventory)
         {
-            foreach (var item in wheelItems)
+            foreach (var item in _wheelItems)
             {
-                if (item) Destroy(item.gameObject);
+                ObjectPooler.ReturnObjectToPool(item);
             }
+            
+            _wheelItems.Clear();
+            
 
-            wheelItems.Clear();
-
-            if (inventory == null || inventory.UsableItems.Count == 0)
-            {
-                return;
-            }
-
-            currentUsableItems = inventory.UsableItems;
-            gameObject.SetActive(true);
-
-            currentIndex = 0;
+            _currentUsableItems = inventory.UsableItems;
+            
+            _currentIndex = 0;
             if (inventory.EquippedItem)
             {
-                int equippedIndex = currentUsableItems.IndexOf(inventory.EquippedItem);
-                if (equippedIndex != -1) currentIndex = equippedIndex;
+                int equippedIndex = _currentUsableItems.IndexOf(inventory.EquippedItem);
+                if (equippedIndex != -1) _currentIndex = equippedIndex;
             }
-
-            for (int i = 0; i < currentUsableItems.Count; i++)
+            
+            for (int i = 0; i < _currentUsableItems.Count; i++)
             {
-                var wheelItem = Instantiate(itemPrefab, transform);
-                wheelItem.Image.sprite = currentUsableItems[i].Icon;
-                wheelItems.Add(wheelItem);
+                var wheelItemGo = ObjectPooler.GetObjectFromPool(itemPrefab);
+                wheelItemGo.transform.SetParent(itemsHolder, false);
+                var wheelItem = wheelItemGo.GetComponent<SelectionWheelItem>();
+                
+                wheelItem.Image.sprite = _currentUsableItems[i].Icon;
+                _wheelItems.Add(wheelItem);
             }
 
             SetPositionsImmediate();
@@ -98,83 +99,84 @@ namespace UI
 
         private void SetPositionsImmediate()
         {
-            for (int i = 0; i < wheelItems.Count; i++)
+            for (int i = 0; i < _wheelItems.Count; i++)
             {
-                var pos = CalculatePosition(i);
-                wheelItems[i].RectTransform.anchoredPosition = pos.position;
-                wheelItems[i].RectTransform.localScale = Vector3.one * pos.scale;
-                wheelItems[i].SetAlpha(pos.alpha);
-            }
-
-            var sorted = new List<(SelectionWheelItem item, int siblingIndex)>();
-            for (int i = 0; i < wheelItems.Count; i++)
-            {
-                var pos = CalculatePosition(i);
-                sorted.Add((wheelItems[i], pos.siblingIndex));
-            }
-
-            sorted.Sort((a, b) => a.siblingIndex.CompareTo(b.siblingIndex));
-
-            for (int i = 0; i < sorted.Count; i++)
-            {
-                sorted[i].item.transform.SetSiblingIndex(i);
+                var layoutData = CalculateLayoutData(i);
+                _wheelItems[i].SetPositionImmediate(layoutData.position, layoutData.scale, layoutData.alpha, layoutData.slotType);
             }
         }
-
-
 
         private void AnimateToPositions()
         {
-            for (int i = 0; i < wheelItems.Count; i++)
+            for (int i = 0; i < _wheelItems.Count; i++)
             {
-                var pos = CalculatePosition(i);
-                wheelItems[i].AnimateToPosition(pos.position, pos.scale, pos.alpha, transitionDuration, transitionEase);
+                var layoutData = CalculateLayoutData(i);
+                _wheelItems[i].AnimateToPosition(layoutData.position, layoutData.scale, layoutData.alpha, layoutData.slotType);
             }
+        }
+        
+        private (Vector2 position, float scale, float alpha, SlotType slotType, int siblingIndex) CalculateLayoutData(int itemIndex)
+        {
+            int itemCount = _wheelItems.Count;
 
-            var sorted = new List<(SelectionWheelItem item, int siblingIndex)>();
-            for (int i = 0; i < wheelItems.Count; i++)
+            // Calculate wrapped offset from current index
+            int offsetFromCenter = itemIndex - _currentIndex;
+            if (offsetFromCenter > itemCount / 2)
+                offsetFromCenter -= itemCount;
+            else if (offsetFromCenter < -itemCount / 2)
+                offsetFromCenter += itemCount;
+
+            // Determine slot type based on item count and offset
+            SlotType slotType = DetermineSlotType(offsetFromCenter, itemCount);
+
+            // Calculate position, scale, alpha based on slot type
+            switch (slotType)
             {
-                var pos = CalculatePosition(i);
-                sorted.Add((wheelItems[i], pos.siblingIndex));
-            }
+                case SlotType.Previous:
+                    return (previousSlot.anchoredPosition, secondarySlotScale, 1, slotType, 50);
 
-            sorted.Sort((a, b) => a.siblingIndex.CompareTo(b.siblingIndex));
+                case SlotType.Current:
+                    return (currentSlot.anchoredPosition, currentSlotScale, 1, slotType, 100);
 
-            for (int i = 0; i < sorted.Count; i++)
-            {
-                sorted[i].item.transform.SetSiblingIndex(i);
+                case SlotType.Next:
+                    return (nextSlot.anchoredPosition, secondarySlotScale, 1, slotType, 50);
+
+                case SlotType.Hidden:
+                default:
+                    return (new Vector2(currentSlot.anchoredPosition.x,currentSlot.anchoredPosition.y + 100f), 0f, 0f, slotType, 0);
             }
         }
 
-
-
-        private (Vector2 position, float scale, int siblingIndex, float alpha) CalculatePosition(int itemIndex)
+        private SlotType DetermineSlotType(int offsetFromCenter, int itemCount)
         {
-            int count = wheelItems.Count;
+            switch (itemCount)
+            {
+                // 1 item: Only current
+                case 1:
+                    return offsetFromCenter == 0 ? SlotType.Current : SlotType.Hidden;
+                // 2 items: Current and next
+                case 2:
+                    return offsetFromCenter == 0 ? SlotType.Current : SlotType.Next;
+            }
 
-            int offsetFromCenter = itemIndex - currentIndex;
+            // 3+ items: Previous, current, next (everything else hidden)
+            if (offsetFromCenter == 0) return SlotType.Current;
+            if (offsetFromCenter == -1) return SlotType.Previous;
+            if (offsetFromCenter == 1) return SlotType.Next;
+            
+            return SlotType.Hidden;
+        }
 
-            if (offsetFromCenter > count / 2)
-                offsetFromCenter -= count;
-            else if (offsetFromCenter < -count / 2)
-                offsetFromCenter += count;
-
-            float anglePerItem = 360f / count;
-            float angle = offsetFromCenter * anglePerItem;
-            float angleRad = angle * Mathf.Deg2Rad;
-
-            float x = Mathf.Sin(angleRad) * radiusX;
-            float y = -Mathf.Cos(angleRad) * radiusY;
-
-            float normalizedOffset = Mathf.Abs((float)offsetFromCenter / Mathf.Max(1, count / 2));
-            normalizedOffset = Mathf.Clamp01(normalizedOffset);
-
-            float scale = Mathf.Lerp(scaleRange.maxValue, scaleRange.minValue, normalizedOffset);
-            float alpha = Mathf.Lerp(alphaRange.maxValue, alphaRange.minValue, normalizedOffset);
-
-            int siblingIndex = Mathf.RoundToInt((1f - normalizedOffset) * 100);
-
-            return (new Vector2(x, y), scale, siblingIndex, alpha);
+        private int GetItemIndexInSlot(SlotType targetSlotType)
+        {
+            for (int i = 0; i < _wheelItems.Count; i++)
+            {
+                if (_wheelItems[i].CurrentSlotType == targetSlotType)
+                {
+                    return i;
+                }
+            }
+            return -1;
         }
     }
 }

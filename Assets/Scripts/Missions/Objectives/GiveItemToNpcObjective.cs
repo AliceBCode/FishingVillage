@@ -12,7 +12,7 @@ public class GiveItemToNpcObjective : MissionObjective
     [SerializeField, PrefabSelector("Assets/Prefabs/Npcs")] private NPC npc;
     
     public SOItem RequiredItem => requiredItem;
-    public override string Description => $"Give {(requiredItem ? requiredItem.Name : "(No Item Set)")} To {(npc ? npc.Name : "(No NPC Set)")}";
+    protected override string Description => $"Give {(requiredItem ? requiredItem.Name : "(No Item Set)")} To {(npc ? npc.Name : "(No NPC Set)")}";
     
     private string _targetID;
     

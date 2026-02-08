@@ -68,6 +68,8 @@ Material:
     - _FlipY: 1
     - _Float: -1
     - _Metallic: 0
+    - _Outline: 0
+    - _Outline_Radius: 0
     - _Outline_Thickness: 0.365
     - _QueueControl: 0
     - _QueueOffset: 0

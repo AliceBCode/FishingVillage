@@ -1,56 +1,42 @@
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using DNExtensions.Utilities;
+using DNExtensions.Utilities.CustomFields;
+using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem.UI;
+using UnityEngine.UI;
 
-
-namespace DNExtenstions.MenuSystem
+namespace DNExtensions.MenuSystem
 {
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.Linq;
-    using DNExtensions.Utilities;
-    using UnityEngine;
-    using UnityEngine.EventSystems;
-    using UnityEngine.InputSystem.UI;
-    using UnityEngine.UI;
-
+    
     [DisallowMultipleComponent]
     public class ScreenNavigation : MonoBehaviour
     {
-        [Header("Selection Settings")]
+        [Header("Settings")]
         [SerializeField] private bool autoSelectOnEnable = true;
         [SerializeField] private bool autoSelectOnNavigate = true;
         [SerializeField] private bool rememberPreviousSelection = true;
-        [SerializeField] private bool enableMouseHoverSelection = true;
-        [SerializeField] private Selectable defaultSelectable;
+        [SerializeField] private bool enableOnPointerEnterSelection = true;
+        [SerializeField] private bool enableOnPointerExitDeselection = true;
+        [SerializeField] private OptionalField<Selectable> overrideDefaultSelectable = new OptionalField<Selectable>(false,true);
 
 
-        private List<Selectable> selectables;
-        private GameObject lastSelectedObject;
+        private List<Selectable> _selectables;
+        private GameObject _lastSelectedObject;
+        private Selectable _defaultSelectable;
 
 
         private void Awake()
         {
-            selectables = new List<Selectable>(GetComponentsInChildren<Selectable>(true));
-
-            if (selectables.Count == 0)
-            {
-                Debug.LogWarning($"ScreenNavigation on {gameObject.name} found no Selectables.");
-                return;
-            }
-
-            if (!defaultSelectable)
-            {
-                defaultSelectable = selectables[0];
-            }
-
-            if (enableMouseHoverSelection)
-            {
-                SetupMouseHoverSelection();
-            }
+            SetUpSelectables();
         }
+        
 
         private void Update()
         {
-            if (!autoSelectOnNavigate || !EventSystem.current) return;
-            if (EventSystem.current.currentSelectedGameObject) return;
+            if (!autoSelectOnNavigate || !EventSystem.current || EventSystem.current.currentSelectedGameObject) return;
 
             if (IsNavigationInputPressed())
             {
@@ -60,9 +46,9 @@ namespace DNExtenstions.MenuSystem
 
         private void OnEnable()
         {
-            if (autoSelectOnEnable && selectables is { Count: > 0 })
+            if (autoSelectOnEnable && EventSystem.current  && !EventSystem.current.currentSelectedGameObject)
             {
-                StartCoroutine(SelectDefaultDelayed());
+                SelectDefault();
             }
         }
 
@@ -71,54 +57,69 @@ namespace DNExtenstions.MenuSystem
             if (rememberPreviousSelection && EventSystem.current)
             {
                 var currentSelected = EventSystem.current.currentSelectedGameObject;
-                if (currentSelected && selectables.Any(s => s && s.gameObject == currentSelected))
+                if (currentSelected && _selectables.Any(s => s && s.gameObject == currentSelected))
                 {
-                    lastSelectedObject = currentSelected;
+                    _lastSelectedObject = currentSelected;
                 }
             }
         }
-
-        public void SelectDefault()
+        
+        public void SetUpSelectables()
         {
-            if (!EventSystem.current) return;
+            _selectables = new List<Selectable>(GetComponentsInChildren<Selectable>(true));
 
-            if (rememberPreviousSelection && lastSelectedObject && lastSelectedObject.activeInHierarchy)
+            if (_selectables.Count == 0)
             {
-                var selectable = lastSelectedObject.GetComponent<Selectable>();
-                if (selectable && selectable.interactable)
-                {
-                    EventSystem.current.SetSelectedGameObject(lastSelectedObject);
-                    return;
-                }
-            }
-
-            if (defaultSelectable && defaultSelectable.isActiveAndEnabled && defaultSelectable.interactable)
-            {
-                EventSystem.current.SetSelectedGameObject(defaultSelectable.gameObject);
+                Debug.LogWarning($"ScreenNavigation on {gameObject.name} found no Selectables.");
                 return;
             }
 
-            SelectFirstAvailable();
+            _defaultSelectable = overrideDefaultSelectable ? overrideDefaultSelectable.Value : _selectables[0];
+
+            if (enableOnPointerEnterSelection)
+            {
+                _selectables?.EnableOnPointerEnterSelection();
+            }
+
+            if (enableOnPointerExitDeselection)
+            {
+                _selectables?.EnableOnPointerExitDeselection();
+            }
         }
 
-        private void SelectFirstAvailable()
+        private void SelectDefault()
         {
-            if (!EventSystem.current) return;
-
-            foreach (var selectable in selectables)
+            if (rememberPreviousSelection && _lastSelectedObject && _lastSelectedObject.activeInHierarchy)
             {
-                if (selectable && selectable.isActiveAndEnabled && selectable.interactable)
+                if (_lastSelectedObject.TryGetComponent(out Selectable selectable))
                 {
-                    EventSystem.current.SetSelectedGameObject(selectable.gameObject);
+                    selectable.SetSelected();
+                    return;
+                }
+            }
+
+            
+            if (_defaultSelectable)
+            {
+                _defaultSelectable.SetSelected();
+                return;
+            }
+            
+            
+            foreach (var selectable in _selectables)
+            {
+                if (selectable)
+                {
+                    selectable.SetSelected();
                     return;
                 }
             }
         }
+        
 
         private bool IsNavigationInputPressed()
         {
-            var inputModule =
-                EventSystem.current.currentInputModule as InputSystemUIInputModule;
+            var inputModule = EventSystem.current.currentInputModule as InputSystemUIInputModule;
             if (!inputModule) return false;
 
             var moveAction = inputModule.move?.action;
@@ -126,35 +127,6 @@ namespace DNExtenstions.MenuSystem
 
             return moveAction.ReadValue<Vector2>() != Vector2.zero;
         }
-
-        private void SetupMouseHoverSelection()
-        {
-            foreach (var selectable in selectables)
-            {
-                if (!selectable) continue;
-
-                var trigger = selectable.GetOrAddComponent<EventTrigger>();
-
-
-                if (trigger.triggers.All(e => e.eventID != EventTriggerType.PointerEnter))
-                {
-                    var entry = new EventTrigger.Entry { eventID = EventTriggerType.PointerEnter };
-                    entry.callback.AddListener((data) =>
-                    {
-                        if (selectable && selectable.interactable && EventSystem.current)
-                        {
-                            EventSystem.current.SetSelectedGameObject(selectable.gameObject);
-                        }
-                    });
-                    trigger.triggers.Add(entry);
-                }
-            }
-        }
-
-        private IEnumerator SelectDefaultDelayed()
-        {
-            yield return null;
-            SelectDefault();
-        }
+        
     }
 }

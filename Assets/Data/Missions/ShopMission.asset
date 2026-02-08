@@ -1,0 +1,80 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78efe0c056f2413ab5f94b61bf33bb1c, type: 3}
+  m_Name: ShopMission
+  m_EditorClassIdentifier: Assembly-CSharp::SOMission
+  name: ShopMission
+  description: Trying to get the shop owner to open his store up
+  icon: {fileID: 0}
+  objectives:
+  - rid: 7519837165224984578
+  - rid: 7519837159531741186
+  - rid: 7519837178136887297
+  - rid: 7519837201401643010
+  onStarted:
+  - rid: 7519837159531741191
+  - rid: 7519837165224984580
+  onObjectiveCompleted:
+  - onObjectiveCompleted: []
+    hasTriggered: 0
+  - onObjectiveCompleted: []
+    hasTriggered: 0
+  - onObjectiveCompleted:
+    - rid: 7519837201401643008
+    hasTriggered: 0
+  - onObjectiveCompleted: []
+    hasTriggered: 0
+  onCompleted: []
+  references:
+    version: 2
+    RefIds:
+    - rid: 7519837159531741186
+      type: {class: ObtainItemObjective, ns: , asm: Assembly-CSharp}
+      data:
+        isHidden: 0
+        requiresPreviousObjective: 1
+        requiredItem: {fileID: 11400000, guid: 7672abaff8dfcd642ae5c4608f367d07, type: 2}
+    - rid: 7519837159531741191
+      type: {class: StartDialogueAction, ns: , asm: Assembly-CSharp}
+      data:
+        npc: {fileID: 7220958929954931721, guid: ce74c71548228434e9a77177b7eaa5c8, type: 3}
+        dialogue: {fileID: 11400000, guid: c8c11c6e3343a014daa8f67bd02b41c5, type: 2}
+    - rid: 7519837165224984578
+      type: {class: CompleteDialogueObjective, ns: , asm: Assembly-CSharp}
+      data:
+        isHidden: 0
+        requiresPreviousObjective: 0
+        npc: {fileID: 7220958929954931721, guid: ce74c71548228434e9a77177b7eaa5c8, type: 3}
+    - rid: 7519837165224984580
+      type: {class: ToggleProximityDialogueAction, ns: , asm: Assembly-CSharp}
+      data:
+        npc: {fileID: 7220958929954931721, guid: ce74c71548228434e9a77177b7eaa5c8, type: 3}
+        allowProximityDialogue: 0
+    - rid: 7519837178136887297
+      type: {class: UseItemInTriggerObjective, ns: , asm: Assembly-CSharp}
+      data:
+        isHidden: 0
+        requiresPreviousObjective: 1
+        item: {fileID: 11400000, guid: 7672abaff8dfcd642ae5c4608f367d07, type: 2}
+        triggerID: 111
+        areaDescription: ShopFront
+    - rid: 7519837201401643008
+      type: {class: StartDialogueAction, ns: , asm: Assembly-CSharp}
+      data:
+        npc: {fileID: 7220958929954931721, guid: ce74c71548228434e9a77177b7eaa5c8, type: 3}
+        dialogue: {fileID: 11400000, guid: 9cde3b4720ac9e3418bff1341f6acffb, type: 2}
+    - rid: 7519837201401643010
+      type: {class: CompleteDialogueObjective, ns: , asm: Assembly-CSharp}
+      data:
+        isHidden: 0
+        requiresPreviousObjective: 1
+        npc: {fileID: 7220958929954931721, guid: ce74c71548228434e9a77177b7eaa5c8, type: 3}

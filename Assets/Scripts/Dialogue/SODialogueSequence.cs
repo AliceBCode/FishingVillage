@@ -25,7 +25,6 @@ public class SODialogueSequence : ScriptableObject
         if (index < 0 || index >= dialogueLines.Length) return line;
         
         line = dialogueLines[index];
-        if (advanceMode == DialogueAdvanceMode.Manual) line += "\n(F = Continue)";
 
         return line;
     }

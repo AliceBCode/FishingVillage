@@ -6,7 +6,6 @@ using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(CharacterController))]
 [RequireComponent(typeof(PlayerControllerInput))]
-[RequireComponent(typeof(PlayerInventory))]
 [SelectionBase]
 public class PlayerController : MonoBehaviour
 {
@@ -65,19 +64,15 @@ public class PlayerController : MonoBehaviour
     private void OnEnable()
     {
         _input.OnJumpAction += OnJumpAction;
-        CleaningAnimationBehavior.OnStateEntered += BlockedMovementBehaviorEntered;
-        CleaningAnimationBehavior.OnStateExited += BlockedMovementBehaviorExited;
-        OpeningPackageAnimationBehavior.OnStateEntered += BlockedMovementBehaviorEntered;
-        OpeningPackageAnimationBehavior.OnStateExited += BlockedMovementBehaviorExited;
+        BlockedMovementAnimationBehavior.OnStateEntered += BlockedMovementBehaviorEntered;
+        BlockedMovementAnimationBehavior.OnStateExited += BlockedMovementBehaviorExited;
     }
 
     private void OnDisable()
     {
         _input.OnJumpAction -= OnJumpAction;
-        CleaningAnimationBehavior.OnStateEntered -= BlockedMovementBehaviorEntered;
-        CleaningAnimationBehavior.OnStateExited -= BlockedMovementBehaviorExited;
-        OpeningPackageAnimationBehavior.OnStateExited -= BlockedMovementBehaviorExited;
-        OpeningPackageAnimationBehavior.OnStateEntered -= BlockedMovementBehaviorEntered;
+        BlockedMovementAnimationBehavior.OnStateEntered -= BlockedMovementBehaviorEntered;
+        BlockedMovementAnimationBehavior.OnStateExited -= BlockedMovementBehaviorExited;
     }
 
     public void SetState(PlayerState newState)

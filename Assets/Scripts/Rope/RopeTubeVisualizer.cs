@@ -1,7 +1,7 @@
 
+using DNExtensions.TubeRenderer;
 using UnityEngine;
 using DNExtensions.Utilities.Button;
-using DNExtensions.Utilities.TubeRenderer;
 
 [ExecuteInEditMode]
 [RequireComponent(typeof(TubeRenderer))]

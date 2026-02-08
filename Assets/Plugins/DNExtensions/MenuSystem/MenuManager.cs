@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using DNExtensions.Utilities;
 using UnityEngine;
 
-namespace  DNExtenstions.MenuSystem
+namespace DNExtensions.MenuSystem
 {
 
     [DisallowMultipleComponent]
@@ -117,6 +117,9 @@ namespace  DNExtenstions.MenuSystem
 
         public void ShowPreviousScreenAnimated() => ShowPreviousScreen(true, null);
         public void ShowPreviousScreenInstant() => ShowPreviousScreen(false, null);
+        
+        public void HideCurrentScreen(bool animated = true) => currentScreen?.Hide(animated);
+        
 
 
 

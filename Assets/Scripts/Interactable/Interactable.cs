@@ -2,6 +2,8 @@
 using DNExtensions.Utilities;
 using DNExtensions.Utilities.Button;
 using DNExtensions.Utilities.SerializableSelector;
+using FishingVillage.UI;
+using TMPro;
 using UnityEngine;
 
 [SelectionBase]
@@ -9,13 +11,13 @@ using UnityEngine;
 public abstract class Interactable : MonoBehaviour, IInteractable
 {
     [Header("Interactable Settings")]
-    [SerializeField] private bool canInteract = true;
-    [SerializeField] private bool limitInteractionsToOnce;
+    [SerializeField] protected bool canInteract = true;
+    [SerializeField] protected bool limitInteractionsToOnce;
+    [SerializeField] protected Vector3 promptOffset = Vector3.up;
     [SerializeReference, SerializableSelector] 
-    private GameAction[] actionsOnInteract = Array.Empty<GameAction>();
-    
-    [SerializeField, ReadOnly] private bool hasInteracted;
-    [SerializeField, ReadOnly] private string interactableID = "";
+    protected GameAction[] actionsOnInteract = Array.Empty<GameAction>();
+    [SerializeField, ReadOnly] protected bool hasInteracted;
+    [SerializeField, ReadOnly] protected string interactableID = "";
 
     public string InteractableID => interactableID;
 
@@ -28,18 +30,30 @@ public abstract class Interactable : MonoBehaviour, IInteractable
         
         hasInteracted = true;
         
-        GameEvents.InteractedWith(this);
-        OnInteract();
-        
         foreach (var action in actionsOnInteract)
         {
             action?.Execute();
         }
+        
+        GameEvents.InteractedWith(this);
+        OnInteract();
     }
-    
+
+    public virtual void ShowInteract()
+    {
+        if (!CanInteract()) return;
+        
+        InteractPrompt.Instance?.Show(transform.position + promptOffset);
+    }
+
+    public void HideInteract()
+    {
+        InteractPrompt.Instance?.Hide(true);
+    }
+
     public virtual bool CanInteract()
     {
-        return canInteract;
+        return canInteract && (!hasInteracted || !limitInteractionsToOnce);
     }
     
     protected abstract void OnInteract();

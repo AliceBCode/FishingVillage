@@ -1,0 +1,46 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdca1178cff54263ba82b954a66b51ce, type: 3}
+  m_Name: ObjectPoolingSettings
+  m_EditorClassIdentifier: Assembly-CSharp-firstpass::DNExtensions.ObjectPooling.ObjectPoolingSettings
+  enabled: 1
+  instantiateAsFallback: 1
+  destroyAsFallback: 1
+  showDebugMessages: 0
+  pools:
+  - poolName: InventoryItem
+    maxPoolSize: 10000
+    prefab: {fileID: 7137661458973270199, guid: 7d6f634b472e49a4eaa5c895d5bc3b46, type: 3}
+    dontDestroyOnLoad: 0
+    usePoolHolder: 0
+    recycleActiveObjects: 0
+    preWarmPool: 0
+    preWarmPoolSize: 0
+    scenesToPreWarm: []
+  - poolName: SelectionWheelItem
+    maxPoolSize: 10000
+    prefab: {fileID: 4889311960857118149, guid: 29d34b543cfe627468856313289a9f9b, type: 3}
+    dontDestroyOnLoad: 0
+    usePoolHolder: 0
+    recycleActiveObjects: 0
+    preWarmPool: 0
+    preWarmPoolSize: 0
+    scenesToPreWarm: []
+  - poolName: PopupNotification
+    maxPoolSize: 10000
+    prefab: {fileID: 2911899442751937946, guid: e5261d1cef910ee4d8887e05f09d222c, type: 3}
+    dontDestroyOnLoad: 0
+    usePoolHolder: 0
+    recycleActiveObjects: 0
+    preWarmPool: 0
+    preWarmPoolSize: 0
+    scenesToPreWarm: []

@@ -1,0 +1,102 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78efe0c056f2413ab5f94b61bf33bb1c, type: 3}
+  m_Name: BossTutorial
+  m_EditorClassIdentifier: Assembly-CSharp::SOMission
+  name: Boss Tutorial
+  description: Starting Conversation with Mail boss npc
+  icon: {fileID: 0}
+  objectives:
+  - rid: 8175020186713456724
+  - rid: 8175020186713456725
+  - rid: 8175020186713456726
+  - rid: 8175020186713456727
+  onStarted:
+  - rid: 8175020209025843303
+  - rid: 4802877461282947378
+  onObjectiveCompleted:
+  - onObjectiveCompleted: []
+    hasTriggered: 0
+  - onObjectiveCompleted: []
+    hasTriggered: 0
+  - onObjectiveCompleted:
+    - rid: 8175020209025843308
+    hasTriggered: 0
+  - onObjectiveCompleted: []
+    hasTriggered: 0
+  onCompleted:
+  - rid: 4802877461282947379
+  - rid: 7519837201401643103
+  references:
+    version: 2
+    RefIds:
+    - rid: 4802877461282947378
+      type: {class: ToggleProximityDialogueAction, ns: , asm: Assembly-CSharp}
+      data:
+        npc: {fileID: 6247453604042879243, guid: 93409a23ac56e0e4d8e1a8f0824d0dc7, type: 3}
+        allowProximityDialogue: 0
+    - rid: 4802877461282947379
+      type: {class: ToggleProximityDialogueAction, ns: , asm: Assembly-CSharp}
+      data:
+        npc: {fileID: 237702557246814423, guid: e157842bb6e6be04bbbfc995a1b0a8f9, type: 3}
+        allowProximityDialogue: 1
+    - rid: 7519837201401643103
+      type: {class: StartMissionAction, ns: , asm: Assembly-CSharp}
+      data:
+        mission: {fileID: 11400000, guid: 30be1bcc0705c78458ad6ae635cfc40d, type: 2}
+    - rid: 8175020186713456724
+      type: {class: CompleteDialogueObjective, ns: , asm: Assembly-CSharp}
+      data:
+        isHidden: 0
+        requiresPreviousObjective: 0
+        overrideDescription:
+          isSet: 0
+          value: Description
+        npc: {fileID: 6247453604042879243, guid: 93409a23ac56e0e4d8e1a8f0824d0dc7, type: 3}
+    - rid: 8175020186713456725
+      type: {class: ObtainItemObjective, ns: , asm: Assembly-CSharp}
+      data:
+        isHidden: 0
+        requiresPreviousObjective: 1
+        overrideDescription:
+          isSet: 0
+          value: Description
+        requiredItem: {fileID: 11400000, guid: 9db520021735ba9428c293b40d5975ac, type: 2}
+    - rid: 8175020186713456726
+      type: {class: GiveItemToNpcObjective, ns: , asm: Assembly-CSharp}
+      data:
+        isHidden: 0
+        requiresPreviousObjective: 1
+        overrideDescription:
+          isSet: 0
+          value: Description
+        requiredItem: {fileID: 11400000, guid: 9db520021735ba9428c293b40d5975ac, type: 2}
+        npc: {fileID: 6247453604042879243, guid: 93409a23ac56e0e4d8e1a8f0824d0dc7, type: 3}
+    - rid: 8175020186713456727
+      type: {class: CompleteDialogueObjective, ns: , asm: Assembly-CSharp}
+      data:
+        isHidden: 0
+        requiresPreviousObjective: 1
+        overrideDescription:
+          isSet: 0
+          value: Description
+        npc: {fileID: 6247453604042879243, guid: 93409a23ac56e0e4d8e1a8f0824d0dc7, type: 3}
+    - rid: 8175020209025843303
+      type: {class: StartDialogueAction, ns: , asm: Assembly-CSharp}
+      data:
+        npc: {fileID: 6247453604042879243, guid: 93409a23ac56e0e4d8e1a8f0824d0dc7, type: 3}
+        dialogue: {fileID: 11400000, guid: 826c2b5f6e31c2744999dcdc20465bbb, type: 2}
+    - rid: 8175020209025843308
+      type: {class: StartDialogueAction, ns: , asm: Assembly-CSharp}
+      data:
+        npc: {fileID: 6247453604042879243, guid: 93409a23ac56e0e4d8e1a8f0824d0dc7, type: 3}
+        dialogue: {fileID: 11400000, guid: dc64cfbb0ff898c45b2aef12eff3cdc6, type: 2}

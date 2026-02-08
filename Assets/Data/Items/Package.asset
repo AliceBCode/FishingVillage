@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Package
   m_EditorClassIdentifier: Assembly-CSharp::SOItem
   name: Package
-  description: Package
+  description: A package like any other.
   icon: {fileID: 21300000, guid: 5099f93d4ac48094b918825b4628439f, type: 3}
   usable: 0
   actionsOnUse: []

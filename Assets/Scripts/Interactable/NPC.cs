@@ -1,7 +1,7 @@
 
 using DNExtensions.Utilities;
 using DNExtensions.Utilities.Button;
-using UI;
+using FishingVillage.UI;
 using UnityEngine;
 
 public class NPC : Interactable
@@ -9,15 +9,14 @@ public class NPC : Interactable
     [Header("NPC Settings")]
     [SerializeField] private new string name = "NPC";
     
-    [Header("Speech Bubble")]
-    [SerializeField] private float speechCooldown = 1.5f;
-    [SerializeField, ReadOnly] private float speechCooldownTimer;
-    
     [Header("Proximity Dialogue")]
     [SerializeField] private bool playProximityDialogue = true;
+    [SerializeField] private float proximityCooldown = 1.5f;
     [SerializeField] private SODialogueLines greetingDialogueLines;
     [SerializeField] private SODialogueLines farewellDialogueLines;
-
+    [SerializeField, ReadOnly] private float speechCooldownTimer;
+    
+    
     private SpeechBubble _speechBubble;
     private DialogueSequence _activeDialogue;
     
@@ -86,21 +85,18 @@ public class NPC : Interactable
         }
     }
 
-    public void GiveItemToPlayer(SOItem item)
+    public override void ShowInteract()
     {
-        if (PlayerInventory.Instance)
-        {
-            PlayerInventory.Instance.TryAddItem(item);
-        }
+        if (!CanInteract() || _activeDialogue != null) return;
+        
+        InteractPrompt.Instance?.Show(transform.position + promptOffset);
     }
-    
 
 
     #region Sequence Dialogue
 
     private void ShowNextLine()
     {
-        
         if (_activeDialogue.IsComplete)
         {
             GameEvents.DialogueSequenceCompleted(this);
@@ -110,8 +106,8 @@ public class NPC : Interactable
         }
         
         string line = _activeDialogue.GetNextLine();
-        _speechBubble?.Show(line);
-        speechCooldownTimer = speechCooldown;
+        _speechBubble?.Show(line, _activeDialogue.AdvanceMode == DialogueAdvanceMode.Manual);
+        InteractPrompt.Instance?.Hide(false);
         
         if (_activeDialogue.AdvanceMode == DialogueAdvanceMode.Automatic)
         {
@@ -139,8 +135,8 @@ public class NPC : Interactable
     {
         if (!greetingDialogueLines) return;
         
-        speechCooldownTimer = speechCooldown;
-        _speechBubble?.Show(greetingDialogueLines.GetRandomLine, 3.5f);
+        speechCooldownTimer = proximityCooldown;
+        _speechBubble?.Show(greetingDialogueLines.GetRandomLine,false, 3.5f);
     }
     
     [Button]
@@ -148,8 +144,8 @@ public class NPC : Interactable
     {
         if (!farewellDialogueLines) return;
         
-        speechCooldownTimer = speechCooldown;
-        _speechBubble?.Show(farewellDialogueLines.GetRandomLine, 3.5f);
+        speechCooldownTimer = proximityCooldown;
+        _speechBubble?.Show(farewellDialogueLines.GetRandomLine,false, 3.5f);
     }
     
     public void EnableProximityDialogue(bool enable)
@@ -163,7 +159,7 @@ public class NPC : Interactable
         farewellDialogueLines = newLines;
     }
 
-    public void SetGreetingDialogueLines(SODialogueLines newLines)
+    public void SetGreetingLines(SODialogueLines newLines)
     {
         if (!newLines) return;
         greetingDialogueLines = newLines;

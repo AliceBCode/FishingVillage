@@ -16,6 +16,7 @@ namespace DNExtensions.Utilities.SerializableSelector.Editor
         private static readonly Dictionary<string, TypeInfo[]> TypeCache = new Dictionary<string, TypeInfo[]>();
         private static object _clipboard;
         private static Type _clipboardType;
+        private static List<object> _listClipboard; 
         
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
@@ -29,16 +30,26 @@ namespace DNExtensions.Utilities.SerializableSelector.Editor
             
             // Calculate rects
             float lineHeight = EditorGUIUtility.singleLineHeight;
-            Rect labelRect = new Rect(position.x, position.y, EditorGUIUtility.labelWidth, lineHeight);
-            Rect dropdownRect = new Rect(
-                position.x + EditorGUIUtility.labelWidth + 2, 
-                position.y, 
-                position.width - EditorGUIUtility.labelWidth - 2, 
-                lineHeight
-            );
+            bool inArray = IsInArray(property);
             
-            // Draw label
-            EditorGUI.LabelField(labelRect, label);
+            Rect dropdownRect;
+            
+            if (inArray)
+            {
+                dropdownRect = new Rect(position.x, position.y, position.width, lineHeight);
+            }
+            else
+            {
+                Rect labelRect = new Rect(position.x, position.y, EditorGUIUtility.labelWidth, lineHeight);
+                EditorGUI.LabelField(labelRect, label);
+                
+                dropdownRect = new Rect(
+                    position.x + EditorGUIUtility.labelWidth + 2, 
+                    position.y, 
+                    position.width - EditorGUIUtility.labelWidth - 2, 
+                    lineHeight
+                );
+            }
             
             // Get current type name
             string currentTypeName = GetTypeName(property);
@@ -89,7 +100,13 @@ namespace DNExtensions.Utilities.SerializableSelector.Editor
                         propertyHeight
                     );
                     
+                    int oldIndent = EditorGUI.indentLevel;
+                    EditorGUI.indentLevel = 0;
+                    
                     EditorGUI.PropertyField(propertyRect, iterator, true);
+                    
+                    EditorGUI.indentLevel = oldIndent;
+                    
                     yOffset += propertyHeight + EditorGUIUtility.standardVerticalSpacing;
                     
                     enterChildren = false;
@@ -128,25 +145,40 @@ namespace DNExtensions.Utilities.SerializableSelector.Editor
         {
             if (string.IsNullOrEmpty(property.managedReferenceFullTypename))
                 return "<null>";
-            
-            // Get the actual Type object
+    
             object value = property.managedReferenceValue;
             if (value != null)
             {
                 Type actualType = value.GetType();
-                // Return custom display name if it exists
                 return SerializableSelectorUtility.GetTypeDisplayName(actualType);
             }
-            
-            // Fallback: parse the typename
-            string[] parts = property.managedReferenceFullTypename.Split(' ');
-            if (parts.Length == 2)
+    
+            // Check if type still exists
+            if (!string.IsNullOrEmpty(property.managedReferenceFullTypename))
             {
-                string fullTypeName = parts[1];
-                string[] typeParts = fullTypeName.Split('.');
-                return typeParts[^1];
-            }
+                string[] parts = property.managedReferenceFullTypename.Split(' ');
+                if (parts.Length == 2)
+                {
+                    string assemblyName = parts[0];
+                    string fullTypeName = parts[1];
             
+                    Type type = Type.GetType($"{fullTypeName}, {assemblyName}");
+                    if (type == null)
+                    {
+                        return "<Missing Type>";
+                    }
+                }
+            }
+    
+            // Fallback
+            string[] typeParts = property.managedReferenceFullTypename.Split(' ');
+            if (typeParts.Length == 2)
+            {
+                string fullTypeName = typeParts[1];
+                string[] nameParts = fullTypeName.Split('.');
+                return nameParts[^1];
+            }
+    
             return property.managedReferenceFullTypename;
         }
         
@@ -159,16 +191,10 @@ namespace DNExtensions.Utilities.SerializableSelector.Editor
                 return;
             }
     
-            // Get types with caching
             TypeInfo[] types = GetCachedTypes(baseType, attr);
-    
-            // Get existing types in list for AllowOnce checking
             HashSet<Type> existingTypes = GetExistingTypesInList(property);
-    
-            // Determine if we should show search field
             bool showSearch = attr.SearchThreshold >= 0 && types.Length >= attr.SearchThreshold;
     
-            // Show popup window
             SerializableSelectorPopup.Show(
                 buttonRect,
                 types,
@@ -180,12 +206,23 @@ namespace DNExtensions.Utilities.SerializableSelector.Editor
             );
         }
         
-        
-        
         private void ShowContextMenu(SerializedProperty property)
         {
             GenericMenu menu = new GenericMenu();
-            
+    
+            bool isBroken = !string.IsNullOrEmpty(property.managedReferenceFullTypename) 
+                            && property.managedReferenceValue == null;
+    
+            if (isBroken)
+            {
+                menu.AddItem(new GUIContent("Clear Broken Reference"), false, () => 
+                {
+                    property.managedReferenceValue = null;
+                    property.serializedObject.ApplyModifiedProperties();
+                });
+                menu.AddSeparator("");
+            }
+    
             if (property.managedReferenceValue != null)
             {
                 menu.AddItem(new GUIContent("Copy"), false, () => CopyValue(property));
@@ -194,7 +231,7 @@ namespace DNExtensions.Utilities.SerializableSelector.Editor
             {
                 menu.AddDisabledItem(new GUIContent("Copy"));
             }
-            
+    
             if (_clipboard != null && CanPaste(property))
             {
                 menu.AddItem(new GUIContent($"Paste ({_clipboardType.Name})"), false, () => PasteValue(property));
@@ -203,7 +240,24 @@ namespace DNExtensions.Utilities.SerializableSelector.Editor
             {
                 menu.AddDisabledItem(new GUIContent("Paste"));
             }
-            
+    
+            if (IsInArray(property))
+            {
+                menu.AddSeparator("");
+                menu.AddItem(new GUIContent("List/Copy Entire List"), false, () => CopyList(property));
+        
+                if (_listClipboard is { Count: > 0 })
+                {
+                    menu.AddItem(new GUIContent($"List/Paste Entire List ({_listClipboard.Count} items)"), false, () => PasteList(property));
+                }
+                else
+                {
+                    menu.AddDisabledItem(new GUIContent("List/Paste Entire List"));
+                }
+        
+                menu.AddItem(new GUIContent("List/Clear Entire List"), false, () => ClearList(property));
+            }
+    
             menu.ShowAsContext();
         }
         
@@ -214,7 +268,6 @@ namespace DNExtensions.Utilities.SerializableSelector.Editor
             
             _clipboardType = value.GetType();
             _clipboard = value.CopyReference();
-            
         }
         
         private bool CanPaste(SerializedProperty property)
@@ -231,7 +284,6 @@ namespace DNExtensions.Utilities.SerializableSelector.Editor
             
             property.managedReferenceValue = _clipboard.CopyReference();
             property.serializedObject.ApplyModifiedProperties();
-            
         }
         
         private bool IsInArray(SerializedProperty property)
@@ -246,14 +298,12 @@ namespace DNExtensions.Utilities.SerializableSelector.Editor
             if (!IsInArray(property))
                 return existingTypes;
     
-            // Navigate to parent array
             string arrayPath = property.propertyPath.Substring(0, property.propertyPath.LastIndexOf(".Array.data[", StringComparison.Ordinal));
             SerializedProperty arrayProperty = property.serializedObject.FindProperty(arrayPath);
     
             if (arrayProperty == null || !arrayProperty.isArray)
                 return existingTypes;
     
-            // Collect all types in the array
             for (int i = 0; i < arrayProperty.arraySize; i++)
             {
                 SerializedProperty element = arrayProperty.GetArrayElementAtIndex(i);
@@ -336,7 +386,6 @@ namespace DNExtensions.Utilities.SerializableSelector.Editor
         
         private TypeInfo[] GetCachedTypes(Type baseType, SerializableSelectorAttribute attr)
         {
-            // Create cache key including all filters
             string interfaceKey = attr.RequireInterfaces != null 
                 ? string.Join(",", Array.ConvertAll(attr.RequireInterfaces, t => t.FullName))
                 : "";
@@ -354,6 +403,69 @@ namespace DNExtensions.Utilities.SerializableSelector.Editor
             }
             
             return TypeCache[cacheKey];
+        }
+        
+        private void CopyList(SerializedProperty property)
+        {
+            SerializedProperty arrayProperty = GetArrayProperty(property);
+            if (arrayProperty == null) return;
+            
+            _listClipboard = new List<object>();
+            
+            for (int i = 0; i < arrayProperty.arraySize; i++)
+            {
+                SerializedProperty element = arrayProperty.GetArrayElementAtIndex(i);
+                if (element.managedReferenceValue != null)
+                {
+                    _listClipboard.Add(element.managedReferenceValue.CopyReference());
+                }
+                else
+                {
+                    _listClipboard.Add(null);
+                }
+            }
+        }
+
+        private void PasteList(SerializedProperty property)
+        {
+            if (_listClipboard == null) return;
+            
+            SerializedProperty arrayProperty = GetArrayProperty(property);
+            if (arrayProperty == null) return;
+            
+            arrayProperty.ClearArray();
+            
+            for (int i = 0; i < _listClipboard.Count; i++)
+            {
+                arrayProperty.InsertArrayElementAtIndex(i);
+                SerializedProperty element = arrayProperty.GetArrayElementAtIndex(i);
+                
+                if (_listClipboard[i] != null)
+                {
+                    element.managedReferenceValue = _listClipboard[i].CopyReference();
+                }
+                else
+                {
+                    element.managedReferenceValue = null;
+                }
+            }
+            
+            arrayProperty.serializedObject.ApplyModifiedProperties();
+        }
+
+        private void ClearList(SerializedProperty property)
+        {
+            SerializedProperty arrayProperty = GetArrayProperty(property);
+            if (arrayProperty == null) return;
+            
+            arrayProperty.ClearArray();
+            arrayProperty.serializedObject.ApplyModifiedProperties();
+        }
+
+        private SerializedProperty GetArrayProperty(SerializedProperty property)
+        {
+            string arrayPath = property.propertyPath.Substring(0, property.propertyPath.LastIndexOf(".Array.data[", StringComparison.Ordinal));
+            return property.serializedObject.FindProperty(arrayPath);
         }
     }
 }

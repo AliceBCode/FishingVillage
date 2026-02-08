@@ -1,7 +1,7 @@
 using DNExtensions.Utilities;
 using DNExtensions.Utilities.RangedValues;
 
-namespace UI
+namespace FishingVillage.UI
 {
     using System;
     using System.Collections;
@@ -14,18 +14,18 @@ namespace UI
     public class SpeechBubble : MonoBehaviour
     {
 
-        [Header("Settings")] [Tooltip("Duration of the fade in/out animation")] [SerializeField]
-        private float fadeDuration = 0.5f;
+        [Header("Settings")] 
+        [Tooltip("Duration of the fade in/out animation")] 
+        [SerializeField] private float fadeDuration = 0.5f;
 
-        [Tooltip("Whether the speech bubble should rotate to face the camera")] [SerializeField]
-        private bool rotateToCamera = true;
+        [Tooltip("Whether the speech bubble should rotate to face the camera")] 
+        [SerializeField] private bool rotateToCamera = true;
 
         [SerializeField, EnableIf("rotateToCamera")]
         private float rotationSpeed = 25f;
 
         [Tooltip("Whether the speech bubble's scale should change based on its distance to the camera")]
-        [SerializeField]
-        private bool distanceToCameraAffectsScale = true;
+        [SerializeField] private bool distanceToCameraAffectsScale = true;
 
         [SerializeField, MinMaxRange(1, 2), EnableIf("distanceToCameraAffectsScale")]
         private RangedFloat minMaxScale = new RangedFloat(1, 1.5f);
@@ -33,14 +33,14 @@ namespace UI
         [SerializeField, MinMaxRange(0, 50), EnableIf("distanceToCameraAffectsScale")]
         private RangedFloat minMaxDistance = new RangedFloat(5, 15);
 
-        [Header("References")] [SerializeField]
-        private CanvasGroup canvasGroup;
-
+        [Header("References")] 
+        [SerializeField] private CanvasGroup canvasGroup;
+        [SerializeField] private RectTransform rectTransform;
         [SerializeField] private TextMeshProUGUI text;
+        [SerializeField] private GameObject interactPrompt;
 
         private Camera _cam;
         private Vector3 _baseScale;
-        private RectTransform _rectTransform;
         private Coroutine _hideCoroutine;
         private Sequence _fadeSequence;
 
@@ -48,8 +48,7 @@ namespace UI
         {
             Hide(false);
             _cam = Camera.main;
-            _rectTransform = canvasGroup.transform as RectTransform;
-            if (_rectTransform) _baseScale = _rectTransform.localScale;
+            if (rectTransform) _baseScale = rectTransform.localScale;
         }
 
         private void OnDestroy()
@@ -70,25 +69,24 @@ namespace UI
         {
             if (!_cam || !rotateToCamera) return;
 
-            Vector3 directionToCamera = _rectTransform.position - _cam.transform.position;
+            Vector3 directionToCamera = rectTransform.position - _cam.transform.position;
             directionToCamera.y = 0;
             Quaternion targetRotation = Quaternion.LookRotation(directionToCamera);
-            _rectTransform.rotation =
-                Quaternion.Slerp(_rectTransform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+            rectTransform.rotation = Quaternion.Slerp(rectTransform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
         }
 
         private void ChangeSizeBasedOnDistance()
         {
             if (!_cam || !distanceToCameraAffectsScale) return;
 
-            float distance = Vector3.Distance(_rectTransform.position, _cam.transform.position);
+            float distance = Vector3.Distance(rectTransform.position, _cam.transform.position);
             float t = Mathf.InverseLerp(minMaxDistance.minValue, minMaxDistance.maxValue, distance);
             float scaleMultiplier = Mathf.Lerp(minMaxScale.minValue, minMaxScale.maxValue, t);
-            _rectTransform.localScale = _baseScale * scaleMultiplier;
+            rectTransform.localScale = _baseScale * scaleMultiplier;
         }
 
 
-        public void Show(string message, float duration = 0)
+        public void Show(string message, bool showPrompt = false, float duration = 0)
         {
             if (message == null) return;
 
@@ -101,6 +99,8 @@ namespace UI
             {
                 StopCoroutine(_hideCoroutine);
             }
+            
+            interactPrompt?.SetActive(showPrompt);
 
             text.text = message;
 
