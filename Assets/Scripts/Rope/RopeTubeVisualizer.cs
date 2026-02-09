@@ -1,27 +1,28 @@
-
 using DNExtensions.TubeRenderer;
 using UnityEngine;
 using DNExtensions.Utilities.Button;
 
-[ExecuteInEditMode]
-[RequireComponent(typeof(TubeRenderer))]
-public class RopeTubeVisualizer : MonoBehaviour
+namespace FishingVillage.Rope
+{
+    [ExecuteInEditMode]
+    [RequireComponent(typeof(TubeRenderer))]
+    public class RopeTubeVisualizer : MonoBehaviour
 {
     [SerializeField] private bool autoUpdate = true;
     
-    private TubeRenderer tubeRenderer;
+    private TubeRenderer _tubeRenderer;
 
     private void Awake()
     {
-        if (!tubeRenderer)
+        if (!_tubeRenderer)
         {
-            tubeRenderer = GetComponent<TubeRenderer>();
+            _tubeRenderer = GetComponent<TubeRenderer>();
         }
     }
 
     private void Update()
     {
-        if (autoUpdate && tubeRenderer)
+        if (autoUpdate && _tubeRenderer)
         {
             UpdateVisualization();
         }
@@ -39,6 +40,7 @@ public class RopeTubeVisualizer : MonoBehaviour
             positions[i] = transform.InverseTransformPoint(points[i].transform.position);
         }
 
-        tubeRenderer.SetPositions(positions);
+        _tubeRenderer.SetPositions(positions);
+    }
     }
 }

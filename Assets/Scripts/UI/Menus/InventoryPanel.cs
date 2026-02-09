@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using DNExtensions.MenuSystem;
 using DNExtensions.ObjectPooling;
+using FishingVillage.Player;
 using TMPro;
 using UnityEngine;
 

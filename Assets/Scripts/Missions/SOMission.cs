@@ -1,17 +1,20 @@
 using System;
 using DNExtensions.Utilities.SerializableSelector;
+using FishingVillage.Missions.Objectives;
 using UnityEngine;
 
-[Serializable]
-public class MissionObjectiveEvents
+namespace FishingVillage.Missions
 {
-    [SerializeReference, SerializableSelector] 
-    public GameAction[] onObjectiveCompleted = Array.Empty<GameAction>();
-    [HideInInspector] public bool hasTriggered;
-}
+    [Serializable]
+    public class MissionObjectiveEvents
+    {
+        [SerializeReference, SerializableSelector]
+        public GameActions.GameAction[] onObjectiveCompleted = Array.Empty<GameActions.GameAction>();
+        [HideInInspector] public bool hasTriggered;
+    }
 
-[CreateAssetMenu(fileName = "New Mission", menuName = "Scriptable Objects/Mission")]
-public class SOMission : ScriptableObject
+    [CreateAssetMenu(fileName = "New Mission", menuName = "Scriptable Objects/Mission")]
+    public class SOMission : ScriptableObject
 {
     [Header("Settings")]
     [SerializeField] private new string name;
@@ -21,20 +24,20 @@ public class SOMission : ScriptableObject
     private MissionObjective[] objectives = Array.Empty<MissionObjective>();
     
     [Header("Events")]
-    [SerializeReference, SerializableSelector] 
-    private GameAction[] onStarted = Array.Empty<GameAction>();
-    [SerializeField] 
+    [SerializeReference, SerializableSelector]
+    private GameActions.GameAction[] onStarted = Array.Empty<GameActions.GameAction>();
+    [SerializeField]
     private MissionObjectiveEvents[] onObjectiveCompleted = Array.Empty<MissionObjectiveEvents>();
-    [SerializeReference, SerializableSelector] 
-    private GameAction[] onCompleted = Array.Empty<GameAction>();
-    
+    [SerializeReference, SerializableSelector]
+    private GameActions.GameAction[] onCompleted = Array.Empty<GameActions.GameAction>();
 
-    
+
+
     public string Name => name;
     public string Description => description;
     public Sprite Icon => icon;
-    public GameAction[] OnStarted => onStarted;
-    public GameAction[] OnCompleted => onCompleted;
+    public GameActions.GameAction[] OnStarted => onStarted;
+    public GameActions.GameAction[] OnCompleted => onCompleted;
     
     
     public MissionObjective[] CloneObjectives()
@@ -75,5 +78,6 @@ public class SOMission : ScriptableObject
         {
             MissionManager.Instance.AddMission(this);
         }
+    }
     }
 }

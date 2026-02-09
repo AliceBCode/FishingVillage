@@ -2,20 +2,25 @@ using System;
 using DNExtensions.Utilities.SerializableSelector;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Scripting.APIUpdating;
 
-[Serializable]
-[SerializableSelectorName("Remove Item", "Item")]
-public class RemoveItemAction : GameAction
+namespace FishingVillage.GameActions
 {
-    [SerializeField] private SOItem item;
-    
-    public override string ActionName => item ? $"Give {item.Name}" : "Give Item (No item was set)";
-    
-    public override void Execute()
+    [Serializable]
+    [MovedFrom("")]
+    [SerializableSelectorName("Remove Item", "Item")]
+    public class RemoveItemAction : GameAction
     {
-        if (item && PlayerInventory.Instance)
+        [SerializeField] private SOItem item;
+
+        public override string ActionName => item ? $"Give {item.Name}" : "Give Item (No item was set)";
+
+        public override void Execute()
         {
-            PlayerInventory.Instance.TryRemoveItem(item);
+            if (item && Player.PlayerInventory.Instance)
+            {
+                Player.PlayerInventory.Instance.TryRemoveItem(item);
+            }
         }
     }
 }

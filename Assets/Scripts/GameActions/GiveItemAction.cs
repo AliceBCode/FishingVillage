@@ -2,20 +2,25 @@ using System;
 using DNExtensions.Utilities.SerializableSelector;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Scripting.APIUpdating;
 
-[Serializable]
-[SerializableSelectorName("Give Item", "Item")]
-public class GiveItemAction : GameAction
+namespace FishingVillage.GameActions
 {
-    [SerializeField] private SOItem item;
-    
-    public override string ActionName => item ? $"Give {item.Name}" : "Give Item (No item was set)";
-    
-    public override void Execute()
+    [Serializable]
+    [MovedFrom("")]
+    [SerializableSelectorName("Give Item", "Item")]
+    public class GiveItemAction : GameAction
     {
-        if (item && PlayerInventory.Instance)
+        [SerializeField] private SOItem item;
+
+        public override string ActionName => item ? $"Give {item.Name}" : "Give Item (No item was set)";
+
+        public override void Execute()
         {
-            PlayerInventory.Instance.TryAddItem(item);
+            if (item && Player.PlayerInventory.Instance)
+            {
+                Player.PlayerInventory.Instance.TryAddItem(item);
+            }
         }
     }
 }

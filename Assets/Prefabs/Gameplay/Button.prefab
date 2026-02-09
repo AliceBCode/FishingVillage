@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5776594166064480884}
   - component: {fileID: 6808020917692015427}
   - component: {fileID: 4825170054327047441}
+  - component: {fileID: 3398567905700846240}
   m_Layer: 0
   m_Name: Button
   m_TagString: Untagged
@@ -71,11 +72,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Button
   canInteract: 1
   limitInteractionsToOnce: 0
-  onInteract:
-    m_PersistentCalls:
-      m_Calls: []
+  promptOffset: {x: 0, y: 1.2, z: 0}
+  actionsOnInteract: []
   hasInteracted: 0
   interactableID: 27e51fcc-a3b7-41a4-b670-2710dea6fb8c
+  references:
+    version: 2
+    RefIds: []
+--- !u!114 &3398567905700846240
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1590022074706001590}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp-firstpass::Outline
+  outlineMode: 0
+  outlineColor: {r: 1, g: 1, b: 1, a: 1}
+  outlineWidth: 2
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
 --- !u!1 &6782521676386023508
 GameObject:
   m_ObjectHideFlags: 0

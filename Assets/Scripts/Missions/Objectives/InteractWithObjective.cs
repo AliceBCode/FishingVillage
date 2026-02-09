@@ -1,13 +1,16 @@
 using System;
 using DNExtensions.Utilities.SerializableSelector;
 using UnityEngine;
+using UnityEngine.Scripting.APIUpdating;
 
-
-[Serializable]
-[SerializableSelectorName("Interact With", "Interactable")]
-public class InteractWithObjective : MissionObjective
+namespace FishingVillage.Missions.Objectives
 {
-    [SerializeField] private Interactable interactableReference;
+    [Serializable]
+    [MovedFrom("")]
+    [SerializableSelectorName("Interact With", "Interactable")]
+    public class InteractWithObjective : MissionObjective
+    {
+        [SerializeField] private Interactable.Interactable interactableReference;
     
     private string _targetID;
     
@@ -42,11 +45,12 @@ public class InteractWithObjective : MissionObjective
         return false;
     }
     
-    private void OnInteractedWith(Interactable interactable)
+    private void OnInteractedWith(Interactable.Interactable interactable)
     {
         if (interactable && interactable.InteractableID == _targetID)
         {
             SetMet();
         }
+    }
     }
 }

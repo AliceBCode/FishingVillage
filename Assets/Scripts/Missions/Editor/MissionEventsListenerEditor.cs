@@ -2,8 +2,10 @@
 using UnityEditor;
 using UnityEngine;
 
-[CustomEditor(typeof(MissionEventsListener))]
-public class MissionEventsListenerEditor : Editor
+namespace FishingVillage.Missions.Editor
+{
+    [CustomEditor(typeof(MissionEventsListener))]
+    public class MissionEventsListenerEditor : UnityEditor.Editor
 {
     private SerializedProperty _missionProp;
     private SerializedProperty _onMissionStartedProp;
@@ -58,6 +60,7 @@ public class MissionEventsListenerEditor : Editor
         
 
         serializedObject.ApplyModifiedProperties();
+    }
     }
 }
 #endif

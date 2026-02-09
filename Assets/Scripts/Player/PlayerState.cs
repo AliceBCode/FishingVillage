@@ -1,7 +1,9 @@
-public enum PlayerState
+namespace FishingVillage.Player
 {
-    Normal = 0,
-    UsingCleaningUtensils = 1,
-    UsingHorn = 2,
-    OpeningPackage = 3,
+    public enum PlayerState
+    {
+        Normal = 0,
+        Constrained = 1,
+        LockedInPlace  = 2,
+    }
 }

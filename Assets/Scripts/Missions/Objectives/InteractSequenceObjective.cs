@@ -1,13 +1,16 @@
 using System;
 using DNExtensions.Utilities.SerializableSelector;
 using UnityEngine;
+using UnityEngine.Scripting.APIUpdating;
 
-
-[Serializable]
-[SerializableSelectorName("Interact Sequence", "Interactable")]
-public class InteractSequenceObjective : MissionObjective
+namespace FishingVillage.Missions.Objectives
 {
-    [SerializeField] private Interactable[] requiredSequence;
+    [Serializable]
+    [MovedFrom("")]
+    [SerializableSelectorName("Interact Sequence", "Interactable")]
+    public class InteractSequenceObjective : MissionObjective
+    {
+        [SerializeField] private Interactable.Interactable[] requiredSequence;
     
     private string[] _targetIDs;
     private int _currentIndex;
@@ -44,26 +47,27 @@ public class InteractSequenceObjective : MissionObjective
         return _currentIndex >= requiredSequence.Length;
     }
     
-    private void OnInteraction(Interactable interactable)
+    private void OnInteraction(Interactable.Interactable interactable)
     {
         if (_currentIndex >= _targetIDs.Length) return;
-        
+
         bool isPartOfSequence = Array.Exists(_targetIDs, id => id == interactable.InteractableID);
-        if (!isPartOfSequence) return; 
-        
-        
+        if (!isPartOfSequence) return;
+
+
         if (interactable.InteractableID == _targetIDs[_currentIndex])
         {
             _currentIndex++;
-            
+
             if (Evaluate())
             {
                 SetMet();
             }
         }
-        else 
+        else
         {
             _currentIndex = 0;
         }
+    }
     }
 }

@@ -1,14 +1,13 @@
 using DNExtensions.Utilities;
 using DNExtensions.Utilities.RangedValues;
+using System.Collections;
+using PrimeTween;
+using TMPro;
+using UnityEngine;
 
 namespace FishingVillage.UI
 {
-    using System;
-    using System.Collections;
-    using DNExtensions;
-    using PrimeTween;
-    using TMPro;
-    using UnityEngine;
+
 
     [SelectionBase]
     public class SpeechBubble : MonoBehaviour

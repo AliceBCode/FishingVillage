@@ -103,7 +103,6 @@ MonoBehaviour:
   proximityCooldown: 1.5
   greetingDialogueLines: {fileID: 11400000, guid: d1069709181f39945a507b07a7027b38, type: 2}
   farewellDialogueLines: {fileID: 11400000, guid: 91c44b8693f34bc438b116cab4dc640c, type: 2}
-  speechCooldownTimer: 0
   references:
     version: 2
     RefIds: []

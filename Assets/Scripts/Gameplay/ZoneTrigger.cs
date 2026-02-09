@@ -1,12 +1,13 @@
-using System;
-using DNExtensions;
+
 using DNExtensions.Utilities;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 
-[RequireComponent(typeof(Collider))]
-public class ZoneTrigger : MonoBehaviour
+namespace FishingVillage.Gameplay
+{
+    [RequireComponent(typeof(Collider))]
+    public class ZoneTrigger : MonoBehaviour
 {
     [Header("Settings")]
     [SerializeField] private string triggerID;
@@ -27,10 +28,10 @@ public class ZoneTrigger : MonoBehaviour
         
         if (((1 << other.gameObject.layer) & triggerLayer) == 0) return;
         
-        if (other.TryGetComponent(out PlayerController player))
+        if (other.TryGetComponent(out Player.PlayerController player))
         {
             hasTriggered = true;
-            
+
             if (!string.IsNullOrEmpty(triggerID))
             {
                 GameEvents.TriggerEntered(triggerID);
@@ -46,8 +47,8 @@ public class ZoneTrigger : MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
         if (((1 << other.gameObject.layer) & triggerLayer) == 0) return;
-        
-        if (other.TryGetComponent(out PlayerController player))
+
+        if (other.TryGetComponent(out Player.PlayerController player))
         {
             if (!string.IsNullOrEmpty(triggerID))
             {
@@ -68,5 +69,6 @@ public class ZoneTrigger : MonoBehaviour
         Gizmos.DrawWireCube(transform.position, new Vector3(col.bounds.size.x, col.bounds.size.y, col.bounds.size.z));
         
         Handles.Label(transform.position + new Vector3(0,col.bounds.size.y + 0.05f,0), $"Zone Trigger({triggerID})");
+    }
     }
 }

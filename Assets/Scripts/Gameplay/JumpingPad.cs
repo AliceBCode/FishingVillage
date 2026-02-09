@@ -1,31 +1,35 @@
 using DNExtensions;
 using DNExtensions.Utilities;
+using FishingVillage.Player;
 using UnityEngine;
 
-public class JumpingPad : MonoBehaviour
+namespace FishingVillage.Gameplay
 {
-    [Header("Settings")]
-    [SerializeField] private float jumpForce = 25f;
-    [SerializeField] private float cooldownTime = 1f;
-    [SerializeField, ReadOnly] private float cooldownTimer;
+    public class JumpingPad : MonoBehaviour
+    {
+        [Header("Settings")]
+        [SerializeField] private float jumpForce = 25f;
+        [SerializeField] private float cooldownTime = 1f;
+        [SerializeField, ReadOnly] private float cooldownTimer;
 
-    
-    private void Update()
-    {
-        if (cooldownTimer > 0f)
+
+        private void Update()
         {
-            cooldownTimer -= Time.deltaTime;
+            if (cooldownTimer > 0f)
+            {
+                cooldownTimer -= Time.deltaTime;
+            }
         }
-    }
-    
-    private void OnTriggerEnter(Collider other)
-    {
-        if (cooldownTimer > 0f) return;
-        
-        if (other.TryGetComponent<PlayerController>(out var player))
+
+        private void OnTriggerEnter(Collider other)
         {
-            player.ForceJump(jumpForce);
-            cooldownTimer = cooldownTime;
+            if (cooldownTimer > 0f) return;
+
+            if (other.TryGetComponent<PlayerController>(out var player))
+            {
+                player.ForceJump(jumpForce);
+                cooldownTimer = cooldownTime;
+            }
         }
     }
 }

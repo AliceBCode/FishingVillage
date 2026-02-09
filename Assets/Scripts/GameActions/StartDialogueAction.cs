@@ -2,31 +2,35 @@ using System;
 using DNExtensions.Utilities.PrefabSelector;
 using DNExtensions.Utilities.SerializableSelector;
 using UnityEngine;
-using UnityEngine.Events;
+using UnityEngine.Scripting.APIUpdating;
 
-[Serializable]
-[SerializableSelectorName("Start Dialogue", "NPC")]
-public class StartDialogueAction : GameAction
+namespace FishingVillage.GameActions
 {
-    [SerializeField, PrefabSelector("Assets/Prefabs/Npcs")]  private NPC npc;
-    [SerializeField] private SODialogueSequence dialogue;
-    
-    public override string ActionName => npc ? $"Start Dialogue with {npc.Name}" : "Start Dialogue (No NPC was set)";
-    
-    public override void Execute()
+    [Serializable]
+    [MovedFrom("")]
+    [SerializableSelectorName("Start Dialogue", "NPC")]
+    public class StartDialogueAction : GameAction
     {
-        if (npc && dialogue)
+        [SerializeField, PrefabSelector("Assets/Prefabs/Npcs")] private Interactable.NPC npc;
+        [SerializeField] private Dialogue.SODialogueSequence dialogue;
+
+        public override string ActionName => npc ? $"Start Dialogue with {npc.Name}" : "Start Dialogue (No NPC was set)";
+
+        public override void Execute()
         {
-            var sceneNpc = FindNpcInScene(npc.InteractableID);
-            if (sceneNpc)
+            if (npc && dialogue)
             {
-                sceneNpc.StartDialogueSequence(dialogue);
-            }
-            else
-            {
-                Debug.LogWarning($"Could not find NPC with ID {npc.InteractableID} in scene!");
+                var sceneNpc = FindNpcInScene(npc.InteractableID);
+                if (sceneNpc)
+                {
+                    sceneNpc.StartDialogueSequence(dialogue);
+                }
+                else
+                {
+                    Debug.LogWarning($"Could not find NPC with ID {npc.InteractableID} in scene!");
+                }
             }
         }
+
     }
-    
 }

@@ -1,10 +1,15 @@
-
 using DNExtensions.Utilities;
 using DNExtensions.Utilities.Button;
+using DNExtensions.Utilities.InlineSO;
+using FishingVillage.Dialogue;
+using FishingVillage.Missions;
+using FishingVillage.Player;
 using FishingVillage.UI;
 using UnityEngine;
 
-public class NPC : Interactable
+namespace FishingVillage.Interactable
+{
+    public class NPC : Interactable
 {
     [Header("NPC Settings")]
     [SerializeField] private new string name = "NPC";
@@ -12,11 +17,11 @@ public class NPC : Interactable
     [Header("Proximity Dialogue")]
     [SerializeField] private bool playProximityDialogue = true;
     [SerializeField] private float proximityCooldown = 1.5f;
-    [SerializeField] private SODialogueLines greetingDialogueLines;
-    [SerializeField] private SODialogueLines farewellDialogueLines;
-    [SerializeField, ReadOnly] private float speechCooldownTimer;
+    [SerializeField, InlineSO] private SODialogueLines greetingDialogueLines;
+    [SerializeField, InlineSO] private SODialogueLines farewellDialogueLines;
     
     
+    private float _speechCooldownTimer;
     private SpeechBubble _speechBubble;
     private DialogueSequence _activeDialogue;
     
@@ -29,16 +34,16 @@ public class NPC : Interactable
 
     private void Update()
     {
-        if (speechCooldownTimer > 0f)
+        if (_speechCooldownTimer > 0f)
         {
-            speechCooldownTimer -= Time.deltaTime;
+            _speechCooldownTimer -= Time.deltaTime;
         }
     }
     
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!playProximityDialogue || !greetingDialogueLines || speechCooldownTimer > 0) 
+        if (!playProximityDialogue || !greetingDialogueLines || _speechCooldownTimer > 0) 
             return;
         
         if (other.TryGetComponent(out PlayerController player))
@@ -49,7 +54,7 @@ public class NPC : Interactable
 
     private void OnTriggerExit(Collider other)
     {
-        if (!playProximityDialogue || !farewellDialogueLines || speechCooldownTimer > 0) 
+        if (!playProximityDialogue || !farewellDialogueLines || _speechCooldownTimer > 0) 
             return;
         
         if (other.TryGetComponent(out PlayerController player))
@@ -135,7 +140,7 @@ public class NPC : Interactable
     {
         if (!greetingDialogueLines) return;
         
-        speechCooldownTimer = proximityCooldown;
+        _speechCooldownTimer = proximityCooldown;
         _speechBubble?.Show(greetingDialogueLines.GetRandomLine,false, 3.5f);
     }
     
@@ -144,7 +149,7 @@ public class NPC : Interactable
     {
         if (!farewellDialogueLines) return;
         
-        speechCooldownTimer = proximityCooldown;
+        _speechCooldownTimer = proximityCooldown;
         _speechBubble?.Show(farewellDialogueLines.GetRandomLine,false, 3.5f);
     }
     
@@ -168,4 +173,5 @@ public class NPC : Interactable
     #endregion
 
 
+    }
 }

@@ -17,11 +17,16 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: 27d1b3170bdf4cd48827d371d2e45d20, type: 3}
   usable: 1
   actionsOnUse:
-  - rid: 4802877461282947364
+  - rid: 5778561643739873367
   references:
     version: 2
     RefIds:
-    - rid: 4802877461282947364
-      type: {class: SetPlayerStateAction, ns: , asm: Assembly-CSharp}
+    - rid: 5778561643739873367
+      type: {class: SetNormalPlayerStateAction, ns: FishingVillage.GameActions, asm: Assembly-CSharp}
       data:
-        state: 1
+        setAnimation:
+          isSet: 1
+          hideValueIfSet: 0
+          value:
+            controllerNameOrPath: Player Animator Controller
+            triggerName: BlowHorn

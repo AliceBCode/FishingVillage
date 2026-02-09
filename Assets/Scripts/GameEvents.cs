@@ -1,116 +1,122 @@
 using System;
+using FishingVillage.Interactable;
+using FishingVillage.Missions;
+using FishingVillage.Player;
 using UnityEngine;
 
-public static class GameEvents
+namespace FishingVillage
 {
-    public static event Action<PlayerInventory> OnInventoryChanged;
-    public static event Action<SOItem> OnInventoryItemSelected; 
-    public static event Action<PlayerState> OnPlayerStateChanged; 
-    public static event Action<SOItem> OnItemObtained;
-    public static event Action<SOItem> OnItemRemoved;
-    public static event Action<SOItem> OnItemUsed;
-    public static event Action<SOItem> OnItemEquipped;
-    public static event Action OnWalkAction;
-    public static event Action OnJumpedAction;
-    
-    
-    public static event Action<SOItem, NPC> OnItemGivenToNpc;
-    public static event Action<NPC> OnNpcTalkedTo;
-    public static event Action<NPC> OnDialogueSequenceCompleted;
-    public static event Action<Interactable> OnInteractedWith;
-    public static event Action<string> OnTriggerEntered;
-    public static event Action<string> OnTriggerExited;
-    
-    public static event Action<SOMission> OnMissionStarted;
-    public static event Action<SOMission> OnMissionCompleted;
-    
+    public static class GameEvents
+    {
+        public static event Action<PlayerInventory> OnInventoryChanged;
+        public static event Action<SOItem> OnInventoryItemSelected;
+        public static event Action<PlayerState> OnPlayerStateChanged;
+        public static event Action<SOItem> OnItemObtained;
+        public static event Action<SOItem> OnItemRemoved;
+        public static event Action<SOItem> OnItemUsed;
+        public static event Action<SOItem> OnItemEquipped;
+        public static event Action OnWalkAction;
+        public static event Action OnJumpedAction;
 
-    
-    
-    public static void ItemObtained(SOItem item)
-    {
-        OnItemObtained?.Invoke(item);
-    }
-    
-    public static void ItemRemoved(SOItem item)
-    {
-        OnItemRemoved?.Invoke(item);
-    }
 
-    public static void ItemUsed(SOItem item)
-    {
-        OnItemUsed?.Invoke(item);
-    }
-    
-    public static void InventoryChanged(PlayerInventory inventory)
-    {
-        OnInventoryChanged?.Invoke(inventory);
-    }
+        public static event Action<SOItem, NPC> OnItemGivenToNpc;
+        public static event Action<NPC> OnNpcTalkedTo;
+        public static event Action<NPC> OnDialogueSequenceCompleted;
+        public static event Action<Interactable.Interactable> OnInteractedWith;
+        public static event Action<string> OnTriggerEntered;
+        public static event Action<string> OnTriggerExited;
 
-    public static void PlayerStateChanged(PlayerState state)
-    {
-        OnPlayerStateChanged?.Invoke(state);
-    }
+        public static event Action<SOMission> OnMissionStarted;
+        public static event Action<SOMission> OnMissionCompleted;
 
-    public static void ItemEquipped(SOItem item)
-    {
-        OnItemEquipped?.Invoke(item);
-    }
 
-    public static void InventoryItemSelected(SOItem item)
-    {
-        OnInventoryItemSelected?.Invoke(item);
-    }
-    
-    public static void ItemGivenToNpc(SOItem item, NPC npc)
-    {
-        OnItemGivenToNpc?.Invoke(item, npc);
-    }
-    
-    public static void NpcTalkedTo(NPC npc)
-    {
-        OnNpcTalkedTo?.Invoke(npc);
-    }
-    
-    public static void DialogueSequenceCompleted(NPC npc)
-    {
-        OnDialogueSequenceCompleted?.Invoke(npc);
-    }
 
-    public static void InteractedWith(Interactable interactable)
-    {
-        OnInteractedWith?.Invoke(interactable);
-    }
-    
-    public static void TriggerEntered(string triggerID)
-    {
-        OnTriggerEntered?.Invoke(triggerID);
-    }
-    
-    public static void TriggerExited(string triggerID)
-    {
-        OnTriggerExited?.Invoke(triggerID);
-    }
-    
-    public static void MissionStarted(SOMission mission)
-    {
-        OnMissionStarted?.Invoke(mission);
-    }
-    
-    public static void MissionCompleted(SOMission mission)
-    {
-        OnMissionCompleted?.Invoke(mission);
-    }
 
-    public static void WalkedAction()
-    {
-        OnWalkAction?.Invoke();
-    }
+        public static void ItemObtained(SOItem item)
+        {
+            OnItemObtained?.Invoke(item);
+        }
 
-    public static void JumpedAction()
-    {
-        OnJumpedAction?.Invoke();
-    }
-    
+        public static void ItemRemoved(SOItem item)
+        {
+            OnItemRemoved?.Invoke(item);
+        }
 
+        public static void ItemUsed(SOItem item)
+        {
+            OnItemUsed?.Invoke(item);
+        }
+
+        public static void InventoryChanged(PlayerInventory inventory)
+        {
+            OnInventoryChanged?.Invoke(inventory);
+        }
+
+        public static void PlayerStateChanged(PlayerState state)
+        {
+            OnPlayerStateChanged?.Invoke(state);
+        }
+
+        public static void ItemEquipped(SOItem item)
+        {
+            OnItemEquipped?.Invoke(item);
+        }
+
+        public static void InventoryItemSelected(SOItem item)
+        {
+            OnInventoryItemSelected?.Invoke(item);
+        }
+
+        public static void ItemGivenToNpc(SOItem item, NPC npc)
+        {
+            OnItemGivenToNpc?.Invoke(item, npc);
+        }
+
+        public static void NpcTalkedTo(NPC npc)
+        {
+            OnNpcTalkedTo?.Invoke(npc);
+        }
+
+        public static void DialogueSequenceCompleted(NPC npc)
+        {
+            OnDialogueSequenceCompleted?.Invoke(npc);
+        }
+
+        public static void InteractedWith(Interactable.Interactable interactable)
+        {
+            OnInteractedWith?.Invoke(interactable);
+        }
+
+        public static void TriggerEntered(string triggerID)
+        {
+            OnTriggerEntered?.Invoke(triggerID);
+        }
+
+        public static void TriggerExited(string triggerID)
+        {
+            OnTriggerExited?.Invoke(triggerID);
+        }
+
+        public static void MissionStarted(SOMission mission)
+        {
+            OnMissionStarted?.Invoke(mission);
+        }
+
+        public static void MissionCompleted(SOMission mission)
+        {
+            OnMissionCompleted?.Invoke(mission);
+        }
+
+        public static void WalkedAction()
+        {
+            OnWalkAction?.Invoke();
+        }
+
+        public static void JumpedAction()
+        {
+            OnJumpedAction?.Invoke();
+        }
+
+
+    }
 }
