@@ -38,15 +38,7 @@ namespace FishingVillage
 
         private void OnPlayerStateChanged(PlayerState newState)
         {
-            switch (newState)
-            {
-                case PlayerState.UsingCleaningUtensils:
-                    PlayCleaningSfx();
-                    break;
-                case PlayerState.UsingHorn:
-                    PlayHornSfx();
-                    break;
-            }
+
         }
 
         private void PlayHornSfx()

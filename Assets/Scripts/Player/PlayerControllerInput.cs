@@ -10,8 +10,7 @@ namespace FishingVillage.Player
     public class PlayerControllerInput : InputReaderBase
 {
     [SerializeField, ReadOnly] private Vector2 moveInput;
-
-    private PlayerController _playerController;
+    
     private InputActionMap _playerActionMap;
     private InputAction _moveAction;
     private InputAction _jumpAction;
@@ -28,7 +27,6 @@ namespace FishingVillage.Player
 
     private void Awake()
     {
-        _playerController = GetComponent<PlayerController>();
         _playerActionMap = PlayerInput.actions.FindActionMap("Player");
 
         if (_playerActionMap == null)
@@ -72,38 +70,28 @@ namespace FishingVillage.Player
 
     private void OnMove(InputAction.CallbackContext context)
     {
-        if (!_playerController.AllowControl)
-        {
-            moveInput = Vector2.zero;
-            return;
-        }
-        
         moveInput = context.ReadValue<Vector2>();
     }
     
     private void OnInteract(InputAction.CallbackContext context)
     {
-        if (!_playerController.AllowControl) return;
         
         OnInteractAction?.Invoke(context);
     }
 
     private void OnJump(InputAction.CallbackContext context)
     {
-        if (!_playerController.AllowControl) return;
         
         OnJumpAction?.Invoke(context);
     }
     
     private void OnUse(InputAction.CallbackContext context)
     {
-        if (!_playerController.AllowControl) return;
         OnUseAction?.Invoke(context);
     }
     
     private void OnCycleItems(InputAction.CallbackContext context)
     {
-        if (!_playerController.AllowControl) return;
         
         OnCycleItemsAction?.Invoke(context);
     }

@@ -60,7 +60,7 @@ namespace FishingVillage.Player
 
     private void OnUseAction(InputAction.CallbackContext context)
     {
-        if (!_playerController.AllowControl) return;
+        if (!_playerController.CanInteract()) return;
         
         if (context.started)
         {
@@ -70,7 +70,7 @@ namespace FishingVillage.Player
 
     private void OnCycleItemsAction(InputAction.CallbackContext context)
     {
-        if (!_playerController.AllowControl) return;
+        if (!_playerController.CanInteract()) return;
         
         if (!context.performed || IsEmpty) return;
 

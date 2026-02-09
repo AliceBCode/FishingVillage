@@ -1,4 +1,3 @@
-using System;
 using DNExtensions.Utilities;
 using DNExtensions.Utilities.SerializableSelector;
 using FishingVillage.GameActions;
@@ -31,7 +30,7 @@ namespace FishingVillage
 
             foreach (var action in actionsOnUse)
             {
-                action.Execute();
+                action?.Execute();
             }
 
             GameEvents.ItemUsed(this);

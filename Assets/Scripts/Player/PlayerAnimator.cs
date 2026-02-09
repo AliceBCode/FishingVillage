@@ -1,4 +1,6 @@
+using DNExtensions.CinemachineExtesnstions;
 using DNExtensions.Utilities;
+using DNExtensions.Utilities.AutoGet;
 using PrimeTween;
 using UnityEngine;
 
@@ -6,151 +8,135 @@ namespace FishingVillage.Player
 {
     [RequireComponent(typeof(PlayerControllerInput))]
     public class PlayerAnimator : MonoBehaviour
-{
-    private static readonly int Cleaning = Animator.StringToHash("Cleaning");
-    private static readonly int BlowingHorn = Animator.StringToHash("BlowHorn");
-    private static readonly int OpenPackage = Animator.StringToHash("OpeningPackage");
-
-    [Header("Jump Animation")] 
-    [SerializeField] private float jumpDuration = 0.1f;
-
-    [Header("Change Direction Animation")] 
-    [SerializeField] private float directionDuration = 0.15f;
-    [SerializeField] private Ease directionEase = Ease.InOutCubic;
-
-    [Header("References")] 
-    [SerializeField] private Transform modelTransform;
-    [SerializeField] private Animator animator;
-    [SerializeField, ReadOnly] private bool facingLeft;
-    [SerializeField, ReadOnly] private bool facingUp;
-    [SerializeField, ReadOnly] private bool facingDown;
-
-    private PlayerControllerInput _input;
-    private Sequence _rotationTween;
-
-    private void Awake()
     {
-        _input = GetComponent<PlayerControllerInput>();
-        modelTransform.eulerAngles = new Vector3(0f, 180f, 0f);
-    }
+        [Header("Jump Animation")] 
+        [SerializeField] private float jumpDuration = 0.1f;
 
-    private void OnEnable()
-    {
-        GameEvents.OnJumpedAction += PlayJumpedActionAnimation;
-        GameEvents.OnPlayerStateChanged += OnPlayerStateChanged;
-    }
+        [Header("Change Direction Animation")] 
+        [SerializeField] private float directionDuration = 0.15f;
+        [SerializeField] private Ease directionEase = Ease.InOutCubic;
 
+        [Header("References")] 
+        [SerializeField] private Transform modelTransform;
+        [SerializeField, AutoGetSelf] private Animator animator;
+        [SerializeField, ReadOnly] private bool facingLeft;
+        [SerializeField, ReadOnly] private bool facingUp;
+        [SerializeField, ReadOnly] private bool facingDown;
 
+        private PlayerControllerInput _input;
+        private Sequence _rotationTween;
 
-    private void OnDisable()
-    {
-        GameEvents.OnJumpedAction -= PlayJumpedActionAnimation;
-        GameEvents.OnPlayerStateChanged -= OnPlayerStateChanged;
-    }
-
-    private void Update()
-    {
-        HandleHorizontalViewDirection();
-        HandleVerticalViewDirection();
-    }
-    
-    private void OnPlayerStateChanged(PlayerState newState)
-    {
-        switch (newState)
+        private void Awake()
         {
-            case PlayerState.UsingCleaningUtensils:
-                animator.SetTrigger(Cleaning);
-                break;
-            case PlayerState.UsingHorn:
-                animator.SetTrigger(BlowingHorn);
-                break;
-            case PlayerState.OpeningPackage:
-                animator.SetTrigger(OpenPackage);
-                break;
+            _input = GetComponent<PlayerControllerInput>();
+            modelTransform.eulerAngles = new Vector3(0f, 180f, 0f);
         }
-    }
-    
-    
-    private void PlayJumpedActionAnimation()
-    {
-        Tween.PunchScale(modelTransform, Vector3.one * 1.1f, jumpDuration, 1);
-    }
 
-    private void HandleVerticalViewDirection()
-    {
-        float currentYInput = _input.MoveInput.y;
-        bool shouldUpdate = false;
-
-        if (currentYInput == 0f && (facingUp || facingDown))
+        private void OnEnable()
         {
-            facingUp = false;
-            facingDown = false;
-            shouldUpdate = true;
+            GameEvents.OnJumpedAction += PlayJumpedActionAnimation;
+        }
+
+        private void OnDisable()
+        {
+            GameEvents.OnJumpedAction -= PlayJumpedActionAnimation;
+        }
+
+        private void Update()
+        {
+            HandleHorizontalViewDirection();
+            HandleVerticalViewDirection();
+        }
+        
+        private void PlayJumpedActionAnimation()
+        {
+            Tween.PunchScale(modelTransform, Vector3.one * 1.1f, jumpDuration, 1);
+        }
+
+        private void HandleVerticalViewDirection()
+        {
+            float currentYInput = _input.MoveInput.y;
+            bool shouldUpdate = false;
+
+            if (currentYInput == 0f && (facingUp || facingDown))
+            {
+                facingUp = false;
+                facingDown = false;
+                shouldUpdate = true;
+            } 
+            else if (currentYInput > 0f && !facingUp)
+            {
+                facingUp = true;
+                facingDown = false;
+                shouldUpdate = true;
+            }
+            else if (currentYInput < 0f && !facingDown)
+            {
+                facingDown = true;
+                facingUp = false;
+                shouldUpdate = true;
+            }
+
+            if (shouldUpdate)
+            {
+                AnimateRotation(false);
+            }
+        }
+
+        private void HandleHorizontalViewDirection()
+        {
+            float currentXInput = _input.MoveInput.x;
+
+            if (currentXInput < 0 && !facingLeft)
+            {
+                facingLeft = true;
+                AnimateRotation(true);
+            }
+            else if (currentXInput > 0 && facingLeft)
+            {
+                facingLeft = false;
+                AnimateRotation(true);
+            }
         } 
-        else if (currentYInput > 0f && !facingUp)
-        {
-            facingUp = true;
-            facingDown = false;
-            shouldUpdate = true;
-        }
-        else if (currentYInput < 0f && !facingDown)
-        {
-            facingDown = true;
-            facingUp = false;
-            shouldUpdate = true;
-        }
 
-        if (shouldUpdate)
+        private void AnimateRotation(bool withPunchScale)
         {
-            AnimateRotation(false);
-        }
-    }
+            if (_rotationTween.isAlive)
+            {
+                _rotationTween.Complete();
+            }
 
-    private void HandleHorizontalViewDirection()
-    {
-        float currentXInput = _input.MoveInput.x;
-
-        if (currentXInput < 0 && !facingLeft)
-        {
-            facingLeft = true;
-            AnimateRotation(true);
-        }
-        else if (currentXInput > 0 && facingLeft)
-        {
-            facingLeft = false;
-            AnimateRotation(true);
-        }
-    } 
-
-    private void AnimateRotation(bool withPunchScale)
-    {
-        if (_rotationTween.isAlive)
-        {
-            _rotationTween.Complete();
-        }
-
-        var targetRotation = GetTargetRotation();
-        _rotationTween = Sequence.Create();
-        
-        if (withPunchScale)
-        {
-            _rotationTween.Group(Tween.LocalRotation(modelTransform, Quaternion.Euler(targetRotation), directionDuration, directionEase));
-            _rotationTween.Group(Tween.PunchScale(modelTransform, Vector3.one * 1.1f, directionDuration * 1.5f, 1));
+            var targetRotation = GetTargetRotation();
+            _rotationTween = Sequence.Create();
             
+            if (withPunchScale)
+            {
+                _rotationTween.Group(Tween.LocalRotation(modelTransform, Quaternion.Euler(targetRotation), directionDuration, directionEase));
+                _rotationTween.Group(Tween.PunchScale(modelTransform, Vector3.one * 1.1f, directionDuration * 1.5f, 1));
+                
+            }
+            else
+            {
+                _rotationTween.Group(Tween.LocalRotation(modelTransform, Quaternion.Euler(targetRotation), directionDuration * 0.5f, directionEase));
+            }
         }
-        else
-        {
-            _rotationTween.Group(Tween.LocalRotation(modelTransform, Quaternion.Euler(targetRotation), directionDuration * 0.5f, directionEase));
-        }
-    }
 
-    private Vector3 GetTargetRotation()
-    {
-        float horizontalAngle = facingLeft ? 0f : 180f;
-        float verticalAngle = facingUp ? -30f : (facingDown ? 30f : 0f);
-        float angleMultiplier = facingLeft ? -1f : 1f;
+        private Vector3 GetTargetRotation()
+        {
+            float horizontalAngle = facingLeft ? 0f : 180f;
+            float verticalAngle = facingUp ? -30f : (facingDown ? 30f : 0f);
+            float angleMultiplier = facingLeft ? -1f : 1f;
+            
+            return new Vector3(0f, horizontalAngle + (verticalAngle * angleMultiplier), 0f);
+        }
         
-        return new Vector3(0f, horizontalAngle + (verticalAngle * angleMultiplier), 0f);
-    }
+        public void TriggerAnimation(string animTrigger)
+        {
+            if (string.IsNullOrEmpty(animTrigger)) return;
+            
+            animator.SetTrigger(animTrigger);
+        }
+
+
     }
 }

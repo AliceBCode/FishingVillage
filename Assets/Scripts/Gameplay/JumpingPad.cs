@@ -1,5 +1,6 @@
 using DNExtensions;
 using DNExtensions.Utilities;
+using FishingVillage.Player;
 using UnityEngine;
 
 namespace FishingVillage.Gameplay
@@ -24,7 +25,7 @@ namespace FishingVillage.Gameplay
         {
             if (cooldownTimer > 0f) return;
 
-            if (other.TryGetComponent<Player.PlayerController>(out var player))
+            if (other.TryGetComponent<PlayerController>(out var player))
             {
                 player.ForceJump(jumpForce);
                 cooldownTimer = cooldownTime;

@@ -10,19 +10,19 @@ namespace FishingVillage.Rope
 {
     [SerializeField] private bool autoUpdate = true;
     
-    private TubeRenderer tubeRenderer;
+    private TubeRenderer _tubeRenderer;
 
     private void Awake()
     {
-        if (!tubeRenderer)
+        if (!_tubeRenderer)
         {
-            tubeRenderer = GetComponent<TubeRenderer>();
+            _tubeRenderer = GetComponent<TubeRenderer>();
         }
     }
 
     private void Update()
     {
-        if (autoUpdate && tubeRenderer)
+        if (autoUpdate && _tubeRenderer)
         {
             UpdateVisualization();
         }
@@ -40,7 +40,7 @@ namespace FishingVillage.Rope
             positions[i] = transform.InverseTransformPoint(points[i].transform.position);
         }
 
-        tubeRenderer.SetPositions(positions);
+        _tubeRenderer.SetPositions(positions);
     }
     }
 }

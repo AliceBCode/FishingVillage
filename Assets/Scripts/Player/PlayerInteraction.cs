@@ -18,7 +18,7 @@ namespace FishingVillage.Player
     private PlayerControllerInput _input;
     private PlayerController _playerController;
     
-    private bool CanInteract => canInteractWhileAirborne || _playerController.IsGrounded;
+    private bool CanInteract => canInteractWhileAirborne || _playerController.isGrounded;
     
 
 
@@ -40,6 +40,8 @@ namespace FishingVillage.Player
     
     private void OnInteractAction(InputAction.CallbackContext context)
     {
+        if (!_playerController.CanInteract()) return;
+        
         if (CanInteract && context.performed)
         {
             closestInteractable?.Value?.Interact();
@@ -55,6 +57,9 @@ namespace FishingVillage.Player
 
     private void CheckForInteractable()
     {
+        if (!_playerController.CanInteract()) return;
+        
+        
         var colliders = Physics.OverlapSphere(transform.position + interactCheckOffset, interactCheckRange, interactableLayer);
         var closestDistance = float.MaxValue;
         Interactable.IInteractable closest = null;
