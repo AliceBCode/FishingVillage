@@ -1,8 +1,8 @@
 ﻿using System.IO;
-using UnityEditorInternal;
 using UnityEngine;
 
 #if UNITY_EDITOR
+using UnityEditorInternal;
 using UnityEditor;
 #endif
 

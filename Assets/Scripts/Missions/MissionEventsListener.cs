@@ -73,6 +73,7 @@ namespace FishingVillage.Missions
         }
     }
 
+#if UNITY_EDITOR
 
     private void OnDrawGizmos()
     {
@@ -89,5 +90,8 @@ namespace FishingVillage.Missions
         var state = mission ? mission.name : "No mission was set";
         Handles.Label(transform.position + new Vector3(0,0.5f), $"Mission Event Listener:\n{state}", style);
     }
+    
+#endif
+    
     }
 }

@@ -36,7 +36,7 @@ namespace DNExtensions.Components
         [SerializeField, MinMaxRange(0, 50)] private RangedFloat zoomLimits = new RangedFloat(5f, 50f);
 
         [Header("References")] 
-        [SerializeField] private new Camera camera;
+        [SerializeField] private Camera cam;
 
 
 
@@ -52,7 +52,7 @@ namespace DNExtensions.Components
 
         private void OnValidate()
         {
-            if (!camera) camera = GetComponent<Camera>();
+            if (!cam) cam = GetComponent<Camera>();
         }
 
 
@@ -119,8 +119,8 @@ namespace DNExtensions.Components
             float scroll = Input.GetAxis("Mouse ScrollWheel");
             if (scroll != 0f)
             {
-                float newFOV = camera.fieldOfView - scroll * zoomSpeed * 100f * Time.deltaTime;
-                camera.fieldOfView = Mathf.Clamp(newFOV, zoomLimits.minValue, zoomLimits.maxValue);
+                float newFOV = cam.fieldOfView - scroll * zoomSpeed * 100f * Time.deltaTime;
+                cam.fieldOfView = Mathf.Clamp(newFOV, zoomLimits.minValue, zoomLimits.maxValue);
             }
         }
     }

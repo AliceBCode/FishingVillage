@@ -2,7 +2,7 @@ using DNExtensions.Utilities;
 using DNExtensions.Utilities.AutoGet;
 using FishingVillage.Interactable;
 using FishingVillage.Player;
-using FishingVillage.Rope;
+using FishingVillage.RopeSystem;
 using FishingVillage.UI;
 using UnityEngine;
 

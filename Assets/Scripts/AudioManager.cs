@@ -1,5 +1,3 @@
-using System;
-using FishingVillage.Player;
 using UnityEngine;
 using UnityEngine.Audio;
 
@@ -9,11 +7,8 @@ namespace FishingVillage
     {
         [Header("Item SFX")]
         [SerializeField] private AudioResource hornSfx;
-        [SerializeField] private AudioClip cleaningSfx;
-
-        [Header("Player SFX")]
-        [SerializeField] private AudioClip jumpSfx;
-        [SerializeField] private AudioClip walkSfx;
+        [SerializeField] private AudioResource cleaningSfx;
+        
 
         [Header("Settings")]
         [SerializeField] private AudioSource sfxSource;
@@ -23,45 +18,21 @@ namespace FishingVillage
 
         private void OnEnable()
         {
-            GameEvents.OnPlayerStateChanged += OnPlayerStateChanged;
-            GameEvents.OnJumpedAction += PlayJumpSfx;
-            GameEvents.OnWalkAction += PlayWalkSfx;
+            GameEvents.OnItemUsed += OnItemUsed;
         }
 
         private void OnDisable()
         {
-            GameEvents.OnPlayerStateChanged -= OnPlayerStateChanged;
-            GameEvents.OnJumpedAction -= PlayJumpSfx;
-            GameEvents.OnWalkAction -= PlayWalkSfx;
+            GameEvents.OnItemUsed -= OnItemUsed;
         }
 
-
-        private void OnPlayerStateChanged(PlayerState newState)
+        private void OnItemUsed(SOItem item)
         {
-
-        }
-
-        private void PlayHornSfx()
-        {
-            if (!hornSfx) return;
-            sfxSource.resource = hornSfx;
-            sfxSource.Play();
-
-        }
-        private void PlayCleaningSfx()
-        {
-            if (!cleaningSfx) return;
-            sfxSource.PlayOneShot(cleaningSfx);
-        }
-        private void PlayJumpSfx()
-        {
-            if (!jumpSfx) return;
-            sfxSource.PlayOneShot(jumpSfx);
-        }
-        private void PlayWalkSfx()
-        {
-            if (!walkSfx) return;
-            sfxSource.PlayOneShot(walkSfx);
+            if (item && item.UseSfx)
+            {
+                sfxSource.resource = item.UseSfx;
+                sfxSource.Play();
+            }
         }
     }
 }

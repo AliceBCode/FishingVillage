@@ -16,12 +16,13 @@ MonoBehaviour:
   description: A package for the clown fish. Probably shouldn't peek.
   icon: {fileID: 21300000, guid: 5099f93d4ac48094b918825b4628439f, type: 3}
   usable: 1
+  useSfx: {fileID: 0}
   actionsOnUse:
-  - rid: 5778561643739873368
+  - rid: 5778561664243990618
   references:
     version: 2
     RefIds:
-    - rid: 5778561643739873368
+    - rid: 5778561664243990618
       type: {class: LockPlayerAction, ns: FishingVillage.GameActions, asm: Assembly-CSharp}
       data:
         setAnimation:

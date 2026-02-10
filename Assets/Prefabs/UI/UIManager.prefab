@@ -420,6 +420,7 @@ MonoBehaviour:
   m_Offset: {x: 0, y: 0}
   m_OutlineThickness: 0.02
   m_OutlineColor: {r: 0, g: 0, b: 0, a: 1}
+  m_SDFShader: {fileID: -6465566751694194690, guid: e616caa92c5094c48a31e485a4eadd13, type: 3}
   m_Width: 0.48
   m_Height: 0.48
   m_Rounding: 0.04
@@ -699,7 +700,7 @@ MonoBehaviour:
   m_text: 'Active: '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0d359b52f5cbfc44991f79a670689cce, type: 2}
-  m_sharedMaterial: {fileID: 6531048466889405404, guid: bbdab6bcecc976443acd9b811c40720c, type: 2}
+  m_sharedMaterial: {fileID: 6346583701470935967, guid: 0d359b52f5cbfc44991f79a670689cce, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -901,6 +902,7 @@ MonoBehaviour:
   m_Offset: {x: 0, y: 0}
   m_OutlineThickness: 0.039
   m_OutlineColor: {r: 1, g: 1, b: 1, a: 1}
+  m_SDFShader: {fileID: -6465566751694194690, guid: e616caa92c5094c48a31e485a4eadd13, type: 3}
   m_Radius: 0.401
 --- !u!114 &241583694125204016
 MonoBehaviour:
@@ -991,6 +993,7 @@ MonoBehaviour:
   m_Offset: {x: 0, y: 0}
   m_OutlineThickness: 0.067
   m_OutlineColor: {r: 0, g: 0, b: 0, a: 1}
+  m_SDFShader: {fileID: -6465566751694194690, guid: e616caa92c5094c48a31e485a4eadd13, type: 3}
   m_Width: 0.469
   m_Height: 0.416
   m_Rounding: 0.04
@@ -1606,6 +1609,7 @@ MonoBehaviour:
   m_Offset: {x: 0, y: 0}
   m_OutlineThickness: 0.02
   m_OutlineColor: {r: 0, g: 0, b: 0, a: 1}
+  m_SDFShader: {fileID: -6465566751694194690, guid: e616caa92c5094c48a31e485a4eadd13, type: 3}
   m_Width: 0.48
   m_Height: 0.48
   m_Rounding: 0.04
@@ -1831,7 +1835,7 @@ MonoBehaviour:
   m_text: Description
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0d359b52f5cbfc44991f79a670689cce, type: 2}
-  m_sharedMaterial: {fileID: 6531048466889405404, guid: bbdab6bcecc976443acd9b811c40720c, type: 2}
+  m_sharedMaterial: {fileID: 6346583701470935967, guid: 0d359b52f5cbfc44991f79a670689cce, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2008,6 +2012,7 @@ MonoBehaviour:
   m_Offset: {x: 0, y: 0}
   m_OutlineThickness: 0
   m_OutlineColor: {r: 1, g: 0, b: 0, a: 1}
+  m_SDFShader: {fileID: -6465566751694194690, guid: e616caa92c5094c48a31e485a4eadd13, type: 3}
   m_Width: 0.455
   m_Height: 0.4
   m_Rounding: 0.169
@@ -2089,6 +2094,7 @@ MonoBehaviour:
   m_Offset: {x: 0, y: 0}
   m_OutlineThickness: 0.039
   m_OutlineColor: {r: 1, g: 1, b: 1, a: 1}
+  m_SDFShader: {fileID: -6465566751694194690, guid: e616caa92c5094c48a31e485a4eadd13, type: 3}
   m_Radius: 0.401
 --- !u!114 &1597109879795007440
 MonoBehaviour:
@@ -2629,6 +2635,7 @@ MonoBehaviour:
   m_Offset: {x: 0, y: 0}
   m_OutlineThickness: 0.067
   m_OutlineColor: {r: 0, g: 0, b: 0, a: 1}
+  m_SDFShader: {fileID: -6465566751694194690, guid: e616caa92c5094c48a31e485a4eadd13, type: 3}
   m_Width: 0.469
   m_Height: 0.416
   m_Rounding: 0.04
@@ -2709,6 +2716,7 @@ MonoBehaviour:
   m_Offset: {x: 0, y: 0}
   m_OutlineThickness: 0.048
   m_OutlineColor: {r: 0, g: 0, b: 0, a: 1}
+  m_SDFShader: {fileID: -6465566751694194690, guid: e616caa92c5094c48a31e485a4eadd13, type: 3}
   m_Width: 0.45
   m_Height: 0.48
   m_Rounding: 0.04
@@ -2857,7 +2865,7 @@ MonoBehaviour:
   m_text: 'Completed:'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0d359b52f5cbfc44991f79a670689cce, type: 2}
-  m_sharedMaterial: {fileID: 6531048466889405404, guid: bbdab6bcecc976443acd9b811c40720c, type: 2}
+  m_sharedMaterial: {fileID: 6346583701470935967, guid: 0d359b52f5cbfc44991f79a670689cce, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

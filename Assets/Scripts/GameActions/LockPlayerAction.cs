@@ -16,10 +16,7 @@ namespace FishingVillage.GameActions
 
         public override void Execute()
         {
-            if (PlayerController.Instance)
-            {
-                PlayerController.Instance.SetLocked(setAnimation.Value);
-            }
+            PlayerController.Instance?.SetLocked(setAnimation.Value);
         }
     }
 }

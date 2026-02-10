@@ -1,20 +1,19 @@
 using DNExtensions;
 using DNExtensions.Utilities;
+using DNExtensions.Utilities.AutoGet;
 using DNExtensions.Utilities.Button;
 using UnityEngine;
 
-namespace FishingVillage.Rope
+namespace FishingVillage.RopeSystem
 {
-    [RequireComponent(typeof(RopePath))]
+    [RequireComponent(typeof(Rope))]
     public class RopeCreator : MonoBehaviour
 {
     [Header("Generation Settings")]
-    [SerializeField, Tooltip("The Rope component to configure")]
-    private RopePath ropePath;
     [SerializeField, Tooltip("Number of rope segments to create")]
-    [Min(3)] private int pointsAmount = 10;
+    [Min(3)] private int pointsAmount = 24;
     [SerializeField, Tooltip("Distance between each rope point")]
-    private float pointSpacing = 1f;
+    private float pointSpacing = 0.5f;
     [SerializeField, Tooltip("Direction points are created along")]
     private Vector3 direction = Vector3.right;
     [SerializeField, Tooltip("Automatically mark first and last points as anchors")]
@@ -27,10 +26,11 @@ namespace FishingVillage.Rope
     [DisableIf("HasPrefab")] private float pointRadius = 0.2f;
     
     private bool HasPrefab => pointPrefab;
+    [SerializeField, AutoGetSelf,HideInInspector] private Rope rope;
+    
 
     private void OnValidate()
     {
-        if (!ropePath) ropePath = GetComponent<RopePath>();
         pointSpacing = Mathf.Max(0.01f, pointSpacing);
         pointRadius = Mathf.Max(0.01f, pointRadius);
     }
@@ -38,7 +38,7 @@ namespace FishingVillage.Rope
     [Button(ButtonPlayMode.OnlyWhenNotPlaying)]
     public void CreatePoints()
     {
-        if (ropePath == null)
+        if (rope == null)
         {
             Debug.LogError("Rope reference is missing!");
             return;

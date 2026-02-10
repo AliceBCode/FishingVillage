@@ -62,6 +62,8 @@ namespace FishingVillage.Gameplay
         hasTriggered = false;
     }
 
+#if UNITY_EDITOR
+    
     private void OnDrawGizmos()
     {
         if (!col) return;   
@@ -70,5 +72,9 @@ namespace FishingVillage.Gameplay
         
         Handles.Label(transform.position + new Vector3(0,col.bounds.size.y + 0.05f,0), $"Zone Trigger({triggerID})");
     }
+    
+#endif 
+    
+
     }
 }

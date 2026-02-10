@@ -1,8 +1,8 @@
 using UnityEngine;
 
-namespace FishingVillage.Rope
+namespace FishingVillage.RopeSystem
 {
-    public class RopePath : MonoBehaviour
+    public class Rope : MonoBehaviour
     {
         [Header("Curve Settings")]
         [SerializeField] private float targetWeight = 2f;

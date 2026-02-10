@@ -71,7 +71,7 @@ namespace FishingVillage.Interactable
 
     public virtual bool CanInteract()
     {
-        return canInteract && (!hasInteracted || !limitInteractionsToOnce);
+        return canInteract && (!hasInteracted || !limitInteractionsToOnce) && actionsOnInteract.Length > 0;
     }
     
     protected abstract void OnInteract();

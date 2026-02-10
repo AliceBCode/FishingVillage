@@ -1,7 +1,7 @@
 using DNExtensions.Utilities.Button;
 using UnityEngine;
 
-namespace FishingVillage.Rope
+namespace FishingVillage.RopeSystem
 {
     [RequireComponent(typeof(LineRenderer))]
     public class RopeLineVisualizer : MonoBehaviour

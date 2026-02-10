@@ -111,19 +111,20 @@ namespace FishingVillage.Player
         
         private void SwitchState(MovementState newState, string animTrigger = "")
         {
-            if (_currentState == newState) return;
+            if (_currentState == newState && string.IsNullOrEmpty(animTrigger)) return;
 
-            _currentState?.Exit();
-            _currentState = newState;
+            if (_currentState != newState)
+            {
+                _currentState?.Exit();
+                _currentState = newState;
+                _currentState.Enter();
+                GameEvents.PlayerStateChanged(_currentState.Type);
+            }
 
             if (!string.IsNullOrEmpty(animTrigger))
             {
                 _animator.TriggerAnimation(animTrigger);
             }
-
-            _currentState.Enter();
-            
-            GameEvents.PlayerStateChanged(_currentState.Type);
         }
 
         public void SetNormal(string animTrigger = "")

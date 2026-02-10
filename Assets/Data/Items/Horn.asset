@@ -16,12 +16,13 @@ MonoBehaviour:
   description: Makes a loud noise. Probably too loud.
   icon: {fileID: 21300000, guid: 1ae1b3a0f9ead674f870d0c8239b40fb, type: 3}
   usable: 1
+  useSfx: {fileID: 6418180475301049370, guid: 5ba547f3ad06dc44b8b779bc7b689bd6, type: 2}
   actionsOnUse:
-  - rid: 5778561643739873369
+  - rid: 5778561664243990617
   references:
     version: 2
     RefIds:
-    - rid: 5778561643739873369
+    - rid: 5778561664243990617
       type: {class: SetNormalPlayerStateAction, ns: FishingVillage.GameActions, asm: Assembly-CSharp}
       data:
         setAnimation:

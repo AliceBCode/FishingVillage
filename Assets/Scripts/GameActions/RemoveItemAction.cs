@@ -1,5 +1,6 @@
 using System;
 using DNExtensions.Utilities.SerializableSelector;
+using FishingVillage.Player;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Scripting.APIUpdating;
@@ -17,9 +18,9 @@ namespace FishingVillage.GameActions
 
         public override void Execute()
         {
-            if (item && Player.PlayerInventory.Instance)
+            if (item)
             {
-                Player.PlayerInventory.Instance.TryRemoveItem(item);
+                PlayerInventory.Instance?.TryRemoveItem(item);
             }
         }
     }
