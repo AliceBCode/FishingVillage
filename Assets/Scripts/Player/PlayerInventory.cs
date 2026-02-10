@@ -6,8 +6,10 @@ using DNExtensions.Utilities;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-[RequireComponent(typeof(PlayerControllerInput))]
-public class PlayerInventory : MonoBehaviour
+namespace FishingVillage.Player
+{
+    [RequireComponent(typeof(PlayerControllerInput))]
+    public class PlayerInventory : MonoBehaviour
 {
     public static PlayerInventory Instance;
     
@@ -58,7 +60,7 @@ public class PlayerInventory : MonoBehaviour
 
     private void OnUseAction(InputAction.CallbackContext context)
     {
-        if (!_playerController.AllowControl) return;
+        if (!_playerController.CanInteract()) return;
         
         if (context.started)
         {
@@ -68,7 +70,7 @@ public class PlayerInventory : MonoBehaviour
 
     private void OnCycleItemsAction(InputAction.CallbackContext context)
     {
-        if (!_playerController.AllowControl) return;
+        if (!_playerController.CanInteract()) return;
         
         if (!context.performed || IsEmpty) return;
 
@@ -179,5 +181,6 @@ public class PlayerInventory : MonoBehaviour
 
         GameEvents.ItemRemoved(item);
         GameEvents.InventoryChanged(this);
+    }
     }
 }

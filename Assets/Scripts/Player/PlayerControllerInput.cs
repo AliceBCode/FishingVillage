@@ -4,13 +4,13 @@ using DNExtensions.Utilities;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-
-[RequireComponent(typeof(PlayerController))]
-public class PlayerControllerInput : InputReaderBase
+namespace FishingVillage.Player
+{
+    [RequireComponent(typeof(PlayerController))]
+    public class PlayerControllerInput : InputReaderBase
 {
     [SerializeField, ReadOnly] private Vector2 moveInput;
-
-    private PlayerController _playerController;
+    
     private InputActionMap _playerActionMap;
     private InputAction _moveAction;
     private InputAction _jumpAction;
@@ -27,7 +27,6 @@ public class PlayerControllerInput : InputReaderBase
 
     private void Awake()
     {
-        _playerController = GetComponent<PlayerController>();
         _playerActionMap = PlayerInput.actions.FindActionMap("Player");
 
         if (_playerActionMap == null)
@@ -71,39 +70,30 @@ public class PlayerControllerInput : InputReaderBase
 
     private void OnMove(InputAction.CallbackContext context)
     {
-        if (!_playerController.AllowControl)
-        {
-            moveInput = Vector2.zero;
-            return;
-        }
-        
         moveInput = context.ReadValue<Vector2>();
     }
     
     private void OnInteract(InputAction.CallbackContext context)
     {
-        if (!_playerController.AllowControl) return;
         
         OnInteractAction?.Invoke(context);
     }
 
     private void OnJump(InputAction.CallbackContext context)
     {
-        if (!_playerController.AllowControl) return;
         
         OnJumpAction?.Invoke(context);
     }
     
     private void OnUse(InputAction.CallbackContext context)
     {
-        if (!_playerController.AllowControl) return;
         OnUseAction?.Invoke(context);
     }
     
     private void OnCycleItems(InputAction.CallbackContext context)
     {
-        if (!_playerController.AllowControl) return;
         
         OnCycleItemsAction?.Invoke(context);
+    }
     }
 }

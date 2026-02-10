@@ -2,52 +2,56 @@
 // using DNExtensions.Utilities.PrefabSelector;
 // using DNExtensions.Utilities.SerializableSelector;
 // using UnityEngine;
+// using UnityEngine.Scripting.APIUpdating;
 //
-//
-// [Serializable]
-// [SerializableSelectorName("Talk To", "NPC")]
-// public class TalkToNpcObjective : MissionObjective
+// namespace FishingVillage.Missions.Objectives
 // {
-//     [SerializeField, PrefabSelector("Assets/Prefabs/Npcs")]  private NPC npc;
-//     
-//     private string _targetID;
-//     
-//     public override string Description => $"Talk To {(npc ? npc.Name : "(No NPC Was Set)")}";
-//     
-//     public override void Initialize()
+//     [Serializable]
+//     [MovedFrom("")]
+//     [SerializableSelectorName("Talk To", "NPC")]
+//     public class TalkToNpcObjective : MissionObjective
 //     {
-//         if (!npc)
+//         [SerializeField, PrefabSelector("Assets/Prefabs/Npcs")]  private Interactable.NPC npc;
+//
+//         private string _targetID;
+//
+//         public override string Description => $"Talk To {(npc ? npc.Name : "(No NPC Was Set)")}";
+//
+//         public override void Initialize()
 //         {
-//             Debug.LogError("No NPC prefab reference set in objective!");
-//             return;
+//             if (!npc)
+//             {
+//                 Debug.LogError("No NPC prefab reference set in objective!");
+//                 return;
+//             }
+//
+//             _targetID = npc.InteractableID;
+//
+//             if (string.IsNullOrEmpty(_targetID))
+//             {
+//                 Debug.LogError($"NPC prefab {npc.Name} has no ID set!");
+//                 return;
+//             }
+//
+//             GameEvents.OnNpcTalkedTo += OnNPCTalkedTo;
 //         }
-//         
-//         _targetID = npc.InteractableID;
-//         
-//         if (string.IsNullOrEmpty(_targetID))
+//
+//         public override void Cleanup()
 //         {
-//             Debug.LogError($"NPC prefab {npc.Name} has no ID set!");
-//             return;
+//             GameEvents.OnNpcTalkedTo -= OnNPCTalkedTo;
 //         }
-//         
-//         GameEvents.OnNpcTalkedTo += OnNPCTalkedTo;
-//     }
-//     
-//     public override void Cleanup()
-//     {
-//         GameEvents.OnNpcTalkedTo -= OnNPCTalkedTo;
-//     }
-//     
-//     public override bool Evaluate()
-//     {
-//         return false;
-//     }
-//     
-//     private void OnNPCTalkedTo(NPC npc)
-//     {
-//         if (npc && npc.InteractableID == _targetID)
+//
+//         public override bool Evaluate()
 //         {
-//             SetMet();
+//             return false;
+//         }
+//
+//         private void OnNPCTalkedTo(Interactable.NPC npc)
+//         {
+//             if (npc && npc.InteractableID == _targetID)
+//             {
+//                 SetMet();
+//             }
 //         }
 //     }
 // }

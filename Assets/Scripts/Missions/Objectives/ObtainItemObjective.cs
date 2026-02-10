@@ -1,11 +1,14 @@
 using System;
 using DNExtensions.Utilities.SerializableSelector;
 using UnityEngine;
+using UnityEngine.Scripting.APIUpdating;
 
-
-[Serializable]
-[SerializableSelectorName("Obtain Item", "Item")]
-public class ObtainItemObjective : MissionObjective
+namespace FishingVillage.Missions.Objectives
+{
+    [Serializable]
+    [MovedFrom("")]
+    [SerializableSelectorName("Obtain Item", "Item")]
+    public class ObtainItemObjective : MissionObjective
 {
     [SerializeField] private SOItem requiredItem;
     
@@ -29,14 +32,15 @@ public class ObtainItemObjective : MissionObjective
     public override bool Evaluate()
     {
         if (!requiredItem) return false;
-        return PlayerInventory.Instance && PlayerInventory.Instance.HasItem(requiredItem);
+        return Player.PlayerInventory.Instance && Player.PlayerInventory.Instance.HasItem(requiredItem);
     }
-    
+
     private void OnItemObtained(SOItem item)
     {
         if (item == requiredItem)
         {
             SetMet();
         }
+    }
     }
 }

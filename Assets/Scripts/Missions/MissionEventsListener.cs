@@ -1,19 +1,22 @@
 using System;
+using DNExtensions.Utilities.InlineSO;
+using FishingVillage.Missions.Objectives;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 
-[Serializable]
-public class ObjectiveSceneEvent
+namespace FishingVillage.Missions
 {
-    [HideInInspector] public string objectiveName;
-    public UnityEvent onCompleted;
-    [HideInInspector] public bool hasTriggered;
-}
+    [Serializable]
+    public class ObjectiveSceneEvent
+    {
+        public UnityEvent onCompleted;
+        [HideInInspector] public bool hasTriggered;
+    }
 
-public class MissionEventsListener : MonoBehaviour
+    public class MissionEventsListener : MonoBehaviour
 {
-    [SerializeField] private SOMission mission;
+    [SerializeField, InlineSO] private SOMission mission;
     [SerializeField] private UnityEvent onMissionStarted;
     [SerializeField] private ObjectiveSceneEvent[] objectiveEvents;
     [SerializeField] private UnityEvent onMissionCompleted;
@@ -85,5 +88,6 @@ public class MissionEventsListener : MonoBehaviour
         };
         var state = mission ? mission.name : "No mission was set";
         Handles.Label(transform.position + new Vector3(0,0.5f), $"Mission Event Listener:\n{state}", style);
+    }
     }
 }

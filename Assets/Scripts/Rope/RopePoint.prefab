@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e00990789a54432a547349b8c4e4085, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RopePoint
-  isAnchor: 1
+  isAnchor: 0
   mass: 0
   restPosition: {x: 0, y: 0, z: 0}
   currentPosition: {x: 0, y: 0, z: 0}
@@ -65,7 +65,7 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 128
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2

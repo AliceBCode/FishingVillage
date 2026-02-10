@@ -1,9 +1,10 @@
-
 using DNExtensions.Utilities.Button;
 using UnityEngine;
 
-[RequireComponent( typeof(LineRenderer))]
-public class RopeLineVisualizer : MonoBehaviour
+namespace FishingVillage.Rope
+{
+    [RequireComponent(typeof(LineRenderer))]
+    public class RopeLineVisualizer : MonoBehaviour
 {
     [Header("References")]
     [SerializeField, Tooltip("LineRenderer to draw the rope")]
@@ -87,5 +88,6 @@ public class RopeLineVisualizer : MonoBehaviour
         _ropePoints = GetComponentsInChildren<RopePoint>();
         SetupLineRenderer();
         UpdateLine();
+    }
     }
 }

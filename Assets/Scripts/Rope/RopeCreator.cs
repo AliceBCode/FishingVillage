@@ -3,12 +3,14 @@ using DNExtensions.Utilities;
 using DNExtensions.Utilities.Button;
 using UnityEngine;
 
-[RequireComponent(typeof(RopeDynamic))]
-public class RopeCreator : MonoBehaviour
+namespace FishingVillage.Rope
+{
+    [RequireComponent(typeof(RopePath))]
+    public class RopeCreator : MonoBehaviour
 {
     [Header("Generation Settings")]
     [SerializeField, Tooltip("The Rope component to configure")]
-    private RopeDynamic ropeDynamic;
+    private RopePath ropePath;
     [SerializeField, Tooltip("Number of rope segments to create")]
     [Min(3)] private int pointsAmount = 10;
     [SerializeField, Tooltip("Distance between each rope point")]
@@ -28,7 +30,7 @@ public class RopeCreator : MonoBehaviour
 
     private void OnValidate()
     {
-        if (!ropeDynamic) ropeDynamic = GetComponent<RopeDynamic>();
+        if (!ropePath) ropePath = GetComponent<RopePath>();
         pointSpacing = Mathf.Max(0.01f, pointSpacing);
         pointRadius = Mathf.Max(0.01f, pointRadius);
     }
@@ -36,7 +38,7 @@ public class RopeCreator : MonoBehaviour
     [Button(ButtonPlayMode.OnlyWhenNotPlaying)]
     public void CreatePoints()
     {
-        if (ropeDynamic == null)
+        if (ropePath == null)
         {
             Debug.LogError("Rope reference is missing!");
             return;
@@ -103,5 +105,6 @@ public class RopeCreator : MonoBehaviour
         }
         
         Debug.Log("Cleared all rope points");
+    }
     }
 }

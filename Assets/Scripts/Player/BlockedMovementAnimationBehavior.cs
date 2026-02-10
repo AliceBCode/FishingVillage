@@ -1,7 +1,9 @@
 using System;
 using UnityEngine;
 
-public class BlockedMovementAnimationBehavior : StateMachineBehaviour
+namespace FishingVillage.Player
+{
+    public class BlockedMovementAnimationBehavior : StateMachineBehaviour
 {
     public static event Action OnStateEntered;
     public static event Action OnStateExited;
@@ -36,4 +38,5 @@ public class BlockedMovementAnimationBehavior : StateMachineBehaviour
     //{
     //    // Implement code that sets up animation IK (inverse kinematics)
     //}
+    }
 }

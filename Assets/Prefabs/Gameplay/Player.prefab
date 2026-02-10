@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 3071058934891126152}
   m_Layer: 6
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -125,14 +125,9 @@ MonoBehaviour:
   collisionLayer:
     serializedVersion: 2
     m_Bits: 129
+  isGrounded: 1
   jumpBufferTimer: 0
   velocity: {x: 0, y: -2, z: 0}
-  coyoteTimer: 0
-  isGrounded: 1
-  hitCeiling: 0
-  currentPlatform: {fileID: 0}
-  allowControl: 1
-  currentState: 0
 --- !u!114 &899811438610226523
 MonoBehaviour:
   m_ObjectHideFlags: 0

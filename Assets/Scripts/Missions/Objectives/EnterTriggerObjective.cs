@@ -1,37 +1,42 @@
 using System;
 using DNExtensions.Utilities.SerializableSelector;
+using FishingVillage.Missions.Objectives;
 using UnityEngine;
+using UnityEngine.Scripting.APIUpdating;
 
-
-[Serializable]
-[SerializableSelectorName("Enter Area", "Player")]
-public class EnterTriggerObjective : MissionObjective
+namespace FishingVillage.Missions.Objectives
 {
-    [SerializeField] private string triggerID;
-    [SerializeField] private string areaDescription = "Area";
-    
-    protected override string Description => $"Go To :{areaDescription}";
-    
-    public override void Initialize()
+    [Serializable]
+    [MovedFrom("")]
+    [SerializableSelectorName("Enter Area", "Player")]
+    public class EnterTriggerObjective : MissionObjective
     {
-        GameEvents.OnTriggerEntered += OnTriggerEntered;
-    }
-    
-    public override void Cleanup()
-    {
-        GameEvents.OnTriggerEntered -= OnTriggerEntered;
-    }
-    
-    public override bool Evaluate()
-    {
-        return false;
-    }
-    
-    private void OnTriggerEntered(string triggeredID)
-    {
-        if (triggeredID == triggerID)
+        [SerializeField] private string triggerID;
+        [SerializeField] private string areaDescription = "Area";
+
+        protected override string Description => $"Go To :{areaDescription}";
+
+        public override void Initialize()
         {
-            SetMet();
+            GameEvents.OnTriggerEntered += OnTriggerEntered;
+        }
+
+        public override void Cleanup()
+        {
+            GameEvents.OnTriggerEntered -= OnTriggerEntered;
+        }
+
+        public override bool Evaluate()
+        {
+            return false;
+        }
+
+        private void OnTriggerEntered(string triggeredID)
+        {
+            if (triggeredID == triggerID)
+            {
+                SetMet();
+            }
         }
     }
 }

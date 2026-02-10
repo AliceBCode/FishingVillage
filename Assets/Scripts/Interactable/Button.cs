@@ -4,13 +4,15 @@
 using DNExtensions;
 using UnityEngine;
 
-
-public class Button : Interactable
+namespace FishingVillage.Interactable
 {
-    
-
-    protected override void OnInteract()
+    public class Button : Interactable
     {
 
+
+        protected override void OnInteract()
+        {
+
+        }
     }
 }

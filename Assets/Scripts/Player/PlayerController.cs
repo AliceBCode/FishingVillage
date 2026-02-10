@@ -1,231 +1,170 @@
-using System;
 using DNExtensions.Utilities;
+using FishingVillage.Gameplay;
 using PrimeTween;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-[RequireComponent(typeof(CharacterController))]
-[RequireComponent(typeof(PlayerControllerInput))]
-[SelectionBase]
-public class PlayerController : MonoBehaviour
+namespace FishingVillage.Player
 {
-    public static PlayerController Instance;
-    
-    [Header("Movement Settings")]
-    [SerializeField] private float moveSpeed = 10f;
-    [SerializeField] private float gravity = 1f;
-    [SerializeField] private float maxFallSpeed = 25f;
-    [SerializeField] private float jumpForce = 15f;
-    [Tooltip("Time window after pressing jump to still perform a jump when landing.")]
-    [SerializeField] private float jumpBufferTime = 0.2f;
-    [Tooltip("Time window after leaving ground to still perform a jump.")]
-    [SerializeField] private float coyoteTime = 0.1f;
-    
-    [Header("Collision Settings")]
-    [SerializeField] private float ceilingCheckRadius = 0.1f;
-    [SerializeField] private Vector3 ceilingCheckOffset = Vector3.up;
-    [SerializeField] private float groundCheckRadius = 0.31f;
-    [SerializeField] private Vector3 groundCheckOffset = Vector3.down;
-    [SerializeField] private LayerMask collisionLayer;
-    
-    [Separator]
-    [SerializeField, ReadOnly] private float jumpBufferTimer;
-    [SerializeField, ReadOnly] private Vector3 velocity;
-    [SerializeField, ReadOnly] private float coyoteTimer;
-    [SerializeField, ReadOnly] private bool isGrounded;
-    [SerializeField, ReadOnly] private bool hitCeiling;
-    [SerializeField, ReadOnly] private MovingPlatform currentPlatform;
-    [SerializeField, ReadOnly] private bool allowControl = true;
-    [SerializeField] private PlayerState currentState = PlayerState.Normal;
-
-    private CharacterController _controller;
-    private PlayerControllerInput _input;
-    private Vector3 _platformVelocity;
-    
-    public bool IsGrounded => isGrounded;
-    public bool AllowControl => allowControl;
-
-    private void Awake()
+    [RequireComponent(typeof(CharacterController))]
+    [RequireComponent(typeof(PlayerControllerInput))]
+    [RequireComponent(typeof(PlayerAnimator))]
+    [SelectionBase]
+    public class PlayerController : MonoBehaviour
     {
-        if (Instance && Instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
+        public static PlayerController Instance;
+
+        [Header("Movement Settings")]
+        public float moveSpeed = 10f;
+        public float gravity = 1.5f;
+        public float maxFallSpeed = 25f;
+        public float jumpForce = 15f;
+        public float jumpBufferTime = 0.2f;
+        public float coyoteTime = 0.1f;
+
+        [Header("Collision Settings")]
+        public float ceilingCheckRadius = 0.1f;
+        public Vector3 ceilingCheckOffset = Vector3.up;
+        public float groundCheckRadius = 0.31f;
+        public Vector3 groundCheckOffset = Vector3.down;
+        public LayerMask collisionLayer;
+
+        [Separator]
+        [ReadOnly] public bool isGrounded;
+        [ReadOnly] public float jumpBufferTimer;
+        [ReadOnly] public Vector3 velocity;
+
         
-        Instance = this;
+        private PlayerAnimator _animator;
+        private MovementState _currentState;
+        private NormalMovementState _normalState;
+        private ConstrainedMovementState _constrainedState;
+        private LockedMovementState _lockedState;
+
         
-        PrimeTweenConfig.warnEndValueEqualsCurrent = false;
         
-        _controller = GetComponent<CharacterController>();
-        _input = GetComponent<PlayerControllerInput>();
-    }
+        public CharacterController Controller { get; private set; }
 
-    private void OnEnable()
-    {
-        _input.OnJumpAction += OnJumpAction;
-        BlockedMovementAnimationBehavior.OnStateEntered += BlockedMovementBehaviorEntered;
-        BlockedMovementAnimationBehavior.OnStateExited += BlockedMovementBehaviorExited;
-    }
+        public PlayerControllerInput Input { get; private set; }
 
-    private void OnDisable()
-    {
-        _input.OnJumpAction -= OnJumpAction;
-        BlockedMovementAnimationBehavior.OnStateEntered -= BlockedMovementBehaviorEntered;
-        BlockedMovementAnimationBehavior.OnStateExited -= BlockedMovementBehaviorExited;
-    }
 
-    public void SetState(PlayerState newState)
-    {
-        currentState = newState;
-        GameEvents.PlayerStateChanged(currentState);
-    }
-    
-    private void BlockedMovementBehaviorEntered()
-    {
-        allowControl = false;
-        velocity = Vector3.zero;
-    }
-    
-    private void BlockedMovementBehaviorExited()
-    {
-        SetState(PlayerState.Normal);
-        allowControl = true;
-    }
-
-    private void OnJumpAction(InputAction.CallbackContext context)
-    {
-        if (context.performed)
+        private void Awake()
         {
-            jumpBufferTimer = jumpBufferTime;
-        }
-    }
-
-    private void Update()
-    {
-        if (jumpBufferTimer > 0f)
-        {
-            jumpBufferTimer -= Time.deltaTime;
-        }
-
-        if (isGrounded)
-        {
-            coyoteTimer = coyoteTime;
-        }
-        else if (coyoteTimer > 0f)
-        {
-            coyoteTimer -= Time.deltaTime;
-        }
-        
-        if (_input.MoveInput != Vector2.zero && isGrounded)
-        {
-            GameEvents.WalkedAction();
-        }
-        
-    }
-
-    private void FixedUpdate()
-    {
-        CheckCollisions();
-        CheckForPlatform();
-        HandleGravity();
-        HandleJump();
-        HandleMovement();   
-    }
-
-    private void HandleMovement()
-    {
-        if (!_controller || !_controller.enabled) return;
-        
-        velocity.x = _input.MoveInput.x * moveSpeed;
-        velocity.z = _input.MoveInput.y * moveSpeed;
-    
-        Vector3 finalVelocity = velocity + _platformVelocity;
-        _controller.Move(finalVelocity * Time.fixedDeltaTime);
-    }
-
-    private void HandleGravity()
-    {
-        if (isGrounded && velocity.y < 0)
-        {
-            velocity.y = -2f;
-        }
-        else
-        {
-            velocity.y -= gravity;
-            if (velocity.y < -maxFallSpeed)
+            if (Instance && Instance != this)
             {
-                velocity.y = -maxFallSpeed;
-            }
-        }
-    }
-
-    private void HandleJump()
-    {
-        if (jumpBufferTimer > 0 && (isGrounded || coyoteTimer > 0))
-        {
-            velocity.y = jumpForce;
-            jumpBufferTimer = 0;
-            coyoteTimer = 0;
-            GameEvents.JumpedAction();
-        }
-    }
-
-    private void CheckCollisions()
-    {
-        isGrounded = Physics.CheckSphere(transform.position + groundCheckOffset, groundCheckRadius, collisionLayer, QueryTriggerInteraction.Ignore);
-        
-        if (velocity.y > 0)
-        {
-            hitCeiling = Physics.CheckSphere(transform.position + ceilingCheckOffset, ceilingCheckRadius, collisionLayer, QueryTriggerInteraction.Ignore);
-            if (hitCeiling)
-            {
-                velocity.y = 0;
-            }
-        }
-    }
-
-    private void CheckForPlatform()
-    {
-        if (!isGrounded)
-        {
-            currentPlatform = null;
-            _platformVelocity = Vector3.zero;
-            return;
-        }
-
-        var colliders = Physics.OverlapSphere(transform.position + groundCheckOffset, groundCheckRadius, collisionLayer, QueryTriggerInteraction.Ignore);
-        
-        foreach (var col in colliders)
-        {
-            if (col.TryGetComponent(out MovingPlatform platform))
-            {
-                currentPlatform = platform;
-                _platformVelocity = platform.Velocity;
+                Destroy(gameObject);
                 return;
             }
+
+            Instance = this;
+            PrimeTweenConfig.warnEndValueEqualsCurrent = false;
+
+            Controller = GetComponent<CharacterController>();
+            Input = GetComponent<PlayerControllerInput>();
+            _animator = GetComponent<PlayerAnimator>();
+
+            _normalState = new NormalMovementState(this);
+            _constrainedState = new ConstrainedMovementState(this);
+            _lockedState = new LockedMovementState(this);
         }
 
-        currentPlatform = null;
-        _platformVelocity = Vector3.zero;
-    }
-    
-    public void ForceJump(float force)
-    {
-        if (!_controller || !_controller.enabled) return;
-        
-        velocity.y = force;
-    }
-    
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = isGrounded ? Color.green : Color.red;
-        Gizmos.DrawWireSphere(transform.position + groundCheckOffset, groundCheckRadius);
-
-        if (velocity.y > 0)
+        private void Start()
         {
-            Gizmos.color = hitCeiling ? Color.red : Color.green;
-            Gizmos.DrawWireSphere(transform.position + ceilingCheckOffset, ceilingCheckRadius);
+            SwitchState(_normalState);
+        }
+
+        private void OnEnable()
+        {
+            Input.OnJumpAction += OnJumpAction;
+            BlockedMovementAnimationBehavior.OnStateExited += BlockedMovementBehaviorExited;
+        }
+
+        private void OnDisable()
+        {
+            Input.OnJumpAction -= OnJumpAction;
+            BlockedMovementAnimationBehavior.OnStateExited -= BlockedMovementBehaviorExited;
+        }
+
+        private void BlockedMovementBehaviorExited()
+        {
+            SwitchState(_normalState);
+        }
+
+        private void OnJumpAction(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+            {
+                jumpBufferTimer = jumpBufferTime;
+            }
+        }
+
+        private void Update()
+        {
+            if (jumpBufferTimer > 0f) jumpBufferTimer -= Time.deltaTime;
+            _currentState?.Update();
+        }
+
+        private void FixedUpdate()
+        {
+            _currentState?.FixedUpdate();
+        }
+        
+        private void SwitchState(MovementState newState, string animTrigger = "")
+        {
+            if (_currentState == newState) return;
+
+            _currentState?.Exit();
+            _currentState = newState;
+
+            if (!string.IsNullOrEmpty(animTrigger))
+            {
+                _animator.TriggerAnimation(animTrigger);
+            }
+
+            _currentState.Enter();
+            
+            GameEvents.PlayerStateChanged(_currentState.Type);
+        }
+
+        public void SetNormal(string animTrigger = "")
+        {
+            SwitchState(_normalState, animTrigger);
+        }
+
+        public void SetLocked(string animTrigger = "")
+        {
+            SwitchState(_lockedState, animTrigger);
+        }
+
+        public void AttachToPath(ConstrainableRopePath ropePath)
+        {
+            _constrainedState.SetPath(ropePath);
+            SwitchState(_constrainedState);
+        }
+        
+        public void ForceJump(float force)
+        {
+            if (!Controller.enabled) return;
+            
+            velocity = new Vector3(velocity.x, force, velocity.z);
+        }
+        
+
+        public bool CanInteract()
+        {
+            return _currentState.Type is PlayerState.Normal or PlayerState.Constrained;
+        }
+
+        private void OnDrawGizmos()
+        {
+            Gizmos.color = isGrounded ? Color.green : Color.red;
+            Gizmos.DrawWireSphere(transform.position + groundCheckOffset, groundCheckRadius);
+
+            if (velocity.y > 0)
+            {
+                Gizmos.color = Color.green;
+                Gizmos.DrawWireSphere(transform.position + ceilingCheckOffset, ceilingCheckRadius);
+            }
         }
     }
 }

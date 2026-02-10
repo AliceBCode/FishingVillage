@@ -20,25 +20,31 @@ MonoBehaviour:
   - rid: 8175020253919051857
   onStarted: []
   onObjectiveCompleted:
-  - objectiveName: '0: Obtain Item'
-    onObjectiveCompleted: []
+  - onObjectiveCompleted: []
     hasTriggered: 0
-  - objectiveName: '0: Obtain Item'
-    onObjectiveCompleted: []
+  - onObjectiveCompleted: []
     hasTriggered: 0
   onCompleted: []
   references:
     version: 2
     RefIds:
     - rid: 3586366721203109892
-      type: {class: ObtainItemObjective, ns: , asm: Assembly-CSharp}
+      type: {class: ObtainItemObjective, ns: FishingVillage.Missions.Objectives, asm: Assembly-CSharp}
       data:
         isHidden: 0
         requiresPreviousObjective: 0
+        overrideDescription:
+          isSet: 0
+          hideValueIfSet: 0
+          value: 
         requiredItem: {fileID: 11400000, guid: 9db520021735ba9428c293b40d5975ac, type: 2}
     - rid: 8175020253919051857
-      type: {class: UseItemObjective, ns: , asm: Assembly-CSharp}
+      type: {class: UseItemObjective, ns: FishingVillage.Missions.Objectives, asm: Assembly-CSharp}
       data:
         isHidden: 0
         requiresPreviousObjective: 0
+        overrideDescription:
+          isSet: 0
+          hideValueIfSet: 0
+          value: 
         item: {fileID: 11400000, guid: 4d5c93a6268699b4080b5d4f4239f934, type: 2}

@@ -1,71 +1,67 @@
 using System;
+using FishingVillage.Player;
 using UnityEngine;
 using UnityEngine.Audio;
 
-public class AudioManager : MonoBehaviour
+namespace FishingVillage
 {
-    [Header("Item SFX")]
-    [SerializeField] private AudioResource hornSfx;
-    [SerializeField] private AudioClip cleaningSfx;
-    
-    [Header("Player SFX")]
-    [SerializeField] private AudioClip jumpSfx;
-    [SerializeField] private AudioClip walkSfx;
-    
-    [Header("Settings")]
-    [SerializeField] private AudioSource sfxSource;
-    [SerializeField] private AudioSource musicSource;
+    public class AudioManager : MonoBehaviour
+    {
+        [Header("Item SFX")]
+        [SerializeField] private AudioResource hornSfx;
+        [SerializeField] private AudioClip cleaningSfx;
+
+        [Header("Player SFX")]
+        [SerializeField] private AudioClip jumpSfx;
+        [SerializeField] private AudioClip walkSfx;
+
+        [Header("Settings")]
+        [SerializeField] private AudioSource sfxSource;
+        [SerializeField] private AudioSource musicSource;
 
 
 
-    private void OnEnable()
-    {
-        GameEvents.OnPlayerStateChanged += OnPlayerStateChanged;
-        GameEvents.OnJumpedAction += PlayJumpSfx;
-        GameEvents.OnWalkAction += PlayWalkSfx;
-    }
-    
-    private void OnDisable()
-    {
-        GameEvents.OnPlayerStateChanged -= OnPlayerStateChanged;
-        GameEvents.OnJumpedAction -= PlayJumpSfx;
-        GameEvents.OnWalkAction -= PlayWalkSfx;
-    }
-    
-    
-    private void OnPlayerStateChanged(PlayerState newState)
-    {
-        switch (newState)
+        private void OnEnable()
         {
-            case PlayerState.UsingCleaningUtensils:
-                PlayCleaningSfx();
-                break;
-            case PlayerState.UsingHorn:
-                PlayHornSfx();
-                break;
+            GameEvents.OnPlayerStateChanged += OnPlayerStateChanged;
+            GameEvents.OnJumpedAction += PlayJumpSfx;
+            GameEvents.OnWalkAction += PlayWalkSfx;
         }
-    }
-    
-    private void PlayHornSfx()
-    {
-        if (!hornSfx) return;
-        sfxSource.resource = hornSfx;
-        sfxSource.Play();
-        
-    }
-    private void PlayCleaningSfx()
-    {
-        if (!cleaningSfx) return;
-        sfxSource.PlayOneShot(cleaningSfx);
-    }
-    private void PlayJumpSfx()
-    {
-        if (!jumpSfx) return;
-        sfxSource.PlayOneShot(jumpSfx);
-    }
-    private void PlayWalkSfx()
-    {
-        if (!walkSfx) return;
-        sfxSource.PlayOneShot(walkSfx);
+
+        private void OnDisable()
+        {
+            GameEvents.OnPlayerStateChanged -= OnPlayerStateChanged;
+            GameEvents.OnJumpedAction -= PlayJumpSfx;
+            GameEvents.OnWalkAction -= PlayWalkSfx;
+        }
+
+
+        private void OnPlayerStateChanged(PlayerState newState)
+        {
+
+        }
+
+        private void PlayHornSfx()
+        {
+            if (!hornSfx) return;
+            sfxSource.resource = hornSfx;
+            sfxSource.Play();
+
+        }
+        private void PlayCleaningSfx()
+        {
+            if (!cleaningSfx) return;
+            sfxSource.PlayOneShot(cleaningSfx);
+        }
+        private void PlayJumpSfx()
+        {
+            if (!jumpSfx) return;
+            sfxSource.PlayOneShot(jumpSfx);
+        }
+        private void PlayWalkSfx()
+        {
+            if (!walkSfx) return;
+            sfxSource.PlayOneShot(walkSfx);
+        }
     }
 }
