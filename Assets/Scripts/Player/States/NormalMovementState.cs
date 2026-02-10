@@ -62,6 +62,8 @@ namespace FishingVillage.Player
         
         private void HandleMovement()
         {
+            if (!ctx.Controller.enabled) return;
+            
             Vector3 vel = ctx.velocity;
             vel.x = ctx.Input.MoveInput.x * ctx.moveSpeed;
             vel.z = ctx.Input.MoveInput.y * ctx.moveSpeed;
