@@ -118,7 +118,7 @@ GameObject:
   - component: {fileID: 7134277831697153433}
   - component: {fileID: 3693518251530294520}
   m_Layer: 0
-  m_Name: Capsule
+  m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -335,6 +335,10 @@ PrefabInstance:
     - target: {fileID: 4985765799875595633, guid: 6f14a8f01db7ff74d81ab0a47d067a04, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7387921731507650421, guid: 6f14a8f01db7ff74d81ab0a47d067a04, type: 3}
+      propertyPath: m_fontSize
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 8056264476995841348, guid: 6f14a8f01db7ff74d81ab0a47d067a04, type: 3}
       propertyPath: m_AnchorMax.y
