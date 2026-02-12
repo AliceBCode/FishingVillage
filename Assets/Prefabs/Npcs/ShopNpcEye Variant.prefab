@@ -18,15 +18,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 217502320692298470, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 8.326
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 217502320692298470, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -5.163
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 217502320692298470, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -22.732
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 217502320692298470, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
       propertyPath: m_LocalRotation.w
@@ -50,7 +50,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 217502320692298470, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: -109.542
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 217502320692298470, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -108,6 +108,10 @@ PrefabInstance:
       propertyPath: interactableID
       value: 224d0518-cee9-40c8-8c17-88896fd0dbb1
       objectReference: {fileID: 0}
+    - target: {fileID: 4684444579216439139, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
+      propertyPath: farewellDialogueLines
+      value: 
+      objectReference: {fileID: 11400000, guid: d75c3fc1a4d592f4abf9e09546170fa7, type: 2}
     - target: {fileID: 4684444579216439139, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
       propertyPath: greetingDialogueLines
       value: 

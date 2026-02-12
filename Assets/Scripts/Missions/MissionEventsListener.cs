@@ -1,5 +1,5 @@
 using System;
-using DNExtensions.Utilities.InlineSO;
+using DNExtensions.Utilities.Inline;
 using FishingVillage.Missions.Objectives;
 using UnityEditor;
 using UnityEngine;
@@ -16,7 +16,7 @@ namespace FishingVillage.Missions
 
     public class MissionEventsListener : MonoBehaviour
 {
-    [SerializeField, InlineSO] private SOMission mission;
+    [SerializeField, Inline] private SOMission mission;
     [SerializeField] private UnityEvent onMissionStarted;
     [SerializeField] private ObjectiveSceneEvent[] objectiveEvents;
     [SerializeField] private UnityEvent onMissionCompleted;

@@ -16,14 +16,15 @@ MonoBehaviour:
   description: Help your neighbor out
   icon: {fileID: 0}
   objectives:
-  - rid: 7519837165224984581
+  - rid: 5778561712605626471
+  - rid: 5778561712605626474
   - rid: 7519837165224984582
-  - rid: 7519837178136887296
-  - rid: 7519837165224984584
+  - rid: 5778561712605626467
   onStarted:
-  - rid: 5778561625679724630
+  - rid: 5778561712605626472
   onObjectiveCompleted:
-  - onObjectiveCompleted: []
+  - onObjectiveCompleted:
+    - rid: 5778561712605626473
     hasTriggered: 0
   - onObjectiveCompleted: []
     hasTriggered: 0
@@ -35,12 +36,18 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 5778561625679724630
-      type: {class: ToggleProximityDialogueAction, ns: FishingVillage.GameActions, asm: Assembly-CSharp}
+    - rid: 5778561712605626467
+      type: {class: GiveItemToNpcObjective, ns: FishingVillage.Missions.Objectives, asm: Assembly-CSharp}
       data:
+        isHidden: 0
+        requiresPreviousObjective: 1
+        overrideDescription:
+          isSet: 0
+          hideValueIfSet: 0
+          value: 
+        requiredItem: {fileID: 11400000, guid: 9226b207ade12ec43b4dbb4531e7edaf, type: 2}
         npc: {fileID: 4761095320140479624, guid: 7d863097f55a714449c0153dc3d35757, type: 3}
-        allowProximityDialogue: 0
-    - rid: 7519837165224984581
+    - rid: 5778561712605626471
       type: {class: CompleteDialogueObjective, ns: FishingVillage.Missions.Objectives, asm: Assembly-CSharp}
       data:
         isHidden: 0
@@ -50,6 +57,26 @@ MonoBehaviour:
           hideValueIfSet: 0
           value: 
         npc: {fileID: 4761095320140479624, guid: 7d863097f55a714449c0153dc3d35757, type: 3}
+    - rid: 5778561712605626472
+      type: {class: StartDialogueAction, ns: FishingVillage.GameActions, asm: Assembly-CSharp}
+      data:
+        npc: {fileID: 4761095320140479624, guid: 7d863097f55a714449c0153dc3d35757, type: 3}
+        dialogue: {fileID: 11400000, guid: c7735524a2b138249a85cd9d7bd0ad39, type: 2}
+    - rid: 5778561712605626473
+      type: {class: RemoveItemAction, ns: FishingVillage.GameActions, asm: Assembly-CSharp}
+      data:
+        item: {fileID: 11400000, guid: 9226b207ade12ec43b4dbb4531e7edaf, type: 2}
+    - rid: 5778561712605626474
+      type: {class: WaitForTimelineSignalObjective, ns: FishingVillage.Missions.Objectives, asm: Assembly-CSharp}
+      data:
+        isHidden: 0
+        requiresPreviousObjective: 1
+        overrideDescription:
+          isSet: 0
+          hideValueIfSet: 1
+          value: 
+        signalID: PigeonTimeLineEnded
+        cutsceneDescription: Pigeon Thief
     - rid: 7519837165224984582
       type: {class: ObtainItemObjective, ns: FishingVillage.Missions.Objectives, asm: Assembly-CSharp}
       data:
@@ -59,26 +86,4 @@ MonoBehaviour:
           isSet: 0
           hideValueIfSet: 0
           value: 
-        requiredItem: {fileID: 11400000, guid: 2699829c538f7214d81679747aac225f, type: 2}
-    - rid: 7519837165224984584
-      type: {class: CompleteDialogueObjective, ns: FishingVillage.Missions.Objectives, asm: Assembly-CSharp}
-      data:
-        isHidden: 0
-        requiresPreviousObjective: 1
-        overrideDescription:
-          isSet: 0
-          hideValueIfSet: 0
-          value: 
-        npc: {fileID: 2644204170290119050, guid: cff0958f2dc24f24486ab1308a1a442f, type: 3}
-    - rid: 7519837178136887296
-      type: {class: UseItemInTriggerObjective, ns: FishingVillage.Missions.Objectives, asm: Assembly-CSharp}
-      data:
-        isHidden: 0
-        requiresPreviousObjective: 0
-        overrideDescription:
-          isSet: 0
-          hideValueIfSet: 0
-          value: 
-        item: {fileID: 11400000, guid: 2699829c538f7214d81679747aac225f, type: 2}
-        triggerID: 
-        areaDescription: Area
+        requiredItem: {fileID: 11400000, guid: 9226b207ade12ec43b4dbb4531e7edaf, type: 2}

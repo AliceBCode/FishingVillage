@@ -18,15 +18,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 217502320692298470, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 6.94
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 217502320692298470, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -5.75984
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 217502320692298470, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -20.7
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 217502320692298470, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
       propertyPath: m_LocalRotation.w
@@ -50,7 +50,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 217502320692298470, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: -90
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 217502320692298470, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -102,12 +102,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4684444579216439139, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
       propertyPath: name
-      value: Shop NPC
+      value: 'Shop NPC '
       objectReference: {fileID: 0}
     - target: {fileID: 4684444579216439139, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
       propertyPath: interactableID
-      value: da214aa5-2000-4730-b5e5-f83eca9b54e3
+      value: 4b2b03da-4596-4829-954d-2e955b8f22b7
       objectReference: {fileID: 0}
+    - target: {fileID: 4684444579216439139, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
+      propertyPath: greetingDialogueLines
+      value: 
+      objectReference: {fileID: 11400000, guid: bb348afe39157e64aadbabad3044b3e9, type: 2}
     - target: {fileID: 4684444579216439139, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
       propertyPath: 'managedReferences[7519837165224984576]'
       value: Assembly-CSharp FishingVillage.GameActions.StartMissionAction
@@ -155,7 +159,7 @@ PrefabInstance:
     - target: {fileID: 7134277831697153433, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: -426905512, guid: ff2922a4d28f8004296dd57bb71a550f, type: 3}
+      objectReference: {fileID: 730744440, guid: 4b146b330d2ec484b87133712daa390f, type: 3}
     - target: {fileID: 7134277831697153433, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
       propertyPath: m_Color.b
       value: 1

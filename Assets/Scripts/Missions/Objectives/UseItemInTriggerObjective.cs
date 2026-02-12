@@ -25,10 +25,10 @@ namespace FishingVillage.Missions.Objectives
 
             if (!item.Usable)
             {
-                return $"Use: {item.Name} (Item Is Not Usable) In: {areaDescription}";
+                return $"Use {item.Name} (Item Is Not Usable) In: {areaDescription}";
             }
         
-            return $"Use: {item.Name} In: {areaDescription}";
+            return $"Use {item.Name} In {areaDescription}";
         }
     }
 

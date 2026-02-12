@@ -1,6 +1,6 @@
 using DNExtensions.Utilities;
 using DNExtensions.Utilities.Button;
-using DNExtensions.Utilities.InlineSO;
+using DNExtensions.Utilities.Inline;
 using FishingVillage.Dialogue;
 using FishingVillage.Missions;
 using FishingVillage.Player;
@@ -17,8 +17,8 @@ namespace FishingVillage.Interactable
     [Header("Proximity Dialogue")]
     [SerializeField] private bool playProximityDialogue = true;
     [SerializeField] private float proximityCooldown = 1.5f;
-    [SerializeField, InlineSO] private SODialogueLines greetingDialogueLines;
-    [SerializeField, InlineSO] private SODialogueLines farewellDialogueLines;
+    [SerializeField, Inline] private SODialogueLines greetingDialogueLines;
+    [SerializeField, Inline] private SODialogueLines farewellDialogueLines;
     
     
     private float _speechCooldownTimer;
@@ -71,6 +71,11 @@ namespace FishingVillage.Interactable
         }
     }
     
+    public override bool CanInteract()
+    {
+        return canInteract && (!hasInteracted || !limitInteractionsToOnce) && (actionsOnInteract.Length > 0 || _activeDialogue != null || MissionManager.Instance.HasMissionGiveItemFor(this, out var item));
+    }
+    
     protected override void OnInteract()
     {
         if (_activeDialogue != null)
@@ -79,6 +84,7 @@ namespace FishingVillage.Interactable
             {
                 ShowNextLine();
             }
+            
             return;
         }
         

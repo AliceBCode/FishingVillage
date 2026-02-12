@@ -12,59 +12,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78efe0c056f2413ab5f94b61bf33bb1c, type: 3}
   m_Name: ShopMission
   m_EditorClassIdentifier: Assembly-CSharp::SOMission
-  name: ShopMission
+  name: Cleaning Out The Business
   description: Trying to get the shop owner to open his store up
   icon: {fileID: 0}
   objectives:
-  - rid: 7519837165224984578
-  - rid: 7519837159531741186
   - rid: 7519837178136887297
   - rid: 7519837201401643010
-  onStarted:
-  - rid: 7519837159531741191
-  - rid: 5778561642218127360
+  onStarted: []
   onObjectiveCompleted:
-  - onObjectiveCompleted: []
-    hasTriggered: 0
-  - onObjectiveCompleted: []
-    hasTriggered: 0
   - onObjectiveCompleted:
-    - rid: 7519837201401643008
+    - rid: 5778561712605626456
     hasTriggered: 0
   - onObjectiveCompleted: []
     hasTriggered: 0
-  onCompleted:
-  - rid: 5778561642218127364
+  onCompleted: []
   references:
     version: 2
     RefIds:
-    - rid: 5778561642218127360
-      type: {class: ToggleProximityDialogueAction, ns: FishingVillage.GameActions, asm: Assembly-CSharp}
-      data:
-        npc: {fileID: 7220958929954931721, guid: ce74c71548228434e9a77177b7eaa5c8, type: 3}
-        allowProximityDialogue: 0
-    - rid: 5778561642218127364
-      type: {class: ToggleProximityDialogueAction, ns: FishingVillage.GameActions, asm: Assembly-CSharp}
-      data:
-        npc: {fileID: 7220958929954931721, guid: ce74c71548228434e9a77177b7eaa5c8, type: 3}
-        allowProximityDialogue: 1
-    - rid: 7519837159531741186
-      type: {class: ObtainItemObjective, ns: FishingVillage.Missions.Objectives, asm: Assembly-CSharp}
-      data:
-        isHidden: 0
-        requiresPreviousObjective: 1
-        overrideDescription:
-          isSet: 0
-          hideValueIfSet: 0
-          value: 
-        requiredItem: {fileID: 11400000, guid: 7672abaff8dfcd642ae5c4608f367d07, type: 2}
-    - rid: 7519837159531741191
+    - rid: 5778561712605626456
       type: {class: StartDialogueAction, ns: FishingVillage.GameActions, asm: Assembly-CSharp}
       data:
-        npc: {fileID: 7220958929954931721, guid: ce74c71548228434e9a77177b7eaa5c8, type: 3}
+        npc: {fileID: 7220958929954931721, guid: 60dbf85b4922e9c47b39c3cf15cc55dc, type: 3}
         dialogue: {fileID: 11400000, guid: c8c11c6e3343a014daa8f67bd02b41c5, type: 2}
-    - rid: 7519837165224984578
-      type: {class: CompleteDialogueObjective, ns: FishingVillage.Missions.Objectives, asm: Assembly-CSharp}
+    - rid: 7519837178136887297
+      type: {class: UseItemInTriggerObjective, ns: FishingVillage.Missions.Objectives, asm: Assembly-CSharp}
       data:
         isHidden: 0
         requiresPreviousObjective: 0
@@ -72,24 +43,9 @@ MonoBehaviour:
           isSet: 0
           hideValueIfSet: 0
           value: 
-        npc: {fileID: 7220958929954931721, guid: ce74c71548228434e9a77177b7eaa5c8, type: 3}
-    - rid: 7519837178136887297
-      type: {class: UseItemInTriggerObjective, ns: FishingVillage.Missions.Objectives, asm: Assembly-CSharp}
-      data:
-        isHidden: 0
-        requiresPreviousObjective: 1
-        overrideDescription:
-          isSet: 0
-          hideValueIfSet: 0
-          value: 
         item: {fileID: 11400000, guid: 7672abaff8dfcd642ae5c4608f367d07, type: 2}
-        triggerID: 111
-        areaDescription: ShopFront
-    - rid: 7519837201401643008
-      type: {class: StartDialogueAction, ns: FishingVillage.GameActions, asm: Assembly-CSharp}
-      data:
-        npc: {fileID: 7220958929954931721, guid: ce74c71548228434e9a77177b7eaa5c8, type: 3}
-        dialogue: {fileID: 11400000, guid: 9cde3b4720ac9e3418bff1341f6acffb, type: 2}
+        triggerID: CleaningArea
+        areaDescription: Shop Front
     - rid: 7519837201401643010
       type: {class: CompleteDialogueObjective, ns: FishingVillage.Missions.Objectives, asm: Assembly-CSharp}
       data:
@@ -99,4 +55,4 @@ MonoBehaviour:
           isSet: 0
           hideValueIfSet: 0
           value: 
-        npc: {fileID: 7220958929954931721, guid: ce74c71548228434e9a77177b7eaa5c8, type: 3}
+        npc: {fileID: 7220958929954931721, guid: 60dbf85b4922e9c47b39c3cf15cc55dc, type: 3}

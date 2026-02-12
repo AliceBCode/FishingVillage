@@ -12,17 +12,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: PierNpc Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 123787079563286703, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
+      propertyPath: m_fontSize
+      value: 35
+      objectReference: {fileID: 0}
     - target: {fileID: 217502320692298470, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 217502320692298470, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -6.14
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 217502320692298470, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -87.84
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 217502320692298470, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
       propertyPath: m_LocalRotation.w
@@ -46,7 +50,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 217502320692298470, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: -90
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 217502320692298470, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -82,36 +86,32 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2449979676976851627, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.11
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 2449979676976851627, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 2.09
+      value: 2.52
       objectReference: {fileID: 0}
     - target: {fileID: 2449979676976851627, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 1.05
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3175554852424676510, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
+      propertyPath: m_Name
+      value: Sprite
       objectReference: {fileID: 0}
     - target: {fileID: 4684444579216439139, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
       propertyPath: name
-      value: Pier NPC
+      value: Clown Fish
       objectReference: {fileID: 0}
     - target: {fileID: 4684444579216439139, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
       propertyPath: interactableID
-      value: e557c353-7183-401b-ad00-271a40b3450a
+      value: d8013e05-54e0-4599-a5e4-56703ea8d6ca
       objectReference: {fileID: 0}
     - target: {fileID: 4684444579216439139, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
       propertyPath: greetingDialogueLines
       value: 
       objectReference: {fileID: 11400000, guid: 8f7c43aaf78282b4a873e0f9011271b0, type: 2}
-    - target: {fileID: 4684444579216439139, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
-      propertyPath: actionsOnInteract.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4684444579216439139, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
-      propertyPath: 'actionsOnInteract.Array.data[0]'
-      value: 7519837186547777538
-      objectReference: {fileID: 0}
     - target: {fileID: 4684444579216439139, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
       propertyPath: 'managedReferences[7519837186547777538]'
       value: Assembly-CSharp FishingVillage.GameActions.StartMissionAction
@@ -121,33 +121,25 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 588bc0b4a2d5fb8468170db4ee51db06, type: 2}
     - target: {fileID: 6118432135469856453, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -1.73
-      objectReference: {fileID: 0}
-    - target: {fileID: 6118432135469856453, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.51
-      objectReference: {fileID: 0}
-    - target: {fileID: 6118432135469856453, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6118432135469856453, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.9708841
+      value: 0.9999964
       objectReference: {fileID: 0}
     - target: {fileID: 6118432135469856453, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.2395497
+      value: 0.0026817915
       objectReference: {fileID: 0}
-    - target: {fileID: 6118432135469856453, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: -27.72
+    - target: {fileID: 6623151140188059200, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
+      propertyPath: m_Height
+      value: 3.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 6623151140188059200, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
+      propertyPath: m_Radius
+      value: 0.89
       objectReference: {fileID: 0}
     - target: {fileID: 7134277831697153433, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: -970495463, guid: 11df1f1c2f1fc9746b6626f33fd81582, type: 3}
+      objectReference: {fileID: 582423256, guid: 308453400e875f94abfacaceac5f167a, type: 3}
     - target: {fileID: 7134277831697153433, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
       propertyPath: m_Color.b
       value: 1

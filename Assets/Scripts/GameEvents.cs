@@ -25,6 +25,7 @@ namespace FishingVillage
         public static event Action<Interactable.Interactable> OnInteractedWith;
         public static event Action<string> OnTriggerEntered;
         public static event Action<string> OnTriggerExited;
+        public static event Action<string> OnTimelineSignalReceived;
 
         public static event Action<SOMission> OnMissionStarted;
         public static event Action<SOMission> OnMissionCompleted;
@@ -95,6 +96,11 @@ namespace FishingVillage
         public static void TriggerExited(string triggerID)
         {
             OnTriggerExited?.Invoke(triggerID);
+        }
+        
+        public static void TimelineSignalReceived(string signalID)
+        {
+            OnTimelineSignalReceived?.Invoke(signalID);
         }
 
         public static void MissionStarted(SOMission mission)

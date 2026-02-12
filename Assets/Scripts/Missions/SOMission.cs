@@ -1,5 +1,6 @@
 using System;
 using DNExtensions.Utilities.SerializableSelector;
+using FishingVillage.GameActions;
 using FishingVillage.Missions.Objectives;
 using UnityEngine;
 
@@ -9,7 +10,7 @@ namespace FishingVillage.Missions
     public class MissionObjectiveEvents
     {
         [SerializeReference, SerializableSelector]
-        public GameActions.GameAction[] onObjectiveCompleted = Array.Empty<GameActions.GameAction>();
+        public GameAction[] onObjectiveCompleted = Array.Empty<GameAction>();
         [HideInInspector] public bool hasTriggered;
     }
 
@@ -25,19 +26,19 @@ namespace FishingVillage.Missions
     
     [Header("Events")]
     [SerializeReference, SerializableSelector]
-    private GameActions.GameAction[] onStarted = Array.Empty<GameActions.GameAction>();
+    private GameAction[] onStarted = Array.Empty<GameAction>();
     [SerializeField]
     private MissionObjectiveEvents[] onObjectiveCompleted = Array.Empty<MissionObjectiveEvents>();
     [SerializeReference, SerializableSelector]
-    private GameActions.GameAction[] onCompleted = Array.Empty<GameActions.GameAction>();
+    private GameAction[] onCompleted = Array.Empty<GameAction>();
 
 
 
     public string Name => name;
     public string Description => description;
     public Sprite Icon => icon;
-    public GameActions.GameAction[] OnStarted => onStarted;
-    public GameActions.GameAction[] OnCompleted => onCompleted;
+    public GameAction[] OnStarted => onStarted;
+    public GameAction[] OnCompleted => onCompleted;
     
     
     public MissionObjective[] CloneObjectives()

@@ -2,8 +2,8 @@
 using UnityEngine;
 
 #if UNITY_EDITOR
-using UnityEditorInternal;
 using UnityEditor;
+using UnityEditorInternal;
 #endif
 
 namespace DNExtensions.Utilities.PlayFromCamera

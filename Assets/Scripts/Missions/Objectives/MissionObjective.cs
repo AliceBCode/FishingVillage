@@ -13,7 +13,7 @@ namespace FishingVillage.Missions.Objectives
     
     [SerializeField] private bool isHidden;
     [SerializeField] private bool requiresPreviousObjective;
-    [SerializeField] private OptionalField<string> overrideDescription;
+    [SerializeField] private OptionalField<string> overrideDescription = new OptionalField<string>(false, true);
     
     public bool IsHidden => isHidden;
     public bool RequiresPreviousObjective => requiresPreviousObjective;

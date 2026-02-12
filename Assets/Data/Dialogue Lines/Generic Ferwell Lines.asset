@@ -15,11 +15,8 @@ MonoBehaviour:
   dialogueLines:
     internalItems:
     - item: By!
-      chance: 34
+      chance: 50
       isLocked: 0
     - item: Come again!
-      chance: 33
-      isLocked: 0
-    - item: Finally some peace and quiet
-      chance: 33
+      chance: 50
       isLocked: 0
