@@ -6,6 +6,8 @@ using UnityEngine.Events;
 
 namespace FishingVillage.Interactable
 {
+    [SelectionBase]
+    [DisallowMultipleComponent]
     public class Button : MonoBehaviour, IInteractable
     {
         [SerializeField] private bool canInteract = true;

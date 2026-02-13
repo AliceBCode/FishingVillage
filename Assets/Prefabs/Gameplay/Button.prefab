@@ -112,7 +112,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishingVillage.Interactable.InteractableVisuals
   showPrompt: 1
-  promptOffset: {x: 0, y: 1, z: 0}
+  promptOffset: {x: 0, y: 1.48, z: 0}
   useOutline: 1
 --- !u!114 &1550361551359422968
 MonoBehaviour:

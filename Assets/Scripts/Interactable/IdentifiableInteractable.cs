@@ -9,7 +9,8 @@ namespace FishingVillage.Interactable
     {
         string ID { get; }
     }
-
+    
+    [DisallowMultipleComponent]
     public class IdentifiableInteractable : MonoBehaviour, IIdentifiable
     {
         [SerializeField, ReadOnly] private string id = "";

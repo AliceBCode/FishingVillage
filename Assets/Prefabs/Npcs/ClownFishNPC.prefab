@@ -18,15 +18,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 217502320692298470, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -103.41028
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 217502320692298470, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 4.248
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 217502320692298470, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -6.518219
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 217502320692298470, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
       propertyPath: m_LocalRotation.w
@@ -112,10 +112,6 @@ PrefabInstance:
       propertyPath: interactableID
       value: 6b5cf5c4-c600-436d-b97d-be55d9b7b925
       objectReference: {fileID: 0}
-    - target: {fileID: 4684444579216439139, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
-      propertyPath: greetingDialogueLines
-      value: 
-      objectReference: {fileID: 11400000, guid: 8f7c43aaf78282b4a873e0f9011271b0, type: 2}
     - target: {fileID: 4684444579216439139, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
       propertyPath: 'managedReferences[7519837186547777538]'
       value: Assembly-CSharp FishingVillage.GameActions.StartMissionAction

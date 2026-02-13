@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace FishingVillage.Interactable
 {
+    [DisallowMultipleComponent]
     public class InteractableVisuals : MonoBehaviour
     {
         [SerializeField] private bool showPrompt = true;
@@ -22,17 +23,23 @@ namespace FishingVillage.Interactable
                 _outline.OutlineWidth = 3f;
             }
         }
+        
+        public void Hide()
+        {
+            if (showPrompt) InteractPrompt.Instance?.Hide(true);
+            if (_outline) _outline.enabled = false;
+        }
 
         public void Show()
         {
             if (showPrompt) InteractPrompt.Instance?.Show(transform.position + promptOffset);
             if (_outline) _outline.enabled = true;
         }
-
-        public void Hide()
+        
+        public void Show(Vector3 position)
         {
-            if (showPrompt) InteractPrompt.Instance?.Hide(true);
-            if (_outline) _outline.enabled = false;
+            if (showPrompt) InteractPrompt.Instance?.Show(position + promptOffset);
+            if (_outline) _outline.enabled = true;
         }
         
         public void UpdatePromptPosition(Vector3 position)
@@ -40,7 +47,7 @@ namespace FishingVillage.Interactable
             if (showPrompt) InteractPrompt.Instance?.UpdatePosition(position + promptOffset);
         }
 
-        private void OnDrawGizmos()
+        private void OnDrawGizmosSelected()
         {
             if (showPrompt) Gizmos.DrawWireSphere(transform.position + promptOffset, 0.25f);
         }

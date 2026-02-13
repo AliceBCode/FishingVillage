@@ -22,10 +22,12 @@ MonoBehaviour:
   onObjectiveCompleted:
   - onObjectiveCompleted:
     - rid: 5778561712605626456
+    - rid: 5778561730233237661
     hasTriggered: 0
   - onObjectiveCompleted: []
     hasTriggered: 0
-  onCompleted: []
+  onCompleted:
+  - rid: 5778561730233237647
   references:
     version: 2
     RefIds:
@@ -34,6 +36,16 @@ MonoBehaviour:
       data:
         npc: {fileID: 7220958929954931721, guid: 60dbf85b4922e9c47b39c3cf15cc55dc, type: 3}
         dialogue: {fileID: 11400000, guid: c8c11c6e3343a014daa8f67bd02b41c5, type: 2}
+    - rid: 5778561730233237647
+      type: {class: StartDialogueAction, ns: FishingVillage.GameActions, asm: Assembly-CSharp}
+      data:
+        npc: {fileID: 7220958929954931721, guid: ce74c71548228434e9a77177b7eaa5c8, type: 3}
+        dialogue: {fileID: 11400000, guid: 06fcc101fcbe98342a62b85793fd16a1, type: 2}
+    - rid: 5778561730233237661
+      type: {class: ToggleProximityDialogueAction, ns: FishingVillage.GameActions, asm: Assembly-CSharp}
+      data:
+        npc: {fileID: 7220958929954931721, guid: 60dbf85b4922e9c47b39c3cf15cc55dc, type: 3}
+        allowProximityDialogue: 0
     - rid: 7519837178136887297
       type: {class: UseItemInTriggerObjective, ns: FishingVillage.Missions.Objectives, asm: Assembly-CSharp}
       data:
@@ -44,7 +56,8 @@ MonoBehaviour:
           hideValueIfSet: 0
           value: 
         item: {fileID: 11400000, guid: 7672abaff8dfcd642ae5c4608f367d07, type: 2}
-        triggerID: CleaningArea
+        requiredUsagesCount: 8
+        triggerID: Fish
         areaDescription: Shop Front
     - rid: 7519837201401643010
       type: {class: CompleteDialogueObjective, ns: FishingVillage.Missions.Objectives, asm: Assembly-CSharp}

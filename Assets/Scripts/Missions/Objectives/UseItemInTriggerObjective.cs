@@ -11,8 +11,11 @@ namespace FishingVillage.Missions.Objectives
     public class UseItemInTriggerObjective : MissionObjective
     {
         [SerializeField] private SOItem item;
+        [SerializeField] private int requiredUsagesCount = 1;
         [SerializeField] private string triggerID;
         [SerializeField] private string areaDescription = "Area";
+
+        private int _currentCount;
 
         protected override string Description
         {
@@ -27,6 +30,11 @@ namespace FishingVillage.Missions.Objectives
                 {
                     return $"Use {item.Name} (Item Is Not Usable) In: {areaDescription}";
                 }
+
+                if (requiredUsagesCount > 1)
+                {
+                    return $"Use {item.Name} In {areaDescription} ({_currentCount}/{requiredUsagesCount})";
+                }
             
                 return $"Use {item.Name} In {areaDescription}";
             }
@@ -36,43 +44,27 @@ namespace FishingVillage.Missions.Objectives
         
         public override void Initialize()
         {
-            _inTriggerArea = GameEvents.IsPlayerInTrigger(triggerID);
-            GameEvents.OnTriggerEntered += OnTriggerEntered;
-            GameEvents.OnTriggerExited += OnTriggerExited;
-            GameEvents.OnItemUsed += OnItemUsed;
+            _currentCount = 0;
+            GameEvents.OnItemUsedInTrigger += OnItemUsedInTrigger;
         }
         
         public override void Cleanup()
         {
-            GameEvents.OnTriggerEntered -= OnTriggerEntered;
-            GameEvents.OnTriggerExited -= OnTriggerExited;
-            GameEvents.OnItemUsed -= OnItemUsed;
+            GameEvents.OnItemUsedInTrigger -= OnItemUsedInTrigger;
         }
 
         public override bool Evaluate()
         {
-            return false;
+            return _currentCount >= requiredUsagesCount;
         }
         
-        private void OnTriggerExited(string triggeredID)
+        private void OnItemUsedInTrigger(string triggeredID, SOItem usedItem)
         {
-            if (triggeredID == triggerID)
-            {
-                _inTriggerArea = false;
-            }
-        }
-        
-        private void OnTriggerEntered(string triggeredID)
-        {
-            if (triggeredID == triggerID)
-            {
-                _inTriggerArea = true;
-            }
-        }
-        
-        private void OnItemUsed(SOItem item)
-        {
-            if (item == this.item && _inTriggerArea)
+            if (usedItem != item || triggeredID != triggerID) return;
+
+            _currentCount++;
+
+            if (Evaluate())
             {
                 SetMet();
             }

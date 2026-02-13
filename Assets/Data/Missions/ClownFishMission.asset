@@ -16,36 +16,31 @@ MonoBehaviour:
   description: Help scare the seagulls away
   icon: {fileID: 0}
   objectives:
-  - rid: 5778561712605626460
   - rid: 7519837165224984581
+  - rid: 5778561712605626460
   - rid: 7519837178136887296
-  onStarted: []
+  onStarted:
+  - rid: 5778561730233237648
+  - rid: 5778561730233237649
   onObjectiveCompleted:
-  - onObjectiveCompleted:
-    - rid: 5778561712605626464
-    - rid: 5778561712605626465
+  - onObjectiveCompleted: []
     hasTriggered: 0
   - onObjectiveCompleted:
     - rid: 5778561712605626462
     - rid: 5778561712605626463
     hasTriggered: 0
-  - onObjectiveCompleted:
-    - rid: 5778561712605626458
+  - onObjectiveCompleted: []
     hasTriggered: 0
-  onCompleted: []
+  onCompleted:
+  - rid: 5778561730233237650
   references:
     version: 2
     RefIds:
-    - rid: 5778561712605626458
-      type: {class: StartDialogueAction, ns: FishingVillage.GameActions, asm: Assembly-CSharp}
-      data:
-        npc: {fileID: 2644204170290119050, guid: 42b726b7da6b67f48a7fdd813ba606f1, type: 3}
-        dialogue: {fileID: 11400000, guid: 1205a1b211967da429ffeb02ff9c9147, type: 2}
     - rid: 5778561712605626460
       type: {class: GiveItemToNpcObjective, ns: FishingVillage.Missions.Objectives, asm: Assembly-CSharp}
       data:
         isHidden: 0
-        requiresPreviousObjective: 0
+        requiresPreviousObjective: 1
         overrideDescription:
           isSet: 0
           hideValueIfSet: 0
@@ -65,21 +60,26 @@ MonoBehaviour:
           value:
             controllerNameOrPath: Player Animator Controller
             triggerName: OpeningPackage
-    - rid: 5778561712605626464
-      type: {class: ToggleProximityDialogueAction, ns: FishingVillage.GameActions, asm: Assembly-CSharp}
-      data:
-        npc: {fileID: 2644204170290119050, guid: cff0958f2dc24f24486ab1308a1a442f, type: 3}
-        allowProximityDialogue: 0
-    - rid: 5778561712605626465
+    - rid: 5778561730233237648
       type: {class: StartDialogueAction, ns: FishingVillage.GameActions, asm: Assembly-CSharp}
       data:
         npc: {fileID: 2644204170290119050, guid: cff0958f2dc24f24486ab1308a1a442f, type: 3}
         dialogue: {fileID: 11400000, guid: 90e7ae3614ee2144ba119c7dc727e4e2, type: 2}
+    - rid: 5778561730233237649
+      type: {class: ToggleProximityDialogueAction, ns: FishingVillage.GameActions, asm: Assembly-CSharp}
+      data:
+        npc: {fileID: 2644204170290119050, guid: cff0958f2dc24f24486ab1308a1a442f, type: 3}
+        allowProximityDialogue: 0
+    - rid: 5778561730233237650
+      type: {class: StartDialogueAction, ns: FishingVillage.GameActions, asm: Assembly-CSharp}
+      data:
+        npc: {fileID: 2644204170290119050, guid: 42b726b7da6b67f48a7fdd813ba606f1, type: 3}
+        dialogue: {fileID: 11400000, guid: 1205a1b211967da429ffeb02ff9c9147, type: 2}
     - rid: 7519837165224984581
       type: {class: CompleteDialogueObjective, ns: FishingVillage.Missions.Objectives, asm: Assembly-CSharp}
       data:
         isHidden: 0
-        requiresPreviousObjective: 1
+        requiresPreviousObjective: 0
         overrideDescription:
           isSet: 0
           hideValueIfSet: 0

@@ -171,6 +171,9 @@ GameObject:
   m_Component:
   - component: {fileID: 7805435032835378104}
   - component: {fileID: 767920616775175034}
+  - component: {fileID: 1858816540358087952}
+  - component: {fileID: 436714105993728411}
+  - component: {fileID: 6898430187610882360}
   m_Layer: 0
   m_Name: Fish
   m_TagString: Untagged
@@ -224,3 +227,92 @@ MonoBehaviour:
             m_StringArgument: FishFlop
             m_BoolArgument: 0
           m_CallState: 1
+--- !u!135 &1858816540358087952
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3269491188395744565}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 1.5
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &436714105993728411
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3269491188395744565}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1f7096d9c394f5091567271b68446dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FishingVillage.Gameplay.ZoneTrigger
+  triggerID: Fish
+  triggerOnce: 1
+  triggerLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  col: {fileID: 1858816540358087952}
+  triggerMode: 1
+  requiredItem: {fileID: 11400000, guid: 7672abaff8dfcd642ae5c4608f367d07, type: 2}
+  onTriggered:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6898430187610882360}
+        m_TargetAssemblyTypeName: FishingVillage.Gameplay.FishCleanedTween, Assembly-CSharp
+        m_MethodName: PlayCleanedAnimation
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: FishCleaned
+          m_BoolArgument: 0
+        m_CallState: 1
+      - m_Target: {fileID: 6887185588212959815}
+        m_TargetAssemblyTypeName: UnityEngine.Animator, UnityEngine
+        m_MethodName: Play
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: FishIdle
+          m_BoolArgument: 0
+        m_CallState: 2
+  showGizmo: 0
+  hasTriggered: 0
+  playerInside: 0
+--- !u!114 &6898430187610882360
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3269491188395744565}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bbb0b7cffe4fad45b9348b1eca25652, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FishingVillage.FishCleanedTween
+  duration: 1
+  moveUpDistance: 3
+  moveAwayDistance: 2
+  moveSideDistance: 1.5
+  rotationLoops: 2
+  fish: {fileID: 339189154126564363}

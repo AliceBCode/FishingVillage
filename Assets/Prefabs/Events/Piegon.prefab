@@ -103,6 +103,8 @@ GameObject:
   - component: {fileID: 4534695683260772895}
   - component: {fileID: 6832556495722331371}
   - component: {fileID: 9097237000298210440}
+  - component: {fileID: 2743618982191960097}
+  - component: {fileID: 6413765580762336464}
   m_Layer: 0
   m_Name: Piegon
   m_TagString: Untagged
@@ -118,7 +120,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6713557567876294744}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -167,7 +169,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 1
+  m_Radius: 1.14
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &9097237000298210440
 MonoBehaviour:
@@ -176,22 +178,41 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6713557567876294744}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f9483ebed5d0b30488eb8b3e990e014c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishingVillage.Interactable.ItemHolder
-  canInteract: 0
-  limitInteractionsToOnce: 1
-  promptOffset: {x: 0, y: 2.5, z: 0}
-  actionsOnInteract:
-  - rid: 5778561712605626475
-  hasInteracted: 0
-  interactableID: cc7d83a8-1a5b-4d04-a254-c6d812a16282
-  references:
-    version: 2
-    RefIds:
-    - rid: 5778561712605626475
-      type: {class: GiveItemAction, ns: FishingVillage.GameActions, asm: Assembly-CSharp}
-      data:
-        item: {fileID: 11400000, guid: 9226b207ade12ec43b4dbb4531e7edaf, type: 2}
+  item: {fileID: 11400000, guid: 9226b207ade12ec43b4dbb4531e7edaf, type: 2}
+  onItemTaken:
+    m_PersistentCalls:
+      m_Calls: []
+  taken: 0
+--- !u!114 &2743618982191960097
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6713557567876294744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df6bbb9005ac4091b76b1a27c03096d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FishingVillage.Interactable.IdentifiableInteractable
+  id: b496cdfa-73e0-4242-bb84-00f0587f295a
+--- !u!114 &6413765580762336464
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6713557567876294744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bae273b9878b44f49ccb8a7d615831f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FishingVillage.Interactable.InteractableVisuals
+  showPrompt: 1
+  promptOffset: {x: 0, y: 3, z: 0}
+  useOutline: 0

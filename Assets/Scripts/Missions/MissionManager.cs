@@ -222,7 +222,7 @@ namespace FishingVillage.Missions
             {
                 foreach (var objective in missionObjectivesPair.Value)
                 {
-                    if (objective is GiveItemToNpcObjective { Met: false } giveItemObjective && giveItemObjective.MatchesNpcID(npcID))
+                    if (objective is GiveItemToNpcObjective { Met: false, IsActive: true } giveItemObjective && giveItemObjective.MatchesNpcID(npcID))
                     {
                         item = giveItemObjective.RequiredItem;
                         return true;

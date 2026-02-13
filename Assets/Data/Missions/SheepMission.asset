@@ -23,6 +23,7 @@ MonoBehaviour:
   - rid: 5778561712605626467
   onStarted:
   - rid: 5778561712605626472
+  - rid: 5778561730233237660
   onObjectiveCompleted:
   - onObjectiveCompleted:
     - rid: 5778561712605626473
@@ -36,7 +37,8 @@ MonoBehaviour:
     hasTriggered: 0
   - onObjectiveCompleted: []
     hasTriggered: 0
-  onCompleted: []
+  onCompleted:
+  - rid: 5778561730233237656
   references:
     version: 2
     RefIds:
@@ -96,6 +98,16 @@ MonoBehaviour:
       data:
         npc: {fileID: 4761095320140479624, guid: 7d863097f55a714449c0153dc3d35757, type: 3}
         dialogue: {fileID: 11400000, guid: 5238a483f2c7a9044b15d9d9f20ff599, type: 2}
+    - rid: 5778561730233237656
+      type: {class: StartDialogueAction, ns: FishingVillage.GameActions, asm: Assembly-CSharp}
+      data:
+        npc: {fileID: 4761095320140479624, guid: 5f7872816c7c16240996feac0b7c76d4, type: 3}
+        dialogue: {fileID: 11400000, guid: 0c3674726d116cc4593165e483ffcbf7, type: 2}
+    - rid: 5778561730233237660
+      type: {class: ToggleProximityDialogueAction, ns: FishingVillage.GameActions, asm: Assembly-CSharp}
+      data:
+        npc: {fileID: 4761095320140479624, guid: 7d863097f55a714449c0153dc3d35757, type: 3}
+        allowProximityDialogue: 0
     - rid: 7519837165224984582
       type: {class: ObtainItemObjective, ns: FishingVillage.Missions.Objectives, asm: Assembly-CSharp}
       data:

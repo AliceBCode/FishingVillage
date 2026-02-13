@@ -82,12 +82,12 @@ namespace FishingVillage.UI.Menus
                             if (objective.IsHidden) continue;
                             
                             string checkmark = objective.Met ? "[X]" : "[ ]";
-                            activeMissionsText.text += $"  {checkmark} {objective.GetDescription()}\n";
+                            activeMissionsText.text += $"{checkmark} {objective.GetDescription()}\n";
                         }
                     }
                     else
                     {
-                        activeMissionsText.text += "  (No visible objectives)\n";
+                        activeMissionsText.text += "(No visible objectives)\n";
                     }
                 }
 

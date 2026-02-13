@@ -1,31 +1,33 @@
+using DNExtensions.Utilities;
 using FishingVillage.Player;
 using UnityEngine;
 using UnityEngine.Events;
 
 namespace FishingVillage.Interactable
 {
+    [SelectionBase]
+    [DisallowMultipleComponent]
     public class ItemHolder : MonoBehaviour, IInteractable
     {
         [SerializeField] private SOItem item;
         [SerializeField] private UnityEvent onItemTaken;
+        [SerializeField, ReadOnly] private bool taken;
         
         private InteractableVisuals _visuals;
-        private Animator _animator;
-        private bool _taken;
+
 
         private void Awake()
         {
             _visuals = GetComponent<InteractableVisuals>();
-            _animator = GetComponent<Animator>();
         }
 
-        public bool CanInteract() => !_taken && item;
+        public bool CanInteract() => !taken && item && enabled;
 
         public void Interact()
         {
             if (!CanInteract()) return;
             
-            _taken = true;
+            taken = true;
             PlayerInventory.Instance.TryAddItem(item);
                 
             onItemTaken?.Invoke();

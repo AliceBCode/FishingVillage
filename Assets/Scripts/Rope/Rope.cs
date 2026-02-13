@@ -59,6 +59,8 @@ namespace FishingVillage.RopeSystem
         private Vector3[] _velocities;
         private Vector3[] _lastPositions;
         
+        public RopePoint[] Points => _points;
+        
 
 
         
@@ -84,18 +86,6 @@ namespace FishingVillage.RopeSystem
             if (visualization.autoUpdate)
             {
                 UpdateVisualization();
-            }
-        }
-
-        private void OnDrawGizmos()
-        {
-            if (_points == null || !visualization.drawGizmos) return;
-
-            foreach (var point in _points)
-            {
-                if (!point) continue;
-                Gizmos.color = point.isAnchor ? Color.red : Color.green;
-                Gizmos.DrawSphere(point.transform.position, 0.1f);
             }
         }
         
@@ -262,9 +252,13 @@ namespace FishingVillage.RopeSystem
             for (int i = existingPoints.Length - 1; i >= 0; i--)
             {
                 if (Application.isPlaying)
+                {
                     Destroy(existingPoints[i].gameObject);
+                }
                 else
+                {
                     DestroyImmediate(existingPoints[i].gameObject);
+                }
             }
         }
 
@@ -293,6 +287,31 @@ namespace FishingVillage.RopeSystem
 
             tubeRenderer.SetPositions(positions);
         }
+        
+        private void OnDrawGizmos()
+        {
+            if (_points == null || !visualization.drawGizmos) return;
+
+            foreach (var point in _points)
+            {
+                if (!point) continue;
+                Gizmos.color = point.isAnchor ? Color.red : Color.green;
+                Gizmos.DrawSphere(point.transform.position, 0.1f);
+            }
+            
+            if (creation.pointsAmount > _points.Length)
+            {
+                Gizmos.color = Color.yellow;
+                Vector3 dir = creation.direction.normalized;
+                for (int i = 0; i < creation.pointsAmount; i++)
+                {
+                    if (i < _points.Length) continue;
+                    Vector3 pos = transform.TransformPoint(dir * (i * creation.pointSpacing));
+                    Gizmos.DrawSphere(pos, 0.1f);
+                }
+            }
+        }
+
         
         #endregion
     }

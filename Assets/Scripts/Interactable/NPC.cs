@@ -10,6 +10,8 @@ using UnityEngine;
 
 namespace FishingVillage.Interactable
 {
+    [SelectionBase]
+    [DisallowMultipleComponent]
     public class NPC : MonoBehaviour, IInteractable
     {
         [Header("Settings")]
@@ -22,7 +24,8 @@ namespace FishingVillage.Interactable
         [SerializeField, Inline] private SODialogueLines greetingDialogueLines;
         [SerializeField, Inline] private SODialogueLines farewellDialogueLines;
         
-        private float _speechCooldownTimer;
+        private float _proximityCooldownTimer;
+        private InteractableVisuals _visuals;
         private SpeechBubble _speechBubble;
         private DialogueSequence _activeDialogue;
         
@@ -30,21 +33,22 @@ namespace FishingVillage.Interactable
 
         private void Awake()
         {
+            
+            _visuals = GetComponent<InteractableVisuals>();
             _speechBubble = GetComponentInChildren<SpeechBubble>();
         }
 
         private void Update()
         {
-            if (_speechCooldownTimer > 0f)
+            if (_proximityCooldownTimer > 0f)
             {
-                _speechCooldownTimer -= Time.deltaTime;
+                _proximityCooldownTimer -= Time.deltaTime;
             }
         }
 
         private void OnTriggerEnter(Collider other)
         {
-            if (!playProximityDialogue || !greetingDialogueLines || _speechCooldownTimer > 0) 
-                return;
+            if (_activeDialogue != null || !playProximityDialogue || _proximityCooldownTimer > 0) return;
             
             if (other.TryGetComponent(out PlayerController player))
             {
@@ -54,8 +58,7 @@ namespace FishingVillage.Interactable
 
         private void OnTriggerExit(Collider other)
         {
-            if (!playProximityDialogue || !farewellDialogueLines || _speechCooldownTimer > 0) 
-                return;
+            if (_activeDialogue != null ||!playProximityDialogue || _proximityCooldownTimer > 0) return;
             
             if (other.TryGetComponent(out PlayerController player))
             {
@@ -73,7 +76,25 @@ namespace FishingVillage.Interactable
         
         public bool CanInteract()
         {
-            return _activeDialogue != null || MissionManager.Instance.HasMissionGiveItemFor(this, out var item) || HasConsumableInteraction();
+            if (_activeDialogue != null)
+            {
+                return true;
+            }
+            
+            if (MissionManager.Instance && MissionManager.Instance.HasMissionGiveItemFor(this, out var item))
+            {
+                if (PlayerInventory.Instance && PlayerInventory.Instance.HasItem(item))
+                {
+                    return true;
+                }
+            }
+
+            if (HasConsumableInteraction())
+            {
+                return true;
+            }
+
+            return false;
         }
 
         public void Interact()
@@ -82,6 +103,9 @@ namespace FishingVillage.Interactable
             {
                 return;
             }
+            
+            
+            GameEvents.InteractedWith(this);
             
             if (_activeDialogue != null)
             {
@@ -92,15 +116,16 @@ namespace FishingVillage.Interactable
                 return;
             }
             
+            
             foreach (var interaction in consumableInteractions)
             {
-                interaction?.Execute();
+                if (interaction == null || interaction.IsConsumed) continue;
+                interaction.Execute();
+                return;
             }
-            
-            
-            GameEvents.NpcTalkedTo(this);
 
-            if (MissionManager.Instance.HasMissionGiveItemFor(this, out SOItem item))
+            
+            if (MissionManager.Instance && MissionManager.Instance.HasMissionGiveItemFor(this, out SOItem item))
             {
                 ReceiveItem(item);
             }
@@ -111,12 +136,12 @@ namespace FishingVillage.Interactable
             if (_activeDialogue != null) return;
             if (!CanInteract()) return;
             
-            InteractPrompt.Instance?.Show(transform.position + Vector3.up);
+            _visuals.Show();
         }
 
         public void HideInteract()
         {
-            InteractPrompt.Instance?.Hide(true);
+            _visuals.Hide();
         }
 
         #region Sequence Dialogue
@@ -130,11 +155,13 @@ namespace FishingVillage.Interactable
                 _speechBubble.Hide(true);
                 return;
             }
-            
-            string line = _activeDialogue.GetNextLine();
+    
+            string line = _activeDialogue.GetCurrentLine();
+            _activeDialogue.Advance();
+    
             _speechBubble?.Show(line, _activeDialogue.AdvanceMode == DialogueAdvanceMode.Manual);
             InteractPrompt.Instance?.Hide(false);
-            
+    
             if (_activeDialogue.AdvanceMode == DialogueAdvanceMode.Automatic)
             {
                 Invoke(nameof(ShowNextLine), _activeDialogue.AutoAdvanceDelay);
@@ -145,7 +172,6 @@ namespace FishingVillage.Interactable
         {
             if (!sequence) return;
             
-            playProximityDialogue = false;
             _activeDialogue = new DialogueSequence(sequence);
             _speechBubble?.Hide(false);
             ShowNextLine();
@@ -160,7 +186,7 @@ namespace FishingVillage.Interactable
         {
             if (!greetingDialogueLines) return;
             
-            _speechCooldownTimer = proximityCooldown;
+            _proximityCooldownTimer = proximityCooldown;
             _speechBubble?.Show(greetingDialogueLines.GetRandomLine,false, 3.5f);
         }
         
@@ -169,7 +195,7 @@ namespace FishingVillage.Interactable
         {
             if (!farewellDialogueLines) return;
             
-            _speechCooldownTimer = proximityCooldown;
+            _proximityCooldownTimer = proximityCooldown;
             _speechBubble?.Show(farewellDialogueLines.GetRandomLine,false, 3.5f);
         }
         

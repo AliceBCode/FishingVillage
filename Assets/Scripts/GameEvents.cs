@@ -21,9 +21,9 @@ namespace FishingVillage
 
 
         public static event Action<SOItem, NPC> OnItemGivenToNpc;
-        public static event Action<NPC> OnNpcTalkedTo;
         public static event Action<NPC> OnDialogueSequenceCompleted;
         public static event Action<IInteractable> OnInteractedWith;
+        public static event Action<string, SOItem> OnItemUsedInTrigger;
         public static event Action<string> OnTriggerEntered;
         public static event Action<string> OnTriggerExited;
         public static event Action<string> OnTimelineSignalReceived;
@@ -31,7 +31,7 @@ namespace FishingVillage
         public static event Action<SOMission> OnMissionStarted;
         public static event Action<SOMission> OnMissionCompleted;
         
-        private static readonly HashSet<string> ActiveTriggers = new HashSet<string>();
+        private static readonly Dictionary<string, HashSet<int>> ActiveTriggers = new Dictionary<string, HashSet<int>>();
 
 
 
@@ -75,11 +75,7 @@ namespace FishingVillage
         {
             OnItemGivenToNpc?.Invoke(item, npc);
         }
-
-        public static void NpcTalkedTo(NPC npc)
-        {
-            OnNpcTalkedTo?.Invoke(npc);
-        }
+        
 
         public static void DialogueSequenceCompleted(NPC npc)
         {
@@ -91,21 +87,39 @@ namespace FishingVillage
             OnInteractedWith?.Invoke(interactable);
         }
 
-        public static void TriggerEntered(string triggerID)
+        public static void TriggerEntered(string triggerID, int instanceID)
         {
-            ActiveTriggers.Add(triggerID);
+            if (!ActiveTriggers.ContainsKey(triggerID))
+            {
+                ActiveTriggers[triggerID] = new HashSet<int>();
+            }
+            
+            ActiveTriggers[triggerID].Add(instanceID);
             OnTriggerEntered?.Invoke(triggerID);
         }
-
-        public static void TriggerExited(string triggerID)
+        
+        public static void ItemUsedInTrigger(string triggerID, SOItem item)
         {
-            ActiveTriggers.Remove(triggerID);
+            OnItemUsedInTrigger?.Invoke(triggerID, item);
+        }
+
+        public static void TriggerExited(string triggerID, int instanceID)
+        {
+            if (!ActiveTriggers.TryGetValue(triggerID, out var trigger)) return;
+            
+            trigger.Remove(instanceID);
+            
+            if (ActiveTriggers[triggerID].Count == 0)
+            {
+                ActiveTriggers.Remove(triggerID);
+            }
+            
             OnTriggerExited?.Invoke(triggerID);
         }
         
         public static bool IsPlayerInTrigger(string triggerID)
         {
-            return ActiveTriggers.Contains(triggerID);
+            return ActiveTriggers.ContainsKey(triggerID) && ActiveTriggers[triggerID].Count > 0;
         }
         
         public static void TimelineSignalReceived(string signalID)

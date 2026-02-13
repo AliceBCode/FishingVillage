@@ -188,10 +188,6 @@ PrefabInstance:
       propertyPath: onInteract.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
-    - target: {fileID: 6440779662682665445, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
-      propertyPath: promptOffset.y
-      value: 1.52
-      objectReference: {fileID: 0}
     - target: {fileID: 7134277831697153433, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
       propertyPath: m_Sprite
       value: 

@@ -15,13 +15,15 @@ namespace FishingVillage.Dialogue
             _currentIndex = 0;
         }
 
-        public string GetNextLine()
+        public string GetCurrentLine()
         {
             if (IsComplete) return string.Empty;
+            return _dialogueSequence.GetLine(_currentIndex);
+        }
 
-            string line = _dialogueSequence.GetLine(_currentIndex);
-            _currentIndex++;
-            return line;
+        public void Advance()
+        {
+            if (!IsComplete) _currentIndex++;
         }
 
         public void Reset() => _currentIndex = 0;
