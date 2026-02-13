@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &220873681407855595
+--- !u!1001 &2681755477713695594
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 72695734398173421, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
       propertyPath: m_Name
-      value: HouseNpc Variant
+      value: ShrimpNPC Fullbody
       objectReference: {fileID: 0}
     - target: {fileID: 123787079563286703, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
       propertyPath: m_fontSize
@@ -30,7 +30,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 217502320692298470, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.7071076
+      value: 0.7071079
       objectReference: {fileID: 0}
     - target: {fileID: 217502320692298470, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
       propertyPath: m_LocalRotation.x
@@ -38,7 +38,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 217502320692298470, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.707106
+      value: -0.7071057
       objectReference: {fileID: 0}
     - target: {fileID: 217502320692298470, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
       propertyPath: m_LocalRotation.z
@@ -86,40 +86,80 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2449979676976851627, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2449979676976851627, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 1.15
+      value: 0.99
+      objectReference: {fileID: 0}
+    - target: {fileID: 2449979676976851627, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.52
       objectReference: {fileID: 0}
     - target: {fileID: 3175554852424676510, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
       propertyPath: m_Name
       value: Sprite
       objectReference: {fileID: 0}
     - target: {fileID: 4684444579216439139, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
+      propertyPath: name
+      value: Shrimp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4684444579216439139, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
       propertyPath: interactableID
-      value: ba4366a0-c81f-4b83-8ad2-0550d50c60ce
+      value: 4b2b03da-4596-4829-954d-2e955b8f22b7
       objectReference: {fileID: 0}
     - target: {fileID: 4684444579216439139, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
-      propertyPath: actionsOnInteract.Array.size
-      value: 1
-      objectReference: {fileID: 0}
+      propertyPath: greetingDialogueLines
+      value: 
+      objectReference: {fileID: 11400000, guid: bb348afe39157e64aadbabad3044b3e9, type: 2}
     - target: {fileID: 4684444579216439139, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
-      propertyPath: 'actionsOnInteract.Array.data[0]'
-      value: 5778561712605626468
-      objectReference: {fileID: 0}
-    - target: {fileID: 4684444579216439139, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
-      propertyPath: 'managedReferences[5778561712605626468]'
+      propertyPath: 'managedReferences[7519837165224984576]'
       value: Assembly-CSharp FishingVillage.GameActions.StartMissionAction
       objectReference: {fileID: 0}
     - target: {fileID: 4684444579216439139, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
-      propertyPath: managedReferences[5778561712605626468].mission
+      propertyPath: managedReferences[7519837165224984576].mission
       value: 
-      objectReference: {fileID: 11400000, guid: 1a7232830211f104888849a9a813b59e, type: 2}
+      objectReference: {fileID: 11400000, guid: 0741186cd5389eb449963a3b4e4486eb, type: 2}
+    - target: {fileID: 6118432135469856453, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6118432135469856453, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6118432135469856453, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6118432135469856453, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6118432135469856453, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6118432135469856453, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6118432135469856453, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6118432135469856453, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6118432135469856453, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7134277831697153433, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: -1916756157, guid: 284a6ebc40051e046a3384322c91561f, type: 3}
+      objectReference: {fileID: 730744440, guid: 4b146b330d2ec484b87133712daa390f, type: 3}
     - target: {fileID: 7134277831697153433, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
       propertyPath: m_Color.b
       value: 1

@@ -1,4 +1,5 @@
 using System;
+using DNExtensions.Utilities;
 using DNExtensions.Utilities.Inline;
 using FishingVillage.Missions.Objectives;
 using UnityEditor;
@@ -15,83 +16,66 @@ namespace FishingVillage.Missions
     }
 
     public class MissionEventsListener : MonoBehaviour
-{
-    [SerializeField, Inline] private SOMission mission;
-    [SerializeField] private UnityEvent onMissionStarted;
-    [SerializeField] private ObjectiveSceneEvent[] objectiveEvents;
-    [SerializeField] private UnityEvent onMissionCompleted;
-
-    private void OnEnable()
     {
-        GameEvents.OnMissionStarted += CheckMissionStarted;
-        GameEvents.OnMissionCompleted += CheckMissionCompleted;
-        MissionObjective.OnObjectiveMet += CheckObjectiveCompleted;
-    }
+        [Space(15)]
+        [SerializeField, Inline] private SOMission mission;
+        [Separator]
+        [Space(15)]
+        [SerializeField] private UnityEvent onMissionStarted;
+        [SerializeField] private ObjectiveSceneEvent[] objectiveEvents;
+        [SerializeField] private UnityEvent onMissionCompleted;
 
-    private void OnDisable()
-    {
-        GameEvents.OnMissionStarted -= CheckMissionStarted;
-        GameEvents.OnMissionCompleted -= CheckMissionCompleted;
-        MissionObjective.OnObjectiveMet -= CheckObjectiveCompleted;
-    }
-
-    private void CheckMissionStarted(SOMission startedMission)
-    {
-        if (startedMission == mission)
+        private void OnEnable()
         {
-            onMissionStarted?.Invoke();
+            GameEvents.OnMissionStarted += CheckMissionStarted;
+            GameEvents.OnMissionCompleted += CheckMissionCompleted;
+            MissionObjective.OnObjectiveMet += CheckObjectiveCompleted;
         }
-    }
 
-    private void CheckMissionCompleted(SOMission completedMission)
-    {
-        if (completedMission == mission)
+        private void OnDisable()
         {
-            onMissionCompleted?.Invoke();
+            GameEvents.OnMissionStarted -= CheckMissionStarted;
+            GameEvents.OnMissionCompleted -= CheckMissionCompleted;
+            MissionObjective.OnObjectiveMet -= CheckObjectiveCompleted;
         }
-    }
 
-    private void CheckObjectiveCompleted(MissionObjective completedObjective)
-    {
-        if (!mission || !MissionManager.Instance) return;
-        
-        var objectives = MissionManager.Instance.GetMissionObjectives(mission);
-        if (objectives == null) return;
-        
-        for (int i = 0; i < objectives.Length; i++)
+        private void CheckMissionStarted(SOMission startedMission)
         {
-            if (objectives[i] == completedObjective && i < objectiveEvents.Length)
+            if (startedMission == mission)
             {
-                var entry = objectiveEvents[i];
-                if (!entry.hasTriggered)
-                {
-                    entry.hasTriggered = true;
-                    entry.onCompleted?.Invoke();
-                }
-                break;
+                onMissionStarted?.Invoke();
             }
         }
-    }
 
-#if UNITY_EDITOR
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = new Color(256, 256, 256, 0.5f);
-        Gizmos.DrawSphere(transform.position, 0.2f);
-
-        var style = new GUIStyle()
+        private void CheckMissionCompleted(SOMission completedMission)
         {
-            fontSize = 8,
-            normal = { textColor = Color.white },
-            fontStyle = FontStyle.Bold,
-            alignment = TextAnchor.MiddleCenter,
-        };
-        var state = mission ? mission.name : "No mission was set";
-        Handles.Label(transform.position + new Vector3(0,0.5f), $"Mission Event Listener:\n{state}", style);
-    }
-    
-#endif
+            if (completedMission == mission)
+            {
+                onMissionCompleted?.Invoke();
+            }
+        }
+
+        private void CheckObjectiveCompleted(MissionObjective completedObjective)
+        {
+            if (!mission || !MissionManager.Instance) return;
+            
+            var objectives = MissionManager.Instance.GetMissionObjectives(mission);
+            if (objectives == null) return;
+            
+            for (int i = 0; i < objectives.Length; i++)
+            {
+                if (objectives[i] == completedObjective && i < objectiveEvents.Length)
+                {
+                    var entry = objectiveEvents[i];
+                    if (!entry.hasTriggered)
+                    {
+                        entry.hasTriggered = true;
+                        entry.onCompleted?.Invoke();
+                    }
+                    break;
+                }
+            }
+        }
     
     }
 }

@@ -10,6 +10,7 @@ namespace FishingVillage.Interactable
 {
     [SelectionBase]
     [DisallowMultipleComponent]
+    [RequireComponent(typeof(Collider))]
     public abstract class Interactable : MonoBehaviour, IInteractable
 {
     [Header("Interactable Settings")]

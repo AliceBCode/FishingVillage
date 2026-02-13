@@ -1,5 +1,6 @@
 using DNExtensions.Utilities;
 using FishingVillage.Gameplay;
+using FishingVillage.Interactable;
 using PrimeTween;
 using UnityEngine;
 using UnityEngine.InputSystem;

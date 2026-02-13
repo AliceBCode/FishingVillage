@@ -1117,8 +1117,6 @@ GameObject:
   - component: {fileID: 1943153310445078279}
   - component: {fileID: 7904897256789337024}
   - component: {fileID: 8144843560594268425}
-  - component: {fileID: 6892970439339824462}
-  - component: {fileID: 2865963995468373961}
   - component: {fileID: 6431755785001280908}
   - component: {fileID: 4018763399165135074}
   - component: {fileID: 7535287639866818484}
@@ -1321,63 +1319,6 @@ MonoBehaviour:
   - {x: 10.5, y: 0, z: 0}
   - {x: 11, y: 0, z: 0}
   - {x: 11.5, y: 0, z: 0}
---- !u!114 &6892970439339824462
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5890869050861432044}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 00b67d241b904f52a93bb0e4bf781c6c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PowerLineVisualizer
-  autoUpdate: 1
-  ropePoints:
-  - {fileID: 7615865484669396222}
-  - {fileID: 2538768004479446705}
-  - {fileID: 353063166428159341}
-  - {fileID: 4492194828344404823}
-  - {fileID: 6246401352298136046}
-  - {fileID: 1193948272545288647}
-  - {fileID: 5603458381627599298}
-  - {fileID: 7383756725777575985}
-  - {fileID: 8120591928416143654}
-  - {fileID: 4001378960429274851}
-  - {fileID: 4887759224174065993}
-  - {fileID: 3984976193001954888}
-  - {fileID: 6811356638496307810}
-  - {fileID: 7873653616438442794}
-  - {fileID: 9035167622634268605}
-  - {fileID: 5238817394310690042}
-  - {fileID: 5641695466428434305}
-  - {fileID: 1500629220418241719}
-  - {fileID: 2088484017741620013}
-  - {fileID: 6335144463173825073}
-  - {fileID: 4715712670968250121}
-  - {fileID: 3973153464411356078}
-  - {fileID: 3992523570497821405}
-  - {fileID: 4938998768352231803}
---- !u!114 &2865963995468373961
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5890869050861432044}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 60bd5926bfc04cce81dd8d28d90feaec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::FishingVillage.Rope.RopeCreator
-  pointsAmount: 24
-  pointSpacing: 0.5
-  direction: {x: 1, y: 0, z: 0}
-  autoSetEndsAsAnchors: 1
-  pointPrefab: {fileID: 2034237201030964, guid: c2e85088e1be3c74bb7548d2c5ef4f53, type: 3}
-  pointRadius: 0.2
-  rope: {fileID: 6431755785001280908}
 --- !u!114 &6431755785001280908
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1396,6 +1337,16 @@ MonoBehaviour:
   useSpringOnRelease: 1
   springStrength: 100
   springDamping: 8
+  creation:
+    pointsAmount: 22
+    pointSpacing: 0.5
+    direction: {x: 1, y: 0, z: 0}
+    autoSetEndsAsAnchors: 1
+    pointPrefab: {fileID: 2034237201030964, guid: c2e85088e1be3c74bb7548d2c5ef4f53, type: 3}
+    pointRadius: 0.2
+  visualization:
+    autoUpdate: 1
+  tubeRenderer: {fileID: 8144843560594268425}
 --- !u!114 &4018763399165135074
 MonoBehaviour:
   m_ObjectHideFlags: 0

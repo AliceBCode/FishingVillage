@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 78efe0c056f2413ab5f94b61bf33bb1c, type: 3}
-  m_Name: HouseNpcMission
+  m_Name: SheepMission
   m_EditorClassIdentifier: Assembly-CSharp::SOMission
   name: Help Thy Neighbor
   description: Help your neighbor out
@@ -18,6 +18,7 @@ MonoBehaviour:
   objectives:
   - rid: 5778561712605626471
   - rid: 5778561712605626474
+  - rid: 5778561730233237612
   - rid: 7519837165224984582
   - rid: 5778561712605626467
   onStarted:
@@ -25,6 +26,9 @@ MonoBehaviour:
   onObjectiveCompleted:
   - onObjectiveCompleted:
     - rid: 5778561712605626473
+    hasTriggered: 0
+  - onObjectiveCompleted:
+    - rid: 5778561730233237613
     hasTriggered: 0
   - onObjectiveCompleted: []
     hasTriggered: 0
@@ -77,6 +81,21 @@ MonoBehaviour:
           value: 
         signalID: PigeonTimeLineEnded
         cutsceneDescription: Pigeon Thief
+    - rid: 5778561730233237612
+      type: {class: CompleteDialogueObjective, ns: FishingVillage.Missions.Objectives, asm: Assembly-CSharp}
+      data:
+        isHidden: 0
+        requiresPreviousObjective: 1
+        overrideDescription:
+          isSet: 0
+          hideValueIfSet: 1
+          value: 
+        npc: {fileID: 4761095320140479624, guid: 7d863097f55a714449c0153dc3d35757, type: 3}
+    - rid: 5778561730233237613
+      type: {class: StartDialogueAction, ns: FishingVillage.GameActions, asm: Assembly-CSharp}
+      data:
+        npc: {fileID: 4761095320140479624, guid: 7d863097f55a714449c0153dc3d35757, type: 3}
+        dialogue: {fileID: 11400000, guid: 5238a483f2c7a9044b15d9d9f20ff599, type: 2}
     - rid: 7519837165224984582
       type: {class: ObtainItemObjective, ns: FishingVillage.Missions.Objectives, asm: Assembly-CSharp}
       data:

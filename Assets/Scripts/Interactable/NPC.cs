@@ -1,4 +1,3 @@
-using DNExtensions.Utilities;
 using DNExtensions.Utilities.Button;
 using DNExtensions.Utilities.Inline;
 using FishingVillage.Dialogue;
@@ -132,7 +131,7 @@ namespace FishingVillage.Interactable
         
         playProximityDialogue = false;
         _activeDialogue = new DialogueSequence(sequence);
-        _speechBubble.Hide(false);
+        _speechBubble?.Hide(false);
         ShowNextLine();
     }
 

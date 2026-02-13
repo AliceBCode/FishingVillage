@@ -1,4 +1,5 @@
 using System;
+using FishingVillage.Interactable;
 using UnityEngine;
 using UnityEngine.Scripting.APIUpdating;
 
@@ -12,9 +13,9 @@ namespace FishingVillage.GameActions
         public abstract void Execute();
 
 
-        protected Interactable.NPC FindNpcInScene(string id)
+        protected NPC FindNpcInScene(string id)
         {
-            var allNpCs = UnityEngine.Object.FindObjectsByType<Interactable.NPC>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
+            var allNpCs = UnityEngine.Object.FindObjectsByType<NPC>(FindObjectsInactive.Include, FindObjectsSortMode.None);
             foreach (var npc in allNpCs)
             {
                 if (npc.InteractableID == id)

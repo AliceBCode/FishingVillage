@@ -1,4 +1,5 @@
 using FishingVillage.Gameplay;
+using FishingVillage.Interactable;
 using UnityEngine;
 
 namespace FishingVillage.Player

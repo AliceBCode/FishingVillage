@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using FishingVillage.Interactable;
 using FishingVillage.Missions;
 using FishingVillage.Player;
@@ -29,6 +30,8 @@ namespace FishingVillage
 
         public static event Action<SOMission> OnMissionStarted;
         public static event Action<SOMission> OnMissionCompleted;
+        
+        private static HashSet<string> _activeTriggers = new HashSet<string>();
 
 
 
@@ -90,12 +93,19 @@ namespace FishingVillage
 
         public static void TriggerEntered(string triggerID)
         {
+            _activeTriggers.Add(triggerID);
             OnTriggerEntered?.Invoke(triggerID);
         }
 
         public static void TriggerExited(string triggerID)
         {
+            _activeTriggers.Remove(triggerID);
             OnTriggerExited?.Invoke(triggerID);
+        }
+        
+        public static bool IsPlayerInTrigger(string triggerID)
+        {
+            return _activeTriggers.Contains(triggerID);
         }
         
         public static void TimelineSignalReceived(string signalID)

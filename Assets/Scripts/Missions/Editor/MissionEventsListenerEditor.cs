@@ -23,10 +23,7 @@ namespace FishingVillage.Missions.Editor
     public override void OnInspectorGUI()
     {
         serializedObject.Update();
-
-        EditorGUILayout.Space(15);
         EditorGUILayout.PropertyField(_missionProp, new GUIContent("Mission"));
-        EditorGUILayout.Space(15);
         
         var mission = _missionProp.objectReferenceValue as SOMission;
         

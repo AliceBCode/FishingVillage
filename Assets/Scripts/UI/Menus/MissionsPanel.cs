@@ -73,12 +73,14 @@ namespace FishingVillage.UI.Menus
 
                 if (MissionManager.Instance)
                 {
-                    var objectives = MissionManager.Instance.GetMissionObjectives(mission, true);
+                    var objectives = MissionManager.Instance.GetMissionObjectives(mission);
 
                     if (objectives is { Length: > 0 })
                     {
                         foreach (var objective in objectives)
                         {
+                            if (objective.IsHidden) continue;
+                            
                             string checkmark = objective.Met ? "[X]" : "[ ]";
                             activeMissionsText.text += $"  {checkmark} {objective.GetDescription()}\n";
                         }

@@ -19,3 +19,4 @@ MonoBehaviour:
   - UnityEngine.Animator
   - UnityEngine.UI.CanvasScaler
   - DNExtensions.VFXManager.VFXManager
+  - FishingVillage.Missions.MissionEventsListener

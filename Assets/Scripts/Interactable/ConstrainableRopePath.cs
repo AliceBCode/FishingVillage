@@ -1,12 +1,12 @@
 using DNExtensions.Utilities;
 using DNExtensions.Utilities.AutoGet;
-using FishingVillage.Interactable;
+using FishingVillage.Gameplay;
 using FishingVillage.Player;
 using FishingVillage.RopeSystem;
 using FishingVillage.UI;
 using UnityEngine;
 
-namespace FishingVillage.Gameplay
+namespace FishingVillage.Interactable
 {
     [RequireComponent(typeof(Rope))]
     public class ConstrainableRopePath : MonoBehaviour, IInteractable, IConstrainablePath
