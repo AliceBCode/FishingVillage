@@ -210,17 +210,22 @@ namespace FishingVillage.Missions
 
         public bool HasMissionGiveItemFor(NPC npc, out SOItem item)
         {
+            if (!npc || !npc.TryGetComponent<IdentifiableInteractable>(out var identifiable))
+            {
+                item = null;
+                return false;
+            }
+
+            string npcID = identifiable.ID;
+
             foreach (var missionObjectivesPair in _missionObjectives)
             {
                 foreach (var objective in missionObjectivesPair.Value)
                 {
-                    if (objective is GiveItemToNpcObjective giveItemToNpcObjective)
+                    if (objective is GiveItemToNpcObjective { Met: false } giveItemObjective && giveItemObjective.MatchesNpcID(npcID))
                     {
-                        if (giveItemToNpcObjective.IsNpc(npc) && !giveItemToNpcObjective.Met)
-                        {
-                            item = giveItemToNpcObjective.RequiredItem;
-                            return true;
-                        }
+                        item = giveItemObjective.RequiredItem;
+                        return true;
                     }
                 }
             }

@@ -16,12 +16,12 @@ MonoBehaviour:
   description: 
   icon: {fileID: 0}
   objectives:
-  - rid: 7519837201401643104
   - rid: 7519837201401643106
   - rid: 5778561712605626457
+  - rid: 7519837201401643104
   onStarted:
-  - rid: 7519837201401643107
   - rid: 7519837201401643108
+  - rid: 7519837201401643107
   - rid: 7519837201401643109
   onObjectiveCompleted:
   - onObjectiveCompleted: []
@@ -78,4 +78,4 @@ MonoBehaviour:
     - rid: 7519837201401643109
       type: {class: GiveItemAction, ns: FishingVillage.GameActions, asm: Assembly-CSharp}
       data:
-        item: {fileID: 11400000, guid: 2699829c538f7214d81679747aac225f, type: 2}
+        item: {fileID: 11400000, guid: 9226b207ade12ec43b4dbb4531e7edaf, type: 2}

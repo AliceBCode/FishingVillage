@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 217502320692298470}
   - component: {fileID: 7944151888540352048}
   - component: {fileID: 6623151140188059200}
+  - component: {fileID: 2288435510389340830}
+  - component: {fileID: 6440779662682665445}
   - component: {fileID: 4684444579216439139}
   m_Layer: 0
   m_Name: NPC
@@ -80,6 +82,34 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2288435510389340830
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 72695734398173421}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df6bbb9005ac4091b76b1a27c03096d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FishingVillage.Interactable.IdentifiableInteractable
+  id: e01522e7-9cce-4a57-b855-3a6316e3b53b
+--- !u!114 &6440779662682665445
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 72695734398173421}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bae273b9878b44f49ccb8a7d615831f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FishingVillage.Interactable.InteractableVisuals
+  showPrompt: 1
+  promptOffset: {x: 0, y: 1, z: 0}
+  useOutline: 0
 --- !u!114 &4684444579216439139
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -92,13 +122,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e417bdc0b8c0e748b9d41a79576643b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NPC
-  canInteract: 1
-  limitInteractionsToOnce: 0
-  promptOffset: {x: 0, y: 1.5, z: 0}
-  actionsOnInteract: []
-  hasInteracted: 0
-  interactableID: d6f638df-b5a3-43fc-8afd-33ab79d53a34
   name: Sheep
+  consumableInteractions: []
   playProximityDialogue: 1
   proximityCooldown: 1.5
   greetingDialogueLines: {fileID: 11400000, guid: d1069709181f39945a507b07a7027b38, type: 2}

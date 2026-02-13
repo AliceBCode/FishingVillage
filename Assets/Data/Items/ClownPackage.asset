@@ -15,19 +15,9 @@ MonoBehaviour:
   name: Clown Package
   description: A package for the clown fish. Probably shouldn't peek.
   icon: {fileID: 21300000, guid: 5099f93d4ac48094b918825b4628439f, type: 3}
-  usable: 1
+  usable: 0
   useSfx: {fileID: 0}
-  actionsOnUse:
-  - rid: 5778561664243990618
+  actionsOnUse: []
   references:
     version: 2
-    RefIds:
-    - rid: 5778561664243990618
-      type: {class: LockPlayerAction, ns: FishingVillage.GameActions, asm: Assembly-CSharp}
-      data:
-        setAnimation:
-          isSet: 1
-          hideValueIfSet: 0
-          value:
-            controllerNameOrPath: Player Animator Controller
-            triggerName: OpeningPackage
+    RefIds: []

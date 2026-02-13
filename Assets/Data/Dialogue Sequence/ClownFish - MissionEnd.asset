@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7e21165545b4a9495a3efafef29b561, type: 3}
   m_Name: ClownFish - MissionEnd
   m_EditorClassIdentifier: Assembly-CSharp::SODialogueSequence
-  advanceMode: 1
+  advanceMode: 0
   autoAdvanceDelay: 2
   dialogueLines:
   - Damn these small brained birds!

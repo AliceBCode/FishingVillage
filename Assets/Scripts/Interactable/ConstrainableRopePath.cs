@@ -16,20 +16,13 @@ namespace FishingVillage.Interactable
         [SerializeField, MinMaxRange(0,1)] private RangedFloat tRange = new (0f, 1f);
         [SerializeField, ReadOnly] private bool isConstrained;
 
-        private Outline _outline;
+        private InteractableVisuals _visuals;
         [SerializeField, AutoGetSelf, HideInInspector] private Rope rope;
         
         private void Awake()
         {
-            if (TryGetComponent(out _outline))
-            {
-                _outline.enabled = false;
-                _outline.OutlineMode = Outline.Mode.OutlineVisible;
-                _outline.OutlineColor = Color.dodgerBlue;
-                _outline.OutlineWidth = 3f;
-            }
+            _visuals = GetComponent<InteractableVisuals>();
         }
-        
         
         public Vector3 GetPositionAt(float t)
         {
@@ -52,7 +45,6 @@ namespace FishingVillage.Interactable
             return tRange.Clamp(0f);
         }
         
-                
         public void Release()
         {
             isConstrained = false;
@@ -76,16 +68,15 @@ namespace FishingVillage.Interactable
 
         public void ShowInteract()
         {
-            if (!CanInteract()) return;
-            
-            InteractPrompt.Instance?.Show(transform.position + Vector3.up);
-            if (_outline) _outline.enabled = true;
+            if (CanInteract())
+            {
+                _visuals?.Show();
+            }
         }
 
         public void HideInteract()
         {
-            InteractPrompt.Instance?.Hide(true);
-            if (_outline) _outline.enabled = false;
+            _visuals?.Hide();
         }
     }
 }

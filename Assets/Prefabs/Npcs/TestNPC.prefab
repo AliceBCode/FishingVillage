@@ -80,6 +80,10 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2288435510389340830, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
+      propertyPath: id
+      value: f6f8fd3f-b3a3-4ed9-ace1-96fa7f1e7c8d
+      objectReference: {fileID: 0}
     - target: {fileID: 4684444579216439139, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
       propertyPath: name
       value: Test NPC
@@ -571,6 +575,10 @@ PrefabInstance:
     - target: {fileID: 5139030240122779998, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
       propertyPath: objectiveEvents.Array.data[2].onObjectiveCompleted.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: SODialogueSequence, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 6440779662682665445, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
+      propertyPath: promptOffset.y
+      value: 1.6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

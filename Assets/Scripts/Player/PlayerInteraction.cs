@@ -1,5 +1,6 @@
 using DNExtensions.Utilities;
 using DNExtensions.Utilities.SerializedInterface;
+using FishingVillage.Interactable;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -13,7 +14,7 @@ namespace FishingVillage.Player
     [SerializeField] private float interactCheckRange = 3f;
     [SerializeField] private Vector3 interactCheckOffset = Vector3.zero;
     [SerializeField] private LayerMask interactableLayer;
-    [SerializeField, ReadOnly] private InterfaceReference<Interactable.IInteractable> closestInteractable;
+    [SerializeField, ReadOnly] private InterfaceReference<IInteractable> closestInteractable;
     
     private PlayerControllerInput _input;
     private PlayerController _playerController;

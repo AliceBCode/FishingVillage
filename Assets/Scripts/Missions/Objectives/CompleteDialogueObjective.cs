@@ -12,8 +12,7 @@ namespace FishingVillage.Missions.Objectives
     [SerializableSelectorName("Complete Dialogue Sequence", "NPC")]
     public class CompleteDialogueObjective : MissionObjective
     {
-        [SerializeField, PrefabSelector("Assets/Prefabs/Npcs")]
-        private NPC npc;
+        [SerializeField, PrefabSelector("Assets/Prefabs/Npcs", LockToFilter = true)] private NPC npc;
 
         private string _targetID;
 
@@ -29,11 +28,11 @@ namespace FishingVillage.Missions.Objectives
                 return;
             }
 
-            _targetID = npc.InteractableID;
+            _targetID = GetInteractableID(npc);
 
             if (string.IsNullOrEmpty(_targetID))
             {
-                Debug.LogError($"NPC prefab {npc.name} has no ID set!");
+                Debug.LogError($"NPC {npc.Name} has no ID set!");
                 return;
             }
 
@@ -52,8 +51,7 @@ namespace FishingVillage.Missions.Objectives
 
         private void OnDialogueCompleted(NPC npc)
         {
-
-            if (npc && npc.InteractableID == _targetID)
+            if (MatchesID(npc, _targetID))
             {
                 SetMet();
             }

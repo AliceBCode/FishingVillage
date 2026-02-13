@@ -23,7 +23,7 @@ namespace FishingVillage
         public static event Action<SOItem, NPC> OnItemGivenToNpc;
         public static event Action<NPC> OnNpcTalkedTo;
         public static event Action<NPC> OnDialogueSequenceCompleted;
-        public static event Action<Interactable.Interactable> OnInteractedWith;
+        public static event Action<IInteractable> OnInteractedWith;
         public static event Action<string> OnTriggerEntered;
         public static event Action<string> OnTriggerExited;
         public static event Action<string> OnTimelineSignalReceived;
@@ -31,7 +31,7 @@ namespace FishingVillage
         public static event Action<SOMission> OnMissionStarted;
         public static event Action<SOMission> OnMissionCompleted;
         
-        private static HashSet<string> _activeTriggers = new HashSet<string>();
+        private static readonly HashSet<string> ActiveTriggers = new HashSet<string>();
 
 
 
@@ -86,26 +86,26 @@ namespace FishingVillage
             OnDialogueSequenceCompleted?.Invoke(npc);
         }
 
-        public static void InteractedWith(Interactable.Interactable interactable)
+        public static void InteractedWith(IInteractable interactable)
         {
             OnInteractedWith?.Invoke(interactable);
         }
 
         public static void TriggerEntered(string triggerID)
         {
-            _activeTriggers.Add(triggerID);
+            ActiveTriggers.Add(triggerID);
             OnTriggerEntered?.Invoke(triggerID);
         }
 
         public static void TriggerExited(string triggerID)
         {
-            _activeTriggers.Remove(triggerID);
+            ActiveTriggers.Remove(triggerID);
             OnTriggerExited?.Invoke(triggerID);
         }
         
         public static bool IsPlayerInTrigger(string triggerID)
         {
-            return _activeTriggers.Contains(triggerID);
+            return ActiveTriggers.Contains(triggerID);
         }
         
         public static void TimelineSignalReceived(string signalID)

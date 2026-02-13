@@ -84,6 +84,10 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2288435510389340830, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
+      propertyPath: id
+      value: e575862d-74e8-47e7-bfa7-ad9ad6a475af
+      objectReference: {fileID: 0}
     - target: {fileID: 2449979676976851627, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
       propertyPath: m_LocalPosition.z
       value: -0
@@ -127,6 +131,10 @@ PrefabInstance:
     - target: {fileID: 6118432135469856453, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
       propertyPath: m_LocalRotation.y
       value: 0.0026817915
+      objectReference: {fileID: 0}
+    - target: {fileID: 6440779662682665445, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
+      propertyPath: promptOffset.y
+      value: 2.13
       objectReference: {fileID: 0}
     - target: {fileID: 6623151140188059200, guid: f9c71bab11a1f8a4b8e7bda471c5e3f6, type: 3}
       propertyPath: m_Height

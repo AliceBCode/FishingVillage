@@ -1116,10 +1116,12 @@ GameObject:
   - component: {fileID: 8925423439007821199}
   - component: {fileID: 1943153310445078279}
   - component: {fileID: 7904897256789337024}
+  - component: {fileID: 7535287639866818484}
   - component: {fileID: 8144843560594268425}
   - component: {fileID: 6431755785001280908}
   - component: {fileID: 4018763399165135074}
-  - component: {fileID: 7535287639866818484}
+  - component: {fileID: 6883066898462064884}
+  - component: {fileID: 2772455993068164021}
   m_Layer: 0
   m_Name: Rope
   m_TagString: Untagged
@@ -1246,6 +1248,24 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5890869050861432044}
   m_Mesh: {fileID: 0}
+--- !u!114 &7535287639866818484
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5890869050861432044}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp-firstpass::Outline
+  outlineMode: 0
+  outlineColor: {r: 1, g: 1, b: 1, a: 1}
+  outlineWidth: 2
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
 --- !u!114 &8144843560594268425
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1346,6 +1366,7 @@ MonoBehaviour:
     pointRadius: 0.2
   visualization:
     autoUpdate: 1
+    drawGizmos: 0
   tubeRenderer: {fileID: 8144843560594268425}
 --- !u!114 &4018763399165135074
 MonoBehaviour:
@@ -1359,13 +1380,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d542ef1bcd0d4ede8a55581ff3e05be9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishingVillage.Gameplay.ConstrainableRopePath
-  offset: {x: 0, y: 1.25, z: -0.12}
+  offset: {x: 0, y: 1.25, z: -0.1}
   tRange:
-    minValue: 0.110000014
-    maxValue: 0.89
+    minValue: 0.1
+    maxValue: 0.9
   isConstrained: 0
   rope: {fileID: 6431755785001280908}
---- !u!114 &7535287639866818484
+--- !u!114 &6883066898462064884
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1374,15 +1395,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 5890869050861432044}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Script: {fileID: 11500000, guid: bae273b9878b44f49ccb8a7d615831f9, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp-firstpass::Outline
-  outlineMode: 0
-  outlineColor: {r: 1, g: 1, b: 1, a: 1}
-  outlineWidth: 2
-  precomputeOutline: 0
-  bakeKeys: []
-  bakeValues: []
+  m_EditorClassIdentifier: Assembly-CSharp::FishingVillage.Interactable.InteractableVisuals
+  showPrompt: 1
+  promptOffset: {x: 0, y: 1, z: 0}
+  useOutline: 1
+--- !u!114 &2772455993068164021
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5890869050861432044}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df6bbb9005ac4091b76b1a27c03096d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FishingVillage.Interactable.IdentifiableInteractable
+  id: f2e367db-d024-4a6e-abf7-8d699f7a344a
 --- !u!1 &6160322202540522880
 GameObject:
   m_ObjectHideFlags: 0

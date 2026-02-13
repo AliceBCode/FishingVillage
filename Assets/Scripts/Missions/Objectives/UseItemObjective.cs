@@ -9,54 +9,54 @@ namespace FishingVillage.Missions.Objectives
     [MovedFrom("")]
     [SerializableSelectorName("Use Item", "Item")]
     public class UseItemObjective : MissionObjective
-{
-    [SerializeField] private SOItem item;
+    {   
+        [SerializeField] private SOItem item;
 
-    protected override string Description
-    {
-        get
+        protected override string Description
         {
-            if (!item)
+            get
             {
-                return $"Use: (No Item Selected)";
-            }
+                if (!item)
+                {
+                    return $"Use: (No Item Selected)";
+                }
 
-            if (!item.Usable)
-            {
-                return $"Use: {item.Name} (Item Is Not Usable)";
+                if (!item.Usable)
+                {
+                    return $"Use: {item.Name} (Item Is Not Usable)";
+                }
+            
+                return $"Use: {item.Name}";
             }
+        }
         
-            return $"Use: {item.Name}";
-        }
-    }
-    
-    
-    public override void Initialize()
-    {
-        GameEvents.OnItemObtained += OnItemUsed;
         
-        if (Evaluate())
+        public override void Initialize()
         {
-            SetMet();
+            GameEvents.OnItemObtained += OnItemUsed;
+            
+            if (Evaluate())
+            {
+                SetMet();
+            }
         }
-    }
-    
-    public override void Cleanup()
-    {
-        GameEvents.OnItemUsed -= OnItemUsed;
-    }
-    
-    public override bool Evaluate()
-    {
-        return false;
-    }
-    
-    private void OnItemUsed(SOItem item)
-    {
-        if (item == this.item)
+        
+        public override void Cleanup()
         {
-            SetMet();
+            GameEvents.OnItemUsed -= OnItemUsed;
         }
-    }
+        
+        public override bool Evaluate()
+        {
+            return false;
+        }
+        
+        private void OnItemUsed(SOItem item)
+        {
+            if (item == this.item)
+            {
+                SetMet();
+            }
+        }
     }
 }

@@ -13,9 +13,7 @@ namespace FishingVillage.Missions.Objectives
     public class GiveItemToNpcObjective : MissionObjective
     {
         [SerializeField] private SOItem requiredItem;
-
-        [SerializeField, PrefabSelector("Assets/Prefabs/Npcs")]
-        private NPC npc;
+        [SerializeField, PrefabSelector("Assets/Prefabs/Npcs", LockToFilter = true)] private NPC npc;
 
         public SOItem RequiredItem => requiredItem;
 
@@ -24,23 +22,21 @@ namespace FishingVillage.Missions.Objectives
 
         private string _targetID;
 
-
         public override void Initialize()
         {
             if (!npc)
             {
-                Debug.LogError("No NPC prefab reference set in objective!");
+                Debug.LogError("No NPC reference set in objective!");
                 return;
             }
 
-            _targetID = npc.InteractableID;
+            _targetID = GetInteractableID(npc);
 
             if (string.IsNullOrEmpty(_targetID))
             {
-                Debug.LogError($"NPC prefab {npc.Name} has no ID set!");
+                Debug.LogError($"NPC {npc.Name} has no ID set!");
                 return;
             }
-
 
             GameEvents.OnItemGivenToNpc += OnItemGivenToNPC;
         }
@@ -55,14 +51,14 @@ namespace FishingVillage.Missions.Objectives
             return false;
         }
 
-        public bool IsNpc(NPC npc)
+        public bool MatchesNpcID(string npcID)
         {
-            return npc && npc.InteractableID == _targetID;
+            return !string.IsNullOrEmpty(npcID) && npcID == _targetID;
         }
 
         private void OnItemGivenToNPC(SOItem item, NPC npc)
         {
-            if (item == requiredItem && IsNpc(npc))
+            if (item == requiredItem && MatchesID(npc, _targetID))
             {
                 SetMet();
             }

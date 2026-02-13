@@ -94,7 +94,7 @@ namespace FishingVillage.UI
                 _fadeSequence.Stop();
             }
             
-            transform.position = position;
+            _rectTransform.position = position;
             
 
             _fadeSequence = Sequence.Create();
@@ -122,6 +122,10 @@ namespace FishingVillage.UI
             }
         }
 
+        public void UpdatePosition(Vector3 position)
+        {
+            _rectTransform.position = position;
+        }
     }
 
 }
