@@ -8,17 +8,6 @@ namespace DNExtensions.Utilities
     [CanEditMultipleObjects]
     public class BetterTransformEditor : Editor
     {
-        private SerializedProperty m_LocalPosition;
-        private SerializedProperty m_LocalRotation;
-        private SerializedProperty m_LocalScale;
-
-        private void OnEnable()
-        {
-            m_LocalPosition = serializedObject.FindProperty("m_LocalPosition");
-            m_LocalRotation = serializedObject.FindProperty("m_LocalRotation");
-            m_LocalScale = serializedObject.FindProperty("m_LocalScale");
-        }
-
         public override void OnInspectorGUI()
         {
             serializedObject.Update();
@@ -31,7 +20,7 @@ namespace DNExtensions.Utilities
                 foreach (Object obj in targets)
                 {
                     Transform t = obj as Transform;
-                    if (t != null)
+                    if (t)
                     {
                         EditorUtility.SetDirty(t);
                     }
@@ -44,53 +33,56 @@ namespace DNExtensions.Utilities
             EditorGUILayout.BeginHorizontal();
 
             Transform t = target as Transform;
-            Vector3 eulerAngles = t.localEulerAngles;
+            if (t)
+            {
+                Vector3 eulerAngles = t.localEulerAngles;
             
-            EditorGUI.BeginChangeCheck();
-            Vector3 newEuler = EditorGUILayout.Vector3Field("Rotation", eulerAngles);
-            if (EditorGUI.EndChangeCheck())
-            {
-                Undo.RecordObjects(targets, "Rotation Changed");
-                foreach (Object obj in targets)
+                EditorGUI.BeginChangeCheck();
+                Vector3 newEuler = EditorGUILayout.Vector3Field("Rotation", eulerAngles);
+                if (EditorGUI.EndChangeCheck())
                 {
-                    Transform transform = obj as Transform;
-                    if (transform != null)
-                    {
-                        transform.localEulerAngles = newEuler;
-                    }
-                }
-            }
-
-            if (GUILayout.Button(new GUIContent("C", "Copy values to clipboard"), EditorStyles.miniButtonLeft, GUILayout.Width(20)))
-            {
-                EditorGUIUtility.systemCopyBuffer = $"{eulerAngles.x},{eulerAngles.y},{eulerAngles.z}";
-            }
-
-            bool canPaste = CanPasteVector3();
-            GUI.enabled = canPaste;
-            if (GUILayout.Button(new GUIContent("P", "Paste values from clipboard"), EditorStyles.miniButtonMid, GUILayout.Width(20)))
-            {
-                string[] values = EditorGUIUtility.systemCopyBuffer.Split(',');
-                if (values.Length == 3 &&
-                    float.TryParse(values[0], out float x) &&
-                    float.TryParse(values[1], out float y) &&
-                    float.TryParse(values[2], out float z))
-                {
-                    Undo.RecordObjects(targets, "Paste Rotation");
+                    Undo.RecordObjects(targets, "Rotation Changed");
                     foreach (Object obj in targets)
                     {
                         Transform transform = obj as Transform;
-                        if (transform != null)
+                        if (transform)
                         {
-                            transform.localEulerAngles = new Vector3(x, y, z);
+                            transform.localEulerAngles = newEuler;
                         }
                     }
                 }
-            }
-            GUI.enabled = true;
 
-            bool isDefault = eulerAngles == Vector3.zero;
-            GUI.enabled = !isDefault;
+                if (GUILayout.Button(new GUIContent("C", "Copy values to clipboard"), EditorStyles.miniButtonLeft, GUILayout.Width(20)))
+                {
+                    EditorGUIUtility.systemCopyBuffer = $"{eulerAngles.x},{eulerAngles.y},{eulerAngles.z}";
+                }
+
+                bool canPaste = CanPasteVector3();
+                GUI.enabled = canPaste;
+                if (GUILayout.Button(new GUIContent("P", "Paste values from clipboard"), EditorStyles.miniButtonMid, GUILayout.Width(20)))
+                {
+                    string[] values = EditorGUIUtility.systemCopyBuffer.Split(',');
+                    if (values.Length == 3 &&
+                        float.TryParse(values[0], out float x) &&
+                        float.TryParse(values[1], out float y) &&
+                        float.TryParse(values[2], out float z))
+                    {
+                        Undo.RecordObjects(targets, "Paste Rotation");
+                        foreach (Object obj in targets)
+                        {
+                            Transform transform = obj as Transform;
+                            if (transform != null)
+                            {
+                                transform.localEulerAngles = new Vector3(x, y, z);
+                            }
+                        }
+                    }
+                }
+                GUI.enabled = true;
+
+                bool isDefault = eulerAngles == Vector3.zero;
+                GUI.enabled = !isDefault;
+            }
 
             if (Event.current.type == EventType.MouseDown && Event.current.button == 1)
             {

@@ -1,6 +1,6 @@
 using System;
-using DNExtensions.ObjectPooling;
-using DNExtensions.Shapes;
+using DNExtensions.Systems.ObjectPooling;
+using DNExtensions.Systems.Shapes;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;

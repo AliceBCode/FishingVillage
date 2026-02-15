@@ -1,4 +1,3 @@
-using DNExtensions.CinemachineExtesnstions;
 using DNExtensions.Utilities;
 using DNExtensions.Utilities.AutoGet;
 using PrimeTween;

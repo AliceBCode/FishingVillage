@@ -26,7 +26,7 @@ namespace FishingVillage.Gameplay
         
         [Space]
         [SerializeField] private TriggerMode triggerMode = TriggerMode.OnEnter;
-        [SerializeField, ShowIf("triggerMode", TriggerMode.OnItemUse)] private SOItem requiredItem;
+        [SerializeField, ShowIf("triggerMode", TriggerMode.OnItemUse), SOSelector("Assets/Data")] private SOItem requiredItem;
         [SerializeField] private UnityEvent onTriggered;
         
         [SerializeField] private bool showGizmo = true;

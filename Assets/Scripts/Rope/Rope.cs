@@ -1,5 +1,5 @@
 using System;
-using DNExtensions.TubeRenderer;
+using DNExtensions.Components;
 using DNExtensions.Utilities;
 using UnityEngine;
 using DNExtensions.Utilities.AutoGet;

@@ -1,5 +1,5 @@
 using System;
-using DNExtensions.Utilities.PrefabSelector;
+using DNExtensions.Utilities;
 using DNExtensions.Utilities.SerializableSelector;
 using FishingVillage.Dialogue;
 using FishingVillage.Interactable;

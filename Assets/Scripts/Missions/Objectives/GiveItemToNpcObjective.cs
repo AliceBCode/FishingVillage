@@ -1,5 +1,5 @@
 using System;
-using DNExtensions.Utilities.PrefabSelector;
+using DNExtensions.Utilities;
 using DNExtensions.Utilities.SerializableSelector;
 using FishingVillage.Interactable;
 using UnityEngine;
@@ -12,7 +12,7 @@ namespace FishingVillage.Missions.Objectives
     [SerializableSelectorName("Give Item", "NPC")]
     public class GiveItemToNpcObjective : MissionObjective
     {
-        [SerializeField] private SOItem requiredItem;
+        [SerializeField, SOSelector("Assets/Data")] private SOItem requiredItem;
         [SerializeField, PrefabSelector("Assets/Prefabs/Npcs", LockToFilter = true)] private NPC npc;
 
         public SOItem RequiredItem => requiredItem;

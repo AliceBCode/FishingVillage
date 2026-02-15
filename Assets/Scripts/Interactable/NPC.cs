@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using DNExtensions.Utilities;
 using DNExtensions.Utilities.Button;
 using DNExtensions.Utilities.Inline;
 using FishingVillage.Dialogue;
@@ -21,8 +22,8 @@ namespace FishingVillage.Interactable
         [Header("Proximity Dialogue")]
         [SerializeField] private bool playProximityDialogue = true;
         [SerializeField] private float proximityCooldown = 1.5f;
-        [SerializeField, Inline] private SODialogueLines greetingDialogueLines;
-        [SerializeField, Inline] private SODialogueLines farewellDialogueLines;
+        [SerializeField, Inline, SOSelector("Assets/Data")] private SODialogueLines greetingDialogueLines;
+        [SerializeField, Inline, SOSelector("Assets/Data")] private SODialogueLines farewellDialogueLines;
         
         private float _proximityCooldownTimer;
         private InteractableVisuals _visuals;

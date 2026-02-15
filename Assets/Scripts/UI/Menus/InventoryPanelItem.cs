@@ -1,5 +1,6 @@
-using DNExtensions.ObjectPooling;
-using DNExtensions.Shapes;
+
+using DNExtensions.Systems.ObjectPooling;
+using DNExtensions.Systems.Shapes;
 using DNExtensions.Utilities;
 using PrimeTween;
 using UnityEngine;
