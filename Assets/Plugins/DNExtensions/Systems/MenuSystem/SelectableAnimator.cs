@@ -88,7 +88,7 @@ namespace DNExtensions.Systems.MenuSystem
             _originalInteractionState = selectable.interactable;
             _originalScale = selectable.transform.localScale;
             _originalRotation = selectable.transform.localRotation.eulerAngles;
-            _originalAlpha = selectable.image.color.a;
+            _originalAlpha = selectable.targetGraphic.color.a;
             _originalPosition = rectTransform.anchoredPosition3D;
 
             AddEventTriggerEntry(EventTriggerType.Select, OnSelect);
@@ -110,9 +110,9 @@ namespace DNExtensions.Systems.MenuSystem
             if (animateRotation) selectable.transform.localRotation = Quaternion.Euler(_originalRotation);
             if (animateAlpha)
             {
-                var color = selectable.image.color;
+                var color = selectable.targetGraphic.color;
                 color.a = _originalAlpha;
-                selectable.image.color = color;
+                selectable.targetGraphic.color = color;
             }
         }
 
@@ -254,7 +254,7 @@ namespace DNExtensions.Systems.MenuSystem
         {
             var endAlpha = selected ? selectedAlpha : _originalAlpha;
             var curve = selected ? alphaCurve : AnimationCurve.Linear(0, 0, 1, 1);
-            Tween.Alpha(selectable.image, endAlpha, alphaDuration, curve, useUnscaledTime: true);
+            Tween.Alpha(selectable.targetGraphic, endAlpha, alphaDuration, curve, useUnscaledTime: true);
         }
 
 

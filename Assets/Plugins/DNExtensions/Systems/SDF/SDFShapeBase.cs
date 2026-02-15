@@ -44,6 +44,31 @@ namespace DNExtensions.Systems.Shapes
         }
 
 
+        private Vector2 _lastRectSize;
+
+        protected virtual void LateUpdate()
+        {
+            Vector2 currentSize = rectTransform.rect.size;
+    
+            if (_lastRectSize != currentSize)
+            {
+                _lastRectSize = currentSize;
+        
+                if (m_InstanceMaterial != null)
+                {
+                    // Update rect size
+                    m_InstanceMaterial.SetVector(RectSize, new Vector4(currentSize.x, currentSize.y, 0, 0));
+            
+                    // Update size-dependent properties (outline, shape-specific values)
+                    float minDim = Mathf.Min(currentSize.x, currentSize.y);
+                    m_InstanceMaterial.SetFloat(OutlineThicknessID, m_OutlineThickness * minDim);
+            
+                    // Recalculate shape-specific properties with new size
+                    SetShapeProperties();
+                }
+            }
+        }
+        
         protected SDFShapeBase()
         {
             useLegacyMeshGeneration = false;

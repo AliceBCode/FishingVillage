@@ -1,4 +1,5 @@
 using System;
+using DNExtensions.Utilities;
 using DNExtensions.Utilities.SerializableSelector;
 using UnityEngine;
 using UnityEngine.Scripting.APIUpdating;
@@ -10,7 +11,7 @@ namespace FishingVillage.Missions.Objectives
     [SerializableSelectorName("Use Item In Trigger Area", "Item")]
     public class UseItemInTriggerObjective : MissionObjective
     {
-        [SerializeField] private SOItem item;
+        [SerializeField, SOSelector("Assets/Data")] private SOItem item;
         [SerializeField] private int requiredUsagesCount = 1;
         [SerializeField] private string triggerID;
         [SerializeField] private string areaDescription = "Area";

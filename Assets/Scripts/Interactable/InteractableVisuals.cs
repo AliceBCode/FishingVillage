@@ -7,9 +7,13 @@ namespace FishingVillage.Interactable
     [DisallowMultipleComponent]
     public class InteractableVisuals : MonoBehaviour
     {
-        [SerializeField] private bool showPrompt = true;
-        [SerializeField, EnableIf("showPrompt")] private Vector3 promptOffset = Vector3.up;
         [SerializeField] private bool useOutline = true;
+        [SerializeField] private bool showPrompt = true;
+        [SerializeField, EnableIf("showPrompt")] private bool animatePromptShow = true;
+        [SerializeField, EnableIf("showPrompt")] private bool animatePromptHide = true;
+        [SerializeField, EnableIf("showPrompt")] private Vector3 promptOffset = Vector3.up;
+        
+        
         
         private Outline _outline;
 
@@ -26,19 +30,19 @@ namespace FishingVillage.Interactable
         
         public void Hide()
         {
-            if (showPrompt) InteractPrompt.Instance?.Hide(true);
+            if (showPrompt) InteractPrompt.Instance?.Hide(animatePromptHide);
             if (_outline) _outline.enabled = false;
         }
 
         public void Show()
         {
-            if (showPrompt) InteractPrompt.Instance?.Show(transform.position + promptOffset);
+            if (showPrompt) InteractPrompt.Instance?.Show(transform.position + promptOffset, animatePromptShow);
             if (_outline) _outline.enabled = true;
         }
         
-        public void Show(Vector3 position)
+        public void Show(Vector3 originPosition)
         {
-            if (showPrompt) InteractPrompt.Instance?.Show(position + promptOffset);
+            if (showPrompt) InteractPrompt.Instance?.Show(originPosition + promptOffset, animatePromptShow);
             if (_outline) _outline.enabled = true;
         }
         

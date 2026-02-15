@@ -11,8 +11,9 @@ namespace FishingVillage.GameActions
     public class ToggleProximityDialogueAction : GameAction
     {
         
-        [SerializeField, SOSelector("Assets/Data")] private bool allowProximityDialogue;        
+     
         [SerializeField, PrefabSelector("Assets/Prefabs/Npcs", LockToFilter = true)] private NPC npc;
+        [SerializeField] private bool allowProximityDialogue;   
 
 
         public override string ActionName => npc ? $"Toggle {npc.Name} proximity dialogue" : $"Toggle NPC proximity dialogue (No NPC was set)";

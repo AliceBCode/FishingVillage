@@ -181,6 +181,10 @@ namespace FishingVillage.Missions
                     var previousObjective = objectives[i - 1];
                     objective.SetActive(previousObjective.Met);
                 }
+                else
+                {
+                    objective.SetActive(true);
+                }
             }
         
             activeMissions.Add(mission);

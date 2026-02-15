@@ -12,43 +12,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78efe0c056f2413ab5f94b61bf33bb1c, type: 3}
   m_Name: TucanTutorial
   m_EditorClassIdentifier: Assembly-CSharp::SOMission
-  name: Boss Tutorial
-  description: Starting Conversation with Mail boss npc
+  name: How To Be A Mail Man
+  description: 
   icon: {fileID: 0}
   objectives:
   - rid: 8175020186713456724
   - rid: 8175020186713456725
   - rid: 8175020186713456726
   - rid: 8175020186713456727
-  onStarted:
-  - rid: 8175020209025843303
-  - rid: 5778561642218127362
+  onStarted: []
   onObjectiveCompleted:
   - onObjectiveCompleted: []
     hasTriggered: 0
   - onObjectiveCompleted: []
     hasTriggered: 0
-  - onObjectiveCompleted:
-    - rid: 8175020209025843308
+  - onObjectiveCompleted: []
     hasTriggered: 0
   - onObjectiveCompleted: []
     hasTriggered: 0
   onCompleted:
   - rid: 7519837201401643103
-  - rid: 5778561642218127363
   references:
     version: 2
     RefIds:
-    - rid: 5778561642218127362
-      type: {class: ToggleProximityDialogueAction, ns: FishingVillage.GameActions, asm: Assembly-CSharp}
-      data:
-        npc: {fileID: 6247453604042879243, guid: 93409a23ac56e0e4d8e1a8f0824d0dc7, type: 3}
-        allowProximityDialogue: 0
-    - rid: 5778561642218127363
-      type: {class: ToggleProximityDialogueAction, ns: FishingVillage.GameActions, asm: Assembly-CSharp}
-      data:
-        npc: {fileID: 6247453604042879243, guid: 93409a23ac56e0e4d8e1a8f0824d0dc7, type: 3}
-        allowProximityDialogue: 1
     - rid: 7519837201401643103
       type: {class: StartMissionAction, ns: FishingVillage.GameActions, asm: Assembly-CSharp}
       data:
@@ -63,6 +49,15 @@ MonoBehaviour:
           hideValueIfSet: 0
           value: Description
         npc: {fileID: 6247453604042879243, guid: 93409a23ac56e0e4d8e1a8f0824d0dc7, type: 3}
+        alsoStartDialogue:
+          isSet: 1
+          hideValueIfSet: 0
+          value: {fileID: 11400000, guid: 826c2b5f6e31c2744999dcdc20465bbb, type: 2}
+        enableProximityDialogueAfter: 0
+        note:
+          note: Starting a dialogue sequence with an NPC will disable his proximity
+            dialogue.
+          isEditable: 0
     - rid: 8175020186713456725
       type: {class: ObtainItemObjective, ns: FishingVillage.Missions.Objectives, asm: Assembly-CSharp}
       data:
@@ -94,13 +89,12 @@ MonoBehaviour:
           hideValueIfSet: 0
           value: Description
         npc: {fileID: 6247453604042879243, guid: 93409a23ac56e0e4d8e1a8f0824d0dc7, type: 3}
-    - rid: 8175020209025843303
-      type: {class: StartDialogueAction, ns: FishingVillage.GameActions, asm: Assembly-CSharp}
-      data:
-        npc: {fileID: 6247453604042879243, guid: 93409a23ac56e0e4d8e1a8f0824d0dc7, type: 3}
-        dialogue: {fileID: 11400000, guid: 826c2b5f6e31c2744999dcdc20465bbb, type: 2}
-    - rid: 8175020209025843308
-      type: {class: StartDialogueAction, ns: FishingVillage.GameActions, asm: Assembly-CSharp}
-      data:
-        npc: {fileID: 6247453604042879243, guid: 93409a23ac56e0e4d8e1a8f0824d0dc7, type: 3}
-        dialogue: {fileID: 11400000, guid: dc64cfbb0ff898c45b2aef12eff3cdc6, type: 2}
+        alsoStartDialogue:
+          isSet: 1
+          hideValueIfSet: 0
+          value: {fileID: 11400000, guid: dc64cfbb0ff898c45b2aef12eff3cdc6, type: 2}
+        enableProximityDialogueAfter: 1
+        note:
+          note: Starting a dialogue sequence with an NPC will disable his proximity
+            dialogue.
+          isEditable: 0

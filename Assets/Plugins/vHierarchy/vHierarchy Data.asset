@@ -17,5 +17,6 @@ MonoBehaviour:
     values: []
   bookmarks: []
   bookmarkedScenePaths:
-  - Assets/Scenes/FishingVillageGreybox01.unity
   - Assets/Scenes/TestScene.unity
+  - Assets/Scenes/FishingVillageGreybox01.unity
+  - Assets/Scenes/MainMenuScene.unity

@@ -1,5 +1,7 @@
 using System;
+using DNExtensions.Utilities;
 using DNExtensions.Utilities.SerializableSelector;
+using FishingVillage.Player;
 using UnityEngine;
 using UnityEngine.Scripting.APIUpdating;
 
@@ -10,7 +12,7 @@ namespace FishingVillage.Missions.Objectives
     [SerializableSelectorName("Obtain Item", "Item")]
     public class ObtainItemObjective : MissionObjective
 {
-    [SerializeField] private SOItem requiredItem;
+    [SerializeField, SOSelector("Assets/Data")] private SOItem requiredItem;
     
     protected override string Description => $"Obtain {(requiredItem ? requiredItem.Name : "Unknown Item")}";
     
@@ -32,7 +34,7 @@ namespace FishingVillage.Missions.Objectives
     public override bool Evaluate()
     {
         if (!requiredItem) return false;
-        return Player.PlayerInventory.Instance && Player.PlayerInventory.Instance.HasItem(requiredItem);
+        return PlayerInventory.Instance && PlayerInventory.Instance.HasItem(requiredItem);
     }
 
     private void OnItemObtained(SOItem item)

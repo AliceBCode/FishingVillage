@@ -896,16 +896,16 @@ MonoBehaviour:
   - {x: 4.5, y: 0, z: 0}
   - {x: 5, y: 0, z: 0}
   - {x: 5.5, y: 0, z: 0}
-  - {x: 6, y: 0, z: 0}
-  - {x: 6.5, y: 0, z: 0}
-  - {x: 7, y: 0, z: 0}
-  - {x: 7.5, y: 0, z: 0}
-  - {x: 8, y: 0, z: 0}
-  - {x: 8.5, y: 0, z: 0}
-  - {x: 9, y: 0, z: 0}
-  - {x: 9.5, y: 0, z: 0}
-  - {x: 10, y: 0, z: 0}
-  - {x: 10.5, y: 0, z: 0}
+  - {x: 6.000002, y: 0, z: 0}
+  - {x: 6.500002, y: 0, z: 0}
+  - {x: 7.000002, y: 0, z: 0}
+  - {x: 7.500002, y: 0, z: 0}
+  - {x: 8.000002, y: 0, z: 0}
+  - {x: 8.500002, y: 0, z: 0}
+  - {x: 9.000002, y: 0, z: 0}
+  - {x: 9.500002, y: 0, z: 0}
+  - {x: 10.000002, y: 0, z: 0}
+  - {x: 10.500002, y: 0, z: 0}
 --- !u!114 &6883066898462064884
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -918,9 +918,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bae273b9878b44f49ccb8a7d615831f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishingVillage.Interactable.InteractableVisuals
-  showPrompt: 1
-  promptOffset: {x: 0, y: 0, z: 0}
   useOutline: 1
+  showPrompt: 1
+  animatePromptShow: 1
+  animatePromptHide: 0
+  promptOffset: {x: 0, y: 0, z: 0}
 --- !u!114 &2772455993068164021
 MonoBehaviour:
   m_ObjectHideFlags: 0

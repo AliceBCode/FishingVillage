@@ -107,9 +107,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bae273b9878b44f49ccb8a7d615831f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishingVillage.Interactable.InteractableVisuals
-  showPrompt: 1
-  promptOffset: {x: 0, y: 2, z: 0}
   useOutline: 0
+  showPrompt: 1
+  animatePromptShow: 1
+  animatePromptHide: 1
+  promptOffset: {x: 0, y: 2, z: 0}
 --- !u!114 &4684444579216439139
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -360,10 +362,6 @@ PrefabInstance:
     - target: {fileID: 4985765799875595633, guid: 6f14a8f01db7ff74d81ab0a47d067a04, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7387921731507650421, guid: 6f14a8f01db7ff74d81ab0a47d067a04, type: 3}
-      propertyPath: m_fontSize
-      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 8056264476995841348, guid: 6f14a8f01db7ff74d81ab0a47d067a04, type: 3}
       propertyPath: m_AnchorMax.y

@@ -152,6 +152,7 @@ namespace FishingVillage.Interactable
             if (_activeDialogue.IsComplete)
             {
                 GameEvents.DialogueSequenceCompleted(this);
+                EnableProximityDialogue(_activeDialogue.EnableProximityDialogueAfter);
                 _activeDialogue = null;
                 _speechBubble.Hide(true);
                 return;
@@ -169,11 +170,12 @@ namespace FishingVillage.Interactable
             }
         }
         
-        public void StartDialogueSequence(SODialogueSequence sequence)
+        public void StartDialogueSequence(SODialogueSequence sequence, bool enableProximityDialogueAfter)
         {
             if (!sequence) return;
-            
-            _activeDialogue = new DialogueSequence(sequence);
+
+            EnableProximityDialogue(false);
+            _activeDialogue = new DialogueSequence(sequence, enableProximityDialogueAfter);
             _speechBubble?.Hide(false);
             ShowNextLine();
         }
@@ -203,6 +205,7 @@ namespace FishingVillage.Interactable
         public void EnableProximityDialogue(bool enable)
         {
             playProximityDialogue = enable;
+            _proximityCooldownTimer = proximityCooldown;
         }
 
         public void SetFarewellLines(SODialogueLines newLines)

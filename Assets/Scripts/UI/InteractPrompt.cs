@@ -87,7 +87,7 @@ namespace FishingVillage.UI
         }
 
 
-        public void Show(Vector3 position)
+        public void Show(Vector3 position, bool animate)
         {
             if (_fadeSequence.isAlive)
             {
@@ -96,9 +96,15 @@ namespace FishingVillage.UI
             
             _rectTransform.position = position;
             
-
-            _fadeSequence = Sequence.Create();
-            _fadeSequence.Group(Tween.Alpha(canvasGroup, 1f, fadeDuration));
+            if (animate)
+            {
+                _fadeSequence = Sequence.Create();
+                _fadeSequence.Group(Tween.Alpha(canvasGroup, 1f, fadeDuration));
+            }
+            else
+            {
+                canvasGroup.alpha = 1f;
+            }
         }
         
         

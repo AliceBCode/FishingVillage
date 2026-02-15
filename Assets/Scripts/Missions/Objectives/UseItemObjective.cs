@@ -1,4 +1,5 @@
 using System;
+using DNExtensions.Utilities;
 using DNExtensions.Utilities.SerializableSelector;
 using UnityEngine;
 using UnityEngine.Scripting.APIUpdating;
@@ -10,7 +11,7 @@ namespace FishingVillage.Missions.Objectives
     [SerializableSelectorName("Use Item", "Item")]
     public class UseItemObjective : MissionObjective
     {   
-        [SerializeField] private SOItem item;
+        [SerializeField, SOSelector("Assets/Data")] private SOItem item;
 
         protected override string Description
         {

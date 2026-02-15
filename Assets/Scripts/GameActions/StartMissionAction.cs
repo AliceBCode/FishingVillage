@@ -1,4 +1,5 @@
 using System;
+using DNExtensions.Utilities;
 using DNExtensions.Utilities.SerializableSelector;
 using UnityEngine;
 using UnityEngine.Events;
@@ -11,7 +12,7 @@ namespace FishingVillage.GameActions
     [SerializableSelectorName("Start Mission", "Mission")]
     public class StartMissionAction : GameAction
     {
-        [SerializeField] private Missions.SOMission mission;
+        [SerializeField, SOSelector("Assets/Data")] private Missions.SOMission mission;
 
         public override string ActionName => mission ? $"Start Mission: {mission.Name}" : "Start Mission (No Mission Was Set)";
 

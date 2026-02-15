@@ -1,4 +1,5 @@
 using System;
+using DNExtensions.Utilities;
 using DNExtensions.Utilities.SerializableSelector;
 using FishingVillage.Player;
 using UnityEngine;
@@ -11,7 +12,7 @@ namespace FishingVillage.GameActions
     [SerializableSelectorName("Give Item", "Item")]
     public class GiveItemAction : GameAction
     {
-        [SerializeField] private SOItem item;
+        [SerializeField, SOSelector("Assets/Data")] private SOItem item;
 
         public override string ActionName => item ? $"Give {item.Name}" : "Give Item (No item was set)";
 

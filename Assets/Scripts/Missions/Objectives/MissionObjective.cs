@@ -24,9 +24,32 @@ namespace FishingVillage.Missions.Objectives
 
         protected abstract string Description { get; }
         
+        
+        /// <summary>
+        /// Called when the mission is started.
+        /// </summary>
         public abstract void Initialize();
+        
+        /// <summary>
+        /// Called when the mission is completed.
+        /// </summary>
         public abstract void Cleanup();
+        
+        /// <summary>
+        /// Evaluates the objective's completion condition.
+        /// </summary>
         public abstract bool Evaluate();
+        
+        
+        /// <summary>
+        /// Called when the objective becomes active. Override to perform any setup or initialization needed when the objective is activated.
+        /// </summary>
+        protected virtual void OnActivate()
+        {
+            
+        }
+        
+        
         
         protected void SetMet()
         {
@@ -35,10 +58,17 @@ namespace FishingVillage.Missions.Objectives
             Met = true;
             OnObjectiveMet?.Invoke(this);
         }
+
+
         
         public void SetActive(bool active)
         {
             IsActive = active;
+            
+            if (active)
+            {
+                OnActivate();
+            }
         }
         
         public string GetDescription()
@@ -75,5 +105,6 @@ namespace FishingVillage.Missions.Objectives
             
             return false;
         }
+        
     }
 }
