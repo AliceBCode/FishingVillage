@@ -1,4 +1,4 @@
-using System;
+
 using DNExtensions.Systems.MenuSystem;
 using DNExtensions.Utilities.AutoGet;
 using DNExtensions.Utilities.CustomFields;
@@ -8,6 +8,8 @@ using Screen = DNExtensions.Systems.MenuSystem.Screen;
 
 namespace FishingVillage.UI.Menus
 {
+    [DisallowMultipleComponent]
+    [RequireComponent(typeof(Screen))]
     public class MainScreen : MonoBehaviour
     {
 
@@ -23,15 +25,17 @@ namespace FishingVillage.UI.Menus
         [SerializeField] private Button quitButton;
         
         [SerializeField, HideInInspector, AutoGetScene] private MenuManager menuManager;
+        [SerializeField, HideInInspector, AutoGetSelf] private Screen screen;
 
-
-        private void Start()
+        private void Awake()
         {
             playButton?.onClick.AddListener(OnPlayClicked);
             optionsButton?.onClick.AddListener(OnOptionsClicked);
             creditsButton?.onClick.AddListener(OnCreditsClicked);
             quitButton?.onClick.AddListener(OnQuitClicked);
+
         }
+        
 
         private void OnQuitClicked()
         {

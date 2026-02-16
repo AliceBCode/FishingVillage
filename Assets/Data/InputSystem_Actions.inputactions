@@ -761,6 +761,17 @@
                 },
                 {
                     "name": "",
+                    "id": "369ddbe8-3652-41e6-bd91-da0f638b7edb",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse;Gamepad",
+                    "action": "Submit",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "f0e18740-40f8-4ae4-9992-a6459a66e5ba",
                     "path": "<Keyboard>/i",
                     "interactions": "",

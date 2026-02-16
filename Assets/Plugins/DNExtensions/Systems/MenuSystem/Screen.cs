@@ -16,10 +16,8 @@ namespace DNExtensions.Systems.MenuSystem
     public class Screen : MonoBehaviour
     {
         [Header("Animations")]
-        [SerializeReference, SerializableSelector] 
-        private List<ScreenAnimation> showAnimations;
-        [SerializeReference, SerializableSelector]
-        private List<ScreenAnimation> hideAnimations;
+        [SerializeReference, SerializableSelector] private List<ScreenAnimation> showAnimations;
+        [SerializeReference, SerializableSelector] private List<ScreenAnimation> hideAnimations;
 
         private Sequence _animationSequence;
         private CanvasGroup _canvasGroup;

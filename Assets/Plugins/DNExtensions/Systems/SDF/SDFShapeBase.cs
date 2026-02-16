@@ -21,6 +21,7 @@ namespace DNExtensions.Systems.Shapes
         protected static readonly int OutlineColorID = Shader.PropertyToID("_Outline_Color");
         protected static readonly int RectSize = Shader.PropertyToID("_Rect_Size");
 
+        private Vector2 _lastRectSize;  
 
         [SerializeField] protected Color m_BaseColor = Color.white;
         [SerializeField, Range(0, 360)] protected float m_Rotation;
@@ -43,32 +44,23 @@ namespace DNExtensions.Systems.Shapes
             Vertical = 3
         }
 
-
-        private Vector2 _lastRectSize;
-
         protected virtual void LateUpdate()
-        {
-            Vector2 currentSize = rectTransform.rect.size;
-    
-            if (_lastRectSize != currentSize)
-            {
-                _lastRectSize = currentSize;
-        
-                if (m_InstanceMaterial != null)
-                {
-                    // Update rect size
-                    m_InstanceMaterial.SetVector(RectSize, new Vector4(currentSize.x, currentSize.y, 0, 0));
+        { 
             
-                    // Update size-dependent properties (outline, shape-specific values)
-                    float minDim = Mathf.Min(currentSize.x, currentSize.y);
-                    m_InstanceMaterial.SetFloat(OutlineThicknessID, m_OutlineThickness * minDim);
+            Vector2 currentSize = rectTransform.rect.size; 
             
-                    // Recalculate shape-specific properties with new size
+            if (_lastRectSize != currentSize) 
+            { 
+                _lastRectSize = currentSize; 
+                if (m_InstanceMaterial) 
+                { 
+                     m_InstanceMaterial.SetVector(RectSize, new Vector4(currentSize.x, currentSize.y, 0, 0)); 
+                    float minDim = Mathf.Min(currentSize.x, currentSize.y);  m_InstanceMaterial.SetFloat(OutlineThicknessID, m_OutlineThickness * minDim);  
                     SetShapeProperties();
                 }
-            }
+            } 
         }
-        
+
         protected SDFShapeBase()
         {
             useLegacyMeshGeneration = false;
