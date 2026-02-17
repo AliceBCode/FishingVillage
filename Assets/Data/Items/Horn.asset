@@ -19,6 +19,7 @@ MonoBehaviour:
   useSfx: {fileID: 6418180475301049370, guid: 5ba547f3ad06dc44b8b779bc7b689bd6, type: 2}
   actionsOnUse:
   - rid: 5778561664243990617
+  - rid: 5778561826039529585
   references:
     version: 2
     RefIds:
@@ -31,3 +32,9 @@ MonoBehaviour:
           value:
             controllerNameOrPath: Player Animator Controller
             triggerName: BlowHorn
+    - rid: 5778561826039529585
+      type: {class: PlayAudioAction, ns: FishingVillage.GameActions, asm: Assembly-CSharp}
+      data:
+        sourceType: 0
+        audioID: Horn
+        resource: {fileID: 0}

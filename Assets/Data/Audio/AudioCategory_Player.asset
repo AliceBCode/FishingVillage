@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9a53b1ca0a9491e95b1a0d46de56eec, type: 3}
+  m_Name: AudioCategory_Player
+  m_EditorClassIdentifier: Assembly-CSharp::FishingVillage.AudioLibrary.SOAudioCategory
+  label: Player
+  audioResources:
+  - id: Jump
+    audioResource: {fileID: 0}
+  - id: Walk
+    audioResource: {fileID: 0}
+  - id: Horn
+    audioResource: {fileID: 6418180475301049370, guid: 5ba547f3ad06dc44b8b779bc7b689bd6, type: 2}

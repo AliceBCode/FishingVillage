@@ -10,7 +10,7 @@ namespace FishingVillage.UI.Menus
 {
     [DisallowMultipleComponent]
     [RequireComponent(typeof(Screen))]
-    public class MainScreen : MonoBehaviour
+    public class OptionsScreen : MonoBehaviour
     {
 
         [Header("Settings")]
@@ -42,10 +42,7 @@ namespace FishingVillage.UI.Menus
 #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;
 #else
-            if (screen)
-            {
-                screen?.Hide(true, () => Application.Quit());
-            }
+            Application.Quit();
 #endif
 
         }
@@ -62,14 +59,7 @@ namespace FishingVillage.UI.Menus
 
         private void OnPlayClicked()
         {
-            if (screen)
-            {
-                screen?.Hide(true, () => gameScene?.LoadScene());
-            }
-            else
-            {
-                gameScene?.LoadScene();
-            }
+            gameScene?.LoadScene();
         }
     }
 }

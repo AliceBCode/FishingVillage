@@ -3,11 +3,9 @@
 
 using System;
 using DNExtensions.Systems.Springs;
-using DNExtensions.Utilities.Button;
 using DNExtensions.Utilities.SerializableSelector;
 using PrimeTween;
 using UnityEngine;
-using Screen = DNExtensions.Systems.MenuSystem.Screen;
 
 namespace DNExtensions.Systems.MenuSystem
 {
@@ -143,30 +141,30 @@ namespace DNExtensions.Systems.MenuSystem
                     ease
                 ));
         }
+        
     }
-    
-    
+
     [Serializable]
     [SerializableSelectorAllowOnce]
     public class SpringyUIAnimation : ScreenAnimation
     {
         public float delayBetweenElements = 0.1f;
         public SpringAnimationMode animationMode = SpringAnimationMode.AnimateFromOffset;
-        public SpringyUI[] springyUIElements = Array.Empty<SpringyUI>();
-        
-        
+        public RectSpring[] springyUIElements = Array.Empty<RectSpring>();
+
+
         public void FindAllSpringyUIElementsInChildren(Screen screen)
         {
-            springyUIElements = screen.GetComponentsInChildren<SpringyUI>(includeInactive: true);
+            springyUIElements = screen.GetComponentsInChildren<RectSpring>(includeInactive: true);
         }
-        
+
         public enum SpringAnimationMode
         {
             AnimateFromOffset,
             AnimateToOffset,
-            
+
         }
-        
+
         public override Sequence CreateSequence(Screen screen)
         {
             if (springyUIElements == null || springyUIElements.Length == 0) return Sequence.Create();
@@ -176,7 +174,7 @@ namespace DNExtensions.Systems.MenuSystem
             for (int i = 0; i < springyUIElements.Length; i++)
             {
                 var element = springyUIElements[i];
-        
+
                 sequence.ChainCallback(() =>
                 {
                     if (animationMode == SpringAnimationMode.AnimateFromOffset)
@@ -187,7 +185,7 @@ namespace DNExtensions.Systems.MenuSystem
                     {
                         element.AnimateToOffset();
                     }
-                        
+
                 });
 
                 if (i < springyUIElements.Length - 1)
