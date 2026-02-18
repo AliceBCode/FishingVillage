@@ -1,3 +1,4 @@
+using DNExtensions.Systems.AudioLibrary;
 using FishingVillage.Gameplay;
 using UnityEngine;
 
@@ -6,9 +7,11 @@ namespace FishingVillage.Player
     public class NormalMovementState : MovementState
     {
         private bool _hitCeiling;
-        private MovingPlatform _currentPlatform;
         private Vector3 _platformVelocity;
         private float _coyoteTimer;
+        private float _walkTimer;
+        
+        private const float WalkTime = 0.2f;
 
         public override PlayerState Type => PlayerState.Normal;
 
@@ -17,7 +20,8 @@ namespace FishingVillage.Player
         public override void Enter()
         {
             ctx.Controller.enabled = true;
-            _coyoteTimer = 0; 
+            _coyoteTimer = 0;
+            _walkTimer = 0;
         }
 
         public override void Update()
@@ -31,9 +35,16 @@ namespace FishingVillage.Player
                 _coyoteTimer -= Time.deltaTime;
             }
 
-            if (ctx.Input.MoveInput != Vector2.zero && ctx.isGrounded)
+            if (_walkTimer > 0f)
+            {
+                _walkTimer -= Time.deltaTime;
+            }
+            
+
+            if (ctx.Input.MoveInput != Vector2.zero && ctx.isGrounded && _walkTimer <= 0f)
             {
                 GameEvents.WalkedAction();
+                _walkTimer = WalkTime;
             }
         }
 
@@ -112,7 +123,6 @@ namespace FishingVillage.Player
         {
             if (!ctx.isGrounded)
             {
-                _currentPlatform = null;
                 _platformVelocity = Vector3.zero;
                 return;
             }
@@ -123,13 +133,11 @@ namespace FishingVillage.Player
             {
                 if (col.TryGetComponent(out MovingPlatform platform))
                 {
-                    _currentPlatform = platform;
                     _platformVelocity = platform.Velocity;
                     return;
                 }
             }
-
-            _currentPlatform = null;
+            
             _platformVelocity = Vector3.zero;
         }
     }

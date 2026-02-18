@@ -10,8 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b9a53b1ca0a9491e95b1a0d46de56eec, type: 3}
-  m_Name: AudioCategory_SFX
+  m_Name: AudioCategory_Items
   m_EditorClassIdentifier: Assembly-CSharp::FishingVillage.AudioLibrary.SOAudioCategory
-  label: SFX
+  label: Items
+  playbackStrategy: 1
   audioMixerGroup: {fileID: -2413289410748815672, guid: db163b1d0eba9cb43a6cdb405e31f7ca, type: 2}
-  audioResources: []
+  audioMappings:
+  - id: Horn
+    audioObject: {fileID: 11400000, guid: f07a9039e3bc3874e8ef9f3ea426eff9, type: 2}

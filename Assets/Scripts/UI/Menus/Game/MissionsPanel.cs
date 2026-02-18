@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using FishingVillage.Gameplay;
 using FishingVillage.Missions;
 using FishingVillage.Missions.Objectives;
 using TMPro;
@@ -12,6 +13,12 @@ namespace FishingVillage.UI.Menus
     {
         public static MissionsPanel Instance;
 
+        
+        [Header("Settings")]
+        [SerializeField] private bool showNonActiveObjectives;
+        
+        
+        [Header("UI References")]
         [SerializeField] private TextMeshProUGUI activeMissionsText;
         [SerializeField] private TextMeshProUGUI completedMissionsText;
 
@@ -30,7 +37,8 @@ namespace FishingVillage.UI.Menus
 
             GameEvents.OnMissionStarted += OnMissionStarted;
             GameEvents.OnMissionCompleted += OnMissionCompleted;
-            MissionObjective.OnObjectiveMet += OnObjectiveCompleted;
+            GameEvents.OnObjectiveMet += OnObjectiveUpdated;
+            GameEvents.OnObjectiveProgressed += OnObjectiveUpdated;
         }
 
 
@@ -38,7 +46,8 @@ namespace FishingVillage.UI.Menus
         {
             GameEvents.OnMissionStarted -= OnMissionStarted;
             GameEvents.OnMissionCompleted -= OnMissionCompleted;
-            MissionObjective.OnObjectiveMet -= OnObjectiveCompleted;
+            GameEvents.OnObjectiveMet -= OnObjectiveUpdated;
+            GameEvents.OnObjectiveProgressed -= OnObjectiveUpdated;
         }
 
         private void OnMissionStarted(SOMission mission)
@@ -46,11 +55,7 @@ namespace FishingVillage.UI.Menus
             _activeMissions.Add(mission);
             UpdateActiveMissionsUI();
         }
-
-        private void OnObjectiveCompleted(MissionObjective objective)
-        {
-            UpdateActiveMissionsUI();
-        }
+        
 
         private void OnMissionCompleted(SOMission mission)
         {
@@ -60,17 +65,22 @@ namespace FishingVillage.UI.Menus
             UpdateActiveMissionsUI();
             UpdateCompletedMissionsUI();
         }
+        
+        private void OnObjectiveUpdated(MissionObjective objective)
+        {
+            UpdateActiveMissionsUI();
+        }
 
         private void UpdateActiveMissionsUI()
         {
             if (!activeMissionsText) return;
 
-            activeMissionsText.text = "Active:\n\n";
+            activeMissionsText.text = "";
 
             foreach (var mission in _activeMissions)
             {
                 activeMissionsText.text += $"{mission.Name}:" + "\n";
-
+                    
                 if (MissionManager.Instance)
                 {
                     var objectives = MissionManager.Instance.GetMissionObjectives(mission);
@@ -79,15 +89,16 @@ namespace FishingVillage.UI.Menus
                     {
                         foreach (var objective in objectives)
                         {
-                            if (objective.IsHidden) continue;
+                            if (objective.IsHidden || (!objective.IsActive && !showNonActiveObjectives)) continue;
                             
-                            string checkmark = objective.Met ? "[X]" : "[ ]";
-                            activeMissionsText.text += $"{checkmark} {objective.GetDescription()}\n";
+                            string display = objective.Met ? $"○ <s>{objective.GetDescription()}</s>" : $"○ {objective.GetDescription()}";
+
+                            activeMissionsText.text += display + "\n";
                         }
                     }
                     else
                     {
-                        activeMissionsText.text += "(No visible objectives)\n";
+                        activeMissionsText.text += "???\n";
                     }
                 }
 
@@ -99,11 +110,11 @@ namespace FishingVillage.UI.Menus
         {
             if (!completedMissionsText) return;
 
-            completedMissionsText.text = "Completed:\n\n";
+            completedMissionsText.text = "Completed:\n";
 
             foreach (var mission in _completedMissions)
             {
-                completedMissionsText.text += mission.Name + "\n";
+                completedMissionsText.text += $"○ <s>{mission.Name}</s>" + "\n";
             }
         }
     }

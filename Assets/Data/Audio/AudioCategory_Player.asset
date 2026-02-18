@@ -13,12 +13,9 @@ MonoBehaviour:
   m_Name: AudioCategory_Player
   m_EditorClassIdentifier: Assembly-CSharp::FishingVillage.AudioLibrary.SOAudioCategory
   label: Player
-  channel: 0
   audioMixerGroup: {fileID: -2413289410748815672, guid: db163b1d0eba9cb43a6cdb405e31f7ca, type: 2}
   audioMappings:
   - id: Walk
-    audioObject: {fileID: 0}
+    audioObject: {fileID: 11400000, guid: 118c0165a58832342aa8825b905900a1, type: 2}
   - id: Jump
-    audioObject: {fileID: 0}
-  - id: Horn
-    audioObject: {fileID: 8300000, guid: 3ffa06c4e2b6a6447ad297d47fa0e42d, type: 3}
+    audioObject: {fileID: 11400000, guid: ce9a58afc890e6642bed230e675790fd, type: 2}

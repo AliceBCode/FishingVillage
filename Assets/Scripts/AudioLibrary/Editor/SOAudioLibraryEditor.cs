@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-namespace DNExtensions.Systems.AudioSystem
+namespace DNExtensions.Systems.AudioLibrary
 {
     [CustomEditor(typeof(SOAudioLibrary))]
     public class SOAudioLibraryEditor : Editor
     {
-        private readonly Dictionary<string, bool> _foldouts = new Dictionary<string, bool>();
+        private readonly Dictionary<string, bool> _foldouts = new();
+        private readonly Dictionary<string, SerializedObject> _serializedCategories = new();
 
         public override void OnInspectorGUI()
         {
@@ -24,57 +25,53 @@ namespace DNExtensions.Systems.AudioSystem
             foreach (var category in audioLibrary.AudioCategories)
             {
                 if (!category) continue;
-                
+    
                 _foldouts.TryAdd(category.name, true);
-                SerializedObject serializedCategory = new SerializedObject(category);
+    
+                if (!_serializedCategories.TryGetValue(category.name, out var serializedCategory))
+                {
+                    serializedCategory = new SerializedObject(category);
+                    _serializedCategories[category.name] = serializedCategory;
+                }
+    
+                serializedCategory.Update();
                 
-                // --- CATEGORY HEADER (Stand-alone Toolbar) ---
+                // --- CATEGORY HEADER ---
                 EditorGUILayout.BeginHorizontal();
-                
-                // Foldout Toggle
                 _foldouts[category.name] = EditorGUILayout.Foldout(_foldouts[category.name], category.Label, true, EditorStyles.foldoutHeader);
-                
                 GUILayout.FlexibleSpace();
+                 SerializedProperty resMixer = serializedCategory.FindProperty("audioMixerGroup");
+                if (resMixer != null)
+                {
+                    EditorGUILayout.PropertyField(resMixer, GUIContent.none);
+                    GUILayout.Space(5);
+                }
 
-                // Grouped Toolbar Settings
-                DrawCategoryToolbar(serializedCategory);
-
-                // Add Button
-                if (GUILayout.Button("+ Sound", EditorStyles.miniButtonRight, GUILayout.Width(70)))
+                if (GUILayout.Button("+", EditorStyles.miniButtonRight, GUILayout.Width(20)))
                 {
                     AddNewResourceToCategory(category);
                     _foldouts[category.name] = true; 
                 }
-                
+                EditorGUILayout.Space(1);
                 EditorGUILayout.EndHorizontal();
 
-                // --- CATEGORY CONTENT (Boxed Area) ---
+                
+                // --- CATEGORY CONTENT ---
                 if (_foldouts[category.name])
                 {
-                    // Start the box ONLY inside the foldout
+                    EditorGUILayout.Space();
                     EditorGUILayout.BeginVertical(EditorStyles.helpBox);
                     EditorGUILayout.Space(2);
                     
-                    EditorGUI.indentLevel++; 
                     DrawMappingList(serializedCategory);
-                    EditorGUI.indentLevel--;
                     
                     EditorGUILayout.Space(2);
                     serializedCategory.ApplyModifiedProperties();
-                    EditorGUILayout.EndVertical(); // Close the box here
+                    EditorGUILayout.EndVertical();
                 }
                 
                 EditorGUILayout.Space(5);
             }
-        }
-
-        private void DrawCategoryToolbar(SerializedObject serializedCategory)
-        {
-            SerializedProperty resMixer = serializedCategory.FindProperty("audioMixerGroup");
-            if (resMixer != null) EditorGUILayout.PropertyField(resMixer, GUIContent.none, GUILayout.Width(100));
-            
-            SerializedProperty resChannel = serializedCategory.FindProperty("channel");
-            if (resChannel != null) EditorGUILayout.PropertyField(resChannel, GUIContent.none, GUILayout.Width(70));
         }
 
         private void DrawMappingList(SerializedObject serializedCategory)
@@ -83,51 +80,34 @@ namespace DNExtensions.Systems.AudioSystem
 
             if (resourcesProp == null || resourcesProp.arraySize == 0)
             {
-                EditorGUILayout.LabelField("No sounds in this category.", EditorStyles.miniLabel);
+                EditorGUILayout.LabelField("Category is empty.", EditorStyles.miniLabel);
                 return;
             }
-            
+
             for (int i = 0; i < resourcesProp.arraySize; i++)
             {
                 SerializedProperty mapping = resourcesProp.GetArrayElementAtIndex(i);
-                SerializedProperty idProp = mapping.FindPropertyRelative("id");
-                SerializedProperty objProp = mapping.FindPropertyRelative("audioObject");
-
+        
                 EditorGUILayout.BeginHorizontal();
-                
-                EditorGUILayout.PropertyField(idProp, GUIContent.none, GUILayout.MinWidth(80));
-                
-                EditorGUI.BeginChangeCheck();
-                Object newObj = EditorGUILayout.ObjectField(GUIContent.none, objProp.objectReferenceValue, typeof(Object), false);
-                
-                if (EditorGUI.EndChangeCheck())
-                {
-                    if (!newObj || newObj is AudioClip || newObj is SOAudioProfile)
-                    {
-                        objProp.objectReferenceValue = newObj;
-                    }
-                    else
-                    {
-                        Debug.LogWarning("SOAudioLibrary: Asset must be an AudioClip or SOAudioProfile!");
-                    }
-                }
-
+                EditorGUILayout.PropertyField(mapping, GUIContent.none); 
+        
                 if (GUILayout.Button("X", EditorStyles.miniButton, GUILayout.Width(20)))
                 {
                     resourcesProp.DeleteArrayElementAtIndex(i);
                 }
-                
                 EditorGUILayout.EndHorizontal();
+                
+                GUILayout.Space(5);
             }
         }
 
         private void AddNewResourceToCategory(SOAudioCategory category)
         {
-            SerializedObject so = new SerializedObject(category);
+            if (!_serializedCategories.TryGetValue(category.name, out var so)) return;
+    
             SerializedProperty prop = so.FindProperty("audioMappings");
-            
             prop.InsertArrayElementAtIndex(prop.arraySize);
-            
+    
             SerializedProperty newElem = prop.GetArrayElementAtIndex(prop.arraySize - 1);
             newElem.FindPropertyRelative("id").stringValue = "New_ID";
             newElem.FindPropertyRelative("audioObject").objectReferenceValue = null;

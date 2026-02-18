@@ -1,6 +1,7 @@
 using System;
 using DNExtensions.Utilities.SerializableSelector;
 using DNExtensions.Utilities.SerializedInterface;
+using FishingVillage.Gameplay;
 using FishingVillage.Interactable;
 using UnityEngine;
 using UnityEngine.Scripting.APIUpdating;

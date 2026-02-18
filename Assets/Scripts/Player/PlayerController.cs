@@ -149,6 +149,7 @@ namespace FishingVillage.Player
             if (!Controller.enabled) return;
             
             velocity = new Vector3(velocity.x, force, velocity.z);
+            GameEvents.JumpedAction();
         }
         
 

@@ -11,9 +11,11 @@ namespace FishingVillage.UI.Popup
     [Serializable]
     public class PopupSettings
     {
+        [SerializeField] private bool enabled = true;
         [SerializeField] private Color backgroundColor = Color.white;
         [SerializeField] private OptionalField<Sprite> icon;
 
+        public bool Enabled => enabled;
         public Color BackgroundColor => backgroundColor;
         public Sprite Icon => icon.isSet ? icon.Value : null;
     }

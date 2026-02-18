@@ -1,8 +1,8 @@
 using System;
 using DNExtensions.Utilities;
 using DNExtensions.Utilities.Inline;
+using FishingVillage.Gameplay;
 using FishingVillage.Missions.Objectives;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -29,14 +29,14 @@ namespace FishingVillage.Missions
         {
             GameEvents.OnMissionStarted += CheckMissionStarted;
             GameEvents.OnMissionCompleted += CheckMissionCompleted;
-            MissionObjective.OnObjectiveMet += CheckObjectiveCompleted;
+            GameEvents.OnObjectiveMet += CheckObjectiveCompleted;
         }
 
         private void OnDisable()
         {
             GameEvents.OnMissionStarted -= CheckMissionStarted;
             GameEvents.OnMissionCompleted -= CheckMissionCompleted;
-            MissionObjective.OnObjectiveMet -= CheckObjectiveCompleted;
+            GameEvents.OnObjectiveMet -= CheckObjectiveCompleted;
         }
 
         private void CheckMissionStarted(SOMission startedMission)

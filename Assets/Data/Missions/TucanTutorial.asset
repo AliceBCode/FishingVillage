@@ -82,7 +82,7 @@ MonoBehaviour:
     - rid: 8175020186713456727
       type: {class: CompleteDialogueObjective, ns: FishingVillage.Missions.Objectives, asm: Assembly-CSharp}
       data:
-        isHidden: 0
+        isHidden: 1
         requiresPreviousObjective: 1
         overrideDescription:
           isSet: 0

@@ -37,8 +37,8 @@ MonoBehaviour:
     - rid: 5778561712605626460
       type: {class: GiveItemToNpcObjective, ns: FishingVillage.Missions.Objectives, asm: Assembly-CSharp}
       data:
-        isHidden: 0
         requiresPreviousObjective: 1
+        isHidden: 0
         overrideDescription:
           isSet: 0
           hideValueIfSet: 0
@@ -71,8 +71,8 @@ MonoBehaviour:
     - rid: 7519837165224984581
       type: {class: CompleteDialogueObjective, ns: FishingVillage.Missions.Objectives, asm: Assembly-CSharp}
       data:
-        isHidden: 0
         requiresPreviousObjective: 0
+        isHidden: 0
         overrideDescription:
           isSet: 0
           hideValueIfSet: 0
@@ -90,8 +90,8 @@ MonoBehaviour:
     - rid: 7519837178136887296
       type: {class: UseItemInTriggerObjective, ns: FishingVillage.Missions.Objectives, asm: Assembly-CSharp}
       data:
-        isHidden: 0
         requiresPreviousObjective: 1
+        isHidden: 0
         overrideDescription:
           isSet: 0
           hideValueIfSet: 0

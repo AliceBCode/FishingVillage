@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using FishingVillage.Interactable;
 using FishingVillage.Missions;
+using FishingVillage.Missions.Objectives;
 using FishingVillage.Player;
-using UnityEngine;
 
-namespace FishingVillage
+namespace FishingVillage.Gameplay
 {
     public static class GameEvents
     {
@@ -30,6 +30,9 @@ namespace FishingVillage
 
         public static event Action<SOMission> OnMissionStarted;
         public static event Action<SOMission> OnMissionCompleted;
+        public static event Action<MissionObjective> OnObjectiveMet;
+        public static event Action<MissionObjective> OnObjectiveActivated;
+        public static event Action<MissionObjective> OnObjectiveProgressed;
         
         private static readonly Dictionary<string, HashSet<int>> ActiveTriggers = new Dictionary<string, HashSet<int>>();
 
@@ -116,16 +119,23 @@ namespace FishingVillage
             
             OnTriggerExited?.Invoke(triggerID);
         }
-        
-        public static bool IsPlayerInTrigger(string triggerID)
-        {
-            return ActiveTriggers.ContainsKey(triggerID) && ActiveTriggers[triggerID].Count > 0;
-        }
-        
+
         public static void TimelineSignalReceived(string signalID)
         {
             OnTimelineSignalReceived?.Invoke(signalID);
         }
+        
+        public static void WalkedAction()
+        {
+            OnWalkAction?.Invoke();
+        }
+
+        public static void JumpedAction()
+        {
+            OnJumpedAction?.Invoke();
+        }
+        
+        
 
         public static void MissionStarted(SOMission mission)
         {
@@ -136,16 +146,23 @@ namespace FishingVillage
         {
             OnMissionCompleted?.Invoke(mission);
         }
-
-        public static void WalkedAction()
+        
+        public static void ObjectiveMet(MissionObjective objective)
         {
-            OnWalkAction?.Invoke();
+            OnObjectiveMet?.Invoke(objective);
         }
 
-        public static void JumpedAction()
+        public static void ObjectiveActivated(MissionObjective objective)
         {
-            OnJumpedAction?.Invoke();
+            OnObjectiveActivated?.Invoke(objective);
         }
+        
+        public static void ObjectiveProgressed(MissionObjective objective)
+        {
+            OnObjectiveProgressed?.Invoke(objective);
+        }
+
+
 
 
     }

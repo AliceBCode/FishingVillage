@@ -1,6 +1,7 @@
 
 using System.Collections.Generic;
 using DNExtensions.Systems.ObjectPooling;
+using FishingVillage.Gameplay;
 using FishingVillage.Player;
 using UnityEngine;
 

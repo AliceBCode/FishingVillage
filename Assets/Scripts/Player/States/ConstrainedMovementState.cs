@@ -1,3 +1,4 @@
+
 using FishingVillage.Gameplay;
 using FishingVillage.Interactable;
 using UnityEngine;
@@ -43,6 +44,7 @@ namespace FishingVillage.Player
                 ctx.velocity = new Vector3(ctx.velocity.x, ctx.jumpForce, ctx.velocity.z);
                 ctx.jumpBufferTimer = 0;
                 ctx.SetNormal();
+                GameEvents.JumpedAction();
             }
         }
 

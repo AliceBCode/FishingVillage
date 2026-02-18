@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEditor;
 
-namespace DNExtensions.Systems.AudioSystem
+namespace DNExtensions.Systems.AudioLibrary
 {
     [CustomEditor(typeof(SOAudioProfile))]
     public class SOAudioProfileEditor : Editor

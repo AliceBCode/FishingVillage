@@ -1,4 +1,5 @@
 using DNExtensions.Utilities;
+using FishingVillage.Gameplay;
 using FishingVillage.Player;
 using UnityEngine;
 using UnityEngine.Events;

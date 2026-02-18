@@ -1,6 +1,7 @@
 using System;
 using DNExtensions.Utilities;
 using DNExtensions.Utilities.SerializableSelector;
+using FishingVillage.Gameplay;
 using UnityEngine;
 using UnityEngine.Scripting.APIUpdating;
 
@@ -68,6 +69,10 @@ namespace FishingVillage.Missions.Objectives
             if (Evaluate())
             {
                 SetMet();
+            }
+            else
+            {
+                SetProgressed();
             }
         }
     }

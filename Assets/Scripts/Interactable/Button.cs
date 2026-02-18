@@ -1,6 +1,7 @@
 using System;
 using DNExtensions.Utilities.SerializableSelector;
 using FishingVillage.GameActions;
+using FishingVillage.Gameplay;
 using UnityEngine;
 using UnityEngine.Events;
 

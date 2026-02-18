@@ -4,6 +4,7 @@ using DNExtensions.Utilities.CustomFields;
 using DNExtensions.Utilities.SerializableSelector;
 using FishingVillage.Dialogue;
 using FishingVillage.GameActions;
+using FishingVillage.Gameplay;
 using FishingVillage.Interactable;
 using UnityEngine;
 using UnityEngine.Scripting.APIUpdating;

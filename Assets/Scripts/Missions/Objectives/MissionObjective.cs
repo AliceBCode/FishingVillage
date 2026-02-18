@@ -1,5 +1,7 @@
 using System;
+using DNExtensions.Utilities;
 using DNExtensions.Utilities.CustomFields;
+using FishingVillage.Gameplay;
 using FishingVillage.Interactable;
 using UnityEngine;
 using UnityEngine.Scripting.APIUpdating;
@@ -10,17 +12,18 @@ namespace FishingVillage.Missions.Objectives
     [MovedFrom("")]
     public abstract class MissionObjective
     {
-        public static event Action<MissionObjective> OnObjectiveMet;
-        
-        [SerializeField] private bool isHidden;
+        [Tooltip("If true, this objective will only become active after the previous objective is completed.")]
         [SerializeField] private bool requiresPreviousObjective;
-        [SerializeField] private OptionalField<string> overrideDescription = new OptionalField<string>(false, true);
+        [Tooltip("If true, this objective will not be shown in the journal or a notifications.")]
+        [SerializeField] private bool isHidden;
+        [Tooltip("If set, this description will be used instead of the default one.")]
+        [SerializeField, HideIf("isHidden")] private OptionalField<string> overrideDescription = new OptionalField<string>(false, true);
         
         public bool IsHidden => isHidden;
         public bool RequiresPreviousObjective => requiresPreviousObjective;
         
         public bool Met { get; protected set; }
-        public bool IsActive { get; private set; } = true;
+        public bool IsActive { get; private set; }
 
         protected abstract string Description { get; }
         
@@ -56,9 +59,13 @@ namespace FishingVillage.Missions.Objectives
             if (Met || !IsActive) return;
             
             Met = true;
-            OnObjectiveMet?.Invoke(this);
+            GameEvents.ObjectiveMet(this);
         }
-
+        
+        protected void SetProgressed()
+        {
+            GameEvents.ObjectiveProgressed(this);
+        }
 
         
         public void SetActive(bool active)
@@ -68,7 +75,18 @@ namespace FishingVillage.Missions.Objectives
             if (active)
             {
                 OnActivate();
+                GameEvents.ObjectiveActivated(this);
             }
+            else
+            {
+                SetProgressed();
+            }
+        }
+        
+        public void ForceSetMet(bool active)
+        {
+            Met = active;
+            SetProgressed();
         }
         
         public string GetDescription()

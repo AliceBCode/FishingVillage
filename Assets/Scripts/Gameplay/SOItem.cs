@@ -4,7 +4,7 @@ using FishingVillage.GameActions;
 using UnityEngine;
 using UnityEngine.Audio;
 
-namespace FishingVillage
+namespace FishingVillage.Gameplay
 {
     [CreateAssetMenu(fileName = "New Item", menuName = "Scriptable Objects/Item")]
     public class SOItem : ScriptableObject

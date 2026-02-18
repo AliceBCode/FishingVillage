@@ -2,6 +2,7 @@
 using DNExtensions.Systems.ObjectPooling;
 using DNExtensions.Systems.Shapes;
 using DNExtensions.Utilities;
+using FishingVillage.Gameplay;
 using PrimeTween;
 using UnityEngine;
 using UnityEngine.UI;

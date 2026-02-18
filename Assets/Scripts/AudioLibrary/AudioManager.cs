@@ -1,175 +1,259 @@
+using System.Collections;
 using System.Collections.Generic;
 using DNExtensions.Utilities.AutoGet;
-using DNExtensions.Utilities.Inline;
-using FishingVillage;
 using UnityEngine;
 using UnityEngine.Audio;
 
-namespace DNExtensions.Systems.AudioSystem
+namespace DNExtensions.Systems.AudioLibrary
 {
+    /// <summary>
+    /// A centralized audio manager that handles playing audio clips and profiles based on string IDs.
+    /// </summary>
     [DisallowMultipleComponent]
-    [RequireComponent(typeof(AudioSource))]
     public class AudioManager : MonoBehaviour
     {
-        
         public static AudioManager Instance;
-        
-        [SerializeField, AutoGetAsset(Folders = new [] {"Assets/Data"}), Inline] private SOAudioLibrary library;
-        [SerializeField] private AudioSource directSource;
-        [SerializeField] private AudioSource sfxSource;
-        [SerializeField] private AudioSource musicSource; 
-        [SerializeField] private AudioSource ambientSource;
 
+        [SerializeField, AutoGetAsset(Folders = new[] { "Assets/Data" })] private SOAudioLibrary library;
+        [SerializeField] private int preWarmAmount = 20;
 
         private readonly Dictionary<string, AudioData> _audioCache = new();
-        
+        private readonly Dictionary<string, AudioSource> _activeLoopSources = new();
+        private readonly Queue<AudioSource> _pool = new();
+        private int _totalCreatedSources;
+
         private struct AudioData
         {
             public Object audioObject;
             public AudioMixerGroup group;
-            public AudioChannel channel;
         }
 
         private void Awake()
         {
-            if (Instance)
-            {
-                Destroy(gameObject);
-                return;
+            if (Instance) 
+            { 
+                Destroy(gameObject); 
+                return; 
             }
             Instance = this;
+            DontDestroyOnLoad(gameObject);
 
             InitializeCache();
+            CreatePool();
+        }
+        
+
+        #region Pooling Logic
+
+        private void CreatePool()
+        {
+            for (int i = 0; i < preWarmAmount; i++)
+            {
+                _pool.Enqueue(CreateAudioSource());
+            }
         }
 
+        private AudioSource CreateAudioSource()
+        {
+            GameObject go = new GameObject($"PooledSource_{_totalCreatedSources++}");
+            go.transform.SetParent(transform);
+            AudioSource source = go.AddComponent<AudioSource>();
+            go.SetActive(false);
+            return source;
+        }
+        
+        private AudioSource GetSourceFromPool()
+        {
+            return _pool.Count > 0 ? _pool.Dequeue() : CreateAudioSource();
+        }
+
+        private void ReturnSourceToPool(AudioSource source)
+        {
+            source.Stop();
+            source.gameObject.SetActive(false);
+            _pool.Enqueue(source);
+        }
+
+        private IEnumerator AutoReturnRoutine(AudioSource source, float duration, string id = null)
+        {
+            yield return new WaitForSeconds(duration / Mathf.Abs(source.pitch));
+            
+            if (!string.IsNullOrEmpty(id))
+            {
+                if (_activeLoopSources.TryGetValue(id, out var current) && current == source)
+                {
+                    _activeLoopSources.Remove(id);
+                }
+            }
+
+            ReturnSourceToPool(source);
+        }
+
+
+        #endregion
+        
+
+        #region Audio Handling Logic
+        
         private void InitializeCache()
         {
             if (!library) return;
-
             foreach (var category in library.AudioCategories)
             {
                 if (!category) continue;
-
                 foreach (var mapping in category.AudioMappings)
                 {
-                    if (string.IsNullOrEmpty(mapping.id)) continue;
+                    if (string.IsNullOrEmpty(mapping.id) || !mapping.audioObject) continue;
                     
                     _audioCache[mapping.id] = new AudioData
                     {
                         audioObject = mapping.audioObject,
-                        group = category.AudioMixerGroup,
-                        channel = category.Channel
-                        
+                        group = category.AudioMixerGroup
                     };
                 }
             }
         }
 
-        private void OnEnable()
+        private bool TryGetAudioData(string audioID, out AudioData data)
         {
-            GameEvents.OnJumpedAction += HandleJump;
-            GameEvents.OnWalkAction += HandleWalk;
-            GameEvents.OnTimelineSignalReceived += PlayFromLibrary; 
+            if (_audioCache.TryGetValue(audioID, out data)) return true;
+            Debug.LogWarning($"AudioManager: ID '{audioID}' not found.");
+            return false;
         }
 
-        private void OnDisable()
-        {
-            GameEvents.OnJumpedAction -= HandleJump;
-            GameEvents.OnWalkAction -= HandleWalk;
-            GameEvents.OnTimelineSignalReceived -= PlayFromLibrary;
-        }
         
-        private void HandleJump() => PlayFromLibrary("Jump");
-        private void HandleWalk() => PlayFromLibrary("Walk");
-        
-        private void ApplySettings(AudioSource source, AudioSettings settings)
+        private bool ConfigureSource(AudioSource source, AudioData data, Vector3 pos, bool usePos)
         {
-            source.clip = settings.clip;
-            source.volume = settings.volume;
-            source.pitch = settings.pitch;
-            source.panStereo = settings.stereoPan;
-            source.spatialBlend = settings.spatialBlend;
-            source.reverbZoneMix = settings.reverbZoneMix;
-            source.bypassEffects = settings.bypassEffects;
-            source.bypassListenerEffects = settings.bypassListenerEffects;
-            source.bypassReverbZones = settings.bypassReverbZones;
-            source.loop = settings.loop;
+            source.outputAudioMixerGroup = data.group;
+            source.transform.position = usePos ? pos : transform.position;
 
-            if (settings.set3DSettings)
-            {
-                source.dopplerLevel = settings.dopplerLevel;
-                source.spread = settings.spread;
-                source.rolloffMode = settings.rolloffMode;
-                source.minDistance = settings.minDistance;
-                source.maxDistance = settings.maxDistance;
-            }
-        }
-        
-        
-        private void HandleLoopingAudio(AudioSource source, AudioData data)
-        {
-            if (data.audioObject is AudioClip clip && source.clip == clip && source.isPlaying) return;
-            
-            source.outputAudioMixerGroup = data.group;
-            
             if (data.audioObject is SOAudioProfile profile)
             {
-                AudioSettings settings = profile.GetSettings();
-                ApplySettings(source, settings);
-                source.resource = settings.clip;
-            }
-            else if (data.audioObject is AudioClip directClip)
-            {
-                source.loop = true;
-                source.resource = directClip;
-            }
-            
-            source.Play();
-        }
-        
-        private void HandleOveShotAudio(AudioSource source, AudioData data)
-        {
-            
-            source.outputAudioMixerGroup = data.group;
-            
-            if (data.audioObject is SOAudioProfile profile)
-            {
-                AudioSettings settings = profile.GetSettings();
-                ApplySettings(source, settings);
-                source.PlayOneShot(settings.clip, settings.volume);
+                var settings = profile.GetSettings();
+                source.clip = settings.clip;
+                source.volume = settings.volume;
+                source.pitch = settings.pitch;
+                source.spatialBlend = settings.spatialBlend;
+                source.reverbZoneMix = settings.reverbZoneMix;
+                source.bypassEffects = settings.bypassEffects;
+                source.bypassListenerEffects = settings.bypassListenerEffects;
+                source.bypassReverbZones = settings.bypassReverbZones;
+                source.loop = settings.loop;
+
+                if (settings.set3DSettings)
+                {
+                    source.dopplerLevel = settings.dopplerLevel;
+                    source.spread = settings.spread;
+                    source.minDistance = settings.minDistance;
+                    source.maxDistance = settings.maxDistance;
+                    source.rolloffMode = settings.rolloffMode;
+                }
             }
             else if (data.audioObject is AudioClip clip)
             {
-                source.PlayOneShot(clip);
+                source.clip = clip;
+                source.spatialBlend = usePos ? 1f : 0f;
+                source.loop = false;
             }
+
+            return source.clip;
+        }
+
+        private void SetupAndPlay(string id, AudioSource source, AudioData data, Vector3 pos, bool usePos)
+        {
+            source.gameObject.SetActive(true);
+
+            if (!ConfigureSource(source, data, pos, usePos))
+            {
+                ReturnSourceToPool(source);
+                return;
+            }
+
+            if (source.loop) _activeLoopSources[id] = source;
+
+            source.Play();
+
+            if (!source.loop)
+                StartCoroutine(AutoReturnRoutine(source, source.clip.length / Mathf.Abs(source.pitch), id));
+        }
+
+        #endregion
+        
+        
+        #region Public API
+
+        /// <summary>
+        /// Plays an audio clip or profile based on the provided ID.
+        /// The sound will be played at the AudioManager's position and will not be spatialized.
+        /// </summary>
+        /// <param name="audioID"></param>
+        public void Play(string audioID)
+        {
+            if (!TryGetAudioData(audioID, out var data)) return;
+            
+            AudioSource source = GetSourceFromPool();
+            SetupAndPlay(audioID, source, data, transform.position, false);
         }
         
 
-        public void PlayFromLibrary(string id)
+        /// <summary>
+        /// Plays an audio clip or profile based on the provided ID at a specific world position.
+        /// The sound will be spatialized based on the AudioSource settings.
+        /// </summary>
+        /// <param name="audioID"></param>
+        /// <param name="position"></param>
+        public void PlayAtPosition(string audioID, Vector3 position)
         {
-            if (!_audioCache.TryGetValue(id, out var data)) return;
+            if (!TryGetAudioData(audioID, out var data)) return;
             
-            switch (data.channel)
+            AudioSource source = GetSourceFromPool();
+            SetupAndPlay(audioID, source, data, position, true);
+        }
+
+        
+        /// <summary>
+        /// Plays an audio clip or profile based on the provided ID at the position of a target Transform.
+        /// The sound will be spatialized based on the AudioSource settings.
+        /// </summary>
+        /// <param name="audioID"></param>
+        /// <param name="target"></param>
+        public void PlayAtPosition(string audioID, Transform target)
+        {
+            if (!TryGetAudioData(audioID, out var data)) return;
+            
+            AudioSource source = GetSourceFromPool();
+            source.transform.localPosition = Vector3.zero;
+            SetupAndPlay(audioID, source, data, target.position, true);
+        }
+        
+        /// <summary>
+        /// Plays an audio clip or profile based on the provided ID using a specific AudioSource.
+        /// </summary>
+        /// <param name="audioID"></param>
+        /// <param name="source"></param>
+        public void PlayOnSource(string audioID, AudioSource source)
+        {
+            if (!TryGetAudioData(audioID, out var data)) return;
+            if (!source) return;
+            if (!ConfigureSource(source, data, source.transform.position, true)) return;
+            source.Play();
+        }
+        
+        /// <summary>
+        /// Stops a looping sound associated with the given ID.
+        /// If the ID is currently playing a looping sound, it will be stopped and the AudioSource will be returned to the pool.
+        /// </summary>
+        /// <param name="id"></param>
+        public void StopLoop(string id)
+        {
+            if (_activeLoopSources.Remove(id, out AudioSource source))
             {
-                case AudioChannel.Music:
-                    HandleLoopingAudio(musicSource, data);
-                    break;
-                case AudioChannel.Ambience:
-                    HandleLoopingAudio(ambientSource, data);
-                    break;
-                default: 
-                    HandleOveShotAudio(sfxSource, data);
-                    break;
+                ReturnSourceToPool(source);
             }
         }
+
+        #endregion
         
-        public void PlayDirect(AudioResource resource)
-        {
-            if (!resource) return;
-            
-            directSource.resource = resource;
-            directSource.Play();
-        }
-        
+
     }
 }

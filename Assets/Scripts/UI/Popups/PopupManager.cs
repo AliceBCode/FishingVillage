@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using DNExtensions.Systems.ObjectPooling;
+using FishingVillage.Gameplay;
 using FishingVillage.Missions;
 using FishingVillage.Missions.Objectives;
 using UnityEngine;
@@ -11,7 +12,7 @@ namespace FishingVillage.UI.Popup
 {
     public class PopupManager : MonoBehaviour
     {
-        public static PopupManager Instance;
+        public static PopupManager Instance { get; private set;}
 
         [Header("Popup Settings")] 
         [SerializeField] private PopupNotification popupPrefab;
@@ -23,6 +24,7 @@ namespace FishingVillage.UI.Popup
         [Header("Event Popup Settings")] 
         [SerializeField] private PopupSettings missionStartSettings;
         [SerializeField] private PopupSettings missionCompleteSettings;
+        [SerializeField] private PopupSettings objectiveActivatedSettings;
         [SerializeField] private PopupSettings objectiveCompleteSettings;
         [SerializeField] private PopupSettings itemObtainedSettings;
 
@@ -43,42 +45,58 @@ namespace FishingVillage.UI.Popup
         {
             GameEvents.OnMissionStarted += OnMissionStarted;
             GameEvents.OnMissionCompleted += OnMissionCompleted;
-            MissionObjective.OnObjectiveMet += OnObjectiveMet;
+            GameEvents.OnObjectiveActivated += OnObjectiveActivated;
+            GameEvents.OnObjectiveMet += OnObjectiveMet;
             GameEvents.OnItemObtained += OnItemObtained;
         }
+        
 
         private void OnDisable()
         {
             GameEvents.OnMissionStarted -= OnMissionStarted;
             GameEvents.OnMissionCompleted -= OnMissionCompleted;
-            MissionObjective.OnObjectiveMet -= OnObjectiveMet;
+            GameEvents.OnObjectiveActivated -= OnObjectiveActivated;
+            GameEvents.OnObjectiveMet -= OnObjectiveMet;
             GameEvents.OnItemObtained -= OnItemObtained;
         }
 
         private void OnMissionStarted(SOMission mission)
         {
+            if (!missionStartSettings.Enabled) return;
+            
             ShowPopup($"New Mission:\n{mission.Name}", missionStartSettings);
         }
 
         private void OnMissionCompleted(SOMission mission)
         {
+            if (!missionCompleteSettings.Enabled) return;
+            
             ShowPopup($"Mission Complete:\n{mission.Name}", missionCompleteSettings);
+        }
+        
+        private void OnObjectiveActivated(MissionObjective objective)
+        {
+            if (objective.IsHidden || !objectiveActivatedSettings.Enabled) return;
+
+            ShowPopup($"Objective Activated:\n{objective.GetDescription()}", objectiveActivatedSettings);
         }
 
         private void OnObjectiveMet(MissionObjective objective)
         {
-            if (objective.IsHidden) return;
+            if (objective.IsHidden || !objectiveCompleteSettings.Enabled) return;
 
             ShowPopup($"Objective Complete:\n{objective.GetDescription()}", objectiveCompleteSettings);
         }
 
         private void OnItemObtained(SOItem item)
         {
+                if (!itemObtainedSettings.Enabled) return;
+                
             ShowPopup($"{item.Name}", itemObtainedSettings, item.Icon);
         }
         
 
-        public void ShowPopup(string message, PopupSettings settings, Sprite overrideIcon = null)
+        private void ShowPopup(string message, PopupSettings settings, Sprite overrideIcon = null)
         {
             var popupGo = ObjectPooler.GetObjectFromPool(popupPrefab);
             popupGo.transform.SetParent(popupContainer, false);

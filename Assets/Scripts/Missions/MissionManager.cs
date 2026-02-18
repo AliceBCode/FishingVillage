@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using DNExtensions.Utilities;
+using FishingVillage.Gameplay;
 using FishingVillage.Interactable;
 using FishingVillage.Missions.Objectives;
 using UnityEngine;
@@ -33,14 +34,14 @@ namespace FishingVillage.Missions
             _missionObjectives = new Dictionary<SOMission, MissionObjective[]>();
             _missionObjectiveEvents = new Dictionary<SOMission, MissionObjectiveEvents[]>();
             
-            MissionObjective.OnObjectiveMet += OnObjectiveMet;
+            GameEvents.OnObjectiveMet += OnObjectiveMet;
         }
 
         private void OnDestroy()
         {
             if (Instance != this) return;
             
-            MissionObjective.OnObjectiveMet -= OnObjectiveMet;
+            GameEvents.OnObjectiveMet -= OnObjectiveMet;
                 
             foreach (var kvp in _missionObjectives)
             {

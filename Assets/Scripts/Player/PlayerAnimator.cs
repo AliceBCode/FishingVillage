@@ -1,5 +1,6 @@
 using DNExtensions.Utilities;
 using DNExtensions.Utilities.AutoGet;
+using FishingVillage.Gameplay;
 using PrimeTween;
 using UnityEngine;
 

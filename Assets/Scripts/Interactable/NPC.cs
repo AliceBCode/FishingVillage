@@ -4,6 +4,7 @@ using DNExtensions.Utilities;
 using DNExtensions.Utilities.Button;
 using DNExtensions.Utilities.Inline;
 using FishingVillage.Dialogue;
+using FishingVillage.Gameplay;
 using FishingVillage.Missions;
 using FishingVillage.Player;
 using FishingVillage.UI;

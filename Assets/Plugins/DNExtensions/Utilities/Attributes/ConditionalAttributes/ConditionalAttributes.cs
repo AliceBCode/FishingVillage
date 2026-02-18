@@ -41,14 +41,17 @@ namespace DNExtensions.Utilities
             var siblingProperty = FindSiblingProperty(property, _variableName);
             if (siblingProperty != null)
             {
+                if (siblingProperty.propertyType == SerializedPropertyType.ObjectReference)
+                    return Equals(siblingProperty.objectReferenceValue != null, _variableValue);
+
                 object currentValue = GetSerializedPropertyValue(siblingProperty);
-                
+    
                 if (siblingProperty.propertyType == SerializedPropertyType.Enum && _variableValue is Enum)
                 {
                     int enumIndex = Convert.ToInt32(_variableValue);
                     return Equals(currentValue, enumIndex);
                 }
-        
+
                 return Equals(currentValue, _variableValue);
             }
     
@@ -90,6 +93,8 @@ namespace DNExtensions.Utilities
                     return property.stringValue;
                 case SerializedPropertyType.Enum:
                     return property.enumValueIndex;
+                case SerializedPropertyType.ObjectReference:
+                    return property.objectReferenceValue;
                 default:
                     return null;
             }
