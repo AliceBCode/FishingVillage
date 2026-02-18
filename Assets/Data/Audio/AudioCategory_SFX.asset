@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: AudioCategory_SFX
   m_EditorClassIdentifier: Assembly-CSharp::FishingVillage.AudioLibrary.SOAudioCategory
   label: SFX
+  audioMixerGroup: {fileID: -2413289410748815672, guid: db163b1d0eba9cb43a6cdb405e31f7ca, type: 2}
   audioResources: []

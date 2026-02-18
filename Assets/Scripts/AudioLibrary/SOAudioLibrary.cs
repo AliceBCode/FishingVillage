@@ -2,8 +2,9 @@ using System;
 using DNExtensions.Utilities;
 using UnityEngine;
 using UnityEngine.Audio;
+using Object = UnityEngine.Object;
 
-namespace FishingVillage.AudioLibrary
+namespace DNExtensions.Systems.AudioSystem
 {
     [UniqueSO]
     [CreateAssetMenu(fileName = "AudioLibrary", menuName = "Scriptable Objects/Audio Library")]
@@ -15,7 +16,7 @@ namespace FishingVillage.AudioLibrary
 
         public SOAudioCategory[] AudioCategories => audioCategories;
         
-        public AudioResource GetAudioResource(string id)
+        public Object GetAudioResource(string id)
         {
             foreach (var category in audioCategories)
             {

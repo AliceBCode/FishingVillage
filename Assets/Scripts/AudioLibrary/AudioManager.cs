@@ -1,22 +1,34 @@
 using System.Collections.Generic;
 using DNExtensions.Utilities.AutoGet;
 using DNExtensions.Utilities.Inline;
+using FishingVillage;
 using UnityEngine;
 using UnityEngine.Audio;
 
-namespace FishingVillage.AudioLibrary
+namespace DNExtensions.Systems.AudioSystem
 {
     [DisallowMultipleComponent]
     [RequireComponent(typeof(AudioSource))]
     public class AudioManager : MonoBehaviour
     {
+        
         public static AudioManager Instance;
         
         [SerializeField, AutoGetAsset(Folders = new [] {"Assets/Data"}), Inline] private SOAudioLibrary library;
-        [SerializeField, AutoGetSelf, HideInInspector] private AudioSource sfxSource;
+        [SerializeField] private AudioSource directSource;
+        [SerializeField] private AudioSource sfxSource;
+        [SerializeField] private AudioSource musicSource; 
+        [SerializeField] private AudioSource ambientSource;
 
 
-        private readonly Dictionary<string, AudioResource> _audioCache = new();
+        private readonly Dictionary<string, AudioData> _audioCache = new();
+        
+        private struct AudioData
+        {
+            public Object audioObject;
+            public AudioMixerGroup group;
+            public AudioChannel channel;
+        }
 
         private void Awake()
         {
@@ -38,14 +50,17 @@ namespace FishingVillage.AudioLibrary
             {
                 if (!category) continue;
 
-                foreach (var mapping in category.AudioResources)
+                foreach (var mapping in category.AudioMappings)
                 {
                     if (string.IsNullOrEmpty(mapping.id)) continue;
                     
-                    if (!_audioCache.TryAdd(mapping.id, mapping.audioResource))
+                    _audioCache[mapping.id] = new AudioData
                     {
-                        Debug.LogWarning($"Duplicate Audio ID: {mapping.id} in {category.Label}");
-                    }
+                        audioObject = mapping.audioObject,
+                        group = category.AudioMixerGroup,
+                        channel = category.Channel
+                        
+                    };
                 }
             }
         }
@@ -66,21 +81,95 @@ namespace FishingVillage.AudioLibrary
         
         private void HandleJump() => PlayFromLibrary("Jump");
         private void HandleWalk() => PlayFromLibrary("Walk");
+        
+        private void ApplySettings(AudioSource source, AudioSettings settings)
+        {
+            source.clip = settings.clip;
+            source.volume = settings.volume;
+            source.pitch = settings.pitch;
+            source.panStereo = settings.stereoPan;
+            source.spatialBlend = settings.spatialBlend;
+            source.reverbZoneMix = settings.reverbZoneMix;
+            source.bypassEffects = settings.bypassEffects;
+            source.bypassListenerEffects = settings.bypassListenerEffects;
+            source.bypassReverbZones = settings.bypassReverbZones;
+            source.loop = settings.loop;
+
+            if (settings.set3DSettings)
+            {
+                source.dopplerLevel = settings.dopplerLevel;
+                source.spread = settings.spread;
+                source.rolloffMode = settings.rolloffMode;
+                source.minDistance = settings.minDistance;
+                source.maxDistance = settings.maxDistance;
+            }
+        }
+        
+        
+        private void HandleLoopingAudio(AudioSource source, AudioData data)
+        {
+            if (data.audioObject is AudioClip clip && source.clip == clip && source.isPlaying) return;
+            
+            source.outputAudioMixerGroup = data.group;
+            
+            if (data.audioObject is SOAudioProfile profile)
+            {
+                AudioSettings settings = profile.GetSettings();
+                ApplySettings(source, settings);
+                source.resource = settings.clip;
+            }
+            else if (data.audioObject is AudioClip directClip)
+            {
+                source.loop = true;
+                source.resource = directClip;
+            }
+            
+            source.Play();
+        }
+        
+        private void HandleOveShotAudio(AudioSource source, AudioData data)
+        {
+            
+            source.outputAudioMixerGroup = data.group;
+            
+            if (data.audioObject is SOAudioProfile profile)
+            {
+                AudioSettings settings = profile.GetSettings();
+                ApplySettings(source, settings);
+                source.PlayOneShot(settings.clip, settings.volume);
+            }
+            else if (data.audioObject is AudioClip clip)
+            {
+                source.PlayOneShot(clip);
+            }
+        }
+        
 
         public void PlayFromLibrary(string id)
         {
-            if (!_audioCache.TryGetValue(id, out var resource)) return;
+            if (!_audioCache.TryGetValue(id, out var data)) return;
             
-            sfxSource.resource = resource;
-            sfxSource.Play();
+            switch (data.channel)
+            {
+                case AudioChannel.Music:
+                    HandleLoopingAudio(musicSource, data);
+                    break;
+                case AudioChannel.Ambience:
+                    HandleLoopingAudio(ambientSource, data);
+                    break;
+                default: 
+                    HandleOveShotAudio(sfxSource, data);
+                    break;
+            }
         }
         
         public void PlayDirect(AudioResource resource)
         {
             if (!resource) return;
             
-            sfxSource.resource = resource;
-            sfxSource.Play();
+            directSource.resource = resource;
+            directSource.Play();
         }
+        
     }
 }
