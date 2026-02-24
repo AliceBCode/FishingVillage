@@ -1,4 +1,3 @@
-using System;
 using DNExtensions.Utilities;
 using DNExtensions.Utilities.AutoGet;
 using FishingVillage.Gameplay;
@@ -16,21 +15,19 @@ namespace FishingVillage.Interactable
         [Header("References")]
         [SerializeField] private Vector3 offset = Vector3.zero;
         [SerializeField, MinMaxRange(0,1)] private RangedFloat tRange = new (0f, 1f);
-        [SerializeField, ReadOnly] private bool isConstrained;
-
-        private InteractableVisuals _visuals;
-        private bool _isShowingPrompt;
+        
         [SerializeField, AutoGetSelf, HideInInspector] private Rope rope;
+        [SerializeField, AutoGetSelf, HideInInspector] private InteractableVisuals visuals;
+        private bool _isShowingPrompt;
+        private bool _isConstrained;
+
         
         private void Awake()
         {
             if (!rope)
             {
                 enabled = false;
-                return;
             }
-            _visuals = GetComponent<InteractableVisuals>();
-
         }
         
 
@@ -42,7 +39,7 @@ namespace FishingVillage.Interactable
                 bool playerIsAbove = PlayerController.Instance.transform.position.y > closestPoint.y;
                 Vector3 adjustedOffset = playerIsAbove ? Vector3.down : Vector3.up;
         
-                _visuals?.UpdatePromptPosition(closestPoint + adjustedOffset);
+                visuals?.UpdatePromptPosition(closestPoint + adjustedOffset);
             }
         }
         
@@ -77,21 +74,22 @@ namespace FishingVillage.Interactable
         
         public void Release()
         {
-            isConstrained = false;
+            _isConstrained = false;
             rope?.SetTarget(null);
         }
 
         public bool CanInteract()
         {
-            return !isConstrained;
+            return !_isConstrained;
         }
 
         public void Interact()
         {
             if (!CanInteract()) return;
             
-            isConstrained = true;
+            _isConstrained = true;
             rope?.SetTarget(PlayerController.Instance?.transform);
+            rope?.ApplyImpulse(Vector3.down * 2f);
             PlayerController.Instance?.AttachToPath(this);
             GameEvents.InteractedWith(this);
         }
@@ -108,18 +106,18 @@ namespace FishingVillage.Interactable
                 bool playerIsAbove = PlayerController.Instance.transform.position.y > closestPoint.y;
                 Vector3 adjustedOffset = playerIsAbove ? Vector3.down : Vector3.up;
         
-                _visuals?.Show(closestPoint + adjustedOffset);
+                visuals?.Show(closestPoint + adjustedOffset);
             }
             else
             {
-                _visuals?.Show();
+                visuals?.Show();
             }
         }
 
         public void HideInteract()
         {
             _isShowingPrompt = false;
-            _visuals?.Hide();
+            visuals?.Hide();
         }
         
         

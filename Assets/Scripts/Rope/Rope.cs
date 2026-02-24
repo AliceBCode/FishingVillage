@@ -1,5 +1,4 @@
 using System;
-using DNExtensions.Components;
 using DNExtensions.Utilities;
 using UnityEngine;
 using DNExtensions.Utilities.AutoGet;
@@ -40,40 +39,56 @@ namespace FishingVillage.RopeSystem
     [RequireComponent(typeof(TubeRenderer))]
     public class Rope : MonoBehaviour
     {
-        [Header("Curve Settings")]
+        [Header("Curve")]
         [SerializeField] private float targetWeight = 2f;
         [SerializeField] private float restingSag = 1f;
         [SerializeField] private Transform target;
         
-        [Header("Spring Settings")]
-        [SerializeField] private bool useSpringOnRelease = true;
+        [Header("Spring")]
         [SerializeField] private float springStrength = 100f;
         [SerializeField] private float springDamping = 8f;
 
         [Separator]
         [SerializeField] private CreationSettings creation = new();
         [SerializeField] private VisualizationSettings visualization = new();
-
-        [AutoGetSelf, HideInInspector] public TubeRenderer tubeRenderer;
+        [AutoGetSelf, HideInInspector, SerializeField] private TubeRenderer tubeRenderer;
+        
         private RopePoint[] _points;
         private Vector3[] _velocities;
-        private Vector3[] _lastPositions;
         
         public RopePoint[] Points => _points;
         
-
-
         
         private void OnValidate()
         {
             creation.Validate();
-            if (!tubeRenderer) tubeRenderer = this.GetOrAddComponent<TubeRenderer>();
         }
 
         private void Awake()
         {
             _points = GetComponentsInChildren<RopePoint>();
             InitializeArrays();
+            UpdatePointsCollider();
+        }
+
+        private void UpdatePointsCollider()
+        {
+            if (!Application.isPlaying) return;
+            
+            if (target)
+            {
+                foreach (var point in _points)
+                {
+                    point.Collider.isTrigger = true;
+                }
+            }
+            else
+            {
+                foreach (var point in _points)
+                {
+                    point.Collider.isTrigger = false;
+                }
+            }
         }
 
         private void Update()
@@ -93,7 +108,18 @@ namespace FishingVillage.RopeSystem
 
         #region Public API
 
-        public void SetTarget(Transform newTarget) => target = newTarget;
+        public void SetTarget(Transform newTarget) 
+        {
+            target = newTarget;
+            UpdatePointsCollider();
+        }
+        
+        public void ApplyImpulse(Vector3 impulse)
+        {
+            if (_velocities == null) return;
+            for (int i = 1; i < _points.Length - 1; i++)
+                _velocities[i] += impulse;
+        }
 
         public float GetClosestT(Vector3 position)
         {
@@ -112,16 +138,12 @@ namespace FishingVillage.RopeSystem
         {
             if (_points == null || _points.Length < 2) return Vector3.zero;
 
-            Vector3 start = _points[0].transform.position;
-            Vector3 end = _points[^1].transform.position;
+            float scaledT = t * (_points.Length - 1);
+            int indexA = Mathf.Clamp((int)scaledT, 0, _points.Length - 2);
+            int indexB = indexA + 1;
+            float localT = scaledT - indexA;
 
-            if (target)
-            {
-                float weightT = GetClosestT(target.position);
-                return CalculatePointOnTargetCurve(t, start, end, weightT);
-            }
-
-            return CalculateRestingPosition(t, start, end);
+            return Vector3.Lerp(_points[indexA].transform.position, _points[indexB].transform.position, localT);
         }
         
         #endregion
@@ -133,10 +155,6 @@ namespace FishingVillage.RopeSystem
             if (_points.Length == 0) return;
 
             _velocities = new Vector3[_points.Length];
-            _lastPositions = new Vector3[_points.Length];
-
-            for (int i = 0; i < _points.Length; i++)
-                _lastPositions[i] = _points[i].transform.position;
         }
 
         private void UpdateCurve()
@@ -154,23 +172,7 @@ namespace FishingVillage.RopeSystem
                     ? CalculatePointOnTargetCurve(pointT, start, end, weightT)
                     : CalculateRestingPosition(pointT, start, end);
 
-                if (target)
-                {
-                    _points[i].transform.position = targetPos;
-                    if (Time.deltaTime > 0)
-                        _velocities[i] = (targetPos - _lastPositions[i]) / Time.deltaTime;
-                }
-                else if (useSpringOnRelease)
-                {
-                    UpdateSpring(i, _points[i].transform.position, targetPos);
-                }
-                else
-                {
-                    _points[i].transform.position = targetPos;
-                    _velocities[i] = Vector3.zero;
-                }
-
-                _lastPositions[i] = _points[i].transform.position;
+                UpdateSpring(i, _points[i].transform.position, targetPos);
             }
         }
 
@@ -222,7 +224,7 @@ namespace FishingVillage.RopeSystem
         #region Point Creation
 
         [Button(ButtonPlayMode.OnlyWhenNotPlaying)]
-        public void CreatePoints()
+        private void CreatePoints()
         {
             ClearPoints();
 
@@ -246,7 +248,7 @@ namespace FishingVillage.RopeSystem
         }
 
         [Button(ButtonPlayMode.OnlyWhenNotPlaying)]
-        public void ClearPoints()
+        private void ClearPoints()
         {
             var existingPoints = GetComponentsInChildren<RopePoint>();
             for (int i = existingPoints.Length - 1; i >= 0; i--)

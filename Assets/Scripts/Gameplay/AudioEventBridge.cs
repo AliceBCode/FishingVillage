@@ -6,8 +6,8 @@ namespace FishingVillage.Gameplay
 {
     public class AudioEventBridge : MonoBehaviour
     {
-        [SerializeField] private string playerWalkSoundId = "Walk";
-        [SerializeField] private string playerJumpSoundId = "Jump";
+        [SerializeField, AudioID] private string playerWalkSoundId = "Walk";
+        [SerializeField, AudioID] private string playerJumpSoundId = "Jump";
         private void OnEnable()
         {
             GameEvents.OnWalkAction += PlayWalkSound;
@@ -24,12 +24,13 @@ namespace FishingVillage.Gameplay
 
         private void PlayWalkSound()
         {
-            AudioManager.Instance?.PlayAtPosition(playerWalkSoundId, PlayerController.Instance.transform);
+            AudioLibrary.PlayAtPosition(playerWalkSoundId, PlayerController.Instance.transform);
         }
         private void PlayJumpSound()
         {
-            AudioManager.Instance?.PlayAtPosition(playerJumpSoundId, PlayerController.Instance.transform);
+            AudioLibrary.PlayAtPosition(playerJumpSoundId, PlayerController.Instance.transform);
         }
-        private void PlaySignalSound(string id) => AudioManager.Instance?.Play(id);
+        
+        private void PlaySignalSound(string id) => AudioLibrary.Play(id);
     }
 }

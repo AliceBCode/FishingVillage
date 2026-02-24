@@ -1,6 +1,8 @@
+using System;
 using DNExtensions.Utilities;
 using FishingVillage.Gameplay;
 using FishingVillage.Interactable;
+using FishingVillage.RopeSystem;
 using PrimeTween;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -15,7 +17,7 @@ namespace FishingVillage.Player
     {
         public static PlayerController Instance;
 
-        [Header("Movement Settings")]
+        [Header("Movement")]
         public float moveSpeed = 10f;
         public float gravity = 1.5f;
         public float maxFallSpeed = 25f;
@@ -23,26 +25,28 @@ namespace FishingVillage.Player
         public float jumpBufferTime = 0.2f;
         public float coyoteTime = 0.1f;
 
-        [Header("Collision Settings")]
+        [Header("Collision")]
         public float ceilingCheckRadius = 0.1f;
         public Vector3 ceilingCheckOffset = Vector3.up;
         public float groundCheckRadius = 0.31f;
         public Vector3 groundCheckOffset = Vector3.down;
+        public float ropeCheckRadius = 0.31f;
         public LayerMask collisionLayer;
 
         [Separator]
         [ReadOnly] public bool isGrounded;
         [ReadOnly] public float jumpBufferTimer;
+        [ReadOnly] public float constrainedMovementTimer;
         [ReadOnly] public Vector3 velocity;
 
-        
+
         private PlayerAnimator _animator;
         private MovementState _currentState;
         private NormalMovementState _normalState;
         private ConstrainedMovementState _constrainedState;
         private LockedMovementState _lockedState;
 
-        
+        private const float ConstraintMovementBufferTime = 0.1f;
         
         public CharacterController Controller { get; private set; }
 
@@ -68,11 +72,7 @@ namespace FishingVillage.Player
             _constrainedState = new ConstrainedMovementState(this);
             _lockedState = new LockedMovementState(this);
         }
-
-        private void Start()
-        {
-            SwitchState(_normalState);
-        }
+        
 
         private void OnEnable()
         {
@@ -85,6 +85,12 @@ namespace FishingVillage.Player
             Input.OnJumpAction -= OnJumpAction;
             BlockedMovementAnimationBehavior.OnStateExited -= BlockedMovementBehaviorExited;
         }
+        
+        private void Start()
+        {
+            SwitchState(_normalState);
+        }
+        
 
         private void BlockedMovementBehaviorExited()
         {
@@ -101,7 +107,30 @@ namespace FishingVillage.Player
 
         private void Update()
         {
-            if (jumpBufferTimer > 0f) jumpBufferTimer -= Time.deltaTime;
+            if (jumpBufferTimer > 0f)
+            {
+                jumpBufferTimer -= Time.deltaTime;
+            }
+            
+            if (constrainedMovementTimer > 0f)
+            {
+                constrainedMovementTimer -= Time.deltaTime;
+            }
+            
+            if (_currentState == _normalState && constrainedMovementTimer <= 0)
+            {
+                var colliders = Physics.OverlapSphere(transform.position + groundCheckOffset, ropeCheckRadius, collisionLayer);
+
+                foreach (var coll in colliders)
+                {
+                    if (coll.TryGetComponent(out RopePoint point))
+                    {
+                        point.ParentPath.Interact();
+                    }
+                }
+
+            }
+            
             _currentState?.Update();
         }
 
@@ -116,6 +145,7 @@ namespace FishingVillage.Player
 
             if (_currentState != newState)
             {
+                constrainedMovementTimer = ConstraintMovementBufferTime;
                 _currentState?.Exit();
                 _currentState = newState;
                 _currentState.Enter();

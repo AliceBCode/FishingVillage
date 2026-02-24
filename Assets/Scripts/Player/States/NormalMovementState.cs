@@ -64,7 +64,6 @@ namespace FishingVillage.Player
                 Vector3 vel = ctx.velocity;
                 vel.y = ctx.jumpForce;
                 ctx.velocity = vel;
-                
                 ctx.jumpBufferTimer = 0;
                 _coyoteTimer = 0;
                 GameEvents.JumpedAction();

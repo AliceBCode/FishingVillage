@@ -951,7 +951,6 @@ MonoBehaviour:
   targetWeight: 1.22
   restingSag: 1
   target: {fileID: 0}
-  useSpringOnRelease: 1
   springStrength: 100
   springDamping: 8
   creation:
@@ -977,12 +976,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d542ef1bcd0d4ede8a55581ff3e05be9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishingVillage.Gameplay.ConstrainableRopePath
-  offset: {x: 0, y: 1.25, z: -0.1}
+  offset: {x: 0, y: 1.25, z: -0.2}
   tRange:
     minValue: 0.1
     maxValue: 0.9
-  isConstrained: 0
   rope: {fileID: 6431755785001280908}
+  visuals: {fileID: 6883066898462064884}
 --- !u!1 &6095384666656005959
 GameObject:
   m_ObjectHideFlags: 0
