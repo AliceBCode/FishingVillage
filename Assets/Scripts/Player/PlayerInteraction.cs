@@ -18,8 +18,8 @@ namespace FishingVillage.Player
     
     private PlayerControllerInput _input;
     private PlayerController _playerController;
-    
-    private bool CanInteract => canInteractWhileAirborne || _playerController.isGrounded;
+
+    public bool CanInteractWhileAirborne => canInteractWhileAirborne;
     
 
 
@@ -43,7 +43,7 @@ namespace FishingVillage.Player
     {
         if (!_playerController.CanInteract()) return;
         
-        if (CanInteract && context.performed)
+        if (context.performed)
         {
             closestInteractable?.Value?.Interact();
         }
@@ -58,16 +58,25 @@ namespace FishingVillage.Player
 
     private void CheckForInteractable()
     {
-        if (!_playerController.CanInteract()) return;
-        
-        
+        closestInteractable.TryGetValue(out IInteractable current);
+
+        if (!_playerController.CanInteract())
+        {
+            if (current != null)
+            {
+                current.HideInteract();
+                closestInteractable.Value = null;
+            }
+            return;
+        }
+
         var colliders = Physics.OverlapSphere(transform.position + interactCheckOffset, interactCheckRange, interactableLayer);
         var closestDistance = float.MaxValue;
-        Interactable.IInteractable closest = null;
+        IInteractable closest = null;
 
         foreach (var col in colliders)
         {
-            if (col.TryGetComponent(out Interactable.IInteractable interactable) && interactable.CanInteract())
+            if (col.TryGetComponent(out IInteractable interactable) && interactable.CanInteract())
             {
                 float distance = Vector3.Distance(transform.position, col.transform.position);
                 if (distance < closestDistance)
@@ -78,16 +87,15 @@ namespace FishingVillage.Player
             }
         }
 
-        closestInteractable.TryGetValue(out Interactable.IInteractable current);
-
         if (closest != current)
         {
             current?.HideInteract();
             closest?.ShowInteract();
         }
-    
+
         closestInteractable.Value = closest;
     }
+    
 
     private void OnDrawGizmos()
     {

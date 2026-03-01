@@ -19,7 +19,7 @@ namespace FishingVillage.Interactable
         [SerializeField, AutoGetSelf, HideInInspector] private Rope rope;
         [SerializeField, AutoGetSelf, HideInInspector] private InteractableVisuals visuals;
         private bool _isShowingPrompt;
-        private bool _isConstrained;
+        private bool _beingUsed;
 
         
         private void Awake()
@@ -72,27 +72,41 @@ namespace FishingVillage.Interactable
             return closest;
         }
         
+        public void SetBeingUsed(Transform target)
+        {
+            HideInteract();
+            _beingUsed = true;
+            rope?.SetTarget(target);
+            rope?.ApplyImpulse(Vector3.down * 2f);
+            GameEvents.InteractedWith(this);
+        }
+        
+        public void Interact()
+        {
+            if (!CanInteract()) return;
+
+            Vector3 attachPoint = GetClosestRopePointPosition(PlayerController.Instance.transform.position);
+
+            HideInteract();
+            PlayerController.Instance.JumpTo(attachPoint, () =>
+            {
+                SetBeingUsed(PlayerController.Instance.transform);
+                PlayerController.Instance.AttachToPath(this);
+            });
+        }
+        
+        
         public void Release()
         {
-            _isConstrained = false;
+            _beingUsed = false;
             rope?.SetTarget(null);
         }
 
         public bool CanInteract()
         {
-            return !_isConstrained;
+            return !_beingUsed;
         }
-
-        public void Interact()
-        {
-            if (!CanInteract()) return;
-            
-            _isConstrained = true;
-            rope?.SetTarget(PlayerController.Instance?.transform);
-            rope?.ApplyImpulse(Vector3.down * 2f);
-            PlayerController.Instance?.AttachToPath(this);
-            GameEvents.InteractedWith(this);
-        }
+        
 
         public void ShowInteract()
         {

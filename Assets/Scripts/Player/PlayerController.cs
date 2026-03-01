@@ -41,10 +41,12 @@ namespace FishingVillage.Player
 
 
         private PlayerAnimator _animator;
+        private PlayerInteraction _interaction;
         private MovementState _currentState;
         private NormalMovementState _normalState;
         private ConstrainedMovementState _constrainedState;
         private LockedMovementState _lockedState;
+        private TransitionMovementState _transitionState;
 
         private const float ConstraintMovementBufferTime = 0.1f;
         
@@ -67,10 +69,11 @@ namespace FishingVillage.Player
             Controller = GetComponent<CharacterController>();
             Input = GetComponent<PlayerControllerInput>();
             _animator = GetComponent<PlayerAnimator>();
-
+            _interaction = GetComponent<PlayerInteraction>();
             _normalState = new NormalMovementState(this);
             _constrainedState = new ConstrainedMovementState(this);
             _lockedState = new LockedMovementState(this);
+            _transitionState = new TransitionMovementState(this);
         }
         
 
@@ -117,7 +120,7 @@ namespace FishingVillage.Player
                 constrainedMovementTimer -= Time.deltaTime;
             }
             
-            if (_currentState == _normalState && constrainedMovementTimer <= 0)
+            if (_currentState == _normalState && constrainedMovementTimer <= 0 && velocity.y < 0)
             {
                 var colliders = Physics.OverlapSphere(transform.position + groundCheckOffset, ropeCheckRadius, collisionLayer);
 
@@ -125,7 +128,8 @@ namespace FishingVillage.Player
                 {
                     if (coll.TryGetComponent(out RopePoint point))
                     {
-                        point.ParentPath.Interact();
+                        point.ParentPath.SetBeingUsed(transform);
+                        AttachToPath(point.ParentPath);
                     }
                 }
 
@@ -167,6 +171,18 @@ namespace FishingVillage.Player
         {
             SwitchState(_lockedState, animTrigger);
         }
+        
+        public void MoveTo(Vector3 target, Action onComplete = null)
+        {
+            _transitionState.Set(target, TransitionMode.MoveTo, onComplete);
+            SwitchState(_transitionState);
+        }
+
+        public void JumpTo(Vector3 target, Action onComplete = null, float jumpHeight = 3f, float jumpDuration = 0.5f)
+        {
+            _transitionState.Set(target, TransitionMode.JumpTo, onComplete, jumpHeight, jumpDuration);
+            SwitchState(_transitionState);
+        }
 
         public void AttachToPath(ConstrainableRopePath ropePath)
         {
@@ -185,9 +201,13 @@ namespace FishingVillage.Player
 
         public bool CanInteract()
         {
-            return _currentState.Type is PlayerState.Normal or PlayerState.Constrained;
+            return _currentState.Type is PlayerState.Normal or PlayerState.Constrained && (_interaction.CanInteractWhileAirborne || isGrounded);
         }
 
+        
+        
+        
+        
         private void OnDrawGizmos()
         {
             Gizmos.color = isGrounded ? Color.green : Color.red;
@@ -198,6 +218,9 @@ namespace FishingVillage.Player
                 Gizmos.color = Color.green;
                 Gizmos.DrawWireSphere(transform.position + ceilingCheckOffset, ceilingCheckRadius);
             }
+            
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireSphere(transform.position + groundCheckOffset, ropeCheckRadius);
         }
     }
 }
