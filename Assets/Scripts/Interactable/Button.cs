@@ -13,9 +13,8 @@ namespace FishingVillage.Interactable
     {
         [SerializeField] private bool canInteract = true;
         [SerializeField] private bool oneTimeUse;
+        [SerializeReference, SerializableSelector] private GameAction[] actionsOnPress = Array.Empty<GameAction>();
         [SerializeField] private UnityEvent onPressed;
-        [SerializeReference, SerializableSelector] 
-        private GameAction[] actionsOnPress = Array.Empty<GameAction>();
         
         private InteractableVisuals _visuals;
         private bool _pressed;
@@ -25,7 +24,10 @@ namespace FishingVillage.Interactable
             _visuals = GetComponent<InteractableVisuals>();
         }
 
-        public bool CanInteract() => canInteract && (!_pressed || !oneTimeUse);
+        public bool CanInteract()
+        {
+            return canInteract && (!_pressed || !oneTimeUse);
+        }
 
         public void Interact()
         {

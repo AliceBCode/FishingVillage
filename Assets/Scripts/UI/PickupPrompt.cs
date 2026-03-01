@@ -1,21 +1,23 @@
-
 using DNExtensions.Utilities.AutoGet;
+using FishingVillage.Gameplay;
 using PrimeTween;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace FishingVillage.UI
 {
     
     [SelectionBase]
-    public class InteractPrompt : MonoBehaviour
+    public class PickupPrompt : MonoBehaviour
     {
-        public static InteractPrompt Instance;
+        public static PickupPrompt Instance;
         
         [Header("Settings")] 
         [Tooltip("Duration of the fade in/out animation")] 
-        [SerializeField] private float fadeDuration = 0.5f;
+        [SerializeField] private float showDuration = 0.5f;
+        [SerializeField, AutoGetChildren] private Image itemImage;
         [SerializeField, AutoGetSelf] private CanvasGroup canvasGroup;
-
+        
         private RectTransform _rectTransform;
         private Sequence _fadeSequence;
 
@@ -29,9 +31,10 @@ namespace FishingVillage.UI
         
             Instance = this;
             
-            Hide(false);
+            canvasGroup.alpha = 0f;
             _rectTransform = canvasGroup.transform as RectTransform;
         }
+        
 
         private void OnDestroy()
         {
@@ -42,46 +45,26 @@ namespace FishingVillage.UI
         }
         
 
-        public void Show(Vector3 position, bool animate)
+        public void Show(Vector3 position, SOItem item)
         {
             if (_fadeSequence.isAlive)
             {
                 _fadeSequence.Stop();
             }
             
+            itemImage.sprite = item.Icon;
             _rectTransform.position = position;
             
-            if (animate)
-            {
-                _fadeSequence = Sequence.Create();
-                _fadeSequence.Group(Tween.Alpha(canvasGroup, 1f, fadeDuration));
-            }
-            else
-            {
-                canvasGroup.alpha = 1f;
-            }
+            var fadeInDuration = showDuration * 0.5f;
+            var delay = showDuration * 0.2f;
+            var fadeOutDuration = showDuration * 0.3f;
+            
+            _fadeSequence = Sequence.Create();
+            _fadeSequence.Group(Tween.Alpha(canvasGroup, 1f, fadeInDuration));
+            _fadeSequence.ChainDelay(delay);
+            _fadeSequence.Chain(Tween.Alpha(canvasGroup, 0f, fadeOutDuration));
         }
         
-        
-
-        public void Hide(bool animate)
-        {
-            if (_fadeSequence.isAlive)
-            {
-                _fadeSequence.Stop();
-            }
-
-            if (animate)
-            {
-                _fadeSequence = Sequence.Create();
-                _fadeSequence.Group(Tween.Alpha(canvasGroup, 0f, fadeDuration));
-            }
-            else
-            {
-                
-                canvasGroup.alpha = 0f;
-            }
-        }
 
         public void UpdatePosition(Vector3 position)
         {

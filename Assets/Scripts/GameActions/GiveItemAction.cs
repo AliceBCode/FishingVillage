@@ -10,7 +10,7 @@ namespace FishingVillage.GameActions
 {
     [Serializable]
     [MovedFrom("")]
-    [SerializableSelectorName("Give Item", "Item")]
+    [SerializableSelectorName("Give Item", "Inventory")]
     public class GiveItemAction : GameAction
     {
         [SerializeField, SOSelector("Assets/Data")] private SOItem item;

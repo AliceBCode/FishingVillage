@@ -27,12 +27,13 @@ namespace FishingVillage.Interactable
         public void Interact()
         {
             if (!CanInteract()) return;
-            
-            taken = true;
-            PlayerInventory.Instance.TryAddItem(item);
-                
-            onItemTaken?.Invoke();
-            GameEvents.InteractedWith(this);
+
+            if (PlayerInventory.Instance.TryAddItem(item))
+            {
+                taken = true;
+                onItemTaken?.Invoke();
+                GameEvents.InteractedWith(this);
+            }
         }
 
         public void ShowInteract()

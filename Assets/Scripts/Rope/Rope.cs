@@ -64,7 +64,7 @@ namespace FishingVillage.RopeSystem
             creation.Validate();
         }
 
-        private void Awake()
+        private void Start()
         {
             _points = GetComponentsInChildren<RopePoint>();
             InitializeArrays();

@@ -30,7 +30,8 @@ namespace FishingVillage.Player
         public Vector3 ceilingCheckOffset = Vector3.up;
         public float groundCheckRadius = 0.31f;
         public Vector3 groundCheckOffset = Vector3.down;
-        public float ropeCheckRadius = 0.31f;
+        public float ropeCheckRadius = 0.6f;
+        public Vector3 ropeCheckOffset = Vector3.down;
         public LayerMask collisionLayer;
 
         [Separator]
@@ -48,10 +49,11 @@ namespace FishingVillage.Player
         private LockedMovementState _lockedState;
         private TransitionMovementState _transitionState;
 
-        private const float ConstraintMovementBufferTime = 0.1f;
+        private const float ConstraintMovementBufferTime = 0.05f;
         
+        
+        public PlayerState CurrentState => _currentState?.Type ?? PlayerState.Normal;
         public CharacterController Controller { get; private set; }
-
         public PlayerControllerInput Input { get; private set; }
 
 
@@ -120,9 +122,16 @@ namespace FishingVillage.Player
                 constrainedMovementTimer -= Time.deltaTime;
             }
             
-            if (_currentState == _normalState && constrainedMovementTimer <= 0 && velocity.y < 0)
+            _currentState?.Update();
+            
+            CheckForRope();
+        }
+
+        private void CheckForRope()
+        {
+            if (_currentState == _normalState && !isGrounded && constrainedMovementTimer <= 0 && velocity.y < 0)
             {
-                var colliders = Physics.OverlapSphere(transform.position + groundCheckOffset, ropeCheckRadius, collisionLayer);
+                var colliders = Physics.OverlapSphere(transform.position + ropeCheckOffset, ropeCheckRadius, collisionLayer);
 
                 foreach (var coll in colliders)
                 {
@@ -132,10 +141,7 @@ namespace FishingVillage.Player
                         AttachToPath(point.ParentPath);
                     }
                 }
-
             }
-            
-            _currentState?.Update();
         }
 
         private void FixedUpdate()
@@ -178,9 +184,9 @@ namespace FishingVillage.Player
             SwitchState(_transitionState);
         }
 
-        public void JumpTo(Vector3 target, Action onComplete = null, float jumpHeight = 3f, float jumpDuration = 0.5f)
+        public void JumpTo(Vector3 target, Action onComplete = null)
         {
-            _transitionState.Set(target, TransitionMode.JumpTo, onComplete, jumpHeight, jumpDuration);
+            _transitionState.Set(target, TransitionMode.JumpTo, onComplete, 2, 0.4f);
             SwitchState(_transitionState);
         }
 
@@ -201,11 +207,8 @@ namespace FishingVillage.Player
 
         public bool CanInteract()
         {
-            return _currentState.Type is PlayerState.Normal or PlayerState.Constrained && (_interaction.CanInteractWhileAirborne || isGrounded);
+            return _currentState.Type is PlayerState.Normal && (_interaction.CanInteractWhileAirborne || isGrounded);
         }
-
-        
-        
         
         
         private void OnDrawGizmos()
@@ -220,7 +223,7 @@ namespace FishingVillage.Player
             }
             
             Gizmos.color = Color.yellow;
-            Gizmos.DrawWireSphere(transform.position + groundCheckOffset, ropeCheckRadius);
+            Gizmos.DrawWireSphere(transform.position + ropeCheckOffset, ropeCheckRadius);
         }
     }
 }

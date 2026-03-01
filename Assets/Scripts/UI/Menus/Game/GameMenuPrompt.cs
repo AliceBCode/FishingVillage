@@ -1,5 +1,7 @@
 
 using DNExtensions.Systems.Shapes;
+using DNExtensions.Systems.Springs;
+using DNExtensions.Utilities.AutoGet;
 using TMPro;
 using UnityEngine;
 
@@ -18,6 +20,7 @@ namespace FishingVillage.UI.Menus
         [SerializeField] private TextMeshProUGUI menuTextMesh;
         [SerializeField] private TextMeshProUGUI hudTextMesh;
         [SerializeField] private SDFCircle circle;
+        [SerializeField, AutoGetSelf] private RectSpring rectSpring;
 
 
         private Color _hudColor = Color.clear;
@@ -27,6 +30,33 @@ namespace FishingVillage.UI.Menus
             _hudColor = circle.baseColor;
         }
 
+        public void EnablePrompt(bool state, bool animate = true)
+        {
+            if (animate)
+            {
+                if (state)
+                {
+                    rectSpring.AnimateFromOffset();
+                }
+                else
+                {
+                    rectSpring.AnimateToOffset();
+                }
+            }
+            else
+            {
+                if (state)
+                {
+                    rectSpring.SnapToBase();
+                }
+                else
+                {
+                    rectSpring.SnapToOffset();
+                }
+            }
+
+        }
+
         public void ShowMenuVisuals()
         {
             circle.baseColor = menuColor;
@@ -34,7 +64,7 @@ namespace FishingVillage.UI.Menus
             hudTextMesh.gameObject.SetActive(false);
         }
 
-        public void ShowDefaultVisuals()
+        public void ShowGameplayVisuals()
         {
             circle.baseColor = _hudColor;
             menuTextMesh.gameObject.SetActive(false);

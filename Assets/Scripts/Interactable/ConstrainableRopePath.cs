@@ -85,7 +85,7 @@ namespace FishingVillage.Interactable
         {
             if (!CanInteract()) return;
 
-            Vector3 attachPoint = GetClosestRopePointPosition(PlayerController.Instance.transform.position);
+            Vector3 attachPoint = GetClosestRopePointPosition(PlayerController.Instance.transform.position).Add(offset);
 
             HideInteract();
             PlayerController.Instance.JumpTo(attachPoint, () =>

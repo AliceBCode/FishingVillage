@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 5776594166064480884}
   - component: {fileID: 6808020917692015427}
   - component: {fileID: 3398567905700846240}
-  - component: {fileID: 4825170054327047441}
-  - component: {fileID: 6945454293392047707}
   - component: {fileID: 1550361551359422968}
+  - component: {fileID: 6945454293392047707}
+  - component: {fileID: 4825170054327047441}
   m_Layer: 0
   m_Name: Button
   m_TagString: Untagged
@@ -78,6 +78,36 @@ MonoBehaviour:
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
+--- !u!114 &1550361551359422968
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1590022074706001590}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df6bbb9005ac4091b76b1a27c03096d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FishingVillage.Interactable.IdentifiableInteractable
+  id: 335c63a7-0b1b-42e2-94c8-c0e6bd4d1ee0
+--- !u!114 &6945454293392047707
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1590022074706001590}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bae273b9878b44f49ccb8a7d615831f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FishingVillage.Interactable.InteractableVisuals
+  useOutline: 1
+  showPrompt: 1
+  animatePromptShow: 1
+  animatePromptHide: 1
+  promptOffset: {x: 0, y: 1.48, z: 0}
 --- !u!114 &4825170054327047441
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -99,34 +129,6 @@ MonoBehaviour:
   references:
     version: 2
     RefIds: []
---- !u!114 &6945454293392047707
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1590022074706001590}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bae273b9878b44f49ccb8a7d615831f9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::FishingVillage.Interactable.InteractableVisuals
-  showPrompt: 1
-  promptOffset: {x: 0, y: 1.48, z: 0}
-  useOutline: 1
---- !u!114 &1550361551359422968
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1590022074706001590}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: df6bbb9005ac4091b76b1a27c03096d2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::FishingVillage.Interactable.IdentifiableInteractable
-  id: 335c63a7-0b1b-42e2-94c8-c0e6bd4d1ee0
 --- !u!1 &6782521676386023508
 GameObject:
   m_ObjectHideFlags: 0

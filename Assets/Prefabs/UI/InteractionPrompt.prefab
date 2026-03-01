@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4724428368937995284}
   - component: {fileID: 4823363318454294842}
   - component: {fileID: 9079203337418284947}
+  - component: {fileID: 331030853915492090}
   - component: {fileID: 3297427464394540961}
   m_Layer: 0
   m_Name: InteractionPrompt
@@ -83,6 +84,27 @@ CanvasGroup:
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
+--- !u!114 &331030853915492090
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3117752721720365359}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0d39d6e8018bff44b72327e94401c0e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp-firstpass::DNExtensions.Utilities.Billboard
+  rotateToCamera: 1
+  rotationSpeed: 25
+  distanceToCameraAffectsScale: 1
+  minMaxScaleMultiplier:
+    minValue: 1
+    maxValue: 1.5
+  minMaxDistance:
+    minValue: 5
+    maxValue: 15
 --- !u!114 &3297427464394540961
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -96,15 +118,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishingVillage.UI.InteractPrompt
   fadeDuration: 0.5
-  rotateToCamera: 1
-  rotationSpeed: 25
-  distanceToCameraAffectsScale: 1
-  minMaxScaleMultiplier:
-    minValue: 1
-    maxValue: 1.5
-  minMaxDistance:
-    minValue: 5
-    maxValue: 15
   canvasGroup: {fileID: 9079203337418284947}
   textPrompt: {fileID: 6956138932771425467}
 --- !u!1001 &1878183904076459680

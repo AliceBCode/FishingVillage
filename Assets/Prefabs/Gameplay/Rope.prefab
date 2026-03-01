@@ -978,8 +978,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FishingVillage.Gameplay.ConstrainableRopePath
   offset: {x: 0, y: 1.25, z: -0.2}
   tRange:
-    minValue: 0.1
-    maxValue: 0.9
+    minValue: 0.15
+    maxValue: 0.85
   rope: {fileID: 6431755785001280908}
   visuals: {fileID: 6883066898462064884}
 --- !u!1 &6095384666656005959

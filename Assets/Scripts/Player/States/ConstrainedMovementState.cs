@@ -60,9 +60,9 @@ namespace FishingVillage.Player
             _currentPathT = Mathf.Clamp01(_currentPathT);
 
             Vector3 targetPos = _path.GetPositionAt(_currentPathT);
-            Vector3 moveDelta = targetPos - ctx.transform.position;
+            ctx.velocity = targetPos - ctx.transform.position;
             
-            ctx.Controller.Move(moveDelta);
+            ctx.Controller.Move(ctx.velocity);
         }
     }
 }

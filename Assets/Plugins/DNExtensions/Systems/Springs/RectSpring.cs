@@ -86,7 +86,6 @@ namespace DNExtensions.Systems.Springs
 
         private void OnEnable()
         {
-            Initialize();
             if (animateOnce && _hasAnimated) return;
 
             switch (onEnableBehavior)
@@ -113,26 +112,7 @@ namespace DNExtensions.Systems.Springs
 
             if (resetStateOnDisable)
             {
-                if (position)
-                {
-                    positionSpring.Reset(_baseAnchoredPosition);
-                    _rectTransform.anchoredPosition3D = _baseAnchoredPosition;
-                }
-                if (scale)
-                {
-                    scaleSpring.Reset(_baseScale);
-                    _rectTransform.localScale = _baseScale;
-                }
-                if (rotation)
-                {
-                    rotationSpring.Reset(_baseRotation);
-                    _rectTransform.localRotation = _baseRotation;
-                }
-                if (color && _targetGraphic)
-                {
-                    colorSpring.Reset(_baseColor);
-                    _targetGraphic.color = _baseColor;
-                }
+                SnapToBase();
             }
         }
 
@@ -188,6 +168,31 @@ namespace DNExtensions.Systems.Springs
                 Color targetColor = _baseColor + colorOffset;
                 colorSpring.Reset(targetColor);
                 _targetGraphic.color = targetColor;
+            }
+        }
+
+        [Button]
+        public void SnapToBase()
+        {
+            if (position)
+            {
+                positionSpring.Reset(_baseAnchoredPosition);
+                _rectTransform.anchoredPosition3D = _baseAnchoredPosition;
+            }
+            if (scale)
+            {
+                scaleSpring.Reset(_baseScale);
+                _rectTransform.localScale = _baseScale;
+            }
+            if (rotation)
+            {
+                rotationSpring.Reset(_baseRotation);
+                _rectTransform.localRotation = _baseRotation;
+            }
+            if (color && _targetGraphic)
+            {
+                colorSpring.Reset(_baseColor);
+                _targetGraphic.color = _baseColor;
             }
         }
 

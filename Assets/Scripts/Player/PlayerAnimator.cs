@@ -9,10 +9,11 @@ namespace FishingVillage.Player
     [RequireComponent(typeof(PlayerControllerInput))]
     public class PlayerAnimator : MonoBehaviour
     {
-        [Header("Jump Animation")] 
+        [Header("Jump")] 
         [SerializeField] private float jumpDuration = 0.1f;
 
-        [Header("Change Direction Animation")] 
+        [Header("Change Direction")]
+        [SerializeField] private float directionThreshold = 0.1f;
         [SerializeField] private float directionDuration = 0.15f;
         [SerializeField] private Ease directionEase = Ease.InOutCubic;
 
@@ -23,12 +24,12 @@ namespace FishingVillage.Player
         [SerializeField, ReadOnly] private bool facingUp;
         [SerializeField, ReadOnly] private bool facingDown;
 
-        private PlayerControllerInput _input;
+        private PlayerController _controller;
         private Sequence _rotationTween;
 
         private void Awake()
         {
-            _input = GetComponent<PlayerControllerInput>();
+            _controller = GetComponent<PlayerController>();
             modelTransform.eulerAngles = new Vector3(0f, 180f, 0f);
         }
 
@@ -55,7 +56,7 @@ namespace FishingVillage.Player
 
         private void HandleVerticalViewDirection()
         {
-            float currentYInput = _input.MoveInput.y;
+            float currentYInput = _controller.velocity.z;
             bool shouldUpdate = false;
 
             if (currentYInput == 0f && (facingUp || facingDown))
@@ -64,13 +65,13 @@ namespace FishingVillage.Player
                 facingDown = false;
                 shouldUpdate = true;
             } 
-            else if (currentYInput > 0f && !facingUp)
+            else if (currentYInput > directionThreshold && !facingUp)
             {
                 facingUp = true;
                 facingDown = false;
                 shouldUpdate = true;
             }
-            else if (currentYInput < 0f && !facingDown)
+            else if (currentYInput < -directionThreshold && !facingDown)
             {
                 facingDown = true;
                 facingUp = false;
@@ -85,7 +86,7 @@ namespace FishingVillage.Player
 
         private void HandleHorizontalViewDirection()
         {
-            float currentXInput = _input.MoveInput.x;
+            float currentXInput = _controller.velocity.x;
 
             if (currentXInput < 0 && !facingLeft)
             {

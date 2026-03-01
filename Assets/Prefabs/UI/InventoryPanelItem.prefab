@@ -67,7 +67,7 @@ MonoBehaviour:
       m_Calls: []
   m_Sprite: {fileID: 21300000, guid: 51a91e5569f63544ca390165bb86c7b1, type: 3}
   m_Type: 0
-  m_PreserveAspect: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -148,8 +148,7 @@ MonoBehaviour:
   m_Offset: {x: 0, y: 0}
   m_OutlineThickness: 0.036
   m_OutlineColor: {r: 0, g: 0, b: 0, a: 1}
-  m_InlineThickness: 0
-  m_InlineColor: {r: 0, g: 0, b: 1, a: 1}
+  m_SDFShader: {fileID: -6465566751694194690, guid: e616caa92c5094c48a31e485a4eadd13, type: 3}
   m_Width: 0.4
   m_Height: 0.4
   m_Rounding: 0.1

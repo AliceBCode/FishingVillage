@@ -39,7 +39,7 @@ namespace FishingVillage.Player
                 _jumpProgress = 0f;
             }
         }
-
+        
         public override void FixedUpdate()
         {
             if (_mode == TransitionMode.MoveTo)
@@ -54,16 +54,16 @@ namespace FishingVillage.Player
 
         private void HandleMoveTo()
         {
-            Vector3 delta = _target - ctx.transform.position;
+            ctx.velocity = _target - ctx.transform.position;
 
-            if (delta.magnitude <= 0.1f)
+            if (ctx.velocity.magnitude <= 0.1f)
             {
-                ctx.Controller.Move(delta);
+                ctx.Controller.Move(ctx.velocity);
                 _onComplete?.Invoke();
                 return;
             }
 
-            ctx.Controller.Move(delta.normalized * (ctx.moveSpeed * Time.fixedDeltaTime));
+            ctx.Controller.Move(ctx.velocity.normalized * (ctx.moveSpeed * Time.fixedDeltaTime));
         }
 
         private void HandleJumpTo()
@@ -74,8 +74,8 @@ namespace FishingVillage.Player
             Vector3 pos = Vector3.Lerp(_jumpStart, _target, _jumpProgress);
             pos.y += _jumpHeight * Mathf.Sin(_jumpProgress * Mathf.PI);
 
-            Vector3 delta = pos - ctx.transform.position;
-            ctx.Controller.Move(delta);
+            ctx.velocity = pos - ctx.transform.position;
+            ctx.Controller.Move(ctx.velocity);
 
             if (_jumpProgress >= 1f)
             {

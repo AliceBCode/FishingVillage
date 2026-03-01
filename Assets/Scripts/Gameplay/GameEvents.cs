@@ -11,13 +11,19 @@ namespace FishingVillage.Gameplay
     {
         public static event Action<PlayerInventory> OnInventoryChanged;
         public static event Action<SOItem> OnInventoryItemSelected;
-        public static event Action<PlayerState> OnPlayerStateChanged;
         public static event Action<SOItem> OnItemObtained;
         public static event Action<SOItem> OnItemRemoved;
+        public static event Action<bool> OnMapEnabled;
+        public static event Action<bool> OnBackpackEnabled;
+        
+        public static event Action<PlayerState> OnPlayerStateChanged;
         public static event Action<SOItem> OnItemUsed;
         public static event Action<SOItem> OnItemEquipped;
         public static event Action OnWalkAction;
         public static event Action OnJumpedAction;
+        public static event Action OnToggleInventory;
+        public static event Action OnToggleMap;
+        public static event Action<bool> OnPauseToggled;
 
 
         public static event Action<SOItem, NPC> OnItemGivenToNpc;
@@ -33,6 +39,11 @@ namespace FishingVillage.Gameplay
         public static event Action<MissionObjective> OnObjectiveMet;
         public static event Action<MissionObjective> OnObjectiveActivated;
         public static event Action<MissionObjective> OnObjectiveProgressed;
+        
+        
+        public static event Action OnMenuOpened;
+        public static event Action OnMenuClosed;
+        
         
         private static readonly Dictionary<string, HashSet<int>> ActiveTriggers = new Dictionary<string, HashSet<int>>();
 
@@ -135,6 +146,15 @@ namespace FishingVillage.Gameplay
             OnJumpedAction?.Invoke();
         }
         
+        public static void ToggleInventory()
+        {
+            OnToggleInventory?.Invoke();
+        }
+        
+        public static void ToggleMap() 
+        {
+            OnToggleMap?.Invoke();
+        }
         
 
         public static void MissionStarted(SOMission mission)
@@ -163,6 +183,29 @@ namespace FishingVillage.Gameplay
         }
 
 
+        public static void MenuOpened()
+        {
+            OnMenuOpened?.Invoke();
+        }
+        
+        public static void MenuClosed()
+        {
+            OnMenuClosed?.Invoke();
+        }
+        
+        public static void PauseToggled(bool paused)
+        {
+            OnPauseToggled?.Invoke(paused);
+        }
+        
+        public static void MapEnabled(bool enable)
+        {
+            OnMapEnabled?.Invoke(enable);
+        }
+        public static void BackpackEnabled(bool enable)
+        {
+            OnBackpackEnabled?.Invoke(enable);
+        }
 
 
     }

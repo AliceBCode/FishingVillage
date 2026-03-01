@@ -10,7 +10,7 @@ namespace FishingVillage.GameActions
 {
     [Serializable]
     [MovedFrom("")]
-    [SerializableSelectorName("Remove Item", "Item")]
+    [SerializableSelectorName("Remove Item", "Inventory")]
     public class RemoveItemAction : GameAction
     {
         [SerializeField, SOSelector("Assets/Data")] private SOItem item;
