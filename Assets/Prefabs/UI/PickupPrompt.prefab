@@ -119,6 +119,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishingVillage.UI.PickupPrompt
   showDuration: 3
+  pickupPromptOffset: {x: 0, y: 2, z: 0}
   itemImage: {fileID: 2862235720948698216}
   canvasGroup: {fileID: 5949266799146323031}
 --- !u!1 &453367198916985849

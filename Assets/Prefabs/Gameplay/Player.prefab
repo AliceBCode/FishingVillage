@@ -164,7 +164,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2cf9512fcc341a7b7c3680633ee7d05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerInventory
-  pickupPromptOffset: {x: 0, y: 2, z: 0}
   hasMap: 0
   hasBackpack: 0
   equippedItem: {fileID: 0}
@@ -187,9 +186,6 @@ MonoBehaviour:
   directionEase: 10
   modelTransform: {fileID: 3571177696892461628}
   animator: {fileID: 1367040068535146559}
-  facingLeft: 0
-  facingUp: 0
-  facingDown: 0
 --- !u!114 &496068476030741706
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -204,6 +200,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FishingVillage.Gameplay.AudioEventBridge
   playerWalkSoundId: Walk
   playerJumpSoundId: Jump
+  playerPickupID: Pickup
 --- !u!1 &3186387088022666804
 GameObject:
   m_ObjectHideFlags: 0
@@ -323,7 +320,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 2}
+  m_Size: {x: 1.5242857, y: 2.4457142}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1

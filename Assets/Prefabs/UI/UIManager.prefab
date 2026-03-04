@@ -429,7 +429,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &8800423880167936193
 RectTransform:
   m_ObjectHideFlags: 0
@@ -941,7 +941,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp-firstpass::DNExtensions.Systems.Springs.RectSpring
   onEnableBehavior: 1
-  animateOnce: 0
   resetStateOnDisable: 0
   position: 1
   positionOffset: {x: -300, y: 0, z: 0}
@@ -2198,7 +2197,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp-firstpass::DNExtensions.Systems.Springs.RectSpring
   onEnableBehavior: 1
-  animateOnce: 0
   resetStateOnDisable: 0
   position: 1
   positionOffset: {x: -300, y: 0, z: 0}

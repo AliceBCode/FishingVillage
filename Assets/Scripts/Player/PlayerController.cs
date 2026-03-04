@@ -82,12 +82,14 @@ namespace FishingVillage.Player
         private void OnEnable()
         {
             Input.OnJumpAction += OnJumpAction;
+            GameEvents.OnItemObtained += OnItemObtained;
             BlockedMovementAnimationBehavior.OnStateExited += BlockedMovementBehaviorExited;
         }
 
         private void OnDisable()
         {
             Input.OnJumpAction -= OnJumpAction;
+            GameEvents.OnItemObtained -= OnItemObtained;
             BlockedMovementAnimationBehavior.OnStateExited -= BlockedMovementBehaviorExited;
         }
         
@@ -100,6 +102,11 @@ namespace FishingVillage.Player
         private void BlockedMovementBehaviorExited()
         {
             SwitchState(_normalState);
+        }
+        
+        private void OnItemObtained(SOItem item)
+        {
+            SetLocked();
         }
 
         private void OnJumpAction(InputAction.CallbackContext context)
@@ -188,6 +195,7 @@ namespace FishingVillage.Player
         {
             _transitionState.Set(target, TransitionMode.JumpTo, onComplete, 2, 0.4f);
             SwitchState(_transitionState);
+            GameEvents.JumpedAction();
         }
 
         public void AttachToPath(ConstrainableRopePath ropePath)

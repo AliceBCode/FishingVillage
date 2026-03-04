@@ -14,7 +14,6 @@ namespace FishingVillage.Player
         public static PlayerInventory Instance;
         
         [Header("Settings")]
-        [SerializeField] private Vector3 pickupPromptOffset;
         [SerializeField] private bool hasMap;
         [SerializeField] private bool hasBackpack;
         [SerializeField, ReadOnly] private SOItem equippedItem;
@@ -130,8 +129,6 @@ namespace FishingVillage.Player
             }
             
             GameEvents.InventoryChanged(this);
-            
-            PickupPrompt.Instance?.Show(transform.position.Add(pickupPromptOffset), item);
         }
 
         private void OnItemRemoved(SOItem item)

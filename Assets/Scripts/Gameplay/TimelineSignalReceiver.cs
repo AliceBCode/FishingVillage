@@ -1,4 +1,5 @@
 
+using DNExtensions.Systems.AudioLibrary;
 using UnityEngine;
 
 namespace FishingVillage.Gameplay
@@ -11,6 +12,9 @@ namespace FishingVillage.Gameplay
         public void OnSignal()
         {
             GameEvents.TimelineSignalReceived(signalID);
+            AudioLibrary.Play(signalID);
         }
+        
+        
     }
 }

@@ -3,6 +3,7 @@
 
 using System;
 using DNExtensions.Systems.Springs;
+using DNExtensions.Utilities;
 using DNExtensions.Utilities.Button;
 using DNExtensions.Utilities.SerializableSelector;
 using PrimeTween;
@@ -23,7 +24,7 @@ namespace DNExtensions.Systems.MenuSystem
     public class FadeAnimation : ScreenAnimation
     {
         public bool startFromCurrentAlpha;
-        [Range(0f, 1f)] public float startAlpha;
+        [Range(0f, 1f), HideIf("startFromCurrentAlpha")] public float startAlpha;
         [Range(0f, 1f)] public float endAlpha = 1f;
         public Ease ease = Ease.OutCubic;
 
@@ -54,22 +55,11 @@ namespace DNExtensions.Systems.MenuSystem
 
         public override Sequence CreateSequence(Screen screen)
         {
-            Vector3 from = startFromCurrentScale
-                ? screen.RectTransform.localScale
-                : startScale;
-
-            Vector3 to = endInOriginalScale
-                ? screen.TransformOriginalScale
-                : endScale;
+            Vector3 from = startFromCurrentScale ? screen.RectTransform.localScale : startScale;
+            Vector3 to = endInOriginalScale ? screen.TransformOriginalScale : endScale;
 
             return Sequence.Create()
-                .Group(Tween.Scale(
-                    screen.RectTransform,
-                    from,
-                    to,
-                    duration,
-                    ease
-                ));
+                .Group(Tween.Scale(screen.RectTransform, from, to, duration, ease));
         }
     }
 
@@ -108,12 +98,7 @@ namespace DNExtensions.Systems.MenuSystem
             screen.RectTransform.anchoredPosition3D = startPos;
 
             return Sequence.Create()
-                .Group(Tween.Position(
-                    screen.RectTransform,
-                    endPos,
-                    duration,
-                    ease
-                ));
+                .Group(Tween.Position(screen.RectTransform, endPos, duration, ease));
         }
     }
 
@@ -135,12 +120,7 @@ namespace DNExtensions.Systems.MenuSystem
             screen.RectTransform.localEulerAngles = startRotation;
 
             return Sequence.Create()
-                .Group(Tween.Rotation(
-                    screen.RectTransform,
-                    to,
-                    duration,
-                    ease
-                ));
+                .Group(Tween.Rotation(screen.RectTransform, to, duration, ease));
         }
         
     }

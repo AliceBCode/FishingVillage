@@ -9,7 +9,7 @@ namespace FishingVillage.GameActions
     [SerializableSelectorName("Play Audio", "Audio")]
     public class PlayAudioAction : GameAction
     {
-        [SerializeField, AudioID] private string audioID;
+        [SerializeField, AudioLibraryID] private string audioID;
 
         public override string ActionName => $"Play ID: {audioID}";
 

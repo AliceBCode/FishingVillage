@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: AudioCategory_Items
   m_EditorClassIdentifier: Assembly-CSharp::FishingVillage.AudioLibrary.SOAudioCategory
   label: Items
-  playbackStrategy: 1
   audioMixerGroup: {fileID: -2413289410748815672, guid: db163b1d0eba9cb43a6cdb405e31f7ca, type: 2}
   audioMappings:
   - id: Horn
     audioObject: {fileID: 11400000, guid: f07a9039e3bc3874e8ef9f3ea426eff9, type: 2}
+  - id: CleaningUtensils
+    audioObject: {fileID: 11400000, guid: 4ec8d5ed1a9534f4a9a703a1e96590c9, type: 2}

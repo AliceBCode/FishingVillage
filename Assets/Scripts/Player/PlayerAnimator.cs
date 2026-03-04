@@ -19,11 +19,12 @@ namespace FishingVillage.Player
 
         [Header("References")] 
         [SerializeField] private Transform modelTransform;
-        [SerializeField, AutoGetSelf] private Animator animator;
-        [SerializeField, ReadOnly] private bool facingLeft;
-        [SerializeField, ReadOnly] private bool facingUp;
-        [SerializeField, ReadOnly] private bool facingDown;
-
+        
+        
+        [SerializeField, AutoGetSelf, HideInInspector] private Animator animator;
+        private bool _facingLeft;
+        private bool _facingUp;
+        private bool _facingDown;
         private PlayerController _controller;
         private Sequence _rotationTween;
 
@@ -36,17 +37,24 @@ namespace FishingVillage.Player
         private void OnEnable()
         {
             GameEvents.OnJumpedAction += PlayJumpedActionAnimation;
+            GameEvents.OnItemObtained += OnItemObtainedAnimation;
         }
 
         private void OnDisable()
         {
             GameEvents.OnJumpedAction -= PlayJumpedActionAnimation;
+            GameEvents.OnItemObtained -= OnItemObtainedAnimation;
         }
 
         private void Update()
         {
             HandleHorizontalViewDirection();
             HandleVerticalViewDirection();
+        }
+        
+        private void OnItemObtainedAnimation(SOItem item)
+        {
+            TriggerAnimation("Pickup");
         }
         
         private void PlayJumpedActionAnimation()
@@ -59,22 +67,22 @@ namespace FishingVillage.Player
             float currentYInput = _controller.velocity.z;
             bool shouldUpdate = false;
 
-            if (currentYInput == 0f && (facingUp || facingDown))
+            if (currentYInput == 0f && (_facingUp || _facingDown))
             {
-                facingUp = false;
-                facingDown = false;
+                _facingUp = false;
+                _facingDown = false;
                 shouldUpdate = true;
             } 
-            else if (currentYInput > directionThreshold && !facingUp)
+            else if (currentYInput > directionThreshold && !_facingUp)
             {
-                facingUp = true;
-                facingDown = false;
+                _facingUp = true;
+                _facingDown = false;
                 shouldUpdate = true;
             }
-            else if (currentYInput < -directionThreshold && !facingDown)
+            else if (currentYInput < -directionThreshold && !_facingDown)
             {
-                facingDown = true;
-                facingUp = false;
+                _facingDown = true;
+                _facingUp = false;
                 shouldUpdate = true;
             }
 
@@ -88,14 +96,14 @@ namespace FishingVillage.Player
         {
             float currentXInput = _controller.velocity.x;
 
-            if (currentXInput < 0 && !facingLeft)
+            if (currentXInput < 0 && !_facingLeft)
             {
-                facingLeft = true;
+                _facingLeft = true;
                 AnimateRotation(true);
             }
-            else if (currentXInput > 0 && facingLeft)
+            else if (currentXInput > 0 && _facingLeft)
             {
-                facingLeft = false;
+                _facingLeft = false;
                 AnimateRotation(true);
             }
         } 
@@ -124,9 +132,9 @@ namespace FishingVillage.Player
 
         private Vector3 GetTargetRotation()
         {
-            float horizontalAngle = facingLeft ? 0f : 180f;
-            float verticalAngle = facingUp ? -30f : (facingDown ? 30f : 0f);
-            float angleMultiplier = facingLeft ? -1f : 1f;
+            float horizontalAngle = _facingLeft ? 0f : 180f;
+            float verticalAngle = _facingUp ? -30f : (_facingDown ? 30f : 0f);
+            float angleMultiplier = _facingLeft ? -1f : 1f;
             
             return new Vector3(0f, horizontalAngle + (verticalAngle * angleMultiplier), 0f);
         }

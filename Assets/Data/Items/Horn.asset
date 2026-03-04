@@ -16,9 +16,8 @@ MonoBehaviour:
   description: Makes a loud noise. Probably too loud.
   icon: {fileID: 21300000, guid: 1ae1b3a0f9ead674f870d0c8239b40fb, type: 3}
   usable: 1
-  useSfx: {fileID: 0}
   actionsOnUse:
-  - rid: 5778561843676315754
+  - rid: 6000860788856717399
   - rid: 5778561826039529585
   references:
     version: 2
@@ -27,12 +26,16 @@ MonoBehaviour:
       type: {class: PlayAudioAction, ns: FishingVillage.GameActions, asm: Assembly-CSharp}
       data:
         audioID: Horn
-    - rid: 5778561843676315754
-      type: {class: LockPlayerAction, ns: FishingVillage.GameActions, asm: Assembly-CSharp}
+    - rid: 6000860788856717399
+      type: {class: LockPlayerStateAction, ns: FishingVillage.GameActions, asm: Assembly-CSharp}
       data:
         setAnimation:
           isSet: 1
           hideValueIfSet: 0
           value:
-            controllerNameOrPath: Player Animator Controller
-            triggerName: BlowHorn
+            parameterType: 0
+            source: 1
+            componentAnimator: {fileID: 0}
+            assetController: {fileID: 9100000, guid: af69f77bb94ec064498b272c471ef17d, type: 2}
+            parameterName: BlowHorn
+            parameterHash: 1525946076

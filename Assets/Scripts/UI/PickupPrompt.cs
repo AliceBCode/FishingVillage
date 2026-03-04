@@ -1,5 +1,8 @@
+using System;
+using DNExtensions.Utilities;
 using DNExtensions.Utilities.AutoGet;
 using FishingVillage.Gameplay;
+using FishingVillage.Player;
 using PrimeTween;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,6 +18,7 @@ namespace FishingVillage.UI
         [Header("Settings")] 
         [Tooltip("Duration of the fade in/out animation")] 
         [SerializeField] private float showDuration = 0.5f;
+        [SerializeField] private Vector3 pickupPromptOffset;
         [SerializeField, AutoGetChildren] private Image itemImage;
         [SerializeField, AutoGetSelf] private CanvasGroup canvasGroup;
         
@@ -34,7 +38,17 @@ namespace FishingVillage.UI
             canvasGroup.alpha = 0f;
             _rectTransform = canvasGroup.transform as RectTransform;
         }
-        
+
+        private void OnEnable()
+        {
+            GameEvents.OnItemObtained += OnItemObtained;
+        }
+
+        private void OnDisable()
+        {
+            GameEvents.OnItemObtained -= OnItemObtained;
+        }
+
 
         private void OnDestroy()
         {
@@ -44,8 +58,14 @@ namespace FishingVillage.UI
             }
         }
         
+        private void OnItemObtained(SOItem item)
+        {
+            if (!PlayerController.Instance) return;
+            
+            Show(PlayerController.Instance.transform.position.Add(pickupPromptOffset), item);
+        }
 
-        public void Show(Vector3 position, SOItem item)
+        private void Show(Vector3 position, SOItem item)
         {
             if (_fadeSequence.isAlive)
             {
@@ -55,9 +75,9 @@ namespace FishingVillage.UI
             itemImage.sprite = item.Icon;
             _rectTransform.position = position;
             
-            var fadeInDuration = showDuration * 0.5f;
-            var delay = showDuration * 0.2f;
-            var fadeOutDuration = showDuration * 0.3f;
+            var fadeInDuration = showDuration * 0.3f;
+            var delay = showDuration * 0.5f;
+            var fadeOutDuration = showDuration * 0.2f;
             
             _fadeSequence = Sequence.Create();
             _fadeSequence.Group(Tween.Alpha(canvasGroup, 1f, fadeInDuration));
