@@ -97,9 +97,9 @@ MonoBehaviour:
         requiresPreviousObjective: 1
         isHidden: 0
         overrideDescription:
-          isSet: 0
+          isSet: 1
           hideValueIfSet: 0
-          value: 
+          value: Use The Horn In The Pier
         item: {fileID: 11400000, guid: 6e9f9aeff9e9853488c5084a5a39a0bf, type: 2}
         requiredUsagesCount: 1
         triggerID: HornArea

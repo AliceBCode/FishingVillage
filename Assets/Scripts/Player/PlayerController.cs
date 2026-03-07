@@ -212,6 +212,14 @@ namespace FishingVillage.Player
             GameEvents.JumpedAction();
         }
         
+        public void TeleportTo(Vector3 position)
+        {
+            SetNormal();
+            Controller.enabled = false;
+            transform.position = position;
+            Controller.enabled = true;
+        }
+        
 
         public bool CanInteract()
         {

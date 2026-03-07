@@ -77,20 +77,20 @@ namespace FishingVillage.UI.Popup
         private void OnObjectiveActivated(MissionObjective objective)
         {
             if (objective.IsHidden || !objectiveActivatedSettings.Enabled) return;
-
-            ShowPopup($"Objective Activated:\n{objective.GetDescription()}", objectiveActivatedSettings);
+            
+            ShowPopup($"{objective.GetDescription()}", objectiveActivatedSettings);
         }
 
         private void OnObjectiveMet(MissionObjective objective)
         {
             if (objective.IsHidden || !objectiveCompleteSettings.Enabled) return;
 
-            ShowPopup($"Objective Complete:\n{objective.GetDescription()}", objectiveCompleteSettings);
+            ShowPopup($"Completed:\n{objective.GetDescription()}", objectiveCompleteSettings);
         }
 
         private void OnItemObtained(SOItem item)
         {
-                if (!itemObtainedSettings.Enabled) return;
+            if (!itemObtainedSettings.Enabled) return;
                 
             ShowPopup($"{item.Name}", itemObtainedSettings, item.Icon);
         }

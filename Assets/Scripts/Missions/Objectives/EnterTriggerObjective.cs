@@ -1,7 +1,6 @@
 using System;
 using DNExtensions.Utilities.SerializableSelector;
 using FishingVillage.Gameplay;
-using FishingVillage.Missions.Objectives;
 using UnityEngine;
 using UnityEngine.Scripting.APIUpdating;
 
@@ -13,9 +12,8 @@ namespace FishingVillage.Missions.Objectives
     public class EnterTriggerObjective : MissionObjective
     {
         [SerializeField] private string triggerID;
-        [SerializeField] private string areaDescription = "Area";
 
-        protected override string Description => $"Go To :{areaDescription}";
+        protected override string Description => $"Enter Trigger: {triggerID}";
 
         public override void Initialize()
         {

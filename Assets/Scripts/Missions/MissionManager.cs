@@ -9,9 +9,10 @@ using UnityEngine;
 
 namespace FishingVillage.Missions
 {
+    
     public class MissionManager : MonoBehaviour
     {
-        public static MissionManager Instance;
+        public static MissionManager Instance { get; private set;}
         
         [SerializeField, ReadOnly] private List<SOMission> activeMissions;
         [SerializeField, ReadOnly] private List<SOMission> completedMissions;
@@ -19,6 +20,16 @@ namespace FishingVillage.Missions
         private Dictionary<SOMission, MissionObjective[]> _missionObjectives;
         private Dictionary<SOMission, MissionObjectiveEvents[]> _missionObjectiveEvents;
 
+
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+        private static void InitializeOnLoad()
+        {
+            var go = new GameObject();
+            go.name = "MissionManager";
+            go.AddComponent<MissionManager>();
+        }
+        
+        
         private void Awake()
         {
             if (Instance && Instance != this)
@@ -26,8 +37,13 @@ namespace FishingVillage.Missions
                 Destroy(gameObject);
                 return;
             }
+            else
+            {
+                Instance = this;
+                DontDestroyOnLoad(gameObject);
+            }
 
-            Instance = this;
+
             
             activeMissions = new List<SOMission>();
             completedMissions = new List<SOMission>();

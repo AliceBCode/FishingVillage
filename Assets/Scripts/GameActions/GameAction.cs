@@ -1,4 +1,5 @@
 using System;
+using FishingVillage.Gameplay;
 using FishingVillage.Interactable;
 using UnityEngine;
 using UnityEngine.Scripting.APIUpdating;
@@ -43,6 +44,19 @@ namespace FishingVillage.GameActions
                 if (identifiable.ID == id && identifiable.TryGetComponent<IInteractable>(out var interactable))
                 {
                     return interactable;
+                }
+            }
+            return null;
+        }
+
+        protected TeleportTrigger FindTeleportTriggerInScene(string id)
+        {
+            var teleportTriggers = UnityEngine.Object.FindObjectsByType<TeleportTrigger>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+            foreach (var teleportTrigger in teleportTriggers)
+            {
+                if (teleportTrigger.TriggerID == id)
+                {
+                    return teleportTrigger;
                 }
             }
             return null;

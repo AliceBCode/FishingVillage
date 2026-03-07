@@ -13,7 +13,7 @@ namespace FishingVillage.Missions.Objectives
     [SerializableSelectorName("Interact Sequence", "Interactable")]
     public class InteractSequenceObjective : MissionObjective
     {
-        [SerializeField] private InterfaceReference<IInteractable, MonoBehaviour>[] requiredSequence;
+        [SerializeField] private InterfaceReference<IInteractable>[] requiredSequence;
     
         private string[] _targetIDs;
         private int _currentIndex;
@@ -29,7 +29,7 @@ namespace FishingVillage.Missions.Objectives
             {
                 if (!requiredSequence[i].IsNull)
                 {
-                    _targetIDs[i] = GetInteractableID(requiredSequence[i].UnderlyingValue);
+                    _targetIDs[i] = GetInteractableID(requiredSequence[i].Value as MonoBehaviour);
                 }
                 else
                 {

@@ -13,7 +13,7 @@ namespace FishingVillage.Missions.Objectives
     [SerializableSelectorName("Interact With", "Interactable")]
     public class InteractWithObjective : MissionObjective
     {
-        [SerializeField] private InterfaceReference<IInteractable, MonoBehaviour> interactableReference;
+        [SerializeField] private InterfaceReference<IInteractable> interactableReference;
     
         private string _targetID;
         
@@ -27,7 +27,7 @@ namespace FishingVillage.Missions.Objectives
                 return;
             }
             
-            _targetID = GetInteractableID(interactableReference.UnderlyingValue);
+            _targetID = GetInteractableID(interactableReference.Value as MonoBehaviour);
             
             if (string.IsNullOrEmpty(_targetID))
             {

@@ -15,7 +15,6 @@ namespace FishingVillage.Missions.Objectives
         [SerializeField, SOSelector("Assets/Data")] private SOItem item;
         [SerializeField] private int requiredUsagesCount = 1;
         [SerializeField] private string triggerID;
-        [SerializeField] private string areaDescription = "Area";
 
         private int _currentCount;
 
@@ -25,20 +24,20 @@ namespace FishingVillage.Missions.Objectives
             {
                 if (!item)
                 {
-                    return $"Use: (No Item Selected) In: {areaDescription}";
+                    return $"Use: (No Item Selected) In: {triggerID}";
                 }
 
                 if (!item.Usable)
                 {
-                    return $"Use {item.Name} (Item Is Not Usable) In: {areaDescription}";
+                    return $"Use {item.Name} (Item Is Not Usable) In: {triggerID}";
                 }
 
                 if (requiredUsagesCount > 1)
                 {
-                    return $"Use {item.Name} In {areaDescription} ({_currentCount}/{requiredUsagesCount})";
+                    return $"Use {item.Name} In {triggerID} ({_currentCount}/{requiredUsagesCount})";
                 }
             
-                return $"Use {item.Name} In {areaDescription}";
+                return $"Use {item.Name} In {triggerID}";
             }
         }
 

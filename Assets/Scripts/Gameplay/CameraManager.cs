@@ -30,9 +30,7 @@ namespace FishingVillage.Gameplay
             followCamera.Follow = player.transform;
             SetActiveCamera(followCamera);
         }
-
-
-
+        
         private void OnItemObtained(SOItem item)
         {
             SetActiveCamera(pickupCamera);
@@ -51,6 +49,16 @@ namespace FishingVillage.Gameplay
         {
             yield return new WaitForSeconds(delay);
             SetActiveCamera(cam);
+        }
+
+        public void ActivateFollowCamera(float delay = 0f)
+        {
+            if (delay <= 0f)
+            {
+                SetActiveCamera(followCamera);
+                return;
+            }
+            StartCoroutine(SetActiveCameraDelayed(followCamera, delay));
         }
     }
 }

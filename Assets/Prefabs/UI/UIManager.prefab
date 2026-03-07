@@ -1817,7 +1817,7 @@ MonoBehaviour:
       hideValueIfSet: 0
       value: {fileID: 0}
   objectiveActivatedSettings:
-    enabled: 0
+    enabled: 1
     backgroundColor: {r: 1, g: 1, b: 1, a: 0.5294118}
     icon:
       isSet: 0
@@ -1825,7 +1825,7 @@ MonoBehaviour:
       value: {fileID: 0}
   objectiveCompleteSettings:
     enabled: 0
-    backgroundColor: {r: 0.9962791, g: 1, b: 0.26729542, a: 0.5294118}
+    backgroundColor: {r: 0.28996655, g: 1, b: 0.26666665, a: 0.5294118}
     icon:
       isSet: 0
       hideValueIfSet: 0

@@ -50,5 +50,11 @@ namespace FishingVillage.Interactable
         {
             _visuals?.Hide();
         }
+        
+        public void SetCanInteract(bool value)
+        {
+            canInteract = value;
+            if(!canInteract) HideInteract();
+        }
     }
 }
